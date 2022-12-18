@@ -1,18 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://7nobdo67yxck"]
+[gd_scene load_steps=6 format=3 uid="uid://ce71kyqut1bn7"]
 
 [ext_resource type="PackedScene" uid="uid://jdfoqvgdej26" path="res://main_menu/MainMenu.tscn" id="1_1msa8"]
 [ext_resource type="Script" path="res://Main.gd" id="1_t7ic5"]
-[ext_resource type="PackedScene" uid="uid://cosm22a8te3ne" path="res://configuration/Configuration.tscn" id="2_qyenf"]
 [ext_resource type="PackedScene" uid="uid://bcuw48e5577j8" path="res://town/TownMenu.tscn" id="2_s7dtu"]
 [ext_resource type="PackedScene" uid="uid://btiprlvn7xkb8" path="res://event/EventFrame.tscn" id="3_6j0bs"]
-[ext_resource type="Script" path="res://configuration/Configuration.gd" id="3_e8v2f"]
 [ext_resource type="PackedScene" uid="uid://15fpt3chxtox" path="res://background/background.tscn" id="5_4twbc"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_t7ic5")
-
-[node name="Configuration" parent="." instance=ExtResource("2_qyenf")]
-script = ExtResource("3_e8v2f")
 
 [node name="Blackness" type="ColorRect" parent="."]
 anchors_preset = 15

@@ -15,6 +15,11 @@ run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://assets/icon.svg"
 
+[autoload]
+
+Constants="*res://Constants.gd"
+Configuration="*res://Configuration.gd"
+
 [display]
 
 window/size/viewport_width=1808
