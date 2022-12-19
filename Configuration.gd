@@ -9,13 +9,13 @@ extends Node
 #    https://docs.godotengine.org/en/stable/classes/class_configfile.html
 
 const CONFIG_PATH = "user://rhysh.cfg"
-const WORLDS_PATH = "user://worlds/"
+const WORLDS_PATH = "user://worlds"
 
 var gameCongifuration
 var worldConfigurations = []
 
-var world_counter
-var last_game
+var worldCounter
+var lastGame
 
 # Load or create the global configuration file.
 func _ready():
@@ -26,7 +26,7 @@ func _ready():
 	
 	for section in gameCongifuration.get_sections():
 		if (section == "Rhysh"):
-			world_counter = gameCongifuration.get_value(section, "world_counter")
+			worldCounter = gameCongifuration.get_value(section, "worldCounter")
 
 	# Now, read all of the world configuration files. If the worlds directory 
 	# does't exist this is probably the first run of the app and we need to 
@@ -37,14 +37,45 @@ func _ready():
 
 	var worldDirectory = DirAccess.open(WORLDS_PATH)
 	for world in worldDirectory.get_directories():
-		add_world_configuration(world)
+		addWorldConfiguration(world)
 
 # Create the default configuration file.
 func createConfiguration():
 	gameCongifuration = ConfigFile.new()
-	gameCongifuration.set_value("Rhysh","world_counter",1)
+	gameCongifuration.set_value("Rhysh","worldCounter",1)
 	gameCongifuration.save(CONFIG_PATH)
 
+# Save the configuration when one of the properties has been updated.
+func saveConfiguration():
+	gameCongifuration = ConfigFile.new()
+	gameCongifuration.set_value("Rhysh","worldCounter",worldCounter)
+	gameCongifuration.save(CONFIG_PATH)
+
+# Create a directory for the world and the world configuration file when
+# starting a new game. The file name pattern is:
+#    user://worlds/world-x/world.cfg
+func createWorld():
+	var folder = "world-{0}".format([worldCounter])
+
+	# Create a directory for the world.
+	DirAccess.open(WORLDS_PATH).make_dir(folder)
+
+	# Save the initial configuration in that directory.
+	saveWorldConfiguration(folder, {
+		"createDate": Time.get_datetime_string_from_system()
+	})
+
+	# Update the global configuration because the world count has changed.
+	worldCounter += 1
+	saveConfiguration()
+
+func saveWorldConfiguration(folder, world):
+	var file = "{0}/{1}/world.cfg".format([WORLDS_PATH,folder])
+	var config = ConfigFile.new()
+	
+	config.set_value("World","createDate",world.createDate)
+	config.save(file)
+
 # Add this world to the list of world configurations.
-func add_world_configuration(world):
+func addWorldConfiguration(world):
 	print("TODO: Read world config file")

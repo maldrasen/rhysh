@@ -8,6 +8,8 @@ func _on_back_pressed():
 	Signals.showMainMenu.emit()
 
 func _on_new_game_pressed():
+	Configuration.createWorld()
+
 	dungeonThread = Thread.new()
 	dungeonThread.start(buildNewDungeon)
 
