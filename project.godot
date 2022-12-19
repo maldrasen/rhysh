@@ -13,12 +13,14 @@ config_version=5
 config/name="Rhysh"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-config/icon="res://assets/icon.svg"
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+config/icon="res://assets/icons/rhysh-icon.png"
 
 [autoload]
 
 Constants="*res://Constants.gd"
 Configuration="*res://Configuration.gd"
+Signals="*res://Signals.gd"
 
 [display]
 

@@ -15,6 +15,7 @@ var gameCongifuration
 var worldConfigurations = []
 
 var world_counter
+var last_game
 
 # Load or create the global configuration file.
 func _ready():

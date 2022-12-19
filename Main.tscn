@@ -1,31 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://ce71kyqut1bn7"]
+[gd_scene load_steps=7 format=3 uid="uid://ce71kyqut1bn7"]
 
 [ext_resource type="PackedScene" uid="uid://jdfoqvgdej26" path="res://main_menu/MainMenu.tscn" id="1_1msa8"]
 [ext_resource type="Script" path="res://Main.gd" id="1_t7ic5"]
-[ext_resource type="PackedScene" uid="uid://bcuw48e5577j8" path="res://town/TownMenu.tscn" id="2_s7dtu"]
-[ext_resource type="PackedScene" uid="uid://btiprlvn7xkb8" path="res://event/EventFrame.tscn" id="3_6j0bs"]
+[ext_resource type="PackedScene" uid="uid://dvgmqkfgdr7ha" path="res://main_menu/NewGame.tscn" id="4_gf8om"]
 [ext_resource type="PackedScene" uid="uid://15fpt3chxtox" path="res://background/background.tscn" id="5_4twbc"]
+[ext_resource type="PackedScene" uid="uid://ck08wrm8mb1mw" path="res://main_menu/LoadGame.tscn" id="5_7idkr"]
+[ext_resource type="PackedScene" uid="uid://v8qbiyu063pe" path="res://main_menu/ConfigurationMenu.tscn" id="6_ywgq2"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_t7ic5")
-
-[node name="Blackness" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [node name="Background" parent="." instance=ExtResource("5_4twbc")]
 visible = false
 
 [node name="MainMenu" parent="." instance=ExtResource("1_1msa8")]
 
-[node name="TownMenu" parent="." instance=ExtResource("2_s7dtu")]
+[node name="NewGame" parent="." instance=ExtResource("4_gf8om")]
+visible = false
+
+[node name="LoadGame" parent="." instance=ExtResource("5_7idkr")]
+visible = false
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="EventFrame" parent="." instance=ExtResource("3_6j0bs")]
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ConfigurationMenu" parent="." instance=ExtResource("6_ywgq2")]
+visible = false

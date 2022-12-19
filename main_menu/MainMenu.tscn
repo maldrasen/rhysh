@@ -64,7 +64,6 @@ grow_vertical = 2
 [node name="Continue" type="Button" parent="CenterContainer"]
 layout_mode = 2
 theme = ExtResource("2_3qrxn")
-disabled = true
 text = "Continue"
 
 [node name="New Game" type="Button" parent="CenterContainer"]
@@ -86,3 +85,9 @@ text = "Configuration"
 layout_mode = 2
 theme = ExtResource("2_3qrxn")
 text = "Exit"
+
+[connection signal="pressed" from="CenterContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="CenterContainer/New Game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="CenterContainer/Load Game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="CenterContainer/Configuration" to="." method="_on_configuration_pressed"]
+[connection signal="pressed" from="CenterContainer/Exit" to="." method="_on_exit_pressed"]
