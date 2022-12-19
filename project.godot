@@ -8,6 +8,22 @@
 
 config_version=5
 
+_global_script_classes=[{
+"base": "Node",
+"class": &"Chunk",
+"language": &"GDScript",
+"path": "res://dungeon/Chunk.gd"
+}, {
+"base": "Node",
+"class": &"DungeonBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/DungeonBuilder.gd"
+}]
+_global_script_class_icons={
+"Chunk": "",
+"DungeonBuilder": ""
+}
+
 [application]
 
 config/name="Rhysh"

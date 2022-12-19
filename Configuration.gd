@@ -12,7 +12,8 @@ const CONFIG_PATH = "user://rhysh.cfg"
 const WORLDS_PATH = "user://worlds"
 
 var gameCongifuration
-var worldConfigurations = []
+var worldConfiguration
+var worldConfigurationFiles = []
 
 var worldCounter
 var lastGame
@@ -56,24 +57,29 @@ func saveConfiguration():
 #    user://worlds/world-x/world.cfg
 func createWorld():
 	var folder = "world-{0}".format([worldCounter])
+	var createDate = Time.get_datetime_string_from_system()
 
 	# Create a directory for the world.
 	DirAccess.open(WORLDS_PATH).make_dir(folder)
 
+	worldConfiguration = {
+		"createDate": createDate,
+		"seed": createDate.hash() 
+	}
+
 	# Save the initial configuration in that directory.
-	saveWorldConfiguration(folder, {
-		"createDate": Time.get_datetime_string_from_system()
-	})
+	saveWorldConfiguration(folder)
 
 	# Update the global configuration because the world count has changed.
 	worldCounter += 1
 	saveConfiguration()
 
-func saveWorldConfiguration(folder, world):
+func saveWorldConfiguration(folder):
 	var file = "{0}/{1}/world.cfg".format([WORLDS_PATH,folder])
 	var config = ConfigFile.new()
 	
-	config.set_value("World","createDate",world.createDate)
+	config.set_value("World","createDate",worldConfiguration.createDate)
+	config.set_value("World","createDate",worldConfiguration.seed)
 	config.save(file)
 
 # Add this world to the list of world configurations.
