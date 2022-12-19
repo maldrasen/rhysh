@@ -19,7 +19,6 @@ script = ExtResource("1_6h1xk")
 [node name="Panel" type="Panel" parent="."]
 clip_contents = true
 custom_minimum_size = Vector2(180, 220)
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -33,7 +32,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="Panel"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -48,7 +46,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.498039)
 
 [node name="CenterContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -62,27 +59,36 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Continue" type="Button" parent="CenterContainer"]
-layout_mode = 2
+offset_right = 123.0
+offset_bottom = 29.0
 theme = ExtResource("2_3qrxn")
 text = "Continue"
 
 [node name="New Game" type="Button" parent="CenterContainer"]
-layout_mode = 2
+offset_top = 33.0
+offset_right = 123.0
+offset_bottom = 62.0
 theme = ExtResource("2_3qrxn")
 text = "New Game"
 
 [node name="Load Game" type="Button" parent="CenterContainer"]
-layout_mode = 2
+offset_top = 66.0
+offset_right = 123.0
+offset_bottom = 95.0
 theme = ExtResource("2_3qrxn")
 text = "Load Game"
 
 [node name="Configuration" type="Button" parent="CenterContainer"]
-layout_mode = 2
+offset_top = 99.0
+offset_right = 123.0
+offset_bottom = 128.0
 theme = ExtResource("2_3qrxn")
 text = "Configuration"
 
 [node name="Exit" type="Button" parent="CenterContainer"]
-layout_mode = 2
+offset_top = 132.0
+offset_right = 123.0
+offset_bottom = 161.0
 theme = ExtResource("2_3qrxn")
 text = "Exit"
 

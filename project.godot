@@ -21,6 +21,8 @@ config/icon="res://assets/icons/rhysh-icon.png"
 Constants="*res://Constants.gd"
 Configuration="*res://Configuration.gd"
 Signals="*res://Signals.gd"
+GameState="*res://GameState.gd"
+EventQueue="*res://EventQueue.gd"
 
 [display]
 

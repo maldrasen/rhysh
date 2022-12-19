@@ -33,4 +33,3 @@ func on_showConfiguration():
 # Continue game will just immeadietly load the last saved game.
 func on_showContinueGame():
 	print("Continue Game.")
-

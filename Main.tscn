@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ce71kyqut1bn7"]
+[gd_scene load_steps=8 format=3 uid="uid://ce71kyqut1bn7"]
 
 [ext_resource type="PackedScene" uid="uid://jdfoqvgdej26" path="res://main_menu/MainMenu.tscn" id="1_1msa8"]
 [ext_resource type="Script" path="res://Main.gd" id="1_t7ic5"]
+[ext_resource type="Texture2D" uid="uid://4afcjk2803yq" path="res://assets/backgrounds/main-menu.png" id="3_f5lut"]
 [ext_resource type="PackedScene" uid="uid://dvgmqkfgdr7ha" path="res://main_menu/NewGame.tscn" id="4_gf8om"]
 [ext_resource type="PackedScene" uid="uid://15fpt3chxtox" path="res://background/background.tscn" id="5_4twbc"]
 [ext_resource type="PackedScene" uid="uid://ck08wrm8mb1mw" path="res://main_menu/LoadGame.tscn" id="5_7idkr"]
@@ -12,6 +13,7 @@ script = ExtResource("1_t7ic5")
 
 [node name="Background" parent="." instance=ExtResource("5_4twbc")]
 visible = false
+texture = ExtResource("3_f5lut")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_1msa8")]
 

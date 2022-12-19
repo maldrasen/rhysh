@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://15fpt3chxtox"]
+[gd_scene load_steps=2 format=3 uid="uid://15fpt3chxtox"]
 
 [ext_resource type="Script" path="res://background/Background.gd" id="1_8ypm3"]
-[ext_resource type="Texture2D" uid="uid://4afcjk2803yq" path="res://assets/backgrounds/main-menu.png" id="2_qq2su"]
 
 [node name="Background" type="Control"]
 layout_mode = 3
@@ -17,9 +16,7 @@ size_flags_vertical = 3
 script = ExtResource("1_8ypm3")
 
 [node name="BackgroundTexture" type="TextureRect" parent="."]
-layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("2_qq2su")
 
 [connection signal="resized" from="." to="." method="_on_resized"]

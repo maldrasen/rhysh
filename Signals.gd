@@ -6,3 +6,6 @@ signal showConfiguration
 signal showNewGame
 signal showContinueGame
 signal showLoadGame
+
+# === Town ===
+signal openTown
