@@ -13,9 +13,4 @@ func _init(seed):
 func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",seed)
-	print("R:",random.randi_range(1, 20))
-
-	# Ohh, using another class is super easy. Preload I think is only needed 
-	# for instances maybe?
-	var c = Chunk.new()
 	
