@@ -2,8 +2,5 @@ extends Node
 
 class_name Chunk
 
-var chunkIndex
+var chunkIndex:Vector3
 var tiles = []
-
-func _init():
-	pass

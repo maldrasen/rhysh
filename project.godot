@@ -18,10 +18,40 @@ _global_script_classes=[{
 "class": &"DungeonBuilder",
 "language": &"GDScript",
 "path": "res://dungeon_builder/DungeonBuilder.gd"
+}, {
+"base": "Node",
+"class": &"DungeonIndex",
+"language": &"GDScript",
+"path": "res://dungeon/DungeonIndex.gd"
+}, {
+"base": "Node",
+"class": &"Feature",
+"language": &"GDScript",
+"path": "res://dungeon/Feature.gd"
+}, {
+"base": "Node",
+"class": &"Floor",
+"language": &"GDScript",
+"path": "res://dungeon/Floor.gd"
+}, {
+"base": "Node",
+"class": &"Tile",
+"language": &"GDScript",
+"path": "res://dungeon/Tile.gd"
+}, {
+"base": "Node",
+"class": &"Wall",
+"language": &"GDScript",
+"path": "res://dungeon/Wall.gd"
 }]
 _global_script_class_icons={
 "Chunk": "",
-"DungeonBuilder": ""
+"DungeonBuilder": "",
+"DungeonIndex": "",
+"Feature": "",
+"Floor": "",
+"Tile": "",
+"Wall": ""
 }
 
 [application]

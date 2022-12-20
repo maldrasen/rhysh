@@ -1,5 +1,4 @@
 extends Node
-
 class_name DungeonBuilder
 
 var randomSeed
@@ -13,4 +12,3 @@ func _init(s):
 func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
-	
