@@ -2,15 +2,15 @@ extends Node
 
 class_name DungeonBuilder
 
-var seed
+var randomSeed
 var random
 
-func _init(seed):
-	self.seed = seed
+func _init(s):
+	self.randomSeed = s
 	self.random = RandomNumberGenerator.new()
-	self.random.seed = seed
+	self.random.seed = s
 
 func buildNewDungeon():
 	print("=== Building Dungeon ===")
-	print("Seed:",seed)
+	print("Seed:",randomSeed)
 	

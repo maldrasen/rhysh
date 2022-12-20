@@ -83,5 +83,5 @@ func saveWorldConfiguration(folder):
 	config.save(file)
 
 # Add this world to the list of world configurations.
-func addWorldConfiguration(world):
+func addWorldConfiguration(_world):
 	print("TODO: Read world config file")
