@@ -1,5 +1,5 @@
 { "columns":16,
- "image":"..\/..\/..\/Mega\/- Graphics\/Rhysh\/tilemaps\/rhysh-tilemap.png",
+ "image":"..\/..\/..\/..\/Mega\/- Graphics\/Rhysh\/tilemaps\/rhysh-tilemap.png",
  "imageheight":512,
  "imagewidth":512,
  "margin":0,
@@ -105,6 +105,33 @@
                  "name":"walls",
                  "type":"string",
                  "value":"NSEW"
+                }]
+        }, 
+        {
+         "id":7,
+         "properties":[
+                {
+                 "name":"region",
+                 "type":"int",
+                 "value":1
+                }]
+        }, 
+        {
+         "id":8,
+         "properties":[
+                {
+                 "name":"region",
+                 "type":"int",
+                 "value":2
+                }]
+        }, 
+        {
+         "id":9,
+         "properties":[
+                {
+                 "name":"region",
+                 "type":"int",
+                 "value":3
                 }]
         }, 
         {
