@@ -37,7 +37,6 @@
             129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129, 129],
          "height":32,
          "id":1,
-         "locked":true,
          "name":"Root",
          "opacity":1,
          "type":"tilelayer",
@@ -81,7 +80,6 @@
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":32,
          "id":2,
-         "locked":true,
          "name":"Extra",
          "opacity":1,
          "type":"tilelayer",
@@ -151,6 +149,16 @@
          "name":"Event-B",
          "type":"string",
          "value":"EventTrigger:eastern-guard-tower"
+        }, 
+        {
+         "name":"FeatureName",
+         "type":"string",
+         "value":"Origin"
+        }, 
+        {
+         "name":"FeatureType",
+         "type":"string",
+         "value":"PrefabChunk"
         }, 
         {
          "name":"Home",
