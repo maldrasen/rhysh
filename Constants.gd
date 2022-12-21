@@ -1,5 +1,7 @@
 extends Node
 
+const CHUNK_SIZE = 32
+
 enum Anchor { Bottom, Center }
 
 # The game stage is mostly needed because when we save a game we need to know 

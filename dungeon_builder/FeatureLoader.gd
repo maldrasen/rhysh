@@ -68,13 +68,10 @@ func loadFeature(document):
 	for tileset in document.tilesets:
 		if tileset.source.contains("rhysh-tilemap"):
 			rootOffset = (tileset.firstgid as int)
-			print("Offset 1 - ",rootOffset)
 		if tileset.source.contains("rhysh-extra"):
 			extraOffset = (tileset.firstgid as int)
-			print("Offset 2 - ",extraOffset)
 		if tileset.source.contains("kenny-bw-small"):
 			extendedOffset = (tileset.firstgid as int)
-			print("Offset 3 - ",extendedOffset)
 	
 	# Different layers in the feature maps use different tilesets and set different properties in
 	# the tiles. I can set the layer name in the editor and use that to select which tilemap I use
@@ -121,6 +118,6 @@ func loadFeature(document):
 					feature.size.x = x
 				
 				if rootValue.has("region"):
-					feature.buildRegionTile(x,y,rootValue.region)
+					feature.defineBuildRegion(x,y,rootValue.region)
 				else:
 					feature.buildTile(tileData)
