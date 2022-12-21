@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dglit0cu4ium3"]
+
+[node name="DungeonInterface" type="Node"]
+
+[node name="DungeonUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Dungeon3D" type="Node3D" parent="."]
+
+[node name="MapViewport" type="SubViewport" parent="."]

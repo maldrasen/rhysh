@@ -9,3 +9,9 @@ signal showLoadGame
 
 # === Town ===
 signal openTown
+signal showGuild
+signal showTavern
+signal showShop
+
+# === Dungeon ===
+signal openDungeon

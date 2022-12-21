@@ -1,6 +1,6 @@
 extends Control
 
-var townScene = preload("res://town/Town.tscn").instantiate()
+
 var dungeonThread
 
 func _on_back_pressed():
@@ -23,18 +23,12 @@ func _on_back_pressed():
 # event view.
 
 func _on_new_game_pressed():
+	Signals.openTown.emit()
+
+func startNewGame():
 	Configuration.createWorld()
-
-	# Like my last implementation we also want to enqueue an event that runs while the dungeon is
-	# being build. We can leave that out for now while we work on the dungeon builder.
-
 	dungeonThread = Thread.new()
 	dungeonThread.start(buildNewDungeon)
-
-	var root = get_tree().get_root()
-	for child in root.get_children():
-		root.remove_child(child)
-	root.add_child(townScene)
 
 func buildNewDungeon():
 	DungeonBuilder.new(Configuration.worldConfiguration.seed).buildNewDungeon()

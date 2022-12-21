@@ -1,5 +1,8 @@
 extends Node
 
+var dungeonScene = preload("res://dungeon_interface/DungeonInterface.tscn").instantiate()
+var townScene = preload("res://town/Town.tscn").instantiate()
+
 func _ready():
 	DisplayServer.window_set_min_size(Vector2(1808,1024))
 	Signals.showMainMenu.connect(on_showMainMenu)
@@ -7,6 +10,9 @@ func _ready():
 	Signals.showLoadGame.connect(on_showLoadGame)
 	Signals.showContinueGame.connect(on_showContinueGame)
 	Signals.showConfiguration.connect(on_showConfiguration)
+
+	Signals.openTown.connect(on_openTown)
+	Signals.openDungeon.connect(on_openDungeon)
 
 func hideOthers():
 	$MainMenu.visible = false
@@ -32,4 +38,16 @@ func on_showConfiguration():
 
 # Continue game will just immeadietly load the last saved game.
 func on_showContinueGame():
-	print("Continue Game.")
+	print("TODO: Continue Game.")
+
+func on_openDungeon():
+	setScene(dungeonScene)
+
+func on_openTown():
+	setScene(townScene)
+
+func setScene(scene):
+	var root = get_tree().get_current_scene()
+	for child in root.get_children():
+		root.remove_child(child)
+	root.add_child(scene)
