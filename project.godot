@@ -25,9 +25,9 @@ _global_script_classes=[{
 "path": "res://dungeon/DungeonIndex.gd"
 }, {
 "base": "Node",
-"class": &"Feature",
+"class": &"FeatureTemplate",
 "language": &"GDScript",
-"path": "res://dungeon/Feature.gd"
+"path": "res://dungeon_builder/FeatureTemplate.gd"
 }, {
 "base": "Node",
 "class": &"Floor",
@@ -48,7 +48,7 @@ _global_script_class_icons={
 "Chunk": "",
 "DungeonBuilder": "",
 "DungeonIndex": "",
-"Feature": "",
+"FeatureTemplate": "",
 "Floor": "",
 "Tile": "",
 "Wall": ""
@@ -69,6 +69,7 @@ Configuration="*res://Configuration.gd"
 Signals="*res://Signals.gd"
 GameState="*res://GameState.gd"
 EventQueue="*res://EventQueue.gd"
+Dungeon="*res://Dungeon.gd"
 BiomeManager="*res://dungeon_builder/BiomeManager.gd"
 FeatureLibrary="*res://dungeon_builder/FeatureLibrary.gd"
 

@@ -3,20 +3,42 @@ class_name DungeonBuilder
 
 var randomSeed
 var random
+var freeTiles
 
 func _init(s):
 	self.randomSeed = s
 	self.random = RandomNumberGenerator.new()
 	self.random.seed = s
+	self.freeTiles = {}
 
 func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
-	print("Place:",FeatureLibrary.lookup("Origin"))
 
-	# OK, next step is to place features. We have a template feature, loaded from the map JSON.
-	# First we need a 3D tilemap for the dungeon to place tiles in.
-	#
+	Dungeon.setChunk(Vector3(0,0,0),  buildChunkFromPrefab("Origin"))
+	Dungeon.setChunk(Vector3(-1,0,0), buildChunkFromPrefab("Origin-W"))
+	Dungeon.setChunk(Vector3(1,0,0),  buildChunkFromPrefab("Origin-E"))
+
+	for x in range(-4,4):
+		if x <= 2 || x >= -2:
+			Dungeon.setChunk(Vector3(x,0,0),  buildChunkFromPrefab("Shore"))
+		for y in range(1,5):
+			print("Build random chunk in ({0},{1})".format([x,y]))
+
+	for biome in freeTiles.keys():
+		print("Biome({0}): {1} free tiles".format([BiomeManager.biomeToString(biome), freeTiles[biome].size() ]))
+
+	# If the free tiles haven't been used we discard them. (They should all have been used)
+	freeTiles = {}
+
+	# This is enough for now. The feature templates are being used to create chunks. Those chunks
+	# are being stored in the Dungeon's chunk cache. That should be enough to drap a map of what we
+	# have.
+
+	# ============
+	# Future Tasks
+	# ============
+
 	# We need to randomly generate dungeon tiles in the feature's build regions until they are
 	# suficiently full. It might look better if this is all done at once. If we're placing several
 	# dozen chunks they can span multiple build regions. They esentially act as biomes. I'll need
@@ -34,3 +56,16 @@ func buildNewDungeon():
 	#
 	# Finally we need to hook up all the events and extensions and stuff. Do things like place
 	# secret doors, connect switches. Sort of a polishing state at the end.
+
+
+func buildChunkFromPrefab(featureName):
+	var template:FeatureTemplate = FeatureLibrary.lookup(featureName)
+
+	for biome in template.biomeAreas.keys():
+		if false == freeTiles.has(biome):
+			freeTiles[biome] = []
+		freeTiles[biome].append_array(template.biomeAreas[biome])
+
+	var chunk = Chunk.new()
+	chunk.tiles = template.tiles
+	return chunk

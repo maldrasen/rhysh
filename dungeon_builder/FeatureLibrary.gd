@@ -35,6 +35,7 @@ func parseTilemap(path):
 	return tileMap
 
 func loadFeatures():
+	print("=== Loading Feature Library ===")
 	var folder = DirAccess.open("res://data/features")
 	for filename in folder.get_files():
 		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
@@ -47,7 +48,7 @@ func loadFeatures():
 # indicate that a feature spans multiple floors. Perhaps by setting some properties in the map that
 # specify where the bounds of the floors should be.
 func loadFeature(document):
-	var feature = Feature.new()
+	var feature = FeatureTemplate.new()
 	var propertyMap = {}
 	var rootOffset;
 	var extraOffset;
@@ -65,7 +66,7 @@ func loadFeature(document):
 
 	feature.featureName = propertyMap.get("FeatureName")
 	feature.featureType = propertyMap.get("FeatureType")
-	print("   Loading Feature > ",feature.featureName)
+	print("  Loading Feature > ",feature.featureName)
 
 	# The int values in the data arrays are offset by a number depending on which tileset they
 	# come from. This could get stupid complicated I think, so I'll just use the same tileset in
