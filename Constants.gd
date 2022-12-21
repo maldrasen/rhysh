@@ -12,6 +12,3 @@ enum GameStage {
 	TownStore,
 	Dungeon
 }
-
-func _ready():
-	print("Loading Constants...")

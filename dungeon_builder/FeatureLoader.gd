@@ -32,7 +32,7 @@ func loadFeatures():
 	var folder = DirAccess.open("res://data/features")
 	for filename in folder.get_files():
 		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
-		loadFeature(filename, JSON.parse_string(file.get_as_text()))
+		loadFeature(JSON.parse_string(file.get_as_text()))
 
 # Building a feature from a Tiled JSON document is going to be pretty fragile. I immagine that this
 # will break quite a bit as we refine the way that we're building the features in the editor. I'll
@@ -40,11 +40,9 @@ func loadFeatures():
 # evolves. Right now these features are all only a single floor. We'll eventually need a way to 
 # indicate that a feature spans multiple floors. Perhaps by setting some properties in the map that
 # specify where the bounds of the floors should be. 
-func loadFeature(filename, document):
+func loadFeature(document):
+	var feature = Feature.new()
 	var propertyMap = {}
-	var featureWidth = 0;
-	var featureHeight = 0;
-
 	var rootOffset = 0;
 	var extraOffset = 0;
 	var extendedOffset = 0;
@@ -53,13 +51,15 @@ func loadFeature(filename, document):
 	var extraData
 	var extendedData
 
-	print("Loading tilemap",filename)
-
 	# We keep a mapping of the symbol type from the tileset to an acual use for that tile in the 
 	# map properties. These could be things like event triggers and may contain the actual event 
 	# codes and such. Could also be something to be randomized like a trap or a chest.
 	for property in document.properties:
 		propertyMap[property.name] = property.value
+
+	feature.featureName = propertyMap.get("FeatureName")
+	feature.featureType = propertyMap.get("FeatureType")
+	print("   Loading Feature > ",feature.featureName)
 
 	# The int values in the data arrays are offset by a number depending on which tileset they 
 	# come from. This could get stupid complicated I think, so I'll just use the same tileset in
@@ -101,40 +101,26 @@ func loadFeature(filename, document):
 
 			if rootIndex > 0:
 				var rootValue = rhyshTilemap.get(rootIndex)
+				var tileData = { "x":x,"y":y,"root":rootValue }
+
 				var extraValue = rhyshExtra.get(extraIndex) 
-				var extendedValue = rhyshExtended.get(extendedIndex) 
-				var extension = null
-				
+				if extraValue:
+					tileData.extra = extraValue
+					
 				# An extended value can map to any kind of extension value. It's up to the builder
-				# of that feature to know what an extension does.
+				# of that feature to know what an extension does. 
+				var extendedValue = rhyshExtended.get(extendedIndex) 
 				if extendedValue:
-					if propertyMap.has(extendedValue.type):
-						extension = propertyMap.get(extendedValue.type)
-					else:
-						printerr("Error: Extended has value:",extendedValue," that wasn't mapped to any extension.")
+					tileData.extension = propertyMap.get(extendedValue.type)
 				
 				# As we loop though the data array we keep track of the largest x and y and use
 				# those values to set the size of the feature.
-				if featureHeight < y:
-					featureHeight = y
-				if featureWidth < x:
-					featureWidth = x
+				if feature.size.y < y:
+					feature.size.y = y
+				if feature.size.x < x:
+					feature.size.x = x
 				
-				# TODO: Build the tile and add it to location x,y in the feature's tile map
 				if rootValue.has("region"):
-					defineRegion(x,y,rootValue.region)
+					feature.buildRegionTile(x,y,rootValue.region)
 				else:
-					var tileData = { "x":x,"y":y,"root":rootValue }
-					if extraValue:
-						tileData.extra = extraValue
-					if extension:
-						tileData.extension = extension
-					buildTile(tileData)
-
-# These functions need to be on the feature, not the loader.
-func defineRegion(x,y,region):
-	print("Add ({0},{1}) to region {2}".format([x,y,region]))
-
-func buildTile(tileData):
-	print("Build Tile:",tileData)
-		
+					feature.buildTile(tileData)
