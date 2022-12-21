@@ -49,9 +49,9 @@ func loadFeatures():
 func loadFeature(document):
 	var feature = Feature.new()
 	var propertyMap = {}
-	var rootOffset = 0;
-	var extraOffset = 0;
-	var extendedOffset = 0;
+	var rootOffset;
+	var extraOffset;
+	var extendedOffset;
 
 	var rootData
 	var extraData
@@ -99,25 +99,28 @@ func loadFeature(document):
 		for x in 32:
 			var index = x + (y*32)
 			var rootIndex = (rootData[index] as int) - rootOffset
-			var extraIndex = (extraData[index] as int) - extraOffset
-			var extendedIndex = (extendedData[index] as int) - extendedOffset
+			var extraIndex
+			var extendedIndex
+
+			if extraOffset:
+				extraIndex = (extraData[index] as int) - extraOffset
+			if extendedOffset:
+				extendedIndex = (extendedData[index] as int) - extendedOffset
 
 			if rootIndex > 0:
 				var rootValue = rhyshTilemap.get(rootIndex)
 				var tileData = { "x":x,"y":y,"root":rootValue }
 
-				var extraValue = rhyshExtra.get(extraIndex)
-				if extraValue:
-					tileData.extra = extraValue
+				if extraOffset and rhyshExtra.has(extraIndex):
+					tileData.extra = rhyshExtra.get(extraIndex)
 
 				# An extended value can map to any kind of extension value. It's up to the builder
 				# of that feature to know what an extension does.
-				var extendedValue = rhyshExtended.get(extendedIndex)
-				if extendedValue:
-					var extension = propertyMap.get(extendedValue.type)
+				if extendedOffset and rhyshExtended.has(extendedIndex):
+					var extension = propertyMap.get(rhyshExtended.get(extendedIndex).type)
 					if extension == null:
 						printerr("=== Cannot Build Feature: ",feature.featureName," ===")
-						printerr("There is no mapped extension for ",extendedValue.type)
+						printerr("There is no mapped extension for ",rhyshExtended.get(extendedIndex).type)
 						printerr("Extended index:{0} found at ({1},{2})".format([extendedIndex,x,y]))
 						return
 					tileData.extension = extension
