@@ -1,5 +1,5 @@
 { "columns":16,
- "image":"..\/..\/..\/..\/Mega\/- Graphics\/Rhysh\/tilemaps\/rhysh-tilemap.png",
+ "image":"..\/..\/..\/rhysh-maps\/rhysh-tilemap.png",
  "imageheight":512,
  "imagewidth":512,
  "margin":0,
@@ -111,27 +111,81 @@
          "id":7,
          "properties":[
                 {
-                 "name":"region",
-                 "type":"int",
-                 "value":1
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"A"
                 }]
         }, 
         {
          "id":8,
          "properties":[
                 {
-                 "name":"region",
-                 "type":"int",
-                 "value":2
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"B"
                 }]
         }, 
         {
          "id":9,
          "properties":[
                 {
-                 "name":"region",
-                 "type":"int",
-                 "value":3
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"C"
+                }]
+        }, 
+        {
+         "id":10,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"D"
+                }]
+        }, 
+        {
+         "id":11,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"E"
+                }]
+        }, 
+        {
+         "id":12,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"F"
+                }]
+        }, 
+        {
+         "id":13,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"G"
+                }]
+        }, 
+        {
+         "id":14,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"H"
+                }]
+        }, 
+        {
+         "id":15,
+         "properties":[
+                {
+                 "name":"Biome",
+                 "type":"string",
+                 "value":"X"
                 }]
         }, 
         {

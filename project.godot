@@ -69,7 +69,8 @@ Configuration="*res://Configuration.gd"
 Signals="*res://Signals.gd"
 GameState="*res://GameState.gd"
 EventQueue="*res://EventQueue.gd"
-FeatureLoader="*res://dungeon_builder/FeatureLoader.gd"
+BiomeManager="*res://dungeon_builder/BiomeManager.gd"
+FeatureLibrary="*res://dungeon_builder/FeatureLibrary.gd"
 
 [display]
 

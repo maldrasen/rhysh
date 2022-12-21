@@ -17,11 +17,11 @@ static func fromString(floorType):
 		"Water": Type.Water
 	}[floorType])
 
-func typeString(): 
+func typeString():
 	return {
 		Type.Normal: "Nrml",
 		Type.Water: "Watr",
 	}[self.type]
-	
+
 func _to_string():
 	return self.typeString()

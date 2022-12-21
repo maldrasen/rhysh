@@ -1,9 +1,9 @@
 { "columns":48,
- "image":"..\/..\/..\/..\/Mega\/- Graphics\/Rhysh\/tilemaps\/kenny-bw-small.png",
+ "image":"..\/..\/..\/rhysh-maps\/rhysh-extended.png",
  "imageheight":373,
  "imagewidth":832,
  "margin":1,
- "name":"kenny-bw-small",
+ "name":"rhysh-extended",
  "spacing":1,
  "tilecount":1008,
  "tiledversion":"1.9.2",
@@ -240,6 +240,42 @@
                 }]
         }, 
         {
+         "id":363,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Cow"
+                }]
+        }, 
+        {
+         "id":364,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Horse"
+                }]
+        }, 
+        {
+         "id":366,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Cat"
+                }]
+        }, 
+        {
+         "id":367,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Dog"
+                }]
+        }, 
+        {
          "id":401,
          "properties":[
                 {
@@ -273,6 +309,24 @@
                  "name":"type",
                  "type":"string",
                  "value":"Flag-B"
+                }]
+        }, 
+        {
+         "id":492,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Toilet"
+                }]
+        }, 
+        {
+         "id":494,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Camp"
                 }]
         }, 
         {
@@ -600,6 +654,15 @@
                 }]
         }, 
         {
+         "id":960,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Town"
+                }]
+        }, 
+        {
          "id":983,
          "properties":[
                 {
@@ -678,6 +741,60 @@
                  "name":"type",
                  "type":"string",
                  "value":"Left"
+                }]
+        }, 
+        {
+         "id":1002,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-A"
+                }]
+        }, 
+        {
+         "id":1003,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-B"
+                }]
+        }, 
+        {
+         "id":1004,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-C"
+                }]
+        }, 
+        {
+         "id":1005,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-D"
+                }]
+        }, 
+        {
+         "id":1006,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-E"
+                }]
+        }, 
+        {
+         "id":1007,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Statue-F"
                 }]
         }],
  "tilewidth":16,

@@ -7,8 +7,7 @@ func _ready():
 # Go back to the main menu.
 func _on_back_pressed():
 	Signals.showMainMenu.emit()
-	
+
 # Load a game. Need to first have a game selected though.
 func _on_load_pressed():
 	print("Load Game")
-

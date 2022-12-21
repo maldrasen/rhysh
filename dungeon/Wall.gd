@@ -13,11 +13,11 @@ enum Certainty {
 var type
 var certainty
 
-func _init(type, certainty):
-	self.type = type
-	self.certainty = certainty
+func _init(t, c):
+	self.type = t
+	self.certainty = c
 
-func typeString(): 
+func typeString():
 	return {
 		Type.Normal: "Nrml",
 		Type.Door: "Door",

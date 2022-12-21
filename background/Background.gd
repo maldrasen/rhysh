@@ -29,9 +29,9 @@ func resize():
 
 	y = (viewSize.y - backSize.y * newScale)
 	x = (viewSize.x - backSize.x * newScale) / 2
-	
+
 	if (anchor == Constants.Anchor.Center):
 		y /= 2
-	
+
 	$BackgroundTexture.set_position(Vector2(x,y))
 	$BackgroundTexture.set_scale(Vector2(newScale, newScale))
