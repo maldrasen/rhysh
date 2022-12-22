@@ -5,7 +5,7 @@ var dungeonScene = preload("res://dungeon_interface/DungeonInterface.tscn").inst
 var townScene = preload("res://town/Town.tscn").instantiate()
 
 func _ready():
-	DisplayServer.window_set_min_size(Constants.WINDOW_SIZE)
+	DisplayServer.window_set_min_size(Constants.WindowSize)
 
 	# Game State
 	Signals.startNewGame.connect(on_startNewGame)
@@ -40,12 +40,12 @@ func _input(event):
 # writing files to disk and such, so we handle dungeon generation in a seperate thread,
 func on_startNewGame():
 	Signals.openTown.emit()
-	Configuration.createWorld()
+	GameState.createWorld()
 	dungeonThread = Thread.new()
 	dungeonThread.start(buildNewDungeon)
 
 func buildNewDungeon():
-	DungeonBuilder.new(Configuration.currentWorldConfiguration.seed).buildNewDungeon()
+	DungeonBuilder.new(GameState.seed).buildNewDungeon()
 	GameState.saveGame()
 
 # ==== Navigating Between Scenes ===================================================================
@@ -72,9 +72,9 @@ func on_showConfiguration():
 	hideOthers();
 	$ConfigurationMenu.visible = true
 
-# Continue game will just immeadietly load the last saved game.
 func on_showContinueGame():
-	print("TODO: Continue Game.")
+	if Configuration.lastPlayedWorld:
+		GameState.loadGame(Configuration.lastPlayedWorld)
 
 func on_openDungeon():
 	GameState.stage = Constants.GameStage.Dungeon

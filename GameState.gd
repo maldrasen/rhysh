@@ -1,9 +1,6 @@
 extends Node
 
-var stage
-var partyLocation
-var partyFacing
-
+const WorldsPath = "user://worlds"
 const GameStatePath = "user://worlds/{0}/gameState.json"
 
 const SavableStateMapping = {
@@ -14,17 +11,56 @@ const SavableStateMapping = {
 	Constants.GameStage.TownTavern: true,
 }
 
+var currentWorld
+var createDate
+var saveDate
+var seed
+
+var stage
+var partyLocation
+var partyFacing
+
+
 func _ready():
 	Signals.quickSaveGame.connect(on_quickSave)
 	Signals.quickLoadGame.connect(on_quickLoad)
+
+	# Ensure that the worlds directory exists.
+	var userDirectory = DirAccess.open("user://")
+	if (userDirectory.file_exists("worlds") == false):
+		userDirectory.make_dir("worlds")
+
+# Create a directory for the world and the gameState.json file when starting a new game. The file
+# name pattern is:
+#    user://worlds/world-x/gameState.json
+func createWorld():
+	print("== Create World ==")
+
+	currentWorld = "world-{0}".format([Configuration.worldCounter])
+	createDate = Time.get_datetime_string_from_system()
+	seed = createDate.hash()
+
+	partyLocation = DungeonIndex.at(7,7,0)
+	partyFacing = Constants.South
+
+	# Create a directory for the world.
+	DirAccess.open(WorldsPath).make_dir(currentWorld)
+
+	# Update the global configuration
+	Configuration.worldCounter += 1;
+	Configuration.setLastPlayedWorld(currentWorld)
+
+	# Save the initial game state
+	saveGame()
+
 
 func on_quickSave():
 	if gameCanSave():
 		saveGame()
 
 func on_quickLoad():
-	if Configuration.lastGame and gameCanLoad():
-		loadGame(Configuration.lastGame)
+	if GameState.currentWorld and gameCanLoad():
+		loadGame(GameState.currentWorld)
 
 func gameCanSave():
 	if stage == null:
@@ -35,24 +71,32 @@ func gameCanLoad():
 	return true
 
 func saveGame():
+	print("=== Saving Game ===")
+
+	saveDate = Time.get_datetime_string_from_system()
+
 	var stateObject = {
+		"createDate": createDate,
+		"saveDate": saveDate,
+		"seed": seed,
 		"stage": stage,
-		"partyLocation": partyLocation,
+#		"partyLocation": partyLocation, Saving party location is broken. But it's time for food.
 		"partyFacing": partyFacing,
 	}
 
-	# TODO: Switch this over to a binary format once we start adding a ton of character data and
-	#       whatnot. JSON is fine for now as it's nice to have something human readable to debug.
-	var path = GameStatePath.format([Configuration.currentWorldDirectory])
+	var path = GameStatePath.format([currentWorld])
 	FileAccess.open(path, FileAccess.WRITE).store_line(JSON.stringify(stateObject))
 
 func loadGame(world):
-	Configuration.currentWorldDirectory = world
-	Configuration.saveConfiguration()
+	Configuration.setLastPlayedWorld(world)
 
 	var path = GameStatePath.format([world])
 	var savedState = JSON.parse_string(FileAccess.get_file_as_string(path))
 
+	self.currentWorld = world
+	self.createDate = savedState.createDate
+	self.saveDate = savedState.saveDate
+	self.seed = savedState.seed
 	self.stage = savedState.stage
 	self.partyFacing = savedState.partyFacing
 	self.partyLocation = savedState.partyLocation

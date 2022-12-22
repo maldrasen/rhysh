@@ -11,7 +11,7 @@ func _init():
 	size = Vector3.ZERO
 	biomeAreas = {}
 	tiles = []
-	tiles.resize(Constants.CHUNK_SIZE * Constants.CHUNK_SIZE)
+	tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
 
 # Used by the FeatureLoader to build a tile from tile data loaded from JSON
 func buildTile(tileData):
@@ -37,7 +37,7 @@ func defineBiomeArea(x,y,biome):
 	biomeAreas[biome].append(tileIndex(x,y))
 
 func tileIndex(x,y):
-	return x + (y * Constants.CHUNK_SIZE)
+	return x + (y * Constants.ChunkSize)
 
 func _to_string():
 	return "FeatureTemplate[{0}:{1}]".format([self.featureType,self.featureName])

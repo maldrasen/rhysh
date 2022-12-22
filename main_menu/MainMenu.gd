@@ -1,7 +1,7 @@
 extends Control
 
 func _ready():
-	if (Configuration.currentWorldDirectory == null):
+	if (Configuration.lastPlayedWorld == null):
 		$CenterContainer/Continue.disabled = true
 
 func _on_new_game_pressed():

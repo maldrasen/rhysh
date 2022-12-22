@@ -16,7 +16,6 @@ var walls = {
 # battle triggers, traps, treasure, whatever.
 var extensions = {}
 
-
 func _init():
 	self.type = Type.Empty
 
@@ -67,13 +66,11 @@ func setExtension(extension):
 		extensions.treasure = extension.substr(9,-1)
 		return
 
-	if extension == "OriginPoint":
-		return # Not sure if I actually want this set from a feature.
-
-	if extension == "ReturnToTown":
-		return # Not sure how this will be implemented.
-
-	printerr("Unknown Extension Error: What do I do with this? ",extension)
+	# If the extension isn't one of the predefined types it needs some other kind of special
+	# handling. This function is really only concerned with parsing the tile objects from the JSON
+	# so something else can deal with it later, or ignore it completely as in the case of the
+	# origin point, which is really just on the map for informational purposes.
+	extensions.special = extension
 
 # ==== To String ===================================================================================
 

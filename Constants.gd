@@ -1,7 +1,12 @@
 extends Node
 
-const WINDOW_SIZE = Vector2(1280,720)
-const CHUNK_SIZE = 32
+const WindowSize = Vector2(1280,720)
+const ChunkSize = 32
+
+const North = "N"
+const South = "S"
+const East = "E"
+const West = "W"
 
 enum Anchor { Bottom, Center }
 
