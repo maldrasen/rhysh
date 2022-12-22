@@ -4,7 +4,7 @@ var dungeonScene = preload("res://dungeon_interface/DungeonInterface.tscn").inst
 var townScene = preload("res://town/Town.tscn").instantiate()
 
 func _ready():
-	DisplayServer.window_set_min_size(Vector2(1808,1024))
+	DisplayServer.window_set_min_size(Constants.WINDOW_SIZE)
 
 	Signals.showMainMenu.connect(on_showMainMenu)
 	Signals.showNewGame.connect(on_showNewGame)
