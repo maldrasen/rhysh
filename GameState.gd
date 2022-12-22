@@ -40,7 +40,7 @@ func createWorld():
 	createDate = Time.get_datetime_string_from_system()
 	seed = createDate.hash()
 
-	partyLocation = DungeonIndex.at(7,7,0)
+	partyLocation = DungeonIndex.new(7,7,0)
 	partyFacing = Constants.South
 
 	# Create a directory for the world.
