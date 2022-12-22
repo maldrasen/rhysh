@@ -80,7 +80,7 @@ func saveGame():
 		"saveDate": saveDate,
 		"seed": seed,
 		"stage": stage,
-#		"partyLocation": partyLocation, Saving party location is broken. But it's time for food.
+		"partyLocation": partyLocation._to_string(),
 		"partyFacing": partyFacing,
 	}
 
@@ -99,7 +99,7 @@ func loadGame(world):
 	self.seed = savedState.seed
 	self.stage = savedState.stage
 	self.partyFacing = savedState.partyFacing
-	self.partyLocation = savedState.partyLocation
+	self.partyLocation = DungeonIndex.fromString(savedState.partyLocation)
 
 	if stage == Constants.GameStage.Dungeon:
 		Signals.openDungeon.emit()
