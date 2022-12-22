@@ -10,6 +10,7 @@ func _ready():
 
 func _on_resized():
 	resize()
+	pass
 
 func resize():
 	var backSize = $BackgroundTexture.texture.get_size()

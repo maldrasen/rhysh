@@ -59,7 +59,7 @@ _global_script_class_icons={
 config/name="Rhysh"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
-boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://assets/icons/rhysh-icon.png"
 
 [autoload]
@@ -75,11 +75,14 @@ FeatureLibrary="*res://dungeon_builder/FeatureLibrary.gd"
 
 [display]
 
-window/size/viewport_width=1808
-window/size/viewport_height=1024
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/size/viewport_width=1280
+window/size/viewport_height=720
 
 [dotnet]
 
 project/assembly_name="Rhysh"
+
+[editor]
+
+movie_writer/movie_file="D:/Work/rhysh/rhysh.avi"
+movie_writer/fps=30

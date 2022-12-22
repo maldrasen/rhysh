@@ -1,5 +1,6 @@
 extends Node
 
+const WINDOW_SIZE = Vector2(1280,720)
 const CHUNK_SIZE = 32
 
 enum Anchor { Bottom, Center }

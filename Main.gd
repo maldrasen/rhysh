@@ -5,6 +5,7 @@ var townScene = preload("res://town/Town.tscn").instantiate()
 
 func _ready():
 	DisplayServer.window_set_min_size(Vector2(1808,1024))
+
 	Signals.showMainMenu.connect(on_showMainMenu)
 	Signals.showNewGame.connect(on_showNewGame)
 	Signals.showLoadGame.connect(on_showLoadGame)
