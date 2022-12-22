@@ -3,12 +3,12 @@ class_name FeatureTemplate
 
 var featureName
 var featureType
-var size:Vector3
+var size:Vector3i
 var biomeAreas
 var tiles
 
 func _init():
-	size = Vector3.ZERO
+	size = Vector3i.ZERO
 	biomeAreas = {}
 	tiles = []
 	tiles.resize(Constants.ChunkSize * Constants.ChunkSize)

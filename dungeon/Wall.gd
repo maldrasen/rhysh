@@ -17,6 +17,16 @@ func _init(t, c):
 	self.type = t
 	self.certainty = c
 
+# ==== Persistance =================================================================================
+
+func pack():
+	return { "type":self.type, "certainty":self.certainty }
+
+static func unpack(data):
+	return Wall.new(data.type, data.certainty)
+
+# ==== To String ===================================================================================
+
 func typeString():
 	return {
 		Type.Normal: "Nrml",

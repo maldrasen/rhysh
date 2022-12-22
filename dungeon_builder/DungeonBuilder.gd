@@ -15,9 +15,9 @@ func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
-	Dungeon.setChunk(Vector3(0,0,0),  buildChunkFromPrefab("Origin"))
-	Dungeon.setChunk(Vector3(-1,0,0), buildChunkFromPrefab("Origin-W"))
-	Dungeon.setChunk(Vector3(1,0,0),  buildChunkFromPrefab("Origin-E"))
+	Dungeon.setChunk(Vector3i(0,0,0),  buildChunkFromPrefab("Origin"))
+	Dungeon.setChunk(Vector3i(-1,0,0), buildChunkFromPrefab("Origin-W"))
+	Dungeon.setChunk(Vector3i(1,0,0),  buildChunkFromPrefab("Origin-E"))
 
 	for x in range(-4,4):
 		if x <= 2 || x >= -2:
@@ -30,6 +30,11 @@ func buildNewDungeon():
 
 	# If the free tiles haven't been used we discard them. (They should all have been used)
 	freeTiles = {}
+
+	# Normally we'd save a chunk as soon as it's made, but in this initial creation step we can
+	# save every chunk in the cache.
+	for chunkIndex in Dungeon.chunkCache.keys():
+		Dungeon.chunkCache[chunkIndex].save()
 
 	# This is enough for now. The feature templates are being used to create chunks. Those chunks
 	# are being stored in the Dungeon's chunk cache. That should be enough to drap a map of what we

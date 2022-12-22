@@ -7,6 +7,7 @@ const North = "N"
 const South = "S"
 const East = "E"
 const West = "W"
+const NSEW = ["N","S","E","W"]
 
 enum Anchor { Bottom, Center }
 

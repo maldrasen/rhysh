@@ -14,7 +14,7 @@ const SavableStateMapping = {
 var currentWorld
 var createDate
 var saveDate
-var seed
+var randomSeed
 
 var stage
 var partyLocation
@@ -38,7 +38,7 @@ func createWorld():
 
 	currentWorld = "world-{0}".format([Configuration.worldCounter])
 	createDate = Time.get_datetime_string_from_system()
-	seed = createDate.hash()
+	randomSeed = createDate.hash()
 
 	partyLocation = DungeonIndex.new(7,7,0)
 	partyFacing = Constants.South
@@ -78,7 +78,7 @@ func saveGame():
 	var stateObject = {
 		"createDate": createDate,
 		"saveDate": saveDate,
-		"seed": seed,
+		"randomSeed": randomSeed,
 		"stage": stage,
 		"partyLocation": partyLocation._to_string(),
 		"partyFacing": partyFacing,
@@ -96,7 +96,7 @@ func loadGame(world):
 	self.currentWorld = world
 	self.createDate = savedState.createDate
 	self.saveDate = savedState.saveDate
-	self.seed = savedState.seed
+	self.randomSeed = savedState.randomSeed
 	self.stage = savedState.stage
 	self.partyFacing = savedState.partyFacing
 	self.partyLocation = DungeonIndex.fromString(savedState.partyLocation)

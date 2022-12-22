@@ -6,10 +6,10 @@ enum Type { Empty, Solid, StairsUp, StairsDown }
 var type
 var theFloor
 var walls = {
-	"N": null,
-	"S": null,
-	"E": null,
-	"W": null,
+	Constants.North: null,
+	Constants.South: null,
+	Constants.East: null,
+	Constants.West: null,
 }
 
 # A map of extensions that may be added to this tile. Could include event or
@@ -18,6 +18,9 @@ var extensions = {}
 
 func _init():
 	self.type = Type.Empty
+
+func wallAt(facing):
+	return walls[facing]
 
 func placeDoor(direction):
 	walls[direction].type = Wall.Type.Door
@@ -71,6 +74,31 @@ func setExtension(extension):
 	# so something else can deal with it later, or ignore it completely as in the case of the
 	# origin point, which is really just on the map for informational purposes.
 	extensions.special = extension
+
+# ==== Persistance =================================================================================
+
+func pack():
+	var packedWalls = {}
+
+	for facing in Constants.NSEW:
+		if walls[facing] != null:
+			packedWalls[facing] = walls[facing].pack()
+
+	return {
+		"type": self.type,
+		"floor": self.theFloor.pack(),
+		"walls": packedWalls
+	}
+
+static func unpack(data):
+	var tile = Tile.new()
+	tile.type = data.type
+	tile.theFloor = Floor.unpack(data.floor)
+
+	for facing in data.walls.keys():
+		tile.walls[facing] = Wall.unpack(data.walls[facing])
+
+	return tile
 
 # ==== To String ===================================================================================
 

@@ -66,6 +66,7 @@ config/icon="res://assets/icons/rhysh-icon.png"
 
 Constants="*res://Constants.gd"
 Configuration="*res://Configuration.gd"
+Data="*res://Data.gd"
 Signals="*res://Signals.gd"
 Static="*res://Static.gd"
 GameState="*res://GameState.gd"

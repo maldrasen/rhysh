@@ -1,15 +1,5 @@
 extends Node2D
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func _draw():
 	drawFrame()
 
@@ -23,7 +13,7 @@ func drawFrame():
 	var edgeColor = Color(0.75, 0.7, 0.7)
 
 	drawShadow(rectum)
-	draw_rect(rectum, backgroundColor, true, 0.5)
+	draw_rect(rectum, backgroundColor, true)
 	draw_rect(rectum, edgeColor, false, 1)
 
 func drawShadow(rectum:Rect2, size:int=20, shade:float=0.9, attenuation:float=0.2):

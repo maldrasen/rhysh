@@ -22,7 +22,7 @@ func _ready():
 	Signals.openDungeon.connect(on_openDungeon)
 
 # Global Input Events
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("quick_save"):
 		Signals.quickSaveGame.emit()
 	if Input.is_action_just_pressed("quick_load"):
@@ -45,7 +45,7 @@ func on_startNewGame():
 	dungeonThread.start(buildNewDungeon)
 
 func buildNewDungeon():
-	DungeonBuilder.new(GameState.seed).buildNewDungeon()
+	DungeonBuilder.new(GameState.randomSeed).buildNewDungeon()
 	GameState.saveGame()
 
 # ==== Navigating Between Scenes ===================================================================
