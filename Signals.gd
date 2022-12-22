@@ -1,5 +1,10 @@
 extends Node
 
+# === General ===
+signal startNewGame
+signal quickSaveGame
+signal quickLoadGame
+
 # === Main Menu ===
 signal showMainMenu
 signal showConfiguration

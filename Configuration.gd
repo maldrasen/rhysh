@@ -11,23 +11,23 @@ extends Node
 const CONFIG_PATH = "user://rhysh.cfg"
 const WORLDS_PATH = "user://worlds"
 
-var gameCongifuration
-var worldConfiguration
-var worldConfigurationFiles = []
+var worldCounter = 1
+var worldConfigurations = {}
 
-var worldCounter
-var lastGame
+var currentWorldDirectory
+var currentWorldConfiguration
 
 # Load or create the global configuration file.
 func _ready():
-	gameCongifuration = ConfigFile.new()
+	var configFile = ConfigFile.new()
 
-	if (gameCongifuration.load(CONFIG_PATH) != OK):
+	if (configFile.load(CONFIG_PATH) != OK):
 		createConfiguration()
 
-	for section in gameCongifuration.get_sections():
+	for section in configFile.get_sections():
 		if (section == "Rhysh"):
-			worldCounter = gameCongifuration.get_value(section, "worldCounter")
+			worldCounter = configFile.get_value(section, "worldCounter")
+			currentWorldDirectory = configFile.get_value(section, "currentWorldDirectory")
 
 	# Now, read all of the world configuration files. If the worlds directory
 	# does't exist this is probably the first run of the app and we need to
@@ -40,17 +40,20 @@ func _ready():
 	for world in worldDirectory.get_directories():
 		addWorldConfiguration(world)
 
+	print("Configs:",worldConfigurations)
+
 # Create the default configuration file.
 func createConfiguration():
-	gameCongifuration = ConfigFile.new()
-	gameCongifuration.set_value("Rhysh","worldCounter",1)
-	gameCongifuration.save(CONFIG_PATH)
+	var configFile = ConfigFile.new()
+	configFile.set_value("Rhysh","worldCounter",worldCounter)
+	configFile.save(CONFIG_PATH)
 
 # Save the configuration when one of the properties has been updated.
 func saveConfiguration():
-	gameCongifuration = ConfigFile.new()
-	gameCongifuration.set_value("Rhysh","worldCounter",worldCounter)
-	gameCongifuration.save(CONFIG_PATH)
+	var configFile = ConfigFile.new()
+	configFile.set_value("Rhysh","worldCounter",worldCounter)
+	configFile.set_value("Rhysh","currentWorldDirectory",currentWorldDirectory)
+	configFile.save(CONFIG_PATH)
 
 # Create a directory for the world and the world configuration file when
 # starting a new game. The file name pattern is:
@@ -62,26 +65,34 @@ func createWorld():
 	# Create a directory for the world.
 	DirAccess.open(WORLDS_PATH).make_dir(folder)
 
-	worldConfiguration = {
+	currentWorldDirectory = folder
+	currentWorldConfiguration = {
 		"createDate": createDate,
 		"seed": createDate.hash()
 	}
 
 	# Save the initial configuration in that directory.
-	saveWorldConfiguration(folder)
+	saveWorldConfiguration()
 
 	# Update the global configuration because the world count has changed.
 	worldCounter += 1
 	saveConfiguration()
 
-func saveWorldConfiguration(folder):
-	var file = "{0}/{1}/world.cfg".format([WORLDS_PATH,folder])
+
+func saveWorldConfiguration():
+	var file = "{0}/{1}/world.cfg".format([WORLDS_PATH,currentWorldDirectory])
 	var config = ConfigFile.new()
 
-	config.set_value("World","createDate",worldConfiguration.createDate)
-	config.set_value("World","createDate",worldConfiguration.seed)
+	config.set_value("World","createDate",currentWorldConfiguration.createDate)
+	config.set_value("World","seed",currentWorldConfiguration.seed)
 	config.save(file)
 
-# Add this world to the list of world configurations.
-func addWorldConfiguration(_world):
-	print("TODO: Read world config file")
+# Add this world to the dictionary of world configurations.
+func addWorldConfiguration(world):
+	var config = ConfigFile.new()
+	config.load("{0}/{1}/world.cfg".format([WORLDS_PATH,world]))
+
+	worldConfigurations[world] = {
+		"createDate": config.get_value("World","createDate"),
+		"seed": config.get_value("World","seed"),
+	}
