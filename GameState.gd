@@ -14,7 +14,7 @@ var saveDate
 var randomSeed
 
 var stage
-var partyLocation
+var partyLocation:DungeonIndex
 var partyFacing
 
 

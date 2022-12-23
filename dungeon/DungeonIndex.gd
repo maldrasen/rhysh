@@ -9,11 +9,37 @@ func _init(x,y,z):
 	self.index = Vector3i(x,y,z)
 
 # Build a DungeonIndex from a global chunk coordinate and a local tile coordinate
-static func from(chunkIndex:Vector3i, tileIndex:Vector2i):
+static func fromIndices(chunkIndex:Vector3i, tileIndex:Vector2i):
 	return DungeonIndex.new(
 		(chunkIndex.x * Constants.ChunkSize) + tileIndex.x,
 		(chunkIndex.y * Constants.ChunkSize) + tileIndex.y,
 		chunkIndex.z)
+
+static func fromVector(vec):
+	return DungeonIndex.new(vec.x, vec.y, vec.z)
+
+# Returns a new DungeonIndex because we don't want to mutate this one.
+func translate(point:Vector3i):
+	return DungeonIndex.fromVector(self.index + point)
+
+
+func chunkIndex():
+	var chunkIndex = Vector3i(
+		index.x / Constants.ChunkSize,
+		index.y / Constants.ChunkSize,
+		index.z)
+
+	if index.x < 0:
+		chunkIndex.x -= 1
+	if index.y < 0:
+		chunkIndex.y -= 1
+
+	return chunkIndex
+
+func tileIndex():
+	return Vector2i(
+		index.x % Constants.ChunkSize,
+		index.y % Constants.ChunkSize)
 
 # ==== Persistance =================================================================================
 

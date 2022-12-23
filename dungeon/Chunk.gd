@@ -19,6 +19,9 @@ func _init():
 	stage = GenerationStage.Start
 	tiles = []
 
+func getTile(tileIndex:Vector2i):
+	return tiles[(tileIndex.y * Constants.ChunkSize) + tileIndex.x]
+
 # ==== Persistance =================================================================================
 
 func save():
@@ -40,6 +43,10 @@ func save():
 static func lode(index:Vector3i):
 	var path = ChunkFilePath.format([GameState.currentWorld,index.x,index.y,index.z])
 	var file = FileAccess.open_compressed(path, FileAccess.READ, FileAccess.COMPRESSION_FASTLZ)
+
+	if file == null:
+		return null
+
 	var document = JSON.parse_string(file.get_as_text())
 
 	var unpackedTiles = []
