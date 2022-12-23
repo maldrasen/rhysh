@@ -1,18 +1,24 @@
 extends Node
 
+# Game Properties
+const WindowSize = Vector2(1280,720)
+const DebugMode = true
+
+# Game Paths
 const ConfigPath = "user://rhysh.cfg"
 const WorldsPath = "user://worlds"
 const GameStatePath = "user://worlds/{0}/gameState.json"
 
-const WindowSize = Vector2(1280,720)
+# Dungeon Properties
 const ChunkSize = 32
+const MaxDepth = 20
 
+# Enums and Reference Constants
 const North = "N"
 const South = "S"
 const East = "E"
 const West = "W"
 const NSEW = ["N","S","E","W"]
-
 
 enum Biome {
 	DarkWood,

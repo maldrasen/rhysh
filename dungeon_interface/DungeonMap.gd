@@ -12,15 +12,17 @@ const edgeColor =        Color(0.75, 0.75, 0.75)
 
 # Scale
 var mapScales = {
-	1: { "tileSize":10,  "wallWidth":1.0 },
-	2: { "tileSize":20,  "wallWidth":2.0 },
-	3: { "tileSize":30,  "wallWidth":3.0 },
-	4: { "tileSize":50,  "wallWidth":4.0 },
-	5: { "tileSize":80,  "wallWidth":6.0 },
+	1: { "tileSize":20,  "wallWidth":2.0 },
+	2: { "tileSize":30,  "wallWidth":3.0 },
+	3: { "tileSize":50,  "wallWidth":4.0 },
+	4: { "tileSize":80,  "wallWidth":6.0 },
 }
 var mapScale = 3
 var tileSize = mapScales[mapScale].tileSize
 var wallWidth = mapScales[mapScale].wallWidth
+
+# Offset
+var offset = Vector3i(0,0,0)
 
 # Bounds
 var centerIndex:DungeonIndex
@@ -29,18 +31,36 @@ var mapBounds:Rect2
 var mapCenter:Vector2
 
 func _input(_event):
+	if Constants.DebugMode:
+		if Input.is_action_pressed("ui_left"):
+			offset += Vector3i(-1,0,0)
+		if Input.is_action_pressed("ui_right"):
+			offset += Vector3i(1,0,0)
+		if Input.is_action_pressed("ui_up"):
+			offset += Vector3i(0,-1,0)
+		if Input.is_action_pressed("ui_down"):
+			offset += Vector3i(0,1,0)
+		if Input.is_action_pressed("ui_page_up"):
+			offset.z = clamp(offset.z-1, 0, Constants.MaxDepth)
+		if Input.is_action_pressed("ui_page_down"):
+			offset.z = clamp(offset.z+1, 0, Constants.MaxDepth)
+
 	if Input.is_action_just_pressed("scale_up"):
-		setScale(clamp(mapScale-1, 1, 5))
+		setScale(clamp(mapScale-1, 1, 4))
 	if Input.is_action_just_pressed("scale_down"):
-		setScale(clamp(mapScale+1, 1, 5))
+		setScale(clamp(mapScale+1, 1, 4))
+
+	queue_redraw()
 
 func setScale(scale):
-	print("Set Scale:",scale)
 	mapScale = scale
 	tileSize = mapScales[scale].tileSize
 	wallWidth = mapScales[scale].wallWidth
-	queue_redraw()
 
+# Drawing the map this way seems... inefficient. Zooming out in the map, and then moving around is
+# stupidly slow. I know there are a lot of tiles to draw, but thousands of lines has to be easier
+# than millions of triangles. It's not even doing anything fancy. I think this is fine for now, but
+# I'm going to have to look into optimizing this at some point. Maybe use a 2D shader?
 func _draw():
 	calculateBounds()
 	drawBackground()
@@ -48,7 +68,7 @@ func _draw():
 	drawFrame()
 
 func calculateBounds():
-	centerIndex = GameState.partyLocation
+	centerIndex = GameState.partyLocation.translate(offset)
 	viewSize = get_viewport_rect().size
 
 	mapBounds = Rect2(Vector2(MapMargin,MapMargin),Vector2(
@@ -81,9 +101,6 @@ func drawFrame():
 	draw_rect(mapBounds, edgeColor, false, 1)
 	drawShadow(mapBounds)
 
-# Something is seriously messed up. There are no west walls, and the tiles are blank whenever there
-# should be a North West corner...
-
 func drawTiles():
 	var xTileCount = ceili(mapBounds.size.x / tileSize) + 1
 	var yTileCount = ceili(mapBounds.size.y / tileSize) + 1
@@ -113,17 +130,17 @@ func drawTile(tile,center):
 	for facing in Constants.NSEW:
 		var wall = tile.wallAt(facing)
 		if wall:
-			printWall(corners, facing, wall)
+			drawWall(corners, facing, wall)
 
-func printWall(corners, facing, wall):
+func drawWall(corners, facing, wall):
 	if facing == Constants.North:
-		draw_line(corners.nw, corners.ne, Color.CRIMSON, wallWidth)
+		draw_line(corners.nw, corners.ne, Color.GREEN, wallWidth)
 	if facing == Constants.South:
 		draw_line(corners.sw, corners.se, Color.BLUE, wallWidth)
 	if facing == Constants.East:
-		draw_line(corners.ne, corners.se, Color.CRIMSON, wallWidth)
+		draw_line(corners.ne, corners.se, Color.RED, wallWidth)
 	if facing == Constants.West:
-		draw_line(corners.nw, corners.nw, Color.BLUE, wallWidth)
+		draw_line(corners.nw, corners.nw, Color.YELLOW, wallWidth)
 
 func tileFloorColor(tile):
 	if tile.theFloor.type == Floor.Type.Water:
