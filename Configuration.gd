@@ -18,7 +18,11 @@ func _ready():
 	for section in configFile.get_sections():
 		if (section == "Rhysh"):
 			worldCounter = configFile.get_value(section, "worldCounter")
-			lastPlayedWorld = configFile.get_value(section, "lastPlayedWorld")
+			lastPlayedWorld = configFile.get_value(section, "lastPlayedWorld", "NOPE")
+
+	# Godot's ConfigFile complains about null defaults.
+	if lastPlayedWorld == "NOPE":
+		lastPlayedWorld = null
 
 # Create the default configuration file.
 func createConfiguration():

@@ -3,7 +3,7 @@ class_name Floor
 
 enum Type { Normal, Water }
 
-var type
+var type:Type
 
 func _init(t):
 	self.type = t

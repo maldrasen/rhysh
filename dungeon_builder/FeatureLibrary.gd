@@ -96,9 +96,9 @@ func loadFeature(document):
 
 	# Finally we have all the data in the format that we need. So now we create a tile for each
 	# entry in the data array. This will also break if we use anything other than a 32x32 map.
-	for y in 32:
-		for x in 32:
-			var index = x + (y*32)
+	for y in Constants.ChunkSize:
+		for x in Constants.ChunkSize:
+			var index = x + (y*Constants.ChunkSize)
 			var rootIndex = (rootData[index] as int) - rootOffset
 			var extraIndex
 			var extendedIndex

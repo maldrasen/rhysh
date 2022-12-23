@@ -10,8 +10,8 @@ enum Certainty {
   Absolute,     # Changing this will break something.
 }
 
-var type
-var certainty
+var type:Type
+var certainty:Certainty
 
 func _init(t, c):
 	self.type = t

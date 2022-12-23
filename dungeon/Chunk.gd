@@ -32,11 +32,27 @@ func save():
 		"tiles": packedTiles }
 
 	var path = ChunkFilePath.format([GameState.currentWorld,chunkIndex.x,chunkIndex.y,chunkIndex.z])
-
-	FileAccess.open_compressed(path, FileAccess.WRITE, FileAccess.COMPRESSION_FASTLZ).store_line(
-		JSON.stringify(chunkState))
+	var file = FileAccess.open_compressed(path, FileAccess.WRITE, FileAccess.COMPRESSION_FASTLZ)
+	file.store_line(JSON.stringify(chunkState))
 
 	print("Saved: {0}".format([path]))
+
+static func lode(index:Vector3i):
+	var path = ChunkFilePath.format([GameState.currentWorld,index.x,index.y,index.z])
+	var file = FileAccess.open_compressed(path, FileAccess.READ, FileAccess.COMPRESSION_FASTLZ)
+	var document = JSON.parse_string(file.get_as_text())
+
+	var unpackedTiles = []
+	for tileData in document.tiles:
+		unpackedTiles.push_back(Tile.unpack(tileData) if tileData else null)
+
+	var chunk = Chunk.new()
+	chunk.chunkIndex = Data.unpackVector3i(document.chunkIndex)
+	chunk.stage = document.stage
+	chunk.tiles = unpackedTiles
+
+	print("Loaded ",chunk)
+	return chunk
 
 # ==== To String ===================================================================================
 

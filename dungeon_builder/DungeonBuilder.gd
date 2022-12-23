@@ -20,7 +20,7 @@ func buildNewDungeon():
 	Dungeon.setChunk(Vector3i(1,0,0),  buildChunkFromPrefab("Origin-E"))
 
 	for x in range(-4,4):
-		if x <= 2 || x >= -2:
+		if x <= -2 || x >= 2:
 			Dungeon.setChunk(Vector3(x,0,0),  buildChunkFromPrefab("Shore"))
 		for y in range(1,5):
 			print("Build random chunk in ({0},{1})".format([x,y]))

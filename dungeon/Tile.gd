@@ -3,7 +3,7 @@ class_name Tile
 
 enum Type { Empty, Solid, StairsUp, StairsDown }
 
-var type
+var type:Type
 var theFloor
 var walls = {
 	Constants.North: null,
@@ -87,6 +87,7 @@ func pack():
 	return {
 		"type": self.type,
 		"floor": self.theFloor.pack(),
+		"extensions": self.extensions,
 		"walls": packedWalls
 	}
 
@@ -94,6 +95,7 @@ static func unpack(data):
 	var tile = Tile.new()
 	tile.type = data.type
 	tile.theFloor = Floor.unpack(data.floor)
+	tile.extensions = data.extensions
 
 	for facing in data.walls.keys():
 		tile.walls[facing] = Wall.unpack(data.walls[facing])
