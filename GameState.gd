@@ -80,7 +80,7 @@ func saveGame():
 		"saveDate": saveDate,
 		"randomSeed": randomSeed,
 		"stage": stage,
-		"partyLocation": partyLocation._to_string(),
+		"partyLocation": partyLocation.pack(),
 		"partyFacing": partyFacing,
 	}
 
@@ -99,7 +99,7 @@ func loadGame(world):
 	self.randomSeed = savedState.randomSeed
 	self.stage = savedState.stage
 	self.partyFacing = savedState.partyFacing
-	self.partyLocation = DungeonIndex.fromString(savedState.partyLocation)
+	self.partyLocation = DungeonIndex.unpack(savedState.partyLocation)
 
 	if stage == Constants.GameStage.Dungeon:
 		Signals.openDungeon.emit()

@@ -15,7 +15,20 @@ static func from(chunkIndex:Vector3i, tileIndex:Vector2i):
 		(chunkIndex.y * Constants.ChunkSize) + tileIndex.y,
 		chunkIndex.z)
 
-# Build a DungeonIndex from a string with format "(x,y,z)"
+# ==== Persistance =================================================================================
+
+func pack():
+	return Data.packVector3i(self.index)
+
+static func unpack(array):
+	var vec = Data.unpackVector3i(array)
+	return DungeonIndex.new(vec.x, vec.y, vec.z)
+
+# ==== To String ===================================================================================
+
+# Build a DungeonIndex from a string with format "(x,y,z)". Now that I think
+# about it though, this is pretty dumb, so don't use it for persistance, but
+# keep it around because I can't remember how Godot Regexes work.
 static func fromString(string):
 	for result in Static.DungeonIndexPattern.search_all(string):
 		if result.strings.size() == 4:
