@@ -16,6 +16,11 @@ var walls = {
 # battle triggers, traps, treasure, whatever.
 var extensions = {}
 
+static func normal():
+	var tile = Tile.new()
+	tile.theFloor = Floor.new(Floor.Type.Normal)
+	return tile
+
 func _init():
 	self.type = Type.Empty
 
@@ -24,6 +29,7 @@ func wallAt(facing):
 
 func placeDoor(direction):
 	walls[direction].type = Wall.Type.Door
+
 
 # ==== Feature Loader ==============================================================================
 # Building a tile from a string should really only be done by the feature loader which is getting
