@@ -1,5 +1,9 @@
 extends Node
 
+const ConfigPath = "user://rhysh.cfg"
+const WorldsPath = "user://worlds"
+const GameStatePath = "user://worlds/{0}/gameState.json"
+
 const WindowSize = Vector2(1280,720)
 const ChunkSize = 32
 
@@ -9,7 +13,6 @@ const East = "E"
 const West = "W"
 const NSEW = ["N","S","E","W"]
 
-enum Anchor { Bottom, Center }
 
 enum Biome {
 	DarkWood,

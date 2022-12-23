@@ -66,6 +66,7 @@ func on_showNewGame():
 
 func on_showLoadGame():
 	hideOthers();
+	$LoadGame.refreshGameList()
 	$LoadGame.visible = true
 
 func on_showConfiguration():

@@ -4,6 +4,7 @@ extends Node
 signal startNewGame
 signal quickSaveGame
 signal quickLoadGame
+signal loadGame
 
 # === Main Menu ===
 signal showMainMenu

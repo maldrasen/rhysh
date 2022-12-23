@@ -1,8 +1,5 @@
 extends Node
 
-const WorldsPath = "user://worlds"
-const GameStatePath = "user://worlds/{0}/gameState.json"
-
 const SavableStateMapping = {
 	Constants.GameStage.Dungeon:    true,
 	Constants.GameStage.Town:       true,
@@ -44,7 +41,7 @@ func createWorld():
 	partyFacing = Constants.South
 
 	# Create a directory for the world.
-	DirAccess.open(WorldsPath).make_dir(currentWorld)
+	DirAccess.open(Constants.WorldsPath).make_dir(currentWorld)
 
 	# Update the global configuration
 	Configuration.worldCounter += 1;
@@ -84,13 +81,13 @@ func saveGame():
 		"partyFacing": partyFacing,
 	}
 
-	var path = GameStatePath.format([currentWorld])
+	var path = Constants.GameStatePath.format([currentWorld])
 	FileAccess.open(path, FileAccess.WRITE).store_line(JSON.stringify(stateObject))
 
 func loadGame(world):
 	Configuration.setLastPlayedWorld(world)
 
-	var path = GameStatePath.format([world])
+	var path = Constants.GameStatePath.format([world])
 	var savedState = JSON.parse_string(FileAccess.get_file_as_string(path))
 
 	self.currentWorld = world

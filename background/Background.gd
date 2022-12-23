@@ -1,6 +1,8 @@
 extends Control
 
-@export var anchor:Constants.Anchor = Constants.Anchor.Bottom
+enum Anchor { Bottom, Center }
+
+@export var anchor = Anchor.Bottom
 @export var texture:Texture2D
 
 func _ready():
@@ -31,7 +33,7 @@ func resize():
 	y = (viewSize.y - backSize.y * newScale)
 	x = (viewSize.x - backSize.x * newScale) / 2
 
-	if (anchor == Constants.Anchor.Center):
+	if (anchor == Anchor.Center):
 		y /= 2
 
 	$BackgroundTexture.set_position(Vector2(x,y))
