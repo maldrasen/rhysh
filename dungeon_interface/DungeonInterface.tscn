@@ -1,14 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dglit0cu4ium3"]
-
-[ext_resource type="Script" path="res://dungeon_interface/DungeonMap.gd" id="1_uj21c"]
+[gd_scene format=3 uid="uid://dglit0cu4ium3"]
 
 [node name="DungeonInterface" type="Node"]
 
 [node name="Dungeon3D" type="Node3D" parent="."]
 visible = false
-
-[node name="DungeonMap" type="Node2D" parent="."]
-script = ExtResource("1_uj21c")
 
 [node name="DungeonUI" type="Control" parent="."]
 visible = false

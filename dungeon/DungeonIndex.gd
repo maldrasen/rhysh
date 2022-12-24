@@ -15,11 +15,11 @@ func _init(x,y,z):
 	self.index = Vector3i(x,y,z)
 
 # Build a DungeonIndex from a global chunk coordinate and a local tile coordinate
-static func fromIndices(chunkIndex:Vector3i, tileIndex:Vector2i) -> DungeonIndex:
+static func fromIndices(cIndex:Vector3i, tIndex:Vector2i) -> DungeonIndex:
 	return DungeonIndex.new(
-		(chunkIndex.x * Constants.ChunkSize) + tileIndex.x,
-		(chunkIndex.y * Constants.ChunkSize) + tileIndex.y,
-		chunkIndex.z)
+		(cIndex.x * Constants.ChunkSize) + tIndex.x,
+		(cIndex.y * Constants.ChunkSize) + tIndex.y,
+		cIndex.z)
 
 # Build a Dungeon from a 3D vector representing its position in the global space.
 static func fromVector(vec) -> DungeonIndex:
@@ -29,7 +29,9 @@ static func fromVector(vec) -> DungeonIndex:
 func translate(point:Vector3i) -> DungeonIndex:
 	return DungeonIndex.fromVector(self.index + point)
 
-# Get the chunk index for this dungeon index.
+# Get the chunk index for this dungeon index. (Why is integer division a fucking warning, I want
+# integer devision motherfucker. Bitch ass compiler...)
+@warning_ignore(integer_division)
 func chunkIndex() -> Vector3i:
 	return Vector3i(
 		index.x / Constants.ChunkSize,

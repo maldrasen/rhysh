@@ -22,8 +22,6 @@ visible = false
 
 [node name="LoadGame" parent="." instance=ExtResource("5_7idkr")]
 visible = false
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="ConfigurationMenu" parent="." instance=ExtResource("6_ywgq2")]
 visible = false
