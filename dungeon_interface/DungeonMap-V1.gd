@@ -31,46 +31,6 @@ var viewSize:Vector2
 var mapBounds:Rect2
 var mapCenter:Vector2
 
-func _input(_event):
-	if Constants.DebugMode:
-		if Input.is_action_pressed("ui_left"):
-			offset += Vector3i(-1,0,0)
-		if Input.is_action_pressed("ui_right"):
-			offset += Vector3i(1,0,0)
-		if Input.is_action_pressed("ui_up"):
-			offset += Vector3i(0,-1,0)
-		if Input.is_action_pressed("ui_down"):
-			offset += Vector3i(0,1,0)
-		if Input.is_action_pressed("ui_page_up"):
-			offset.z = clamp(offset.z-1, 0, Constants.MaxDepth)
-		if Input.is_action_pressed("ui_page_down"):
-			offset.z = clamp(offset.z+1, 0, Constants.MaxDepth)
-
-	if Input.is_action_just_pressed("scale_up"):
-		setScale(clamp(mapScale-1, 1, 4))
-	if Input.is_action_just_pressed("scale_down"):
-		setScale(clamp(mapScale+1, 1, 4))
-
-	queue_redraw()
-
-func setScale(scale):
-	mapScale = scale
-	tileSize = mapScales[scale].tileSize
-	wallWidth = mapScales[scale].wallWidth
-
-# Drawing the map this way seems... inefficient. Zooming out in the map, and then moving around is
-# stupidly slow. I know there are a lot of tiles to draw, but thousands of lines has to be easier
-# than millions of triangles. It's not even doing anything fancy. I think this is fine for now, but
-# I'm going to have to look into optimizing this at some point. Maybe use a 2D shader?
-#
-# Right, so appearently this is completely the wrong way to do everything. Really should use a
-# TileMap which is optimized for this. It's fine for now, but I shouldn't put more work into it
-# because it needs to be completely rewritten. Need to fix the dungeon generation first though.
-func _draw():
-	calculateBounds()
-	drawBackground()
-	drawTiles()
-	drawFrame()
 
 func calculateBounds():
 	centerIndex = GameState.partyLocation.translate(offset)
@@ -84,27 +44,7 @@ func calculateBounds():
 		(mapBounds.size.x / 2.0) + MapMargin,
 		(mapBounds.size.y / 2.0) + MapMargin)
 
-func drawBackground():
-	draw_rect(mapBounds, backgroundColor, true)
 
-# Draw a frame around the map. This is really just faking out clipping by drawing an opaque frame
-# on top of the map, while making it look like a background.
-func drawFrame():
-	draw_rect(Rect2(Vector2(0,0),Vector2(viewSize.x,MapMargin)),frameColor,true)
-	draw_rect(Rect2(Vector2(0,0),Vector2(MapMargin,viewSize.y)),frameColor,true)
-
-	draw_rect(Rect2(
-		Vector2(viewSize.x - MapMargin,0),
-		Vector2(MapMargin, viewSize.y)
-	),frameColor,true)
-
-	draw_rect(Rect2(
-		Vector2(0,viewSize.y - BottomMargin),
-		Vector2(viewSize.x, BottomMargin)
-	),frameColor,true)
-
-	draw_rect(mapBounds, edgeColor, false, 1)
-	drawShadow(mapBounds)
 
 func drawTiles():
 	var xTileCount = ceili(mapBounds.size.x / tileSize) + 1

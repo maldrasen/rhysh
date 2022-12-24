@@ -39,8 +39,6 @@ var wallWidth = mapScales[mapScale].wallWidth
 # Position
 var offset = Vector2(0,0)
 
-
-
 # We need the map to work in the dungeon and on individual features or chunks and should work as
 # both a minimap and an actual map. The properties control where the map is drawn and what this map
 # displays. Properties:
@@ -50,15 +48,17 @@ var offset = Vector2(0,0)
 #   mapMargin: Either a single int for the same margins or a dictionary {N,S,E,W}
 #   tileSource: Can be a Chunk, a FeatureTemplate, or null to use the dungeon as the source.
 #
+# The scene also must have a container named MapContainer to put the map into.
 func _init(parent_, properties_):
-	self.parent = parent_
 	self.properties = properties_
-
-	parent.resized.connect(setBounds)
+	self.parent = parent_
 
 	buildComponents()
 	buildMapSections()
 	setBounds()
+
+	parent.resized.connect(setBounds)
+	parent.add_child(viewportContainer)
 
 func onInput(_event):
 
@@ -107,30 +107,50 @@ func buildComponents():
 	viewportContainer.add_child(viewport)
 
 func buildMapSections():
-	if properties.tileSource == null:
+	if properties.has("tileSource") == false:
 		print("Setup for dungeon tile source")
+		var centerIndex = GameState.partyLocation.chunkIndex()
+		print("Center:",centerIndex)
 		return
 
 	if properties.tileSourceType == "FeatureTemplate":
 		var section = MapSection.new(mapScales[mapScale])
+		section.label = properties.tileSource.featureName
 		section.tiles = properties.tileSource.tiles
 		section.biomeAreas = properties.tileSource.biomeAreas
 
 		mapSections[Vector2(0,0)] = section
 		viewport.add_child(section)
 
-# Determine the important sizes and positions for the map viewport.
+# This is a bit of a hack until I figure out why the resize events are fucking broken. Sometimes
+# the resize events just don't fire, so you end up with a fucked up map. Not sure what else I can
+# do other than assert the container sizes like this. This happens a lot when the window is being
+# resized.
+func checkSize():
+	var containerWrong = parent.get_viewport_rect().size != viewSize
+	var viewportWrong = viewportContainer.size != mapSize
+	var backgroundWrong = background.size != mapSize
+
+	if containerWrong or viewportWrong or backgroundWrong:
+		setBounds()
+
+# Determine the important sizes and positions for the map. This is a little buggy, but I think it's
+# a Godot problem. Sometimes the window, after it's been maximized, stops sending resize events.
+# I've tried adding a hack to the input event to check the size, but that only kind of works. I'm
+# tempted to just delete the nodes while the window is resizing and rebuild everything after it's
+# done.
 func setBounds():
 	viewSize = parent.get_viewport_rect().size
 	mapSize = getMapSize()
 
-	background.set_size(mapSize)
-	background.set_position(Vector2(0,0))
+	parent.set_size(mapSize)
+	parent.set_position(getMapViewOffset())
 
-	viewport.set_size(mapSize)
+	viewportContainer.reset_size()
 
 	viewportContainer.set_size(mapSize)
-	viewportContainer.set_position(getMapViewOffset())
+	background.set_size(mapSize)
+	viewport.set_size(mapSize)
 
 	positionSections()
 
@@ -194,5 +214,3 @@ func getMapMargins():
 		"S":properties.mapMargin,
 		"E":properties.mapMargin,
 		"W":properties.mapMargin}
-
-
