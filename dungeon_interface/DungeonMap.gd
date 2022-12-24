@@ -61,6 +61,10 @@ func setScale(scale):
 # stupidly slow. I know there are a lot of tiles to draw, but thousands of lines has to be easier
 # than millions of triangles. It's not even doing anything fancy. I think this is fine for now, but
 # I'm going to have to look into optimizing this at some point. Maybe use a 2D shader?
+#
+# Right, so appearently this is completely the wrong way to do everything. Really should use a
+# TileMap which is optimized for this. It's fine for now, but I shouldn't put more work into it
+# because it needs to be completely rewritten. Need to fix the dungeon generation first though.
 func _draw():
 	calculateBounds()
 	drawBackground()

@@ -108,7 +108,7 @@ func loadFeature(document):
 			if extendedOffset:
 				extendedIndex = (extendedData[index] as int) - extendedOffset
 
-			if rootIndex > 0:
+			if rootIndex >= 0:
 				var rootValue = rhyshTilemap.get(rootIndex)
 				var tileData = { "x":x,"y":y,"root":rootValue }
 
