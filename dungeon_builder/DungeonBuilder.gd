@@ -15,13 +15,13 @@ func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
-	Dungeon.setChunk(Vector3i(0,0,0),  buildChunkFromPrefab("Origin"))
-	Dungeon.setChunk(Vector3i(-1,0,0), buildChunkFromPrefab("Origin-W"))
-	Dungeon.setChunk(Vector3i(1,0,0),  buildChunkFromPrefab("Origin-E"))
+	Dungeon.setChunk(Vector3i(10010,10,10),  buildChunkFromPrefab("Origin"))
+	Dungeon.setChunk(Vector3i(10009,10,10), buildChunkFromPrefab("Origin-W"))
+	Dungeon.setChunk(Vector3i(10011,10,10),  buildChunkFromPrefab("Origin-E"))
 
-	for x in range(-4,4):
-		if x <= -2 || x >= 2:
-			Dungeon.setChunk(Vector3(x,0,0),  buildChunkFromPrefab("Shore"))
+	for x in range(10006,10014):
+		if x <= 10008 || x >= 10012:
+			Dungeon.setChunk(Vector3(x,10,10),  buildChunkFromPrefab("Shore"))
 		for y in range(1,5):
 			print("Build random chunk in ({0},{1})".format([x,y]))
 

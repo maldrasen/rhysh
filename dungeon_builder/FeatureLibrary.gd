@@ -95,7 +95,7 @@ func loadFeature(document):
 			extendedData = layer.data
 
 	# Finally we have all the data in the format that we need. So now we create a tile for each
-	# entry in the data array. This will also break if we use anything other than a 32x32 map.
+	# entry in the data array. The largest feature size is 32x32 for entire chunks.
 	for y in Constants.ChunkSize:
 		for x in Constants.ChunkSize:
 			var index = x + (y*Constants.ChunkSize)
@@ -111,6 +111,9 @@ func loadFeature(document):
 			if rootIndex >= 0:
 				var rootValue = rhyshTilemap.get(rootIndex)
 				var tileData = { "x":x,"y":y,"root":rootValue }
+
+				if rootValue == null:
+					continue
 
 				if extraOffset and rhyshExtra.has(extraIndex):
 					tileData.extra = rhyshExtra.get(extraIndex)

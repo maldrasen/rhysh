@@ -3,40 +3,41 @@ class_name DungeonIndex
 
 var index:Vector3i
 
-# The DungeonIndex is just a wrapper around a Vector3i, but includes functions
-# to translate indices and can be created from strings.
+# The DungeonIndex is just a wrapper around a Vector3i, but includes functions to translate global
+# indices into chunk and tile indices. As it turns out there are some really difficult hurtles when
+# dealing with negative indices using a coordinate system like this. There's a fencepost problem
+# where a chunk with a -1 index are one tile smaller. I could get around this somehow, but I think
+# it's easier to just forbid negative indices. That's still a lot of tiles in the positive integers.
 func _init(x,y,z):
+	if x < 0 || y < 0 || z < 0:
+		printerr("A dungeon index cannot have a negative value.")
+		return
 	self.index = Vector3i(x,y,z)
 
 # Build a DungeonIndex from a global chunk coordinate and a local tile coordinate
-static func fromIndices(chunkIndex:Vector3i, tileIndex:Vector2i):
+static func fromIndices(chunkIndex:Vector3i, tileIndex:Vector2i) -> DungeonIndex:
 	return DungeonIndex.new(
 		(chunkIndex.x * Constants.ChunkSize) + tileIndex.x,
 		(chunkIndex.y * Constants.ChunkSize) + tileIndex.y,
 		chunkIndex.z)
 
-static func fromVector(vec):
+# Build a Dungeon from a 3D vector representing its position in the global space.
+static func fromVector(vec) -> DungeonIndex:
 	return DungeonIndex.new(vec.x, vec.y, vec.z)
 
 # Returns a new DungeonIndex because we don't want to mutate this one.
-func translate(point:Vector3i):
+func translate(point:Vector3i) -> DungeonIndex:
 	return DungeonIndex.fromVector(self.index + point)
 
-
-func chunkIndex():
-	var chunkIndex = Vector3i(
+# Get the chunk index for this dungeon index.
+func chunkIndex() -> Vector3i:
+	return Vector3i(
 		index.x / Constants.ChunkSize,
 		index.y / Constants.ChunkSize,
 		index.z)
 
-	if index.x < 0:
-		chunkIndex.x -= 1
-	if index.y < 0:
-		chunkIndex.y -= 1
-
-	return chunkIndex
-
-func tileIndex():
+# Get the local tile index for this dungeon index.
+func tileIndex() -> Vector2i:
 	return Vector2i(
 		index.x % Constants.ChunkSize,
 		index.y % Constants.ChunkSize)

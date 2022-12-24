@@ -37,7 +37,11 @@ func createWorld():
 	createDate = Time.get_datetime_string_from_system()
 	randomSeed = createDate.hash()
 
-	partyLocation = DungeonIndex.new(7,7,0)
+	# Set the initial party location and facing. These are kinda magic numbers. The chunk index
+	# comes from the Dungeon builder where it sets the origin feature. The tile index is from the
+	# Origin.json tilemap, just where that origin point is on that map. These are both subject to
+	# change if the origin feature changes at all.
+	partyLocation = DungeonIndex.fromIndices(Vector3i(10010,10,10),Vector2i(7,7))
 	partyFacing = Constants.South
 
 	# Create a directory for the world.
