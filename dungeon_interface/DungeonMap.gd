@@ -4,8 +4,9 @@ const MapMargin = 20
 const BottomMargin = 120
 
 const normalFloorColor = Color(0.20, 0.20, 0.20)
-const waterFloorColor =  Color(0.20, 0.30, 0.50)
-const normalWallColor =  Color(0.85, 0.82, 0.80)
+const waterFloorColor =  Color(0.20, 0.25, 0.30)
+const wallColorA =       Color(0.90, 0.90, 0.90)
+const wallColorB =       Color(0.50, 0.50, 0.50)
 const backgroundColor =  Color(0.10, 0.10, 0.10)
 const frameColor =       Color(0.05, 0.05, 0.05)
 const edgeColor =        Color(0.75, 0.75, 0.75)
@@ -138,13 +139,13 @@ func drawTile(tile,center):
 
 func drawWall(corners, facing, wall):
 	if facing == Constants.North:
-		draw_line(corners.nw, corners.ne, Color.GREEN, wallWidth)
+		draw_line(corners.nw, corners.ne, wallColorA, wallWidth)
 	if facing == Constants.South:
-		draw_line(corners.sw, corners.se, Color.BLUE, wallWidth)
+		draw_line(corners.sw, corners.se, wallColorB, wallWidth)
 	if facing == Constants.East:
-		draw_line(corners.ne, corners.se, Color.RED, wallWidth)
+		draw_line(corners.ne, corners.se, wallColorB, wallWidth)
 	if facing == Constants.West:
-		draw_line(corners.nw, corners.nw, Color.YELLOW, wallWidth)
+		draw_line(corners.nw, corners.sw, wallColorA, wallWidth)
 
 func tileFloorColor(tile):
 	if tile.theFloor.type == Floor.Type.Water:
@@ -161,6 +162,8 @@ func createCornerMap(centerPoint:Vector2):
 	var map_s = mapBounds.position.y + mapBounds.size.y - 1
 	var map_e = mapBounds.position.x
 	var map_w = mapBounds.position.x + mapBounds.size.x - 1
+
+	var margin = 3
 
 	corners.nw = Vector2(
 		centerPoint.x - (tileSize/2),
@@ -180,6 +183,16 @@ func createCornerMap(centerPoint:Vector2):
 		corners.nw.y,
 		corners.ne.x-corners.nw.x,
 		corners.sw.y-corners.nw.y)
+
+	# Apply margin after defining bounds
+	corners.nw.x += margin
+	corners.nw.y += margin
+	corners.ne.x += -margin
+	corners.ne.y += margin
+	corners.se.x += -margin
+	corners.se.y += -margin
+	corners.sw.x += margin
+	corners.sw.y += -margin
 
 	return corners
 

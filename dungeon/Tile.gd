@@ -39,7 +39,7 @@ func setFloorFromString(floorString:String):
 	theFloor = Floor.fromString(floorString)
 
 func setWallsFromString(string:String, certainty:Wall.Certainty):
-	for dir in ["N","S","E","W"]:
+	for dir in Constants.NSEW:
 		if string.contains(dir):
 			walls[dir] = Wall.new(Wall.Type.Normal, certainty)
 
