@@ -26,9 +26,14 @@ func buildNewDungeon():
 			print("Build random chunk in ({0},{1})".format([x,y]))
 
 	for biome in freeTiles.keys():
-		print("Biome({0}): {1} free tiles".format([BiomeManager.biomeToString(biome), freeTiles[biome].size() ]))
+		var builder = {
+			Constants.Biome.LightForest: LightForestBuilder,
+			Constants.Biome.Garden:      GardenBuilder,
+			Constants.Biome.DarkWood:    DarkWoodBuilder,
+		}[biome].new(biome,freeTiles[biome]).fullBuild()
 
 	# If the free tiles haven't been used we discard them. (They should all have been used)
+	print("---")
 	freeTiles = {}
 
 	# Normally we'd save a chunk as soon as it's made, but in this initial creation step we can

@@ -10,9 +10,29 @@ config_version=5
 
 _global_script_classes=[{
 "base": "Node",
+"class": &"BasicRoomBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/feature_builders/BasicRoomBuilder.gd"
+}, {
+"base": "Node",
+"class": &"BiomeBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/biome_builders/BiomeBuilder.gd"
+}, {
+"base": "Node",
 "class": &"Chunk",
 "language": &"GDScript",
 "path": "res://dungeon/Chunk.gd"
+}, {
+"base": "Node",
+"class": &"CrossRoomBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/feature_builders/CrossRoomBuilder.gd"
+}, {
+"base": "BiomeBuilder",
+"class": &"DarkWoodBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/biome_builders/DarkWoodBuilder.gd"
 }, {
 "base": "Node",
 "class": &"DungeonBuilder",
@@ -34,6 +54,21 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://dungeon/Floor.gd"
 }, {
+"base": "BiomeBuilder",
+"class": &"GardenBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/biome_builders/GardenBuilder.gd"
+}, {
+"base": "Node",
+"class": &"GardenRoomBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/feature_builders/GardenRoomBuilder.gd"
+}, {
+"base": "BiomeBuilder",
+"class": &"LightForestBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/biome_builders/LightForestBuilder.gd"
+}, {
 "base": "TextureRect",
 "class": &"MapSection",
 "language": &"GDScript",
@@ -43,6 +78,16 @@ _global_script_classes=[{
 "class": &"MapView",
 "language": &"GDScript",
 "path": "res://dungeon_interface/MapView.gd"
+}, {
+"base": "BiomeBuilder",
+"class": &"RuinBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/biome_builders/RuinBuilder.gd"
+}, {
+"base": "Node",
+"class": &"SmallRoomBuilder",
+"language": &"GDScript",
+"path": "res://dungeon_builder/feature_builders/SmallRoomBuilder.gd"
 }, {
 "base": "Node",
 "class": &"Tile",
@@ -55,13 +100,22 @@ _global_script_classes=[{
 "path": "res://dungeon/Wall.gd"
 }]
 _global_script_class_icons={
+"BasicRoomBuilder": "",
+"BiomeBuilder": "",
 "Chunk": "",
+"CrossRoomBuilder": "",
+"DarkWoodBuilder": "",
 "DungeonBuilder": "",
 "DungeonIndex": "",
 "FeatureTemplate": "",
 "Floor": "",
+"GardenBuilder": "",
+"GardenRoomBuilder": "",
+"LightForestBuilder": "",
 "MapSection": "",
 "MapView": "",
+"RuinBuilder": "",
+"SmallRoomBuilder": "",
 "Tile": "",
 "Wall": ""
 }

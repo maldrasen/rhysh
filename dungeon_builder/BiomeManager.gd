@@ -15,3 +15,4 @@ func biomeToString(biome):
 		Constants.Biome.LightForest: "LightForest",
 		Constants.Biome.Ruins:       "Ruins",
 	}[biome]
+
