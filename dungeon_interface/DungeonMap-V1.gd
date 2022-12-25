@@ -32,20 +32,6 @@ var mapBounds:Rect2
 var mapCenter:Vector2
 
 
-func calculateBounds():
-	centerIndex = GameState.partyLocation.translate(offset)
-	viewSize = get_viewport_rect().size
-
-	mapBounds = Rect2(Vector2(MapMargin,MapMargin),Vector2(
-		viewSize.x - (MapMargin*2),
-		viewSize.y - MapMargin - BottomMargin))
-
-	mapCenter = Vector2(
-		(mapBounds.size.x / 2.0) + MapMargin,
-		(mapBounds.size.y / 2.0) + MapMargin)
-
-
-
 func drawTiles():
 	var xTileCount = ceili(mapBounds.size.x / tileSize) + 1
 	var yTileCount = ceili(mapBounds.size.y / tileSize) + 1
