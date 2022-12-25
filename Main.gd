@@ -21,8 +21,6 @@ func _ready():
 	Signals.openTown.connect(on_openTown)
 	Signals.openDungeon.connect(on_openDungeon)
 
-	on_showContinueGame()
-
 # Global Input Events
 func _input(_event):
 	if Input.is_action_just_pressed("quick_save"):

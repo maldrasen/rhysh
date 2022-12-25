@@ -4,7 +4,6 @@ class_name MapView
 
 # Colors
 const backgroundColor =  Color(0.10, 0.10, 0.10)
-const edgeColor =        Color(0.75, 0.75, 0.75)
 
 # Sources
 var parent:Control
