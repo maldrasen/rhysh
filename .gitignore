@@ -2,3 +2,5 @@
 .godot/
 
 /assets
+
+*.avi

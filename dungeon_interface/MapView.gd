@@ -57,11 +57,7 @@ func _init(parent_, properties_):
 	self.properties = properties_
 	self.parent = parent_
 
-	if !properties.has("tileSource"):
-		centerIndex = GameState.partyLocation
-		centerChunkIndex = centerIndex.chunkIndex()
-		centerTileIndex = centerIndex.tileIndex()
-
+	setupLocation()
 	buildComponents()
 	setBounds()
 	buildSingleSection()
@@ -100,6 +96,7 @@ func onInput(_event):
 			buildDungeonSections()
 			positionSections()
 
+# Set the map scale. This will redraw all the sections.
 func setScale(scale):
 	mapScale = scale
 	tileSize = mapScales[mapScale].tileSize
@@ -110,6 +107,18 @@ func setScale(scale):
 
 	buildDungeonSections()
 	positionSections()
+
+# If this is a dungeon map, we use the party's location to center the map.
+func setupLocation():
+	if properties.has("tileSource"):
+		return
+
+	centerIndex = GameState.partyLocation
+	centerChunkIndex = centerIndex.chunkIndex()
+	centerTileIndex = centerIndex.tileIndex()
+
+	offset.x += centerTileIndex.x + 1
+	offset.y += centerTileIndex.y + 1
 
 # Build the base viewport components.
 func buildComponents():

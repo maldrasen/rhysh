@@ -12,6 +12,15 @@ var walls = {
 	Constants.West: null,
 }
 
+# If a tile is solid we need to know what it's filled with in order to properly render it. It
+# should be map of fill-type to fill-value. Types I know about so far are:
+#   { statue: "type" }
+#   { stone: "type" }
+#   { tree: "type" }
+#
+# If no fill is specified and we have a solid tile, assume it's filled with stone.
+var fill
+
 # A map of extensions that may be added to this tile. Could include event or
 # battle triggers, traps, treasure, whatever.
 var extensions = {}
@@ -59,16 +68,24 @@ func setExtension(extension):
 		extensions.eventTrigger = extension.substr(13,-1)
 		return
 
+	# TODO: The value of the statue extension should point to some kind of statue model. This is
+	#       fine for the map, but eventually we need to turn whatever string reference this is into
+	#       something more concrete.
 	if extension.contains("Statue:"):
-		extensions.statue = extension.substr(7,-1)
+		self.type = Type.Solid
+		self.fill = { "statue":extension.substr(7,-1) }
 		return
 
 	if extension.contains("Trap:"):
 		extensions.trap = extension.substr(5,-1)
 		return
 
+	# TODO: This is just setting the fill value to something like {tree:random} but really we need
+	#       to select a random tree here and place it in the fill. We don't have any of those right
+	#       now, and this is only used to draw a green square on the map now.
 	if extension.contains("Tree:"):
-		extensions.tree = extension.substr(5,-1)
+		self.type = Type.Solid
+		self.fill = { "tree":extension.substr(5,-1) }
 		return
 
 	if extension.contains("Treasure:"):
@@ -93,6 +110,7 @@ func pack():
 	return {
 		"type": self.type,
 		"floor": self.theFloor.pack(),
+		"fill": self.fill,
 		"extensions": self.extensions,
 		"walls": packedWalls
 	}
@@ -101,6 +119,7 @@ static func unpack(data):
 	var tile = Tile.new()
 	tile.type = data.type
 	tile.theFloor = Floor.unpack(data.floor)
+	tile.fill = data.fill
 	tile.extensions = data.extensions
 
 	for facing in data.walls.keys():
