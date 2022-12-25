@@ -49,8 +49,14 @@ func _draw():
 				if tile:
 					drawTile(x,y,tile)
 
-func drawTile(x,y,tile):
+	if biomeAreas:
+		for area in biomeAreas.keys():
+			for index in biomeAreas[area]:
+				var x = index % Constants.ChunkSize
+				var y = index / Constants.ChunkSize
+				drawBiomeTile(x,y,area)
 
+func drawTile(x,y,tile):
 	var centerPoint = Vector2(
 		(tileSize/2) + (x*tileSize),
 		(tileSize/2) + (y*tileSize))
@@ -63,6 +69,21 @@ func drawTile(x,y,tile):
 		var wall = tile.wallAt(facing)
 		if wall:
 			drawWall(corners, facing, wall)
+
+func drawBiomeTile(x,y,area):
+	var centerPoint = Vector2(
+		(tileSize/2) + (x*tileSize),
+		(tileSize/2) + (y*tileSize))
+	var corners = createCornerMap(centerPoint)
+
+	var color = {
+		0: Color(0.10, 0.30, 0.15, 0.20),
+		1: Color(0.15, 0.50, 0.25, 0.20),
+		2: Color(0.20, 0.70, 0.35, 0.20),
+	}[area]
+
+	draw_rect(corners.bounds, color, true)
+
 
 # Draw the tile floor. If the tile is solid we should either render a solid block the color of the
 # wall or a symbol representing whatever is filling the tile.
