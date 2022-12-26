@@ -12,7 +12,7 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"BasicRoomBuilder",
 "language": &"GDScript",
-"path": "res://dungeon_builder/feature_builders/BasicRoomBuilder.gd"
+"path": "res://features/feature_builders/BasicRoomBuilder.gd"
 }, {
 "base": "Node",
 "class": &"BiomeBuilder",
@@ -27,7 +27,7 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"CrossRoomBuilder",
 "language": &"GDScript",
-"path": "res://dungeon_builder/feature_builders/CrossRoomBuilder.gd"
+"path": "res://features/feature_builders/CrossRoomBuilder.gd"
 }, {
 "base": "BiomeBuilder",
 "class": &"DarkWoodBuilder",
@@ -45,9 +45,14 @@ _global_script_classes=[{
 "path": "res://dungeon/DungeonIndex.gd"
 }, {
 "base": "Node",
+"class": &"FeatureLoader",
+"language": &"GDScript",
+"path": "res://features/FeatureLoader.gd"
+}, {
+"base": "Node",
 "class": &"FeatureTemplate",
 "language": &"GDScript",
-"path": "res://dungeon_builder/FeatureTemplate.gd"
+"path": "res://features/FeatureTemplate.gd"
 }, {
 "base": "Node",
 "class": &"Floor",
@@ -62,7 +67,7 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"GardenRoomBuilder",
 "language": &"GDScript",
-"path": "res://dungeon_builder/feature_builders/GardenRoomBuilder.gd"
+"path": "res://features/feature_builders/GardenRoomBuilder.gd"
 }, {
 "base": "BiomeBuilder",
 "class": &"LightForestBuilder",
@@ -79,11 +84,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://dungeon_interface/MapView.gd"
 }, {
-"base": "Node",
-"class": &"PrefabChunkBuilder",
-"language": &"GDScript",
-"path": "res://dungeon_builder/feature_builders/PrefabChunkBuilder.gd"
-}, {
 "base": "BiomeBuilder",
 "class": &"RuinBuilder",
 "language": &"GDScript",
@@ -92,7 +92,7 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"SmallRoomBuilder",
 "language": &"GDScript",
-"path": "res://dungeon_builder/feature_builders/SmallRoomBuilder.gd"
+"path": "res://features/feature_builders/SmallRoomBuilder.gd"
 }, {
 "base": "Node",
 "class": &"Tile",
@@ -112,6 +112,7 @@ _global_script_class_icons={
 "DarkWoodBuilder": "",
 "DungeonBuilder": "",
 "DungeonIndex": "",
+"FeatureLoader": "",
 "FeatureTemplate": "",
 "Floor": "",
 "GardenBuilder": "",
@@ -119,7 +120,6 @@ _global_script_class_icons={
 "LightForestBuilder": "",
 "MapSection": "",
 "MapView": "",
-"PrefabChunkBuilder": "",
 "RuinBuilder": "",
 "SmallRoomBuilder": "",
 "Tile": "",
@@ -145,7 +145,7 @@ GameState="*res://GameState.gd"
 EventQueue="*res://EventQueue.gd"
 Dungeon="*res://Dungeon.gd"
 BiomeManager="*res://dungeon_builder/BiomeManager.gd"
-FeatureLibrary="*res://dungeon_builder/FeatureLibrary.gd"
+FeatureLibrary="*res://features/FeatureLibrary.gd"
 
 [display]
 

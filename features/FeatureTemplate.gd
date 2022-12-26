@@ -7,6 +7,9 @@ var size:Vector3i
 var biomeAreas
 var tiles
 
+var flip = "None"
+var rotate = "None"
+
 func _init():
 	size = Vector3i.ZERO
 	biomeAreas = {}

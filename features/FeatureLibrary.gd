@@ -4,6 +4,7 @@ var rhyshTilemap = {}
 var rhyshExtra = {}
 var rhyshExtended = {}
 var features = {}
+var featureSets = {}
 
 func _ready():
 	parseTilemapFiles()
@@ -39,7 +40,7 @@ func loadFeatures():
 	var folder = DirAccess.open("res://data/features")
 	for filename in folder.get_files():
 		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
-		loadFeature(JSON.parse_string(file.get_as_text()))
+		loadFeature(filename, JSON.parse_string(file.get_as_text()))
 
 # Building a feature from a Tiled JSON document is going to be pretty fragile. I immagine that this
 # will break quite a bit as we refine the way that we're building the features in the editor. I'll
@@ -47,7 +48,7 @@ func loadFeatures():
 # evolves. Right now these features are all only a single floor. We'll eventually need a way to
 # indicate that a feature spans multiple floors. Perhaps by setting some properties in the map that
 # specify where the bounds of the floors should be.
-func loadFeature(document):
+func loadFeature(filename, document):
 	var featureType
 	var featureName
 	var properties = {}
@@ -106,4 +107,52 @@ func loadFeature(document):
 	print("  Loading {0} [{1}]".format([featureName, featureType]))
 
 	if featureType == "PrefabChunk":
-		features[featureName] = PrefabChunkBuilder.build(package)
+		loadPrefabChunk(package)
+
+	if featureType == "FeatureMap":
+		loadFeatureMap(filename, package)
+
+
+# The PrefabChunk represents an entire chunk of tiles, so we create a single feature with a
+# tile for each entry in the data arrays.
+func loadPrefabChunk(package):
+	var loader = FeatureLoader.new(package)
+
+	for y in Constants.ChunkSize:
+		for x in Constants.ChunkSize:
+			loader.loadTile(x,y)
+
+	features[package.featureName] = loader.feature
+
+# A FeatureMap has many features packaged into one tilemap file. To unpack them we iterate through
+# the feature data file, creating a feature for each.
+func loadFeatureMap(filename, package):
+	var loader
+
+	for featureData in loadFeatureMapData(filename).Features:
+		loader = FeatureLoader.new(package)
+		loader.setFeatureData(featureData)
+
+		for x in range(featureData.X, featureData.X + featureData.Width):
+			for y in range(featureData.Y, featureData.Y + featureData.Height):
+				loader.loadTile(x,y)
+
+		features[loader.feature.featureName] = loader.feature
+		if featureData.has("FeatureSets"):
+			addFeatureToSets(featureData.FeatureSets, loader.feature.featureName)
+
+# Just to make this work by convention, if a feature needs a suplementary data, it'll be under the
+# same filename but in the feature_data directory.
+func loadFeatureMapData(filename):
+	var file = FileAccess.open("res://data/feature_data/{0}".format([filename]), FileAccess.READ)
+	return JSON.parse_string(file.get_as_text())
+
+
+# Features also can belong to a feature set. These are used to select random features when building
+# the dungeon. Biomes can draw features from many sets and sets may belong to many biomes.
+func addFeatureToSets(setList, featureName):
+	for set in setList:
+		if false == featureSets.has(set):
+			featureSets[set] = []
+		featureSets[set].push_back(featureName)
+

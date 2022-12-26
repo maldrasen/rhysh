@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8s3vuqcjxux7"]
+[gd_scene load_steps=2 format=3 uid="uid://dsf27pbdxd2ih"]
 
-[ext_resource type="Script" path="res://dungeon_builder/FeaturePreview.gd" id="1_owrqq"]
+[ext_resource type="Script" path="res://features/test/FeaturePreview.gd" id="1_ixxpu"]
 
 [node name="FeaturePreview" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_owrqq")
+script = ExtResource("1_ixxpu")
 
 [node name="MapContainer" type="PanelContainer" parent="."]
 layout_mode = 1

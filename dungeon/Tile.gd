@@ -59,8 +59,12 @@ func setExtra(extra):
 				placeDoor(dir)
 		return
 
+	if extra.type == "SecretDoor":
+		return # TODO: Implement secret doors
+
 	if extra.type == "Gate":
 		return # TODO: Implement gates and columns
+
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
 
 func setExtension(extension):

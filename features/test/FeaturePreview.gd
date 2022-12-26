@@ -3,9 +3,16 @@ extends Control
 var mapView:MapView
 
 func _ready():
+
+	var houses = FeatureLibrary.featureSets["houses"]
+	var featureName = houses.pick_random()
+	var feature = FeatureLibrary.lookup(featureName)
+
+	print("Showing: ",featureName)
+
 	mapView = MapView.new($MapContainer, {
 		"tileSourceType": "FeatureTemplate",
-		"tileSource": FeatureLibrary.lookup("Origin"),
+		"tileSource": feature,
 		"mapSize": "Full",
 		"mapMargin": 60
 	})
