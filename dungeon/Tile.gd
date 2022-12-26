@@ -54,9 +54,13 @@ func setWallsFromString(string:String, certainty:Wall.Certainty):
 
 func setExtra(extra):
 	if extra.type == "Door":
-		return placeDoor(extra.facing.substr(0,1))
-	if extra.type == "Arches":
-		return # TODO: Implement arches
+		for dir in Constants.NSEW:
+			if extra.facing.contains(dir):
+				placeDoor(dir)
+		return
+
+	if extra.type == "Gate":
+		return # TODO: Implement gates and columns
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
 
 func setExtension(extension):

@@ -11,6 +11,7 @@ const FeatureColorGray =  Color(0.60, 0.60, 0.60)
 const FeatureColorWhite = Color(1.00, 1.00, 1.00)
 const WallColor =         Color(0.65, 0.625, 0.60)
 const DoorColor =         Color(1.00, 1.00, 1.00)
+const GridColor =         Color(0, 0, 0, 0.1)
 
 var tileSize
 var wallWidth
@@ -63,6 +64,7 @@ func drawTile(x,y,tile):
 	var corners = createCornerMap(centerPoint)
 
 	drawFloor(tile,corners)
+	drawGrid(corners)
 
 	# Drawing walls should include doors and other direction specific things.
 	for facing in Constants.NSEW:
@@ -83,6 +85,12 @@ func drawBiomeTile(x,y,area):
 	}[area]
 
 	draw_rect(corners.bounds, color, true)
+	drawGrid(corners)
+
+func drawGrid(corners):
+	draw_line(corners.nw, corners.ne, GridColor, wallWidth)
+	draw_line(corners.nw, corners.sw, GridColor, wallWidth)
+
 
 
 # Draw the tile floor. If the tile is solid we should either render a solid block the color of the

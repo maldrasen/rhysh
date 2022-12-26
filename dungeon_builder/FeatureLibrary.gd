@@ -48,25 +48,27 @@ func loadFeatures():
 # indicate that a feature spans multiple floors. Perhaps by setting some properties in the map that
 # specify where the bounds of the floors should be.
 func loadFeature(document):
-	var feature = FeatureTemplate.new()
-	var propertyMap = {}
-	var rootOffset;
-	var extraOffset;
-	var extendedOffset;
-
-	var rootData
-	var extraData
-	var extendedData
+	var featureType
+	var featureName
+	var properties = {}
+	var offsets = {}
+	var layers = {}
 
 	# We keep a mapping of the symbol type from the tileset to an acual use for that tile in the
 	# map properties. These could be things like event triggers and may contain the actual event
 	# codes and such. Could also be something to be randomized like a trap or a chest.
 	for property in document.properties:
-		propertyMap[property.name] = property.value
+		if property.name == "FeatureName":
+			featureName = property.value
+		elif property.name == "FeatureType":
+			featureType = property.value
+		else:
+			properties[property.name] = property.value
 
-	feature.featureName = propertyMap.get("FeatureName")
-	feature.featureType = propertyMap.get("FeatureType")
-	print("  Loading Feature > ",feature.featureName)
+	if featureType == null:
+		return printerr("A feature needs a FeatureType property.")
+	if featureName == null:
+		return printerr("A feature needs a FeatureName property.")
 
 	# The int values in the data arrays are offset by a number depending on which tileset they
 	# come from. This could get stupid complicated I think, so I'll just use the same tileset in
@@ -74,11 +76,11 @@ func loadFeature(document):
 	# associated tilemap
 	for tileset in document.tilesets:
 		if tileset.source.contains("rhysh-tilemap"):
-			rootOffset = (tileset.firstgid as int)
+			offsets.root = (tileset.firstgid as int)
 		if tileset.source.contains("rhysh-extra"):
-			extraOffset = (tileset.firstgid as int)
+			offsets.extra = (tileset.firstgid as int)
 		if tileset.source.contains("rhysh-extended"):
-			extendedOffset = (tileset.firstgid as int)
+			offsets.extended = (tileset.firstgid as int)
 
 	# Different layers in the feature maps use different tilesets and set different properties in
 	# the tiles. I can set the layer name in the editor and use that to select which tilemap I use
@@ -88,67 +90,20 @@ func loadFeature(document):
 	#    Name "Extra" -> rhyshExtra
 	for layer in document.layers:
 		if layer.name == "Root":
-			rootData = layer.data
+			layers.root = layer.data
 		if layer.name == "Extra":
-			extraData = layer.data
+			layers.extra = layer.data
 		if layer.name == "Extended":
-			extendedData = layer.data
+			layers.extended = layer.data
 
-	# Finally we have all the data in the format that we need. So now we create a tile for each
-	# entry in the data array. The largest feature size is 32x32 for entire chunks.
-	for y in Constants.ChunkSize:
-		for x in Constants.ChunkSize:
-			var index = x + (y*Constants.ChunkSize)
-			var rootIndex = (rootData[index] as int) - rootOffset
-			var extraIndex
-			var extendedIndex
+	var package = {
+		"featureType": featureType,
+		"featureName": featureName,
+		"properties": properties,
+		"offsets": offsets,
+		"layers": layers }
 
-			if extraOffset:
-				extraIndex = (extraData[index] as int) - extraOffset
-			if extendedOffset:
-				extendedIndex = (extendedData[index] as int) - extendedOffset
+	print("  Loading {0} [{1}]".format([featureName, featureType]))
 
-			if rootIndex >= 0:
-				var rootValue = rhyshTilemap.get(rootIndex)
-				var tileData = { "x":x,"y":y,"root":rootValue }
-
-				if rootValue == null:
-					continue
-
-				if extraOffset and rhyshExtra.has(extraIndex):
-					tileData.extra = rhyshExtra.get(extraIndex)
-
-				# An extended value can map to any kind of extension value. It's up to the builder
-				# of that feature to know what an extension does.
-				if extendedOffset and rhyshExtended.has(extendedIndex):
-					var extension = propertyMap.get(rhyshExtended.get(extendedIndex).type)
-					if extension == null:
-						printerr("=== Cannot Build Feature: ",feature.featureName," ===")
-						printerr("There is no mapped extension for ",rhyshExtended.get(extendedIndex).type)
-						printerr("Extended index:{0} found at ({1},{2})".format([extendedIndex,x,y]))
-						return
-					tileData.extension = extension
-
-				# As we loop though the data array we keep track of the largest x and y and use
-				# those values to set the size of the feature.
-				if feature.size.y < y:
-					feature.size.y = y
-				if feature.size.x < x:
-					feature.size.x = x
-
-				if rootValue.has("Biome"):
-					var biomeKey = "Biome-{0}".format([rootValue.Biome])
-					var biomeName = propertyMap.get(biomeKey)
-					if biomeName == null:
-						printerr("=== Cannot Build Feature: ",feature.featureName," ===")
-						printerr("The root node referenced a biome (",biomeKey,") that wasn't found in the property map.")
-						printerr("Found at root index:{0} ({1},{2})".format([rootIndex,x,y]))
-						return
-					feature.defineBiomeArea(x,y,BiomeManager.biomeFromString(biomeName))
-					continue
-
-				feature.buildTile(tileData)
-
-	# Optional brackets would be nice. When the feature building is complete we keep it in the
-	# library of features for the dungeon builder to use.
-	features[feature.featureName] = feature
+	if featureType == "PrefabChunk":
+		features[featureName] = PrefabChunkBuilder.build(package)

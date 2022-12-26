@@ -317,7 +317,7 @@
                 {
                  "name":"facing",
                  "type":"string",
-                 "value":"N"
+                 "value":"EW"
                 }, 
                 {
                  "name":"type",
@@ -429,7 +429,7 @@
                 {
                  "name":"facing",
                  "type":"string",
-                 "value":"N"
+                 "value":"NS"
                 }, 
                 {
                  "name":"type",
