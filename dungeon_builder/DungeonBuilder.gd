@@ -41,10 +41,6 @@ func buildNewDungeon():
 	for chunkIndex in Dungeon.chunkCache.keys():
 		Dungeon.chunkCache[chunkIndex].save()
 
-	# This is enough for now. The feature templates are being used to create chunks. Those chunks
-	# are being stored in the Dungeon's chunk cache. That should be enough to drap a map of what we
-	# have.
-
 	# ============
 	# Future Tasks
 	# ============

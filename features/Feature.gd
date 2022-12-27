@@ -7,10 +7,10 @@ var canFlip
 var size:Vector3i
 var tiles
 
-func _init(name):
-	var template = FeatureLibrary.lookup(name)
+func _init(featureName_):
+	var template = FeatureLibrary.lookup(featureName_)
 
-	self.featureName = name
+	self.featureName = featureName_
 	self.canFlip = template.canFlip
 	self.size = template.size
 	self.tiles = template.tiles
@@ -32,7 +32,6 @@ func randomFlip():
 			flipD()
 
 func flipH():
-	print("<Flip:H>")
 	var oldTiles = tiles
 
 	self.tiles = []
@@ -51,7 +50,6 @@ func flipH():
 				self.tiles[newIndex].flipH()
 
 func flipV():
-	print("<Flip:V>")
 	var oldTiles = tiles
 
 	self.tiles = []
@@ -69,8 +67,10 @@ func flipV():
 			if self.tiles[newIndex]:
 				self.tiles[newIndex].flipV()
 
+# I was trying to rotate the tile matrix, but really only got it to flip along the diagonal axis
+# doing it this way. Should be possible to rotate the tiles with a couple loops like this, but I'm
+# to dumb to figure it out.
 func flipD():
-	print("<Flip:D>")
 	var oldTiles = tiles
 	var oldSize = size
 
