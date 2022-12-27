@@ -1,9 +1,20 @@
 extends Object
 class_name DungeonBuilder
 
+const PredefinedRegions = {
+	"LightForestOutside": { "index":1, "type":"outside" },
+	"GardenOutside":      { "index":2, "type":"outside" },
+	"DarkWoodOutside":    { "index":3, "type":"outside" }}
+
+const PredefinedChunks = {
+	Vector3i(10009,10,10): "Origin-W",
+	Vector3i(10010,10,10): "Origin",
+	Vector3i(10011,10,10): "Origin-E"}
+
 var randomSeed
 var random
 var freeTiles
+
 
 func _init(s):
 	self.randomSeed = s
@@ -15,16 +26,14 @@ func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
-	var origin = {
-		Vector3i(10009,10,10): "Origin-W",
-		Vector3i(10010,10,10): "Origin",
-		Vector3i(10011,10,10): "Origin-E"}
-
 	var chunkIndex
 	var chunk
 
-	for index in origin.keys():
-		chunk = buildChunkFromPrefab(index, origin[index])
+	for region in PredefinedRegions.values():
+		Dungeon.defineRegion(region.index, region.type)
+
+	for index in PredefinedChunks.keys():
+		chunk = buildChunkFromPrefab(index, PredefinedChunks[index])
 		Dungeon.setChunk(index, chunk)
 
 	for x in range(10006,10014):
