@@ -45,6 +45,11 @@ _global_script_classes=[{
 "path": "res://dungeon/DungeonIndex.gd"
 }, {
 "base": "Node",
+"class": &"Feature",
+"language": &"GDScript",
+"path": "res://features/Feature.gd"
+}, {
+"base": "Node",
 "class": &"FeatureLoader",
 "language": &"GDScript",
 "path": "res://features/FeatureLoader.gd"
@@ -112,6 +117,7 @@ _global_script_class_icons={
 "DarkWoodBuilder": "",
 "DungeonBuilder": "",
 "DungeonIndex": "",
+"Feature": "",
 "FeatureLoader": "",
 "FeatureTemplate": "",
 "Floor": "",

@@ -39,6 +39,17 @@ func wallAt(facing):
 func placeDoor(direction):
 	walls[direction].type = Wall.Type.Door
 
+# ==== Flipping at Spinning ========================================================================
+
+func flipH():
+	var temp = walls.E
+	walls.E = walls.W
+	walls.W = temp
+
+func flipV():
+	var temp = walls.N
+	walls.N = walls.S
+	walls.S = temp
 
 # ==== Feature Loader ==============================================================================
 # Building a tile from a string should really only be done by the feature loader which is getting

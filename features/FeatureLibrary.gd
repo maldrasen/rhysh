@@ -137,9 +137,12 @@ func loadFeatureMap(filename, package):
 			for y in range(featureData.Y, featureData.Y + featureData.Height):
 				loader.loadTile(x,y)
 
-		features[loader.feature.featureName] = loader.feature
+		var feature = loader.feature
+		feature.reorientTiles(-Vector2(featureData.X, featureData.Y))
+		features[feature.featureName] = feature
+
 		if featureData.has("FeatureSets"):
-			addFeatureToSets(featureData.FeatureSets, loader.feature.featureName)
+			addFeatureToSets(featureData.FeatureSets, feature.featureName)
 
 # Just to make this work by convention, if a feature needs a suplementary data, it'll be under the
 # same filename but in the feature_data directory.
@@ -147,12 +150,10 @@ func loadFeatureMapData(filename):
 	var file = FileAccess.open("res://data/feature_data/{0}".format([filename]), FileAccess.READ)
 	return JSON.parse_string(file.get_as_text())
 
-
 # Features also can belong to a feature set. These are used to select random features when building
 # the dungeon. Biomes can draw features from many sets and sets may belong to many biomes.
 func addFeatureToSets(setList, featureName):
-	for set in setList:
-		if false == featureSets.has(set):
-			featureSets[set] = []
-		featureSets[set].push_back(featureName)
-
+	for setName in setList:
+		if false == featureSets.has(setName):
+			featureSets[setName] = []
+		featureSets[setName].push_back(featureName)

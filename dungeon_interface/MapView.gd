@@ -149,6 +149,16 @@ func buildSingleSection():
 		mapSections[Vector2(0,0)] = section
 		viewport.add_child(section)
 
+	# Only difference right now is Features don't have biome areas.
+	if properties.tileSourceType == "Feature":
+		var section = MapSection.new(mapScales[mapScale])
+		section.label = properties.tileSource.featureName
+		section.tiles = properties.tileSource.tiles
+
+		mapSections[Vector2(0,0)] = section
+		viewport.add_child(section)
+
+
 	# Annoying to have to call this again, but
 	# set bounds will recenter the section.
 	setBounds()
