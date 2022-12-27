@@ -1,8 +1,9 @@
-extends Node
+extends Object
 
 class_name Feature
 
 var featureName
+var regionType
 var canFlip
 var size:Vector3i
 var tiles
@@ -11,9 +12,13 @@ func _init(featureName_):
 	var template = FeatureLibrary.lookup(featureName_)
 
 	self.featureName = featureName_
+	self.regionType = template.regionType
 	self.canFlip = template.canFlip
 	self.size = template.size
-	self.tiles = template.tiles
+	self.tiles = template.copyTiles()
+
+func getTile(x,y):
+	return self.tiles[x + y * Constants.ChunkSize]
 
 # ==== Flipping ====================================================================================
 # As a way to get more variety out of the feature templates we allow most features to be freely

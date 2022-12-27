@@ -1,9 +1,11 @@
-extends Node
+extends Object
 class_name Tile
 
 enum Type { Empty, Solid, StairsUp, StairsDown }
 
 var type:Type
+var region
+var biome
 var theFloor
 var walls = {
 	Constants.North: null,
@@ -136,6 +138,8 @@ func pack():
 
 	return {
 		"type": self.type,
+		"region": self.region,
+		"biome": self.biome,
 		"floor": self.theFloor.pack(),
 		"fill": self.fill,
 		"extensions": self.extensions,
@@ -145,6 +149,8 @@ func pack():
 static func unpack(data):
 	var tile = Tile.new()
 	tile.type = data.type
+	tile.region = data.region
+	tile.biome = data.biome
 	tile.theFloor = Floor.unpack(data.floor)
 	tile.fill = data.fill
 	tile.extensions = data.extensions

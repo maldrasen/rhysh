@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name DungeonBuilder
 
 var randomSeed
@@ -15,15 +15,25 @@ func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
-	Dungeon.setChunk(Vector3i(10010,10,10),  buildChunkFromPrefab("Origin"))
-	Dungeon.setChunk(Vector3i(10009,10,10), buildChunkFromPrefab("Origin-W"))
-	Dungeon.setChunk(Vector3i(10011,10,10),  buildChunkFromPrefab("Origin-E"))
+	var origin = {
+		Vector3i(10009,10,10): "Origin-W",
+		Vector3i(10010,10,10): "Origin",
+		Vector3i(10011,10,10): "Origin-E"}
+
+	var chunkIndex
+	var chunk
+
+	for index in origin.keys():
+		chunk = buildChunkFromPrefab(index, origin[index])
+		Dungeon.setChunk(index, chunk)
 
 	for x in range(10006,10014):
 		if x <= 10008 || x >= 10012:
-			Dungeon.setChunk(Vector3(x,10,10),  buildChunkFromPrefab("Shore"))
-		for y in range(1,5):
-			print("Build random chunk in ({0},{1})".format([x,y]))
+			chunkIndex = Vector3i(x,10,10)
+			chunk = buildChunkFromPrefab(chunkIndex, "Shore")
+			Dungeon.setChunk(chunkIndex, chunk)
+		for y in range(11,16):
+			print("TODO: Build random chunk in ({0},{1})".format([x,y]))
 
 	for biome in freeTiles.keys():
 		var builder = {
@@ -38,8 +48,8 @@ func buildNewDungeon():
 
 	# Normally we'd save a chunk as soon as it's made, but in this initial creation step we can
 	# save every chunk in the cache.
-	for chunkIndex in Dungeon.chunkCache.keys():
-		Dungeon.chunkCache[chunkIndex].save()
+	for index in Dungeon.chunkCache.keys():
+		Dungeon.chunkCache[index].save()
 
 	# ============
 	# Future Tasks
@@ -64,13 +74,22 @@ func buildNewDungeon():
 	# secret doors, connect switches. Sort of a polishing state at the end.
 
 
-func buildChunkFromPrefab(featureName):
+# Build a chunk from a prefabricated chunk map.
+#
+# TODO: The tiles that are being set from these templates don't have a region. I'm not sure if
+#       that's okay or not yet.
+func buildChunkFromPrefab(chunkIndex:Vector3i, featureName):
 	var template:FeatureTemplate = FeatureLibrary.lookup(featureName)
 
 	for biome in template.biomeAreas.keys():
 		if false == freeTiles.has(biome):
 			freeTiles[biome] = []
-		freeTiles[biome].append_array(template.biomeAreas[biome])
+
+		for localIndex in template.biomeAreas[biome]:
+			freeTiles[biome].push_back(DungeonIndex.fromIndices(chunkIndex, Vector2i(
+				localIndex % Constants.ChunkSize,
+				localIndex / Constants.ChunkSize
+			)))
 
 	var chunk = Chunk.new()
 	chunk.tiles = template.tiles

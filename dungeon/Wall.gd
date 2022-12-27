@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name Wall
 
 enum Type { Normal, Door }

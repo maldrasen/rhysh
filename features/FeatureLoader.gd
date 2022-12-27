@@ -1,4 +1,4 @@
-extends Node
+extends Object
 
 class_name FeatureLoader
 
@@ -17,6 +17,7 @@ func _init(package):
 func setFeatureData(featureData):
 	feature.featureType = featureData.Type
 	feature.featureName = featureData.Name
+	feature.regionType = featureData.RegionType
 	feature.canFlip = featureData.Flip
 	feature.size = Vector3i(featureData.Width, featureData.Height, 1)
 

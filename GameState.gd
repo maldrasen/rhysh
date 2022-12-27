@@ -51,6 +51,9 @@ func createWorld():
 	Configuration.worldCounter += 1;
 	Configuration.setLastPlayedWorld(currentWorld)
 
+	Dungeon.regionCounter = 0
+	Dungeon.regionDictionary = {}
+
 	# Save the initial game state
 	saveGame()
 
@@ -83,6 +86,7 @@ func saveGame():
 		"stage": stage,
 		"partyLocation": partyLocation.pack(),
 		"partyFacing": partyFacing,
+		"dungeonState": Dungeon.pack(),
 	}
 
 	var path = Constants.GameStatePath.format([currentWorld])
@@ -101,6 +105,8 @@ func loadGame(world):
 	self.stage = savedState.stage
 	self.partyFacing = savedState.partyFacing
 	self.partyLocation = DungeonIndex.unpack(savedState.partyLocation)
+
+	Dungeon.unpack(savedState.dungeonState)
 
 	if stage == Constants.GameStage.Dungeon:
 		Signals.openDungeon.emit()

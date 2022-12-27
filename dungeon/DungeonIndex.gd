@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name DungeonIndex
 
 var index:Vector3i
@@ -69,3 +69,9 @@ static func fromString(string):
 # Get the DungeonIndex as a string with format "(x,y,z)"
 func _to_string():
 	return "({0},{1},{2})".format([self.index.x, self.index.y, self.index.z])
+
+# Get a readable version that combines the chunk and tile indices.
+func displayString():
+	var chunk = chunkIndex()
+	var tile = tileIndex()
+	return "[{0},{1},{2}]({3},{4})".format([chunk.x,chunk.y,chunk.z,tile.x,tile.y])

@@ -1,8 +1,9 @@
-extends Node
+extends Object
 class_name FeatureTemplate
 
 var featureName
 var featureType
+var regionType
 var size:Vector3i
 var biomeAreas
 var tiles
@@ -54,6 +55,15 @@ func reorientTiles(vec):
 			if oldTiles[oldIndex]:
 				tiles[newIndex] = oldTiles[oldIndex]
 
+# We need to force this to make a copy of the tile array when creating a feature.
+func copyTiles():
+	var copy = []
+	for tile in tiles:
+		if tile:
+			copy.push_back(Tile.unpack(tile.pack()))
+		else:
+			copy.push_back(null)
+	return copy
 
 func tileIndex(x,y):
 	return x + (y * Constants.ChunkSize)

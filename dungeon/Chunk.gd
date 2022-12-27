@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name Chunk
 
 const ChunkFilePath = "user://worlds/{0}/chunk[{1}][{2}][{3}].cum"
@@ -19,8 +19,14 @@ func _init():
 	stage = GenerationStage.Start
 	tiles = []
 
-func getTile(tileIndex:Vector2i):
-	return tiles[(tileIndex.y * Constants.ChunkSize) + tileIndex.x]
+func getTile(index:Vector2i):
+	return tiles[tileIndex(index)]
+
+func setTile(index:Vector2i, tile:Tile):
+	tiles[tileIndex(index)] = tile
+
+func tileIndex(index:Vector2i):
+	return (index.y * Constants.ChunkSize) + index.x
 
 # ==== Persistance =================================================================================
 
