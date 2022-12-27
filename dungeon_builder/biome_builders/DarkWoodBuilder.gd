@@ -3,8 +3,8 @@ extends BiomeBuilder
 class_name DarkWoodBuilder
 
 # [BiomeBuilder Implementation]
-func placeFeatures():
-	pass
+func placeFeatures() -> String:
+	return "Nope"
 
 # [BiomeBuilder Implementation]
 func connectRegions():

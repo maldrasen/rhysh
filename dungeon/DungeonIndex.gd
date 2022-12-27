@@ -47,10 +47,10 @@ func tileIndex() -> Vector2i:
 # ==== Persistance =================================================================================
 
 func pack():
-	return Data.packVector3i(self.index)
+	return Utility.packVector3i(self.index)
 
 static func unpack(array):
-	var vec = Data.unpackVector3i(array)
+	var vec = Utility.unpackVector3i(array)
 	return DungeonIndex.new(vec.x, vec.y, vec.z)
 
 # ==== To String ===================================================================================

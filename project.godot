@@ -144,12 +144,12 @@ config/icon="res://assets/icons/rhysh-icon.png"
 
 Constants="*res://Constants.gd"
 Configuration="*res://Configuration.gd"
-Data="*res://Data.gd"
 Signals="*res://Signals.gd"
 Static="*res://Static.gd"
 GameState="*res://GameState.gd"
 EventQueue="*res://EventQueue.gd"
 Dungeon="*res://Dungeon.gd"
+Utility="*res://Utility.gd"
 BiomeManager="*res://dungeon_builder/BiomeManager.gd"
 FeatureLibrary="*res://features/FeatureLibrary.gd"
 

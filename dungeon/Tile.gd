@@ -38,8 +38,11 @@ func _init():
 func wallAt(facing):
 	return walls[facing]
 
-func placeDoor(direction):
-	walls[direction].type = Wall.Type.Door
+func placeWall(direction, certainty=Wall.Certainty.Tentative):
+	walls[direction] = Wall.new(Wall.Type.Normal, certainty)
+
+func placeDoor(direction, certainty=Wall.Certainty.High):
+	walls[direction] = Wall.new(Wall.Type.Door, certainty)
 
 # ==== Flipping ====================================================================================
 

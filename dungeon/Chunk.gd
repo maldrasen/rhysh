@@ -37,7 +37,7 @@ func save():
 
 	var chunkState = {
 		"stage": self.stage,
-		"chunkIndex": Data.packVector3i(self.chunkIndex),
+		"chunkIndex": Utility.packVector3i(self.chunkIndex),
 		"tiles": packedTiles }
 
 	var path = ChunkFilePath.format([GameState.currentWorld,chunkIndex.x,chunkIndex.y,chunkIndex.z])
@@ -60,7 +60,7 @@ static func lode(index:Vector3i):
 		unpackedTiles.push_back(Tile.unpack(tileData) if tileData else null)
 
 	var chunk = Chunk.new()
-	chunk.chunkIndex = Data.unpackVector3i(document.chunkIndex)
+	chunk.chunkIndex = Utility.unpackVector3i(document.chunkIndex)
 	chunk.stage = document.stage
 	chunk.tiles = unpackedTiles
 

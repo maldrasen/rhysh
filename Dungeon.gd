@@ -36,6 +36,23 @@ func fetchTile(dungeonIndex:DungeonIndex):
 	if chunk:
 		return chunk.getTile(dungeonIndex.tileIndex())
 
+# Given a dungeon index, get the neighboring tiles along with their indices.
+#   { N:{index:<>, tile:<>}, S:... }
+func fetchNeighborTiles(dungeonIndex:DungeonIndex):
+	var neighbors = {
+		Constants.North: { "index":dungeonIndex.translate(Vector3i(0,-1,0)) },
+		Constants.South: { "index":dungeonIndex.translate(Vector3i(0,1,0))  },
+		Constants.East:  { "index":dungeonIndex.translate(Vector3i(1,0,0))  },
+		Constants.West:  { "index":dungeonIndex.translate(Vector3i(-1,0,0)) },
+	}
+
+	neighbors[Constants.North].tile = fetchTile(neighbors[Constants.North].index)
+	neighbors[Constants.South].tile = fetchTile(neighbors[Constants.South].index)
+	neighbors[Constants.East].tile = fetchTile(neighbors[Constants.East].index)
+	neighbors[Constants.West].tile = fetchTile(neighbors[Constants.West].index)
+
+	return neighbors
+
 # The next region index to use.
 func nextRegion():
 	return regionCounter + 1
