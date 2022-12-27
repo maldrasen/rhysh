@@ -17,8 +17,7 @@ func _init(package):
 func setFeatureData(featureData):
 	feature.featureType = featureData.Type
 	feature.featureName = featureData.Name
-	feature.flip = featureData.Flip
-	feature.rotate = featureData.Rotate
+	feature.canFlip = featureData.Flip
 	feature.size = Vector3i(featureData.Width, featureData.Height, 1)
 
 func loadTile(x,y):

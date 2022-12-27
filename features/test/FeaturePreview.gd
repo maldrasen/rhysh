@@ -16,7 +16,6 @@ func _ready():
 		featureName = FeatureLibrary.featureSets["houses"].pick_random()
 		feature = Feature.new(featureName)
 		feature.randomFlip()
-		feature.randomSpin()
 
 	if featureType == "FeatureTemplate":
 		featureName = "Origin"
