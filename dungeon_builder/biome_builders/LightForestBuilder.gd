@@ -6,7 +6,7 @@ var region = DungeonBuilder.PredefinedRegions.LightForestOutside.index
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
-	var houseCount = randi_range(5,8)
+	var houseCount = randi_range(6,9)
 	var treeCount = randi_range(50,70)
 
 	addHouses(houseCount)
@@ -110,9 +110,14 @@ func fixWall(tile, neighbor, direction):
 
 	Dungeon.setTile(neighborIndex, neighborTile)
 
+# Right now we're just filling the unused tiles with empty space.
 func fillSpace():
-	pass
+	for index in freeTiles:
+		var emptyTile = Tile.normal()
+		emptyTile.biome = biome
+		emptyTile.region = region
 
+		Dungeon.setTile(index, emptyTile)
 
 # [BiomeBuilder Implementation]
 func connectRegions():
