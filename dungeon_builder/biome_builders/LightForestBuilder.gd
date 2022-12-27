@@ -2,13 +2,20 @@ extends BiomeBuilder
 
 class_name LightForestBuilder
 
+var region = DungeonBuilder.PredefinedRegions.LightForestOutside.index
+
 # [BiomeBuilder Implementation]
-func placeFeatures() -> String:
-	var region = DungeonBuilder.PredefinedRegions.LightForestOutside.index
+func placeFeatures():
 	var houseCount = randi_range(5,8)
 	var treeCount = randi_range(50,70)
 
-	# Place a few houses outside of the city wall.
+	addHouses(houseCount)
+	addTrees(treeCount)
+	fixWalls()
+	fillSpace()
+
+# Place a few houses outside of the city wall.
+func addHouses(houseCount):
 	while houseCount > 0:
 		var featureName = FeatureLibrary.featureSets["houses"].pick_random()
 		var feature = Feature.new(featureName)
@@ -21,7 +28,8 @@ func placeFeatures() -> String:
 		placeFeature(dungeonIndex,feature)
 		houseCount -= 1
 
-	# Add a few trees. The area will still be fairly open.
+# Add a few trees. The area will still be fairly open.
+func addTrees(treeCount):
 	while treeCount > 0:
 		var dungeonIndex = self.freeTiles.pick_random()
 
@@ -37,12 +45,6 @@ func placeFeatures() -> String:
 		Dungeon.setTile(dungeonIndex, tile)
 		removeFreeIndex(dungeonIndex)
 		treeCount -= 1
-
-	fixWalls()
-
-	print("Tiles Remaining:",freeTiles.size())
-
-	return "Success"
 
 # After placing the features we want to loop though all of the tiles that have been placed and
 # ensure that all the walls and doors have been correctly placed. It's possible that we've placed
@@ -69,7 +71,6 @@ func fixWalls():
 # of doors, and new tiles automatically go into the outside region. Not sure if that logic carries
 # over or not.
 func fixWall(tile, neighbor, direction):
-	var region = DungeonBuilder.PredefinedRegions.LightForestOutside.index
 	var neighborIndex = neighbor.index
 	var neighborTile = neighbor.tile
 	var opposite = Utility.oppositeDirection(direction)
@@ -109,6 +110,9 @@ func fixWall(tile, neighbor, direction):
 
 	Dungeon.setTile(neighborIndex, neighborTile)
 
+func fillSpace():
+	pass
+
 
 # [BiomeBuilder Implementation]
 func connectRegions():
@@ -120,4 +124,4 @@ func trimDeadEnds():
 
 # [BiomeBuilder Implementation]
 func decorate():
-	pass
+	self.status = Constants.Status.Success

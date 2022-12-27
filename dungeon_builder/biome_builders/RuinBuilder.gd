@@ -3,8 +3,8 @@ extends BiomeBuilder
 class_name RuinBuilder
 
 # [BiomeBuilder Implementation]
-func placeFeatures() -> String:
-	return "Nope"
+func placeFeatures():
+	pass
 
 # [BiomeBuilder Implementation]
 func connectRegions():
@@ -16,4 +16,4 @@ func trimDeadEnds():
 
 # [BiomeBuilder Implementation]
 func decorate():
-	pass
+	self.status = Constants.Status.Success

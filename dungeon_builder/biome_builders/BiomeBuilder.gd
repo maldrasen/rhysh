@@ -3,12 +3,19 @@ extends Object
 class_name BiomeBuilder
 
 var biome
+var status
 var freeTiles
 var usedTiles
 
-func _init(biome_, freeTiles_):
+func _init(biome_):
+	self.status = Constants.Status.Working
 	self.biome = biome_
-	self.freeTiles = freeTiles_
+
+# When setting the free tiles array we want to force a copy because the builders mutate the free
+# and used tile arrays while building, however if we need to abort the build and try again we need
+# a fresh set of free tiles.
+func setFreeTiles(tiles):
+	self.freeTiles = [] + tiles
 	self.usedTiles = []
 
 # [BiomeBuilder Implementation]
@@ -21,8 +28,8 @@ func fullBuild():
 	decorate()
 
 # [BiomeBuilder Implementation]
-func placeFeatures() -> String:
-	return "Nope"
+func placeFeatures():
+	pass
 
 # [BiomeBuilder Implementation]
 func connectRegions():

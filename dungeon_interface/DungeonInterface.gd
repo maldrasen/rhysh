@@ -11,5 +11,5 @@ func _ready():
 func _input(event):
 	mapView.onInput(event)
 
-func _process(delta):
+func _process(_delta):
 	mapView.checkSize()

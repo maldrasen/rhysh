@@ -49,7 +49,11 @@ func buildNewDungeon():
 			Constants.Biome.LightForest: LightForestBuilder,
 			Constants.Biome.Garden:      GardenBuilder,
 			Constants.Biome.DarkWood:    DarkWoodBuilder,
-		}[biome].new(biome,freeTiles[biome]).fullBuild()
+		}[biome].new(biome)
+
+		while builder.status != Constants.Status.Success:
+			builder.setFreeTiles(freeTiles[biome])
+			builder.fullBuild()
 
 	# If the free tiles haven't been used we discard them. (They should all have been used)
 	print("---")

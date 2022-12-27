@@ -27,13 +27,21 @@ enum Biome {
 	Ruins,
 }
 
-# The game stage is mostly needed because when we save a game we need to know
-# what stage to start back in. This may also be used when transitioning from
-# one stage to another, in case something needs to happen.
+# The game stage is mostly needed because when we save a game we need to know what stage to start
+# back in. This may also be used when transitioning from one stage to another, in case something
+# needs to happen.
 enum GameStage {
 	Dungeon,
 	Town,
 	TownGuild,
 	TownStore,
 	TownTavern,
+}
+
+# A common pattern in the random generation will be to generate a bunch of random bullshit, check
+# to see if it works, and throw everything away and try again if it fails.
+enum Status {
+	Working,
+	Success,
+	Abort,
 }
