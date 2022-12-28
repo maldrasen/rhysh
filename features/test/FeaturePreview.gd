@@ -13,7 +13,7 @@ func _ready():
 	var feature
 
 	if featureType == "Feature":
-		featureName = FeatureLibrary.featureSets["houses"].pick_random()
+		featureName = FeatureLibrary.featureSets["gardens"].pick_random()
 		feature = Feature.new(featureName)
 		feature.randomFlip()
 
