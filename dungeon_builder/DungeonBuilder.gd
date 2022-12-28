@@ -6,15 +6,10 @@ const PredefinedRegions = {
 	"GardenOutside":      { "index":2, "type":"outside" },
 	"DarkWoodOutside":    { "index":3, "type":"outside" }}
 
-const PredefinedChunks = {
-	Vector3i(10009,10,10): "Origin-W",
-	Vector3i(10010,10,10): "Origin",
-	Vector3i(10011,10,10): "Origin-E"}
-
 var randomSeed
-var random
+var random: RandomNumberGenerator
+var worldMap
 var freeTiles
-
 
 func _init(s):
 	self.randomSeed = s
@@ -22,27 +17,32 @@ func _init(s):
 	self.random.seed = s
 	self.freeTiles = {}
 
+	for region in PredefinedRegions.values():
+		Dungeon.defineRegion(region.index, region.type)
+
+# I've realized that I need to split the initial dungeon generation into two parts. I first create
+# a world map, which maps out which chunks should generate in which locations. There's a bit of
+# randomness to where things are located so that every game doesn't look quite the same.
 func buildNewDungeon():
 	print("=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
+	worldMap = WorldMap.new(random)
+	worldMap.build()
+#	placeChunks()
+
+
+
+
+
+func placeChunks():
 	var chunkIndex
 	var chunk
 
-	for region in PredefinedRegions.values():
-		Dungeon.defineRegion(region.index, region.type)
-
-	for index in PredefinedChunks.keys():
-		chunk = buildChunkFromPrefab(index, PredefinedChunks[index])
+	for index in worldMap.keys():
+		if worldMap[index].has("prefab"):
+			chunk = buildChunkFromPrefab(index, worldMap[index].prefab)
 		Dungeon.setChunk(index, chunk)
-
-	for x in range(10006,10014):
-		if x <= 10008 || x >= 10012:
-			chunkIndex = Vector3i(x,10,10)
-			chunk = buildChunkFromPrefab(chunkIndex, "Shore")
-			Dungeon.setChunk(chunkIndex, chunk)
-		for y in range(11,16):
-			print("TODO: Build random chunk in ({0},{1})".format([x,y]))
 
 	for biome in freeTiles.keys():
 		var builder = {
