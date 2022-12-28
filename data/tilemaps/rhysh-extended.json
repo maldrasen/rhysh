@@ -15,6 +15,33 @@
     },
  "tiles":[
         {
+         "id":5,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Grass-A"
+                }]
+        }, 
+        {
+         "id":6,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Grass-B"
+                }]
+        }, 
+        {
+         "id":7,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Grass-C"
+                }]
+        }, 
+        {
          "id":23,
          "properties":[
                 {
@@ -87,6 +114,33 @@
                 }]
         }, 
         {
+         "id":96,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Plant-A"
+                }]
+        }, 
+        {
+         "id":97,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Plant-B"
+                }]
+        }, 
+        {
+         "id":98,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Vine"
+                }]
+        }, 
+        {
          "id":99,
          "properties":[
                 {
@@ -102,6 +156,24 @@
                  "name":"type",
                  "type":"string",
                  "value":"Tree-F"
+                }]
+        }, 
+        {
+         "id":101,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Rocks"
+                }]
+        }, 
+        {
+         "id":102,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"Plant-C"
                 }]
         }, 
         {
