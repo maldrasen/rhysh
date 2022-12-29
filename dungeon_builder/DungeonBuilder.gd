@@ -39,7 +39,7 @@ func placeChunks():
 	var chunk
 
 	var origin = GameState.partyLocation.chunkIndex()
-	for y in range(origin.y-5, origin.y+5):
+	for y in range(origin.y-1, origin.y+5):
 		for x in range(origin.x-5, origin.x+5):
 			buildChunk(Vector3i(x,y,origin.z))
 

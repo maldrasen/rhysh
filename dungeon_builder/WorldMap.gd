@@ -12,9 +12,13 @@ func _init(random_):
 	self.random = random_
 	self.chunkLocations = {}
 	self.chunks = {
-		Vector3i(115,100,ground): { "prefab":"Origin-W" },
-		Vector3i(116,100,ground): { "prefab":"Origin"   },
-		Vector3i(117,100,ground): { "prefab":"Origin-E" },
+		Vector3i(115,100,ground): { "prefab":"Origin-NW" },
+		Vector3i(116,100,ground): { "prefab":"Origin-N"  },
+		Vector3i(117,100,ground): { "prefab":"Origin-NE" },
+		Vector3i(115,101,ground): { "prefab":"Origin-W"  },
+		Vector3i(116,101,ground): { "prefab":"Origin"    },
+		Vector3i(117,101,ground): { "prefab":"Origin-E"  },
+
 		Vector3i(131,99,ground):  { "prefab":"Docks-NW" },
 		Vector3i(131,100,ground): { "prefab":"Docks-SW" },
 		Vector3i(132,99,ground):  { "prefab":"Docks-NE" },

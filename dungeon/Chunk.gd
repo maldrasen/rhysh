@@ -24,8 +24,10 @@ func getTile(index:Vector2i):
 
 func setTile(index:Vector2i, tile:Tile):
 	var tileIndex = tileIndex(index)
-	if tileIndex > tiles.size():
+
+	if tileIndex >= tiles.size():
 		tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+
 	tiles[tileIndex] = tile
 
 func tileIndex(index:Vector2i):
