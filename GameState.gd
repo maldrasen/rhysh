@@ -41,7 +41,7 @@ func createWorld():
 	# comes from the Dungeon builder where it sets the origin feature. The tile index is from the
 	# Origin.json tilemap, just where that origin point is on that map. These are both subject to
 	# change if the origin feature changes at all.
-	partyLocation = DungeonIndex.fromIndices(Vector3i(10010,10,10),Vector2i(7,7))
+	partyLocation = DungeonIndex.fromIndices(Constants.OriginChunk,Constants.OriginTile)
 	partyFacing = Constants.South
 
 	# Create a directory for the world.
@@ -75,7 +75,7 @@ func gameCanLoad():
 	return true
 
 func saveGame():
-	print("=== Saving Game ===")
+	print("[Saving Game]")
 
 	saveDate = Time.get_datetime_string_from_system()
 

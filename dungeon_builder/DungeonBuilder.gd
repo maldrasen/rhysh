@@ -2,9 +2,10 @@ extends Object
 class_name DungeonBuilder
 
 const PredefinedRegions = {
-	"LightForestOutside": { "index":1, "type":"outside" },
-	"GardenOutside":      { "index":2, "type":"outside" },
-	"DarkWoodOutside":    { "index":3, "type":"outside" }}
+	"Ocean":              { "index":1, "type":"outside" },
+	"LightForestOutside": { "index":2, "type":"outside" },
+	"GardenOutside":      { "index":3, "type":"outside" },
+	"DarkWoodOutside":    { "index":4, "type":"outside" }}
 
 var randomSeed
 var random: RandomNumberGenerator
@@ -24,14 +25,12 @@ func _init(s):
 # a world map, which maps out which chunks should generate in which locations. There's a bit of
 # randomness to where things are located so that every game doesn't look quite the same.
 func buildNewDungeon():
-	print("=== Building Dungeon ===")
+	print("\n=== Building Dungeon ===")
 	print("Seed:",randomSeed)
 
 	worldMap = WorldMap.new(random)
 	worldMap.build()
-#	placeChunks()
-
-
+	placeChunks()
 
 
 
@@ -39,10 +38,10 @@ func placeChunks():
 	var chunkIndex
 	var chunk
 
-	for index in worldMap.keys():
-		if worldMap[index].has("prefab"):
-			chunk = buildChunkFromPrefab(index, worldMap[index].prefab)
-		Dungeon.setChunk(index, chunk)
+	var origin = GameState.partyLocation.chunkIndex()
+	for y in range(origin.y-5, origin.y+5):
+		for x in range(origin.x-5, origin.x+5):
+			buildChunk(Vector3i(x,y,origin.z))
 
 	for biome in freeTiles.keys():
 		var builder = {
@@ -86,6 +85,28 @@ func placeChunks():
 	# Finally we need to hook up all the events and extensions and stuff. Do things like place
 	# secret doors, connect switches. Sort of a polishing state at the end.
 
+
+
+
+
+
+
+func buildChunk(chunkIndex):
+	var chunkType = worldMap.chunkTypeAt(chunkIndex)
+	var chunk = null
+
+	if chunkType.has("prefab"):
+		chunk = buildChunkFromPrefab(chunkIndex, chunkType.prefab)
+
+	if chunkType.has("type"):
+		if chunkType.type == "Ocean":
+			chunk = OceanBuilder.build()
+
+	if chunk == null:
+		print("  TODO: Build {0} Chunks".format([chunkType]))
+
+	if chunk:
+		Dungeon.setChunk(chunkIndex, chunk)
 
 # Build a chunk from a prefabricated chunk map.
 #

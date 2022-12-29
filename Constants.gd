@@ -11,7 +11,9 @@ const GameStatePath = "user://worlds/{0}/gameState.json"
 
 # Dungeon Properties
 const ChunkSize = 32
-const MaxDepth = 20
+const MaxDepth = 100
+const OriginChunk = Vector3i(116,100,10)
+const OriginTile = Vector2i(7,7)
 
 # Enums and Reference Constants
 const North = "N"
