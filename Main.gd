@@ -39,13 +39,16 @@ func _input(_event):
 # We build a new dungeon as soon as we start a new game. This might take a while, there's a lot of
 # writing files to disk and such, so we handle dungeon generation in a seperate thread,
 func on_startNewGame():
+
+	# Actually... starting a new game should open the guild view
 	Signals.openTown.emit()
+
 	GameState.createWorld()
 	dungeonThread = Thread.new()
 	dungeonThread.start(buildNewDungeon)
 
 func buildNewDungeon():
-	DungeonBuilder.new(GameState.randomSeed).buildNewDungeon()
+	DungeonBuilder.new().buildNewDungeon()
 	GameState.saveGame()
 
 # ==== Navigating Between Scenes ===================================================================

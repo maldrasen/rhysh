@@ -1,5 +1,4 @@
-
-"tiles": [
+{ "tiles": [
   { "id":0,   "type":"Trigger", "value":"0" },
   { "id":1,   "type":"Trigger", "value":"1" },
   { "id":2,   "type":"Trigger", "value":"2" },
@@ -74,4 +73,4 @@
   { "id":79,  "type":"Skull" },
   { "id":93,  "type":"Coins" },
   { "id":94,  "type":"Key" },
-]
+]}

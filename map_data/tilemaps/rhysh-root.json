@@ -1,4 +1,4 @@
-"tiles": [
+{ "tiles": [
   { "id":0,   "tile":"Empty", "floor":"Normal", "walls":"NW" },
   { "id":1,   "tile":"Empty", "floor":"Normal", "walls":"NE" },
   { "id":2,   "tile":"Empty", "floor":"Normal", "walls":"NEW" },
@@ -58,4 +58,4 @@
   { "id":130, "tile":"Empty", "floor":"Void", "walls":"SEW" },
   { "id":131, "tile":"Empty", "floor":"Void", "walls":"E" },
   { "id":132, "tile":"Empty", "floor":"Void", "walls":"N" },
-]
+]}

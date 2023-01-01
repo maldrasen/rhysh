@@ -1,6 +1,6 @@
 extends Node
 
-var rhyshTilemap = {}
+var rhyshRoot = {}
 var rhyshExtra = {}
 var rhyshExtended = {}
 var features = {}
@@ -16,9 +16,9 @@ func lookup(id):
 # === Feature Loading ==============================================================================
 
 func parseTilemapFiles():
-	rhyshTilemap = parseTilemap("res://data/tilemaps/rhysh-tilemap.json")
-	rhyshExtra = parseTilemap("res://data/tilemaps/rhysh-extra.json")
-	rhyshExtended = parseTilemap("res://data/tilemaps/rhysh-extended.json")
+	rhyshRoot = parseTilemap("res://map_data/tilemaps/rhysh-root.json")
+	rhyshExtra = parseTilemap("res://map_data/tilemaps/rhysh-extra.json")
+	rhyshExtended = parseTilemap("res://map_data/tilemaps/rhysh-extended.json")
 
 # The big gatcha in parsing JSON is that all number types are turned into floats. Took me forever
 # to figure that out because the print() function prints 0.0 as 0
@@ -28,19 +28,21 @@ func parseTilemap(path):
 	var tileMap = {}
 
 	for tileDefinition in content.tiles:
-		var tile = {}
-		for property in tileDefinition.properties:
-			tile[property.name] = property.value
-		tileMap[tileDefinition.id as int] = tile
+		tileMap[tileDefinition.id] = tileDefinition
 
 	return tileMap
 
+
+# ==== Old Version =================================================================================
+# Going to need to do this once we add feature maps back in. The format's going to be different
+# though, so while it'll be similar to this it's pretty much all got to change.
+
 func loadFeatures():
 	print("=== Loading Feature Library ===")
-	var folder = DirAccess.open("res://data/features")
-	for filename in folder.get_files():
-		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
-		loadFeature(filename, JSON.parse_string(file.get_as_text()))
+#	var folder = DirAccess.open("res://data/features")
+#	for filename in folder.get_files():
+#		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
+#		loadFeature(filename, JSON.parse_string(file.get_as_text()))
 
 # Building a feature from a Tiled JSON document is going to be pretty fragile. I immagine that this
 # will break quite a bit as we refine the way that we're building the features in the editor. I'll

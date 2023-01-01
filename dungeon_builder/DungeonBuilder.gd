@@ -1,38 +1,32 @@
 extends Object
 class_name DungeonBuilder
 
-const PredefinedRegions = {
-	"Ocean":              { "index":1, "type":"outside" },
-	"LightForestOutside": { "index":2, "type":"outside" },
-	"GardenOutside":      { "index":3, "type":"outside" },
-	"DarkWoodOutside":    { "index":4, "type":"outside" }}
-
 var randomSeed
 var random: RandomNumberGenerator
 var worldMap
 var freeTiles
 
-func _init(s):
-	self.randomSeed = s
-	self.random = RandomNumberGenerator.new()
-	self.random.seed = s
+func _init():
 	self.freeTiles = {}
 
-	for region in PredefinedRegions.values():
-		Dungeon.defineRegion(region.index, region.type)
-
-# I've realized that I need to split the initial dungeon generation into two parts. I first create
-# a world map, which maps out which chunks should generate in which locations. There's a bit of
-# randomness to where things are located so that every game doesn't look quite the same.
 func buildNewDungeon():
 	print("\n=== Building Dungeon ===")
-	print("Seed:",randomSeed)
-
-	worldMap = WorldMap.new(random)
-	worldMap.build()
-	placeChunks()
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ==== Old Version =================================================================================
 
 func placeChunks():
 	var chunkIndex

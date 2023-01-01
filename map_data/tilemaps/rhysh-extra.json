@@ -1,4 +1,4 @@
-"tiles": [
+{ "tiles": [
   { "id":0,   "type":"Door", "doors":"W" },
   { "id":1,   "type":"Door", "doors":"N" },
   { "id":2,   "type":"Door", "doors":"NW" },
@@ -28,8 +28,10 @@
   { "id":97,  "type":"Fence", "facing":"E" },
   { "id":98,  "type":"Fence", "facing":"NW" },
   { "id":99,  "type":"Fence", "facing":"NE" },
+  { "id":100, "type":"Transition" },
   { "id":112, "type":"Fence", "facing":"W" },
   { "id":113, "type":"Fence", "facing":"S" },
   { "id":114, "type":"Fence", "facing":"SW" },
   { "id":115, "type":"Fence", "facing":"SE" },
-]
+  { "id":116, "type":"Transition" },
+]}

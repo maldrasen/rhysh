@@ -12,6 +12,7 @@ var currentWorld
 var createDate
 var saveDate
 var randomSeed
+var random
 
 var stage
 var partyLocation:DungeonIndex
@@ -33,16 +34,16 @@ func _ready():
 func createWorld():
 	print("== Create World ==")
 
-	currentWorld = "world-{0}".format([Configuration.worldCounter])
-	createDate = Time.get_datetime_string_from_system()
-	randomSeed = createDate.hash()
+	self.currentWorld = "world-{0}".format([Configuration.worldCounter])
+	self.createDate = Time.get_datetime_string_from_system()
+	self.randomSeed = createDate.hash()
 
 	# Set the initial party location and facing. These are kinda magic numbers. The chunk index
 	# comes from the Dungeon builder where it sets the origin feature. The tile index is from the
 	# Origin.json tilemap, just where that origin point is on that map. These are both subject to
 	# change if the origin feature changes at all.
-	partyLocation = DungeonIndex.fromIndices(Constants.OriginChunk,Constants.OriginTile)
-	partyFacing = Constants.South
+	self.partyLocation = DungeonIndex.fromIndices(Constants.OriginChunk,Constants.OriginTile)
+	self.partyFacing = Constants.South
 
 	# Create a directory for the world.
 	DirAccess.open(Constants.WorldsPath).make_dir(currentWorld)
@@ -56,7 +57,11 @@ func createWorld():
 
 	# Save the initial game state
 	saveGame()
+	initRandom()
 
+func initRandom():
+	self.random = RandomNumberGenerator.new()
+	self.random.seed = self.randomSeed
 
 func on_quickSave():
 	if gameCanSave():
@@ -106,6 +111,7 @@ func loadGame(world):
 	self.partyFacing = savedState.partyFacing
 	self.partyLocation = DungeonIndex.unpack(savedState.partyLocation)
 
+	initRandom()
 	Dungeon.unpack(savedState.dungeonState)
 
 	if stage == Constants.GameStage.Dungeon:
