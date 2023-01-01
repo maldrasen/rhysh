@@ -10,6 +10,8 @@ var layerCount
 var layerSize
 var layers
 
+var tileArray
+
 func _init(name):
 	self.zoneName = name
 
@@ -33,7 +35,7 @@ func loadMap():
 	for layerData in zoneData.layers:
 		var tileData = []
 		tileData.resize(layerSize.x * layerSize.y)
-		tileData.fill({})
+
 		layerData.tileData = tileData
 		layers.push_back(layerData)
 
@@ -42,7 +44,6 @@ func loadMap():
 
 	for layer in layers:
 		buildTiles(layer)
-
 
 # Get all of the tile data from the Zone and put it the tile array for this layer. We need to do
 # this step before building the tiles because tile data can come from multiple separate map layers.
@@ -61,24 +62,41 @@ func loadLayer(layerMap):
 				tileId = layerMap.data2D[y][x]
 
 			if tileId >= 0:
-				var data = MapData.lookup(layerInfo.type, tileId)
+				var layer = self.layers[layerInfo.index]
+				if layer.tileData[tileIndex] == null:
+					layer.tileData[tileIndex] = {}
 
-				if layerInfo.type == "Root":
-					self.layers[layerInfo.index].tileData[tileIndex].root = data
-				if layerInfo.type == "Extra":
-					self.layers[layerInfo.index].tileData[tileIndex].extra = data
-				if layerInfo.type == "Extended":
-					self.layers[layerInfo.index].tileData[tileIndex].extended = data
+				layer.tileData[tileIndex][layerInfo.type] = MapData.lookup(layerInfo.type, tileId)
+
+
+# Now that we have all the data for each tile we can build all the tiles, adding them to a single
+# tile array.
+func buildTiles(layer):
+	print("  Build Layer: ",layer.level)
+
+	self.tileArray = []
+	self.tileArray.resize(layerSize.x * layerSize.y)
+
+	for y in layerSize.y:
+		for x in layerSize.x:
+			var tileIndex = x + (y * self.layerSize.y)
+			var tileData = layer.tileData[tileIndex]
+			if tileData:
+				var tile = Tile.fromTileData(tileData)
+
+				if tileData.has("extended"):
+					tile.addExtensions(Vector2i(x,y), tileData.extended, zoneData)
+
+				self.tileArray[tileIndex] = tile
 
 # We use the layer's name to determine the layer type and which level it's for.
 func parseLayerName(name):
 	for result in Static.ZoneLayerPattern.search_all(name):
 		if result.strings.size() == 3:
 			return {
-				"type": result.strings[1],
+				"type": result.strings[1].to_lower(),
 				"index": int(result.strings[2]) - 1 }
 	printerr("Unparsable Layer Name: ",name)
 
-func buildTiles(layer):
-	print("  Build Layer: ",layer.level)
-
+func saveAsChunks():
+	print("TODO: Save as chunks")

@@ -64,9 +64,28 @@ func flipD():
 		"W": self.walls.S }
 
 
-# ==== Feature Loader ==============================================================================
-# Building a tile from a string should really only be done by the feature loader which is getting
-# its tile data from JSON files.
+# ==== Tile Loading ================================================================================
+# We create tiles from tile data when loading them from the JSON map data. The tile data should be
+# the same across map type. For example, a tile with both extra and extended data:
+#    { "root":     { "id": 20, "tile": "Empty", "floor": "Normal", "walls": "W" },
+#      "extra":    { "id": 0,  "type": "Door", "doors": "W" },
+#      "extended": { "id": 58, "type": "Point", "value": "Green" }}
+
+static func fromTileData(tileData) -> Tile:
+	var tile = Tile.new()
+
+	if tileData.has("root") == false:
+		printerr("No root in: ",tileData)
+
+	if tileData.has("root"):
+		if tileData.root.has("walls"):
+			tile.setWallsFromString(tileData.root.walls, Wall.Certainty.Tentative)
+		if tileData.root.has("floor"):
+			tile.setFloorFromString(tileData.root.floor)
+		if tileData.has("extra"):
+			tile.setExtra(tileData.extra)
+
+	return tile
 
 func setFloorFromString(floorString:String):
 	theFloor = Floor.fromString(floorString)
@@ -77,6 +96,10 @@ func setWallsFromString(string:String, certainty:Wall.Certainty):
 			walls[dir] = Wall.new(Wall.Type.Normal, certainty)
 
 func setExtra(extra):
+
+	if extra.type == "Stairs":
+		return # TODO: Implement stairs
+
 	if extra.type == "Door":
 		for dir in Constants.NSEW:
 			if extra.facing.contains(dir):
@@ -86,49 +109,23 @@ func setExtra(extra):
 	if extra.type == "SecretDoor":
 		return # TODO: Implement secret doors
 
-	if extra.type == "Gate":
-		return # TODO: Implement gates and columns
+	if extra.type == "TrappedDoor":
+		return # TODO: Implement trapped doors
+
+	if extra.type == "Fence":
+		return # TODO: Implement fences
+
+	if extra.type == "Pillar":
+		return # TODO: Implement pillars
+
+	if extra.type == "Transition":
+		return # TODO: Implement transitions
 
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
 
-func setExtension(extension):
-	if extension.contains("Battle:"):
-		extensions.battle = extension.substr(7,-1)
-		return
-
-	if extension.contains("EventTrigger:"):
-		extensions.eventTrigger = extension.substr(13,-1)
-		return
-
-	# TODO: The value of the statue extension should point to some kind of statue model. This is
-	#       fine for the map, but eventually we need to turn whatever string reference this is into
-	#       something more concrete.
-	if extension.contains("Statue:"):
-		self.type = Type.Solid
-		self.fill = { "statue":extension.substr(7,-1) }
-		return
-
-	if extension.contains("Trap:"):
-		extensions.trap = extension.substr(5,-1)
-		return
-
-	# TODO: This is just setting the fill value to something like {tree:random} but really we need
-	#       to select a random tree here and place it in the fill. We don't have any of those right
-	#       now, and this is only used to draw a green square on the map now.
-	if extension.contains("Tree:"):
-		self.type = Type.Solid
-		self.fill = { "tree":extension.substr(5,-1) }
-		return
-
-	if extension.contains("Treasure:"):
-		extensions.treasure = extension.substr(9,-1)
-		return
-
-	# If the extension isn't one of the predefined types it needs some other kind of special
-	# handling. This function is really only concerned with parsing the tile objects from the JSON
-	# so something else can deal with it later, or ignore it completely as in the case of the
-	# origin point, which is really just on the map for informational purposes.
-	extensions.special = extension
+func addExtensions(tileIndex, extendedData, zoneData):
+#	print("TODO: Lookup Extension meaning: ",extendedData)
+	pass
 
 # ==== Persistance =================================================================================
 

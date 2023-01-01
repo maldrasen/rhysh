@@ -1,12 +1,7 @@
-
-{
-	"layers":[
-		{ "level":100 },
-		{ "level":101 },
-		{ "level":102 },
-		{ "level":103 },
-	]
+{ "layers":[
+    { "level":100 },
+    { "level":101 },
+    { "level":102 },
+    { "level":103 },
+  ]
 }
-
-
-

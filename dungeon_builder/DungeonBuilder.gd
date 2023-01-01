@@ -13,6 +13,7 @@ func buildNewDungeon():
 	print("\n=== Building Dungeon ===")
 
 	var loader = ZoneLoader.new("Wolgur")
+	loader.saveAsChunks()
 
 # This is set from within the loader now.
 #	self.partyLocation = DungeonIndex.fromIndices(Constants.OriginChunk,Constants.OriginTile)
