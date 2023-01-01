@@ -21,7 +21,8 @@ func setFreeTiles(tiles):
 # [BiomeBuilder Implementation]
 func fullBuild():
 	print("---")
-	print("{0}: Starting full build on {1} tiles".format([BiomeManager.biomeToString(biome),freeTiles.size()]))
+#	Biome Manager being redone
+#	print("{0}: Starting full build on {1} tiles".format([BiomeManager.biomeToString(biome),freeTiles.size()]))
 	placeFeatures()
 	connectRegions()
 	trimDeadEnds()

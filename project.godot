@@ -118,6 +118,11 @@ _global_script_classes=[{
 "class": &"WorldMap",
 "language": &"GDScript",
 "path": "res://dungeon_builder/WorldMap.gd"
+}, {
+"base": "Object",
+"class": &"ZoneLoader",
+"language": &"GDScript",
+"path": "res://dungeon_builder/ZoneLoader.gd"
 }]
 _global_script_class_icons={
 "BasicRoomBuilder": "",
@@ -141,7 +146,8 @@ _global_script_class_icons={
 "SmallRoomBuilder": "",
 "Tile": "",
 "Wall": "",
-"WorldMap": ""
+"WorldMap": "",
+"ZoneLoader": ""
 }
 
 [application]
@@ -158,12 +164,11 @@ Constants="*res://Constants.gd"
 Configuration="*res://Configuration.gd"
 Signals="*res://Signals.gd"
 Static="*res://Static.gd"
+MapData="*res://MapData.gd"
 GameState="*res://GameState.gd"
 EventQueue="*res://EventQueue.gd"
 Dungeon="*res://Dungeon.gd"
 Utility="*res://Utility.gd"
-BiomeManager="*res://dungeon_builder/BiomeManager.gd"
-FeatureLibrary="*res://features/FeatureLibrary.gd"
 
 [display]
 

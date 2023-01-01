@@ -33,6 +33,21 @@ func parseTilemap(path):
 	return tileMap
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ==== Old Version =================================================================================
 # Going to need to do this once we add feature maps back in. The format's going to be different
 # though, so while it'll be similar to this it's pretty much all got to change.

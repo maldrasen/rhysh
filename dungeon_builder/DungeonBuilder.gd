@@ -12,10 +12,11 @@ func _init():
 func buildNewDungeon():
 	print("\n=== Building Dungeon ===")
 
+	var loader = ZoneLoader.new("Wolgur")
 
-
-
-
+# This is set from within the loader now.
+#	self.partyLocation = DungeonIndex.fromIndices(Constants.OriginChunk,Constants.OriginTile)
+#	self.partyFacing = Constants.South
 
 
 
@@ -37,16 +38,17 @@ func placeChunks():
 		for x in range(origin.x-5, origin.x+5):
 			buildChunk(Vector3i(x,y,origin.z))
 
-	for biome in freeTiles.keys():
-		var builder = {
-			Constants.Biome.LightForest: LightForestBuilder,
-			Constants.Biome.Garden:      GardenBuilder,
-			Constants.Biome.DarkWood:    DarkWoodBuilder,
-		}[biome].new(biome)
-
-		while builder.status != Constants.Status.Success:
-			builder.setFreeTiles(freeTiles[biome])
-			builder.fullBuild()
+#	TODO: Biomes are being redone
+#	for biome in freeTiles.keys():
+#		var builder = {
+#			Constants.Biome.LightForest: LightForestBuilder,
+#			Constants.Biome.Garden:      GardenBuilder,
+#			Constants.Biome.DarkWood:    DarkWoodBuilder,
+#		}[biome].new(biome)
+#
+#		while builder.status != Constants.Status.Success:
+#			builder.setFreeTiles(freeTiles[biome])
+#			builder.fullBuild()
 
 	# If the free tiles haven't been used we discard them. (They should all have been used)
 	print("---")
@@ -107,18 +109,20 @@ func buildChunk(chunkIndex):
 # TODO: The tiles that are being set from these templates don't have a region. I'm not sure if
 #       that's okay or not yet.
 func buildChunkFromPrefab(chunkIndex:Vector3i, featureName):
-	var template:FeatureTemplate = FeatureLibrary.lookup(featureName)
+	pass
+#	TODO: Feature Library is being rebuilt
+#	var template:FeatureTemplate = FeatureLibrary.lookup(featureName)
 
-	for biome in template.biomeAreas.keys():
-		if false == freeTiles.has(biome):
-			freeTiles[biome] = []
-
-		for localIndex in template.biomeAreas[biome]:
-			freeTiles[biome].push_back(DungeonIndex.fromIndices(chunkIndex, Vector2i(
-				localIndex % Constants.ChunkSize,
-				localIndex / Constants.ChunkSize
-			)))
-
-	var chunk = Chunk.new()
-	chunk.tiles = template.tiles
-	return chunk
+#	for biome in template.biomeAreas.keys():
+#		if false == freeTiles.has(biome):
+#			freeTiles[biome] = []
+#
+#		for localIndex in template.biomeAreas[biome]:
+#			freeTiles[biome].push_back(DungeonIndex.fromIndices(chunkIndex, Vector2i(
+#				localIndex % Constants.ChunkSize,
+#				localIndex / Constants.ChunkSize
+#			)))
+#
+#	var chunk = Chunk.new()
+#	chunk.tiles = template.tiles
+#	return chunk

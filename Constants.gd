@@ -11,9 +11,6 @@ const GameStatePath = "user://worlds/{0}/gameState.json"
 
 # Dungeon Properties
 const ChunkSize = 32
-const MaxDepth = 100
-const OriginChunk = Vector3i(116,100,10)
-const OriginTile = Vector2i(7,7)
 
 # Enums and Reference Constants
 const North = "N"
@@ -21,13 +18,6 @@ const South = "S"
 const East = "E"
 const West = "W"
 const NSEW = ["N","S","E","W"]
-
-enum Biome {
-	DarkWood,
-	Garden,
-	LightForest,
-	Ruins,
-}
 
 # The game stage is mostly needed because when we save a game we need to know what stage to start
 # back in. This may also be used when transitioning from one stage to another, in case something

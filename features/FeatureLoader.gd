@@ -61,7 +61,9 @@ func loadTile(x,y):
 				printerr("The root node referenced a biome (",biomeKey,") that wasn't found in the property map.")
 				printerr("Found at root index:{0} ({1},{2})".format([rootIndex,x,y]))
 				return
-			feature.defineBiomeArea(x,y,BiomeManager.biomeFromString(biomeName))
+
+			# TODO: Biome Manager is getting completely redone.
+			#feature.defineBiomeArea(x,y,BiomeManager.biomeFromString(biomeName))
 			return
 
 		feature.buildTile(tileData)
