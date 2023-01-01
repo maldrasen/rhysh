@@ -10,24 +10,36 @@ var layerCount
 var layerSize
 var layers
 
-var tileArray
+var chunks
 
 func _init(name):
 	self.zoneName = name
+	self.chunks = {}
 
-	var mapPath = "map_data/zones/{0}.json".format([self.zoneName])
-	var dataPath = "map_data/zones/{0}Data.json".format([self.zoneName])
+# A Zone has been built if its Chunk files have all been written
+func hasBeenBuilt() -> bool:
+	return false
 
-	zoneMap = JSON.parse_string(FileAccess.open(mapPath, FileAccess.READ).get_as_text())
-	zoneData = JSON.parse_string(FileAccess.open(dataPath, FileAccess.READ).get_as_text())
+# Zones are created from the JSON files in the map data directory.
+func createZoneFromTemplate():
+	var mapPath = "res://map_data/zones/{0}.json".format([zoneName])
+	var dataPath = "res://map_data/zones/{0}Data.json".format([zoneName])
+	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
+	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
 
-	if zoneMap && zoneData:
-		print("Loading Zone({0})".format([name]))
-		loadMap()
-	else:
-		printerr("Error loading Zone({0}). Some kinda problem with the map or data file.".format([name]))
+	if mapFile == null:
+		return printerr("Error creating Zone({0}). No map file named {1}".format([zoneName,mapPath]))
+	if dataFile == null:
+		return printerr("Error creating Zone({0}). No map data file named {1}".format([zoneName,dataFile]))
 
-func loadMap():
+	zoneMap = JSON.parse_string(mapFile.get_as_text())
+	zoneData = JSON.parse_string(dataFile.get_as_text())
+
+	if zoneMap == null || zoneData == null:
+		return printerr("Parsing Error while creating Zone({0}).".format([zoneName]))
+
+	print("Create Zone({0})".format([zoneName]))
+
 	self.layerCount = zoneData.layers.size()
 	self.layerSize = Vector2i(zoneMap.layers[0].gridCellsX, zoneMap.layers[0].gridCellsY)
 	self.layers = []
@@ -44,6 +56,9 @@ func loadMap():
 
 	for layer in layers:
 		buildTiles(layer)
+
+	for index in chunks:
+		chunks[index].save()
 
 # Get all of the tile data from the Zone and put it the tile array for this layer. We need to do
 # this step before building the tiles because tile data can come from multiple separate map layers.
@@ -68,26 +83,23 @@ func loadLayer(layerMap):
 
 				layer.tileData[tileIndex][layerInfo.type] = MapData.lookup(layerInfo.type, tileId)
 
-
 # Now that we have all the data for each tile we can build all the tiles, adding them to a single
 # tile array.
 func buildTiles(layer):
 	print("  Build Layer: ",layer.level)
 
-	self.tileArray = []
-	self.tileArray.resize(layerSize.x * layerSize.y)
-
 	for y in layerSize.y:
 		for x in layerSize.x:
-			var tileIndex = x + (y * self.layerSize.y)
-			var tileData = layer.tileData[tileIndex]
+			var zoneIndex = x + (y * self.layerSize.y)
+			var tileData = layer.tileData[zoneIndex]
+
 			if tileData:
 				var tile = Tile.fromTileData(tileData)
 
 				if tileData.has("extended"):
 					tile.addExtensions(Vector2i(x,y), tileData.extended, zoneData)
 
-				self.tileArray[tileIndex] = tile
+				putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
 
 # We use the layer's name to determine the layer type and which level it's for.
 func parseLayerName(name):
@@ -98,5 +110,11 @@ func parseLayerName(name):
 				"index": int(result.strings[2]) - 1 }
 	printerr("Unparsable Layer Name: ",name)
 
-func saveAsChunks():
-	print("TODO: Save as chunks")
+
+func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
+	var chunkIndex = dungeonIndex.chunkIndex()
+
+	if chunks.has(chunkIndex) == false:
+		chunks[chunkIndex] = Chunk.new(zoneName, chunkIndex)
+
+	chunks[chunkIndex].setTile(dungeonIndex.tileIndex(), tile)

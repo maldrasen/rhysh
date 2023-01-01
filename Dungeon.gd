@@ -2,11 +2,35 @@ extends Node
 
 var chunkCache = {}
 
+
+var zoneName
+
 # GDScript has nothing private, which is kind of annoying, because I'd really prefer for nothing to
 # touch these variables directly. I suppose I could use some sort of Hungarian notation to annotate
 # the variable names as being private, but I'd also prefer for my code to not look like ass.
 var regionCounter
 var regionDictionary
+
+
+
+
+
+func loadZone(name):
+	self.zoneName = name
+
+	var loader = ZoneLoader.new(name)
+	if loader.hasBeenBuilt() == false:
+		loader.createZoneFromTemplate()
+
+
+
+
+
+
+
+
+
+
 
 # Setting a chunk in the dungeon also sets the chunk index of the chunk so that it knows its
 # location in the dungeon.
@@ -21,7 +45,7 @@ func fetchChunk(chunkIndex:Vector3i):
 	if chunkCache.has(chunkIndex):
 		return chunkCache[chunkIndex]
 
-	var chunk = Chunk.lode(chunkIndex)
+	var chunk = Chunk.lode(zoneName, chunkIndex)
 	if chunk:
 		chunkCache[chunkIndex] = chunk
 	return chunk

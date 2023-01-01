@@ -85,6 +85,9 @@ static func fromTileData(tileData) -> Tile:
 		if tileData.has("extra"):
 			tile.setExtra(tileData.extra)
 
+	if tile.theFloor == null:
+		tile.theFloor = Floor.new(Floor.Type.Void)
+
 	return tile
 
 func setFloorFromString(floorString:String):
