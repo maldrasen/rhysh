@@ -1,7 +1,7 @@
 extends Object
 class_name Floor
 
-enum Type { Normal, Water }
+enum Type { Normal, Water, Void }
 
 var type:Type
 
