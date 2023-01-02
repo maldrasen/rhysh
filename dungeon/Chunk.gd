@@ -42,7 +42,7 @@ func save():
 	var file = FileAccess.open_compressed(path, FileAccess.WRITE, FileAccess.COMPRESSION_FASTLZ)
 	file.store_line(JSON.stringify(chunkState))
 
-	print("Saved: {0}".format([path]))
+	print("  Saved: {0}".format([path]))
 
 # Load a chunk given the zone and the chunk index.
 static func loadChunk(name:String, index:Vector3i):
@@ -66,7 +66,7 @@ static func loadChunkFile(path:String):
 	var chunk = Chunk.new(document.zoneName, Utility.unpackVector3i(document.chunkIndex))
 	chunk.tiles = unpackedTiles
 
-	print("Loaded: {0}".format([chunk]))
+	print("  Loaded: {0}".format([chunk]))
 	return chunk
 
 # ==== To String ===================================================================================

@@ -6,7 +6,7 @@ var random: RandomNumberGenerator
 var chunks
 var freeTiles
 
-var zone
+var zoneInfo
 var zoneMap
 var zoneData
 
@@ -23,18 +23,18 @@ var layers
 # game seed. This should ensure that zones within a game will be built consistantly, even if they
 # are built in a different order.
 func _init(name):
-	self.zone = Zone.new(name)
+	self.zoneInfo = ZoneInfo.new(name)
 	self.freeTiles = {}
 	self.chunks = {}
 	self.random = RandomNumberGenerator.new()
-	self.random.seed = "{0}{1}".format([GameState.randomSeed, zone.name]).hash()
+	self.random.seed = "{0}{1}".format([GameState.randomSeed, zoneInfo.name]).hash()
 
 func zoneChunkFiles():
 	var world = DirAccess.open("user://worlds/{0}/".format([GameState.currentWorld]))
 	var files = []
 
 	for filename in world.get_files():
-		if filename.begins_with("{0}[".format([zone.name])):
+		if filename.begins_with("{0}[".format([zoneInfo.name])):
 			files.push_back(filename)
 
 	return files
@@ -57,7 +57,7 @@ func createZoneFromTemplate():
 	loadZoneMap()
 	loadZoneData()
 
-	print("Create Zone({0})".format([zone.name]))
+	print("Create Zone({0})".format([zoneInfo.name]))
 
 	self.layerCount = zoneData.layers.size()
 	self.layerSize = Vector2i(zoneMap.layers[0].gridCellsX, zoneMap.layers[0].gridCellsY)
@@ -80,28 +80,28 @@ func createZoneFromTemplate():
 		chunks[index].save()
 
 func loadZoneMap():
-	var mapPath = "res://map_data/zones/{0}.json".format([zone.name])
+	var mapPath = "res://map_data/zones/{0}.json".format([zoneInfo.name])
 	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
 
 	if mapFile == null:
-		return printerr("Error creating Zone({0}). No map file named {1}".format([zone.name,mapPath]))
+		return printerr("Error creating Zone({0}). No map file named {1}".format([zoneInfo.name,mapPath]))
 
 	self.zoneMap = JSON.parse_string(mapFile.get_as_text())
 	if self.zoneMap == null:
 		return printerr("Parsing Error, cannot read {0}".format([mapPath]))
 
 func loadZoneData():
-	var dataPath = "res://map_data/zones/{0}Data.json".format([zone.name])
+	var dataPath = "res://map_data/zones/{0}Data.json".format([zoneInfo.name])
 	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
 
 	if dataFile == null:
-		return printerr("Error creating Zone({0}). No map data file named {1}".format([zone.name,dataFile]))
+		return printerr("Error creating Zone({0}). No map data file named {1}".format([zoneInfo.name,dataFile]))
 
 	self.zoneData = JSON.parse_string(dataFile.get_as_text())
 	if self.zoneData == null:
 		return printerr("Parsing Error, cannot read {0}".format([dataPath]))
 
-	self.zone.buildFromData(zoneData)
+	self.zoneInfo.buildFromData(zoneData)
 
 # Get all of the tile data from the Zone and put it the tile array for this layer. We need to do
 # this step before building the tiles because tile data can come from multiple separate map layers.
@@ -167,6 +167,6 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 	var chunkIndex = dungeonIndex.chunkIndex()
 
 	if chunks.has(chunkIndex) == false:
-		chunks[chunkIndex] = Chunk.new(zone.name, chunkIndex)
+		chunks[chunkIndex] = Chunk.new(zoneInfo.name, chunkIndex)
 
 	chunks[chunkIndex].setTile(dungeonIndex.tileIndex(), tile)

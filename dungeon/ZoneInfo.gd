@@ -1,11 +1,14 @@
 extends Object
 
-class_name Zone
+class_name ZoneInfo
 
 var name
 var origins
 var exits
 
+# The ZoneInfo class holds information about a zone pulled from the JSON data. This includes where
+# the exits are, what zones this connects to, all that. This is all just static data and doesn't
+# change over the course of the game so shouldn't need to be persisted.
 func _init(name_:String):
 	self.name = name_
 	self.origins = {}
@@ -25,10 +28,14 @@ func buildFromData(zoneData):
 
 	# Gather exit points.
 	for code in zoneData.exits:
+		var exit = zoneData.exits[code]
 		var points = []
-		for point in zoneData.exits[code]:
+		for point in exit.points:
 			points.push_back(DungeonIndex.new(int(point.x), int(point.y), int(point.z)))
-		exits[code] = { "points":points }
+
+		exits[code] = {
+			"visible": exit.visible,
+			"points": points }
 
 func _to_string():
-	return "Zone[{0}]".format([name])
+	return "ZoneInfo[{0}]".format([name])

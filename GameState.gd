@@ -45,8 +45,9 @@ func createWorld():
 	Configuration.worldCounter += 1;
 	Configuration.setLastPlayedWorld(currentWorld)
 
-	Dungeon.regionCounter = 0
-	Dungeon.regionDictionary = {}
+# TODO: Regions either belong here or in the zone builder.
+#	Dungeon.regionCounter = 0
+#	Dungeon.regionDictionary = {}
 
 	# Save the initial game state
 	saveGame()
@@ -62,14 +63,15 @@ func initRandom():
 # is found in the zoneData for their current zone which should have a list of places it's possible
 # to come to the current zone from. (Or should at least have a "Default" value)
 func updateOrigin(code):
+	var zoneInfo = Dungeon.zoneInfo
 	var origin
 
-	if Dungeon.zone == null:
+	if zoneInfo == null:
 		return printerr("Cannot update origin, no zone has been loaded.")
-	if Dungeon.zone.origins.has("Default"):
-		origin = Dungeon.zone.origins["Default"]
-	if Dungeon.zone.origins.has(code):
-		origin = Dungeon.zone.origins[code]
+	if zoneInfo.origins.has("Default"):
+		origin = zoneInfo.origins["Default"]
+	if zoneInfo.origins.has(code):
+		origin = zoneInfo.origins[code]
 	if origin == null:
 		return printerr("Cannot update origin. No origin point found for {0} and no default was set.".format([code]))
 
