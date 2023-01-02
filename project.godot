@@ -35,11 +35,6 @@ _global_script_classes=[{
 "path": "res://dungeon_builder/biome_builders/DarkWoodBuilder.gd"
 }, {
 "base": "Object",
-"class": &"DungeonBuilder",
-"language": &"GDScript",
-"path": "res://dungeon_builder/DungeonBuilder.gd"
-}, {
-"base": "Object",
 "class": &"DungeonIndex",
 "language": &"GDScript",
 "path": "res://dungeon/DungeonIndex.gd"
@@ -89,11 +84,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://dungeon_interface/MapView.gd"
 }, {
-"base": "Object",
-"class": &"OceanBuilder",
-"language": &"GDScript",
-"path": "res://dungeon_builder/chunk_builders/OceanBuilder.gd"
-}, {
 "base": "BiomeBuilder",
 "class": &"RuinBuilder",
 "language": &"GDScript",
@@ -115,9 +105,9 @@ _global_script_classes=[{
 "path": "res://dungeon/Wall.gd"
 }, {
 "base": "Object",
-"class": &"WorldMap",
+"class": &"Zone",
 "language": &"GDScript",
-"path": "res://dungeon_builder/WorldMap.gd"
+"path": "res://dungeon/Zone.gd"
 }, {
 "base": "Object",
 "class": &"ZoneLoader",
@@ -130,7 +120,6 @@ _global_script_class_icons={
 "Chunk": "",
 "CrossRoomBuilder": "",
 "DarkWoodBuilder": "",
-"DungeonBuilder": "",
 "DungeonIndex": "",
 "Feature": "",
 "FeatureLoader": "",
@@ -141,12 +130,11 @@ _global_script_class_icons={
 "LightForestBuilder": "",
 "MapSection": "",
 "MapView": "",
-"OceanBuilder": "",
 "RuinBuilder": "",
 "SmallRoomBuilder": "",
 "Tile": "",
 "Wall": "",
-"WorldMap": "",
+"Zone": "",
 "ZoneLoader": ""
 }
 

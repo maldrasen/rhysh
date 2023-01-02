@@ -18,7 +18,6 @@ var stage
 var partyLocation:DungeonIndex
 var partyFacing
 
-
 func _ready():
 	Signals.quickSaveGame.connect(on_quickSave)
 	Signals.quickLoadGame.connect(on_quickLoad)
@@ -57,6 +56,28 @@ func initRandom():
 	self.random = RandomNumberGenerator.new()
 	self.random.seed = self.randomSeed
 
+# Whenever the party moves from one zone into another we update the party location to the point
+# where they enter the zone from. The code in this function is the name of the zone (or other some
+# other value if they're being moved by an event or something) where they last were. The new point
+# is found in the zoneData for their current zone which should have a list of places it's possible
+# to come to the current zone from. (Or should at least have a "Default" value)
+func updateOrigin(code):
+	var origin
+
+	if Dungeon.zone == null:
+		return printerr("Cannot update origin, no zone has been loaded.")
+	if Dungeon.zone.origins.has("Default"):
+		origin = Dungeon.zone.origins["Default"]
+	if Dungeon.zone.origins.has(code):
+		origin = Dungeon.zone.origins[code]
+	if origin == null:
+		return printerr("Cannot update origin. No origin point found for {0} and no default was set.".format([code]))
+
+	self.partyLocation = origin.index
+	self.partyFacing = origin.facing
+
+# ==== Saving and Loading ==========================================================================
+
 func on_quickSave():
 	if gameCanSave():
 		saveGame()
@@ -79,12 +100,12 @@ func saveGame():
 	saveDate = Time.get_datetime_string_from_system()
 
 	var stateObject = {
-		"createDate": createDate,
-		"saveDate": saveDate,
-		"randomSeed": randomSeed,
-		"stage": stage,
-		"partyLocation": partyLocation.pack(),
-		"partyFacing": partyFacing,
+		"createDate": self.createDate,
+		"saveDate": self.saveDate,
+		"randomSeed": self.randomSeed,
+		"stage": self.stage,
+		"partyLocation": self.partyLocation.pack(),
+		"partyFacing": self.partyFacing,
 		"dungeonState": Dungeon.pack(),
 	}
 

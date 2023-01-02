@@ -48,7 +48,8 @@ func on_startNewGame():
 	dungeonThread.start(buildNewDungeon)
 
 func buildNewDungeon():
-	DungeonBuilder.new().buildNewDungeon()
+	Dungeon.loadZone("Wolgur")
+	GameState.updateOrigin("Guild")
 	GameState.saveGame()
 
 # ==== Navigating Between Scenes ===================================================================

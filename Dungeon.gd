@@ -1,9 +1,7 @@
 extends Node
 
-var chunkCache = {}
-
-
-var zoneName
+var zone
+var zoneChunks
 
 # GDScript has nothing private, which is kind of annoying, because I'd really prefer for nothing to
 # touch these variables directly. I suppose I could use some sort of Hungarian notation to annotate
@@ -12,43 +10,25 @@ var regionCounter
 var regionDictionary
 
 
+func loadZone(zoneName):
+	print("Loading Zone({0})".format([zoneName]))
 
-
-
-func loadZone(name):
-	self.zoneName = name
-
-	var loader = ZoneLoader.new(name)
-	if loader.hasBeenBuilt() == false:
+	var loader = ZoneLoader.new(zoneName)
+	if loader.hasBeenBuilt():
+		loader.loadZoneData()
+		loader.loadZoneChunks()
+	else:
 		loader.createZoneFromTemplate()
 
-
-
-
-
-
-
-
-
-
-
-# Setting a chunk in the dungeon also sets the chunk index of the chunk so that it knows its
-# location in the dungeon.
-func setChunk(chunkIndex:Vector3i, chunk:Chunk):
-	chunk.chunkIndex = chunkIndex
-	chunkCache[chunkIndex] = chunk
+	self.zone = loader.zone
+	self.zoneChunks = loader.chunks
 
 # Function to fetch a chunk from the chunk cache. The function loads the chunk if it's not cached
 # yet. This will return null if there's no file for the chunk. That's ok, some chunks, the ones
 # north of the town or the shore for instance, will never exist.
 func fetchChunk(chunkIndex:Vector3i):
-	if chunkCache.has(chunkIndex):
-		return chunkCache[chunkIndex]
-
-	var chunk = Chunk.lode(zoneName, chunkIndex)
-	if chunk:
-		chunkCache[chunkIndex] = chunk
-	return chunk
+	if zoneChunks.has(chunkIndex):
+		return zoneChunks[chunkIndex]
 
 func setTile(dungeonIndex:DungeonIndex, tile:Tile):
 	var chunk = fetchChunk(dungeonIndex.chunkIndex())
@@ -104,11 +84,21 @@ func defineRegion(regionIndex, regionType):
 # ==== Persistance =================================================================================
 
 func pack():
+	var zoneName
+
+	# The zone will be null the first time the game is saved.
+	if self.zone:
+		zoneName = self.zone.name
+
 	return {
-		"regionCounter": regionCounter,
-		"regionDictionary": regionDictionary,
+		"zoneName": zoneName,
+		"regionCounter": self.regionCounter,
+		"regionDictionary": self.regionDictionary,
 	}
 
 func unpack(state):
 	self.regionCounter = state.regionCounter
 	self.regionDictionary = state.regionDictionary
+
+	if state.zoneName:
+		loadZone(state.zoneName)

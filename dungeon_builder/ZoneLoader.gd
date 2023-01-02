@@ -2,7 +2,11 @@ extends Object
 
 class_name ZoneLoader
 
-var zoneName
+var random: RandomNumberGenerator
+var chunks
+var freeTiles
+
+var zone
 var zoneMap
 var zoneData
 
@@ -10,35 +14,50 @@ var layerCount
 var layerSize
 var layers
 
-var chunks
+# TODO: The only zone that currently exists is the Wolgur zone. It doesn't have any biomes or free
+#       tiles though. I'm going to need to build the next zone which will have some mountains and
+#       some farm land, both of which will be biomes which will need to be randomly built once the
+#       layers are all loaded, but before we save the chunks off.
 
+# When we make a zone loader, we seed a new random number generator using the zone name and the
+# game seed. This should ensure that zones within a game will be built consistantly, even if they
+# are built in a different order.
 func _init(name):
-	self.zoneName = name
+	self.zone = Zone.new(name)
+	self.freeTiles = {}
 	self.chunks = {}
+	self.random = RandomNumberGenerator.new()
+	self.random.seed = "{0}{1}".format([GameState.randomSeed, zone.name]).hash()
 
-# A Zone has been built if its Chunk files have all been written
+func zoneChunkFiles():
+	var world = DirAccess.open("user://worlds/{0}/".format([GameState.currentWorld]))
+	var files = []
+
+	for filename in world.get_files():
+		if filename.begins_with("{0}[".format([zone.name])):
+			files.push_back(filename)
+
+	return files
+
+# A Zone has been built if its Chunk files have all been written. If this is insufficient I could
+# also check the number of files. I'm going to need to persist the zone state as well so I could
+# check for that file once I start making them.
 func hasBeenBuilt() -> bool:
-	return false
+	return zoneChunkFiles().size() > 0
+
+# If a zone has already been built all we need to do is load all the associated chunk files.
+func loadZoneChunks():
+	for filename in zoneChunkFiles():
+		var path = "user://worlds/{0}/{1}".format([GameState.currentWorld,filename])
+		var chunk = Chunk.loadChunkFile(path)
+		chunks[chunk.chunkIndex] = chunk
 
 # Zones are created from the JSON files in the map data directory.
 func createZoneFromTemplate():
-	var mapPath = "res://map_data/zones/{0}.json".format([zoneName])
-	var dataPath = "res://map_data/zones/{0}Data.json".format([zoneName])
-	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
-	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
+	loadZoneMap()
+	loadZoneData()
 
-	if mapFile == null:
-		return printerr("Error creating Zone({0}). No map file named {1}".format([zoneName,mapPath]))
-	if dataFile == null:
-		return printerr("Error creating Zone({0}). No map data file named {1}".format([zoneName,dataFile]))
-
-	zoneMap = JSON.parse_string(mapFile.get_as_text())
-	zoneData = JSON.parse_string(dataFile.get_as_text())
-
-	if zoneMap == null || zoneData == null:
-		return printerr("Parsing Error while creating Zone({0}).".format([zoneName]))
-
-	print("Create Zone({0})".format([zoneName]))
+	print("Create Zone({0})".format([zone.name]))
 
 	self.layerCount = zoneData.layers.size()
 	self.layerSize = Vector2i(zoneMap.layers[0].gridCellsX, zoneMap.layers[0].gridCellsY)
@@ -59,6 +78,30 @@ func createZoneFromTemplate():
 
 	for index in chunks:
 		chunks[index].save()
+
+func loadZoneMap():
+	var mapPath = "res://map_data/zones/{0}.json".format([zone.name])
+	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
+
+	if mapFile == null:
+		return printerr("Error creating Zone({0}). No map file named {1}".format([zone.name,mapPath]))
+
+	self.zoneMap = JSON.parse_string(mapFile.get_as_text())
+	if self.zoneMap == null:
+		return printerr("Parsing Error, cannot read {0}".format([mapPath]))
+
+func loadZoneData():
+	var dataPath = "res://map_data/zones/{0}Data.json".format([zone.name])
+	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
+
+	if dataFile == null:
+		return printerr("Error creating Zone({0}). No map data file named {1}".format([zone.name,dataFile]))
+
+	self.zoneData = JSON.parse_string(dataFile.get_as_text())
+	if self.zoneData == null:
+		return printerr("Parsing Error, cannot read {0}".format([dataPath]))
+
+	self.zone.buildFromData(zoneData)
 
 # Get all of the tile data from the Zone and put it the tile array for this layer. We need to do
 # this step before building the tiles because tile data can come from multiple separate map layers.
@@ -93,13 +136,22 @@ func buildTiles(layer):
 			var zoneIndex = x + (y * self.layerSize.y)
 			var tileData = layer.tileData[zoneIndex]
 
+			# TODO: Tile data may not represent a tile, but a biome instead.
 			if tileData:
 				var tile = Tile.fromTileData(tileData)
-
-				if tileData.has("extended"):
-					tile.addExtensions(Vector2i(x,y), tileData.extended, zoneData)
-
+				applyExtension(tile,tileData,Vector2i(x,y))
 				putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
+
+
+# Most of these decorate a tile or add triggers to it. None of these things exist yet though which
+# makes it hard to actually implement this function.
+func applyExtension(tile,tileData,index):
+	if tileData.has("extended") == false:
+		return
+
+	# var type = tileData.extended.type
+	# print("    Apply Extension ({0}):{1}".format([index,tileData.extended]))
+	tile.addExtensions(index, tileData.extended, zoneData)
 
 # We use the layer's name to determine the layer type and which level it's for.
 func parseLayerName(name):
@@ -115,6 +167,6 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 	var chunkIndex = dungeonIndex.chunkIndex()
 
 	if chunks.has(chunkIndex) == false:
-		chunks[chunkIndex] = Chunk.new(zoneName, chunkIndex)
+		chunks[chunkIndex] = Chunk.new(zone.name, chunkIndex)
 
 	chunks[chunkIndex].setTile(dungeonIndex.tileIndex(), tile)

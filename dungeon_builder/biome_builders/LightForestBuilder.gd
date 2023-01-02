@@ -2,7 +2,7 @@ extends BiomeBuilder
 
 class_name LightForestBuilder
 
-var region = DungeonBuilder.PredefinedRegions.LightForestOutside.index
+var region = null# DungeonBuilder.PredefinedRegions.LightForestOutside.index
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
@@ -16,17 +16,18 @@ func placeFeatures():
 
 # Place a few houses outside of the city wall.
 func addHouses(houseCount):
-	while houseCount > 0:
-		var featureName = FeatureLibrary.featureSets["houses"].pick_random()
-		var feature = Feature.new(featureName)
-		feature.randomFlip()
-
-		var dungeonIndex = self.freeTiles.pick_random()
-		if featureCanBePlaced(dungeonIndex,feature) == false:
-			continue
-
-		placeFeature(dungeonIndex,feature)
-		houseCount -= 1
+	pass # I'll be moving most of this into a 'farm' biome builder that does something similar
+#	while houseCount > 0:
+#		var featureName = FeatureLibrary.featureSets["houses"].pick_random()
+#		var feature = Feature.new(featureName)
+#		feature.randomFlip()
+#
+#		var dungeonIndex = self.freeTiles.pick_random()
+#		if featureCanBePlaced(dungeonIndex,feature) == false:
+#			continue
+#
+#		placeFeature(dungeonIndex,feature)
+#		houseCount -= 1
 
 # Add a few trees. The area will still be fairly open.
 func addTrees(treeCount):

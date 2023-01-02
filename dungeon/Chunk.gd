@@ -15,13 +15,13 @@ func _init(name, index):
 func getTile(index:Vector2i):
 	return tiles[tileIndex(index)]
 
-func setTile(index:Vector2i, tile:Tile):
-	var tileIndex = tileIndex(index)
+func setTile(i:Vector2i, tile:Tile):
+	var index = tileIndex(i)
 
-	if tileIndex >= tiles.size():
+	if index >= tiles.size():
 		tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
 
-	tiles[tileIndex] = tile
+	tiles[index] = tile
 
 func tileIndex(index:Vector2i):
 	return (index.y * Constants.ChunkSize) + index.x
@@ -44,8 +44,12 @@ func save():
 
 	print("Saved: {0}".format([path]))
 
-static func lode(zoneName:String, index:Vector3i):
-	var path = ChunkFilePath.format([GameState.currentWorld,zoneName,index.x,index.y,index.z])
+# Load a chunk given the zone and the chunk index.
+static func loadChunk(name:String, index:Vector3i):
+	loadChunkFile(ChunkFilePath.format([GameState.currentWorld,name,index.x,index.y,index.z]))
+
+# Load a chunk given its filename.
+static func loadChunkFile(path:String):
 	var file = FileAccess.open_compressed(path, FileAccess.READ, FileAccess.COMPRESSION_FASTLZ)
 
 	# If the chunk file doesn't exist, we return null here. That's probably fine as we might just
@@ -59,13 +63,13 @@ static func lode(zoneName:String, index:Vector3i):
 	for tileData in document.tiles:
 		unpackedTiles.push_back(Tile.unpack(tileData) if tileData else null)
 
-	var chunk = Chunk.new(zoneName, Utility.unpackVector3i(document.chunkIndex))
+	var chunk = Chunk.new(document.zoneName, Utility.unpackVector3i(document.chunkIndex))
 	chunk.tiles = unpackedTiles
 
-	print("Loaded ",chunk)
+	print("Loaded: {0}".format([chunk]))
 	return chunk
 
 # ==== To String ===================================================================================
 
 func _to_string():
-	return "Chunk({0},{1},{2})".format([chunkIndex.x, chunkIndex.y, chunkIndex.z])
+	return "{0}({1},{2},{3})".format([zoneName, chunkIndex.x, chunkIndex.y, chunkIndex.z])
