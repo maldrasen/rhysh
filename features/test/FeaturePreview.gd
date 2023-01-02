@@ -8,14 +8,15 @@ var mapView:MapView
 func _ready():
 	loadZone("Wolgur")
 
-# Load Zone is a bit heavy handed right now. To make it work with the map I had to make a game in
-# order to build the zone correctly. MapView is going to need some updates though, so I'll make it
-# work without a game when that get updated.
+# You can only load a zone if there's a current game loaded because when loaded a zone either reads
+# the existing chunk files in the world, or writes them when it's loaded the first time.
 func loadZone(name):
-	GameState.createWorld()
+	if Configuration.lastPlayedWorld == null:
+		return printerr("Cannot preview zone. There is no world to continue from.")
+
+	GameState.loadGame(Configuration.lastPlayedWorld)
 	Dungeon.loadZone("Wolgur")
 	GameState.updateOrigin("Guild")
-	GameState.saveGame()
 
 	mapView = MapView.new($MapContainer, {
 		"mapSize": "Full",
@@ -52,7 +53,9 @@ func loadZone(name):
 #		mapView.positionSections()
 
 func _input(event):
-	mapView.onInput(event)
+	if mapView:
+		mapView.onInput(event)
 
 func _process(_delta):
-	mapView.checkSize()
+	if mapView:
+		mapView.checkSize()

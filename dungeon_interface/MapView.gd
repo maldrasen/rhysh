@@ -76,9 +76,11 @@ func onInput(_event):
 		var moved = false
 
 		if Input.is_action_pressed("ui_page_up"):
-			print("TODO: Move up")
+			centerChunkIndex.z += 1
+			rebuildSections()
 		if Input.is_action_pressed("ui_page_down"):
-			print("TODO: Move down")
+			centerChunkIndex.z -= 1
+			rebuildSections()
 		if Input.is_action_pressed("ui_left"):
 			offset += Vector2(1,0)
 			moved = true
@@ -95,6 +97,17 @@ func onInput(_event):
 		if moved:
 			buildDungeonSections()
 			positionSections()
+
+# If the map z-level changes we remove everything and build the all the sections found on the that
+# z-level. It's possible of course for there to be nothing there.
+func rebuildSections():
+	mapSections = {}
+	for child in viewport.get_children():
+		viewport.remove_child(child)
+
+	buildDungeonSections()
+	buildSingleSection()
+	positionSections()
 
 # Set the map scale. This will redraw all the sections.
 func setScale(scale):
@@ -117,8 +130,10 @@ func setupLocation():
 	centerChunkIndex = centerIndex.chunkIndex()
 	centerTileIndex = centerIndex.tileIndex()
 
-	offset.x += centerTileIndex.x + 1
-	offset.y += centerTileIndex.y + 1
+	# Still not entirely sure about this particular formula...
+	offset.x = (centerChunkIndex.x * Constants.ChunkSize) - (Constants.ChunkSize/2) - centerTileIndex.x
+	offset.y = (centerChunkIndex.y * Constants.ChunkSize) - (Constants.ChunkSize/2) - centerTileIndex.y
+
 
 # Build the base viewport components.
 func buildComponents():
@@ -182,6 +197,7 @@ func buildDungeonSections():
 
 	var min_x = centerChunkIndex.x - ceili(chunks_x/2) + offset_x - 1
 	var min_y = centerChunkIndex.y - ceili(chunks_y/2) + offset_y - 1
+
 	var max_x = min_x + chunks_x + 2
 	var max_y = min_y + chunks_y + 2
 
@@ -262,8 +278,8 @@ func positionSections():
 			location_y -= centerChunkIndex.y
 
 		section.position = Vector2(
-			(mapSize.x - sectionSize)/2 + (location_x * sectionSize) + (offset.x * tileSize),
-			(mapSize.y - sectionSize)/2 + (location_y * sectionSize) + (offset.y * tileSize))
+			(mapSize.x - sectionSize)/2 + (location_x * sectionSize) + (offset.x * tileSize) - (tileSize/2),
+			(mapSize.y - sectionSize)/2 + (location_y * sectionSize) + (offset.y * tileSize) - (tileSize/2))
 
 		viewport.add_child(section)
 
