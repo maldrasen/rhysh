@@ -71,6 +71,11 @@ func createZoneFromTemplate():
 	for layer in layers:
 		buildTiles(layer)
 
+	print("Initial build step complete")
+	for biome in freeTiles:
+		print("  {0} Biome - {1} free tiles".format([biome, freeTiles[biome].size()]))
+
+	print("Zone creation complete, saving as chunks")
 	for index in chunks:
 		chunks[index].save()
 
@@ -130,13 +135,23 @@ func buildTiles(layer):
 		for x in range(0, layerSize.x - 1):
 			var zoneIndex = x + (y * self.layerSize.x)
 			var tileData = layer.tileData[zoneIndex]
-
-			# TODO: Tile data may not represent a tile, but a biome instead.
 			if tileData:
-				var tile = Tile.fromTileData(tileData)
-				applyExtension(tile,tileData,Vector2i(x,y))
-				putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
 
+				if tileData.root.has("biome"):
+					saveAsFreeTile(DungeonIndex.new(x,y,layer.level), tileData.root.biome)
+
+				if tileData.root.has("tile"):
+					var tile = Tile.fromTileData(tileData)
+					applyExtension(tile,tileData,Vector2i(x,y))
+					putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
+
+# As we go through the layers we save biomes as an array of points. These will be fed into the
+# builders to randomly generate these areas.
+func saveAsFreeTile(dungeonIndex, biomeKey):
+	var biomeName = self.zoneInfo.biomes[biomeKey]
+	if self.freeTiles.has(biomeName) == false:
+		self.freeTiles[biomeName] = []
+	self.freeTiles[biomeName].push_back(dungeonIndex)
 
 # Most of these decorate a tile or add triggers to it. None of these things exist yet though which
 # makes it hard to actually implement this function.

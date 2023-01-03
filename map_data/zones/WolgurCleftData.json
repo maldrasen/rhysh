@@ -5,6 +5,12 @@
     { "level":106 },
   ],
 
+  "biomes":{
+    "Orange": "Cleft",
+    "LightGreen": "Forest",
+    "Green": "Farm",
+  },
+
   "origins":{
     "Wolgur": { "x":49, "y":1, "z":103, "facing":"S" },
     "RevelGrove": { "x":1, "y":115, "z":104, "facing":"E" },
