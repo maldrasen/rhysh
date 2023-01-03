@@ -121,7 +121,7 @@ func setExtra(extra):
 	if extra.type == "Pillar":
 		return # TODO: Implement pillars
 
-	if extra.type == "Transition":
+	if extra.type == "Gateway":
 		return # TODO: Implement transitions
 
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
