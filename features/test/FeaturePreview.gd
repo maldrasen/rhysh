@@ -6,17 +6,13 @@ var mapView:MapView
 # It doesn't actually go into the game at all.
 
 func _ready():
-	loadZone("Wolgur")
+	loadZone("WolgurCleft","Wolgur")
 
-# You can only load a zone if there's a current game loaded because when loaded a zone either reads
-# the existing chunk files in the world, or writes them when it's loaded the first time.
-func loadZone(name):
-	if Configuration.lastPlayedWorld == null:
-		return printerr("Cannot preview zone. There is no world to continue from.")
-
-	GameState.loadGame(Configuration.lastPlayedWorld)
-	Dungeon.loadZone("Wolgur")
-	GameState.updateOrigin("Guild")
+func loadZone(name, origin):
+	GameState.createWorld()
+	Dungeon.loadZone(name)
+	GameState.updateOrigin(origin)
+	GameState.saveGame()
 
 	mapView = MapView.new($MapContainer, {
 		"mapSize": "Full",

@@ -14,11 +14,6 @@ var layerCount
 var layerSize
 var layers
 
-# TODO: The only zone that currently exists is the Wolgur zone. It doesn't have any biomes or free
-#       tiles though. I'm going to need to build the next zone which will have some mountains and
-#       some farm land, both of which will be biomes which will need to be randomly built once the
-#       layers are all loaded, but before we save the chunks off.
-
 # When we make a zone loader, we seed a new random number generator using the zone name and the
 # game seed. This should ensure that zones within a game will be built consistantly, even if they
 # are built in a different order.
@@ -110,17 +105,17 @@ func loadZoneData():
 # an area, that sort of thing.
 func loadLayer(layerMap):
 	var layerInfo = parseLayerName(layerMap.name)
+	var layer = self.layers[layerInfo.index]
 
-	for y in self.layerSize.y:
-		for x in self.layerSize.x:
-			var tileIndex = x + (y * self.layerSize.y)
+	for y in range(0, self.layerSize.y - 1):
+		for x in range(0, self.layerSize.x - 1):
+			var tileIndex = x + (y * self.layerSize.x)
 			var tileId = -1
 
 			if layerMap.has("data2D"):
 				tileId = layerMap.data2D[y][x]
 
 			if tileId >= 0:
-				var layer = self.layers[layerInfo.index]
 				if layer.tileData[tileIndex] == null:
 					layer.tileData[tileIndex] = {}
 
@@ -131,9 +126,9 @@ func loadLayer(layerMap):
 func buildTiles(layer):
 	print("  Build Layer: ",layer.level)
 
-	for y in layerSize.y:
-		for x in layerSize.x:
-			var zoneIndex = x + (y * self.layerSize.y)
+	for y in range(0, layerSize.y - 1):
+		for x in range(0, layerSize.x - 1):
+			var zoneIndex = x + (y * self.layerSize.x)
 			var tileData = layer.tileData[zoneIndex]
 
 			# TODO: Tile data may not represent a tile, but a biome instead.
