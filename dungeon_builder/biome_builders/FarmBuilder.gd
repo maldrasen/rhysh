@@ -1,6 +1,6 @@
 extends BiomeBuilder
 
-class_name GardenBuilder
+class_name FarmBuilder
 
 # [BiomeBuilder Implementation]
 func placeFeatures():

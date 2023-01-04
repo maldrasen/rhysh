@@ -2,10 +2,38 @@ extends Object
 
 class_name ZoneBuilder
 
-# Dont set tiles outside of the builder.
-#func setTile(dungeonIndex:DungeonIndex, tile:Tile):
-#	var chunk = fetchChunk(dungeonIndex.chunkIndex())
-#	chunk.setTile(dungeonIndex.tileIndex(),tile)
+var chunks
+var freeTiles
+var zoneInfo
+var zoneData
+var random: RandomNumberGenerator
+
+func _init(properties):
+	self.chunks = properties.chunks
+	self.freeTiles = properties.freeTiles
+	self.zoneInfo = properties.zoneInfo
+	self.zoneData = properties.zoneData
+
+	self.random = RandomNumberGenerator.new()
+	self.random.seed = "{0}{1}".format([GameState.randomSeed, self.zoneInfo.name]).hash()
+
+func generateBiomes():
+	for biomeName in freeTiles:
+		generateBiome(biomeName)
+
+func generateBiome(biomeName):
+	print("  {0} Biome - {1} free tiles".format([biomeName, freeTiles[biomeName].size()]))
+
+	if biomeName == "Cleft":
+		return
+	if biomeName == "Farm":
+		return
+	if biomeName == "Forest":
+		return
+
+	printerr("Error: No biome biolder for ",biomeName)
+
+
 
 # These don't really belong in the dungeon class. Regions either belong in the game state or in
 # the zone builder, depending on how long region information should persist for.

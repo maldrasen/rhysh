@@ -2,7 +2,6 @@ extends Object
 
 class_name ZoneLoader
 
-var random: RandomNumberGenerator
 var chunks
 var freeTiles
 
@@ -10,7 +9,6 @@ var zoneInfo
 var zoneMap
 var zoneData
 
-var layerCount
 var layerSize
 var layers
 
@@ -21,15 +19,16 @@ func _init(name):
 	self.zoneInfo = ZoneInfo.new(name)
 	self.freeTiles = {}
 	self.chunks = {}
-	self.random = RandomNumberGenerator.new()
-	self.random.seed = "{0}{1}".format([GameState.randomSeed, zoneInfo.name]).hash()
+
+
+# ==== Managing Chunks =============================================================================
 
 func zoneChunkFiles():
 	var world = DirAccess.open("user://worlds/{0}/".format([GameState.currentWorld]))
 	var files = []
 
 	for filename in world.get_files():
-		if filename.begins_with("{0}[".format([zoneInfo.name])):
+		if filename.begins_with("{0}[".format([self.zoneInfo.name])):
 			files.push_back(filename)
 
 	return files
@@ -45,63 +44,45 @@ func loadZoneChunks():
 	for filename in zoneChunkFiles():
 		var path = "user://worlds/{0}/{1}".format([GameState.currentWorld,filename])
 		var chunk = Chunk.loadChunkFile(path)
-		chunks[chunk.chunkIndex] = chunk
+		self.chunks[chunk.chunkIndex] = chunk
 
-# Zones are created from the JSON files in the map data directory.
+# ==== Zone Creation ===============================================================================
+# Zones are created from the JSON files in the map data directory. We first create tiles from the
+# map data and store them into chunks. We then take any free tiles from the map's biome areas and
+# randomly generate their contents. We then do a final pass to decorate the tiles and to verify all
+# the walls and such are set correctly, then finally save the complete chunk files.
+
 func createZoneFromTemplate():
-	loadZoneMap()
-	loadZoneData()
+	self.zoneMap = ZoneData.loadZoneMap(self.zoneInfo.name)
+	self.zoneData = ZoneData.loadZoneData(self.zoneInfo.name)
+	self.zoneInfo.buildFromData(self.zoneData)
 
-	print("Create Zone({0})".format([zoneInfo.name]))
-
-	self.layerCount = zoneData.layers.size()
-	self.layerSize = Vector2i(zoneMap.layers[0].gridCellsX, zoneMap.layers[0].gridCellsY)
+	self.layerSize = Vector2i(self.zoneMap.layers[0].gridCellsX, self.zoneMap.layers[0].gridCellsY)
 	self.layers = []
 
-	for layerData in zoneData.layers:
+	loadMapData()
+	generateBiomes()
+	saveChunks()
+
+# ==== Step 1 : Load Map Data ======================================================================
+
+func loadMapData():
+	print("Create Zone({0})".format([self.zoneInfo.name]))
+
+	for layerData in self.zoneData.layers:
 		var tileData = []
-		tileData.resize(layerSize.x * layerSize.y)
+		tileData.resize(self.layerSize.x * self.layerSize.y)
 
 		layerData.tileData = tileData
-		layers.push_back(layerData)
+		self.layers.push_back(layerData)
 
-	for layerMap in zoneMap.layers:
+	for layerMap in self.zoneMap.layers:
 		loadLayer(layerMap)
 
-	for layer in layers:
+	for layer in self.layers:
 		buildTiles(layer)
 
-	print("Initial build step complete")
-	for biome in freeTiles:
-		print("  {0} Biome - {1} free tiles".format([biome, freeTiles[biome].size()]))
-
-	print("Zone creation complete, saving as chunks")
-	for index in chunks:
-		chunks[index].save()
-
-func loadZoneMap():
-	var mapPath = "res://map_data/zones/{0}.json".format([zoneInfo.name])
-	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
-
-	if mapFile == null:
-		return printerr("Error creating Zone({0}). No map file named {1}".format([zoneInfo.name,mapPath]))
-
-	self.zoneMap = JSON.parse_string(mapFile.get_as_text())
-	if self.zoneMap == null:
-		return printerr("Parsing Error, cannot read {0}".format([mapPath]))
-
-func loadZoneData():
-	var dataPath = "res://map_data/zones/{0}Data.json".format([zoneInfo.name])
-	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
-
-	if dataFile == null:
-		return printerr("Error creating Zone({0}). No map data file named {1}".format([zoneInfo.name,dataFile]))
-
-	self.zoneData = JSON.parse_string(dataFile.get_as_text())
-	if self.zoneData == null:
-		return printerr("Parsing Error, cannot read {0}".format([dataPath]))
-
-	self.zoneInfo.buildFromData(zoneData)
+	print("Map Data Loaded")
 
 # Get all of the tile data from the Zone and put it the tile array for this layer. We need to do
 # this step before building the tiles because tile data can come from multiple separate map layers.
@@ -109,7 +90,7 @@ func loadZoneData():
 # used to do things like change encounter rates, levels, or tables. Set enviromental effects over
 # an area, that sort of thing.
 func loadLayer(layerMap):
-	var layerInfo = parseLayerName(layerMap.name)
+	var layerInfo = ZoneData.parseLayerName(layerMap.name)
 	var layer = self.layers[layerInfo.index]
 
 	for y in range(0, self.layerSize.y - 1):
@@ -131,8 +112,8 @@ func loadLayer(layerMap):
 func buildTiles(layer):
 	print("  Build Layer: ",layer.level)
 
-	for y in range(0, layerSize.y - 1):
-		for x in range(0, layerSize.x - 1):
+	for y in range(0, self.layerSize.y - 1):
+		for x in range(0, self.layerSize.x - 1):
 			var zoneIndex = x + (y * self.layerSize.x)
 			var tileData = layer.tileData[zoneIndex]
 			if tileData:
@@ -146,7 +127,7 @@ func buildTiles(layer):
 					putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
 
 # As we go through the layers we save biomes as an array of points. These will be fed into the
-# builders to randomly generate these areas.
+# biome builders to randomly generate these areas.
 func saveAsFreeTile(dungeonIndex, biomeKey):
 	var biomeName = self.zoneInfo.biomes[biomeKey]
 	if self.freeTiles.has(biomeName) == false:
@@ -161,22 +142,30 @@ func applyExtension(tile,tileData,index):
 
 	# var type = tileData.extended.type
 	# print("    Apply Extension ({0}):{1}".format([index,tileData.extended]))
-	tile.addExtensions(index, tileData.extended, zoneData)
+	tile.addExtensions(index, tileData.extended, self.zoneData)
 
-# We use the layer's name to determine the layer type and which level it's for.
-func parseLayerName(name):
-	for result in Static.ZoneLayerPattern.search_all(name):
-		if result.strings.size() == 3:
-			return {
-				"type": result.strings[1].to_lower(),
-				"index": int(result.strings[2]) - 1 }
-	printerr("Unparsable Layer Name: ",name)
-
-
+# Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 	var chunkIndex = dungeonIndex.chunkIndex()
 
-	if chunks.has(chunkIndex) == false:
-		chunks[chunkIndex] = Chunk.new(zoneInfo.name, chunkIndex)
+	if self.chunks.has(chunkIndex) == false:
+		self.chunks[chunkIndex] = Chunk.new(self.zoneInfo.name, chunkIndex)
 
-	chunks[chunkIndex].setTile(dungeonIndex.tileIndex(), tile)
+	self.chunks[chunkIndex].setTile(dungeonIndex.tileIndex(), tile)
+
+# ==== Step 2 : Generate Biomes ====================================================================
+
+func generateBiomes():
+	var builder = ZoneBuilder.new({
+		"chunks": self.chunks,
+		"freeTiles": self.freeTiles,
+		"zoneInfo": self.zoneInfo,
+		"zoneData": self.zoneData,
+	})
+	builder.generateBiomes()
+
+# The last step is to save all the chunk files.
+func saveChunks():
+	print("Zone creation complete. Saving chunks.")
+	for index in self.chunks:
+		self.chunks[index].save()

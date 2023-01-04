@@ -1,6 +1,6 @@
 extends BiomeBuilder
 
-class_name LightForestBuilder
+class_name ForestBuilder
 
 var region = null# DungeonBuilder.PredefinedRegions.LightForestOutside.index
 

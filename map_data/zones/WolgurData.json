@@ -1,9 +1,13 @@
-{ "layers":[
+{ 
+  "layers":[
     { "level":100 },
     { "level":101 },
     { "level":102 },
     { "level":103 },
   ],
+
+  "biomes":{},
+
   "origins":{
     "Guild":       { "x":61, "y":59, "z":102, "facing":"W" },
     "Tavern":      { "x":60, "y":51, "z":102, "facing":"W" },
@@ -11,8 +15,8 @@
     "Blacksmith":  { "x":63, "y":64, "z":102, "facing":"W" },
     "WolgurCleft": { "x":58, "y":76, "z":102, "facing":"N" },
   },
-  "exits":{
 
+  "exits":{
     "WolgurCleft":{ 
       "visible":true, 
       "points":[
@@ -21,6 +25,6 @@
         { "x":59, "y":77, "z":102 }
       ]
     }
-
   }
+
 }

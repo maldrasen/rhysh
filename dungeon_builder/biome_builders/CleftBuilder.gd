@@ -1,6 +1,6 @@
 extends BiomeBuilder
 
-class_name DarkWoodBuilder
+class_name CleftBuilder
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
