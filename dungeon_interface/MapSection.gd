@@ -186,7 +186,7 @@ func createCornerMap(centerPoint:Vector2):
 
 	# Apply margin after defining bounds. This should normally be 0 actually, but I sometimes need
 	# check to ensure that if a wall exists between two tiles, both tiles have the opposing walls.
-	var margin = 0#4
+	var margin = 4#0
 	corners.nw.x += margin
 	corners.nw.y += margin
 	corners.ne.x += -margin

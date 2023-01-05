@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dhofcwugkc2dk"]
+[gd_scene load_steps=2 format=3 uid="uid://rp1bjyxpgqtu"]
 
-[ext_resource type="Script" path="res://dungeon_builder/test/FeaturePreview.gd" id="1_27ag5"]
+[ext_resource type="Script" path="res://dungeon_builder/test/ZonePreview.gd" id="1_27ag5"]
 
-[node name="FeaturePreview" type="Control"]
+[node name="ZonePreview" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

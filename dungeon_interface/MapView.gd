@@ -157,9 +157,8 @@ func buildSingleSection():
 
 	if properties.tileSourceType == "FeatureTemplate":
 		var section = MapSection.new(mapScales[mapScale])
-		section.label = properties.tileSource.featureName
-		section.tiles = properties.tileSource.tiles
-		section.biomeAreas = properties.tileSource.biomeAreas
+		section.label = properties.tileSource.name
+		section.tiles = properties.tileSource.layers[0]
 
 		mapSections[Vector2(0,0)] = section
 		viewport.add_child(section)
