@@ -1,13 +1,77 @@
 extends Node
 
+const FeatureList = [
+	"Farms"
+]
+
 var rhyshRoot = {}
 var rhyshExtra = {}
 var rhyshExtended = {}
+var featureLibrary = {}
+
 
 func _ready():
 	parseTilemapFiles()
+	loadFeatures()
 
-# === Feature Loading ==============================================================================
+
+func loadFeatures():
+	print("=== Loading Feature Library ===")
+	for feature in FeatureList:
+		var template = FeatureLoader.loadFeature(feature)
+		if template:
+			featureLibrary[template.featureName] = template
+
+# ==== Map Data Files ==============================================================================
+
+static func loadZoneMap(name):
+	return loadMap("zones",name)
+
+static func loadZoneData(name):
+	return loadData("zones",name)
+
+static func loadFeatureMap(name):
+	return loadMap("features",name)
+
+static func loadFeatureData(name):
+	return loadData("features",name)
+
+static func loadMap(mapType, mapName):
+	var mapPath = "res://map_data/{0}/{1}.json".format([mapType,mapName])
+	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
+
+	if mapFile == null:
+		return printerr("Error: No file at {1}".format([mapPath]))
+
+	var map = JSON.parse_string(mapFile.get_as_text())
+	if map == null:
+		return printerr("Parsing Error, cannot read {0}".format([mapPath]))
+
+	return map
+
+static func loadData(mapType, mapName):
+	var dataPath = "res://map_data/{0}/{1}Data.json".format([mapType,mapName])
+	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
+
+	if dataFile == null:
+		return printerr("Error: No file at {1}".format([dataPath]))
+
+	var zoneData = JSON.parse_string(dataFile.get_as_text())
+	if zoneData == null:
+		return printerr("Parsing Error, cannot read {0}".format([dataPath]))
+
+	return zoneData
+
+# We use the layer's name to determine the layer type and which level it's for.
+static func parseLayerName(name):
+	for result in Static.MapLayerPattern.search_all(name):
+		if result.strings.size() == 3:
+			return {
+				"type": result.strings[1].to_lower(),
+				"index": int(result.strings[2]) - 1 }
+	printerr("Unparsable Layer Name: ",name)
+
+# ==== Tilemaps ====================================================================================
 
 func parseTilemapFiles():
 	rhyshRoot = parseTilemap("res://map_data/tilemaps/rhysh-root.json")

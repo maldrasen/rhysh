@@ -20,7 +20,6 @@ func _init(name):
 	self.freeTiles = {}
 	self.chunks = {}
 
-
 # ==== Managing Chunks =============================================================================
 
 func zoneChunkFiles():
@@ -53,8 +52,8 @@ func loadZoneChunks():
 # the walls and such are set correctly, then finally save the complete chunk files.
 
 func createZoneFromTemplate():
-	self.zoneMap = ZoneData.loadZoneMap(self.zoneInfo.name)
-	self.zoneData = ZoneData.loadZoneData(self.zoneInfo.name)
+	self.zoneMap = MapData.loadZoneMap(self.zoneInfo.name)
+	self.zoneData = MapData.loadZoneData(self.zoneInfo.name)
 	self.zoneInfo.buildFromData(self.zoneData)
 
 	self.layerSize = Vector2i(self.zoneMap.layers[0].gridCellsX, self.zoneMap.layers[0].gridCellsY)
@@ -90,7 +89,7 @@ func loadMapData():
 # used to do things like change encounter rates, levels, or tables. Set enviromental effects over
 # an area, that sort of thing.
 func loadLayer(layerMap):
-	var layerInfo = ZoneData.parseLayerName(layerMap.name)
+	var layerInfo = MapData.parseLayerName(layerMap.name)
 	var layer = self.layers[layerInfo.index]
 
 	for y in range(0, self.layerSize.y - 1):

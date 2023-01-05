@@ -12,7 +12,7 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"BasicRoomBuilder",
 "language": &"GDScript",
-"path": "res://features/feature_builders/BasicRoomBuilder.gd"
+"path": "res://dungeon_builder/feature_builders/BasicRoomBuilder.gd"
 }, {
 "base": "Object",
 "class": &"BiomeBuilder",
@@ -32,7 +32,7 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"CrossRoomBuilder",
 "language": &"GDScript",
-"path": "res://features/feature_builders/CrossRoomBuilder.gd"
+"path": "res://dungeon_builder/feature_builders/CrossRoomBuilder.gd"
 }, {
 "base": "Object",
 "class": &"DungeonIndex",
@@ -47,17 +47,17 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"Feature",
 "language": &"GDScript",
-"path": "res://features/Feature.gd"
+"path": "res://dungeon_builder/Feature.gd"
 }, {
 "base": "Object",
 "class": &"FeatureLoader",
 "language": &"GDScript",
-"path": "res://features/FeatureLoader.gd"
+"path": "res://dungeon_builder/FeatureLoader.gd"
 }, {
 "base": "Object",
 "class": &"FeatureTemplate",
 "language": &"GDScript",
-"path": "res://features/FeatureTemplate.gd"
+"path": "res://dungeon_builder/FeatureTemplate.gd"
 }, {
 "base": "Object",
 "class": &"Floor",
@@ -72,7 +72,7 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"GardenRoomBuilder",
 "language": &"GDScript",
-"path": "res://features/feature_builders/GardenRoomBuilder.gd"
+"path": "res://dungeon_builder/feature_builders/GardenRoomBuilder.gd"
 }, {
 "base": "TextureRect",
 "class": &"MapSection",
@@ -92,7 +92,7 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"SmallRoomBuilder",
 "language": &"GDScript",
-"path": "res://features/feature_builders/SmallRoomBuilder.gd"
+"path": "res://dungeon_builder/feature_builders/SmallRoomBuilder.gd"
 }, {
 "base": "Object",
 "class": &"Tile",
@@ -108,11 +108,6 @@ _global_script_classes=[{
 "class": &"ZoneBuilder",
 "language": &"GDScript",
 "path": "res://dungeon_builder/ZoneBuilder.gd"
-}, {
-"base": "Node",
-"class": &"ZoneData",
-"language": &"GDScript",
-"path": "res://dungeon_builder/ZoneData.gd"
 }, {
 "base": "Object",
 "class": &"ZoneInfo",
@@ -145,7 +140,6 @@ _global_script_class_icons={
 "Tile": "",
 "Wall": "",
 "ZoneBuilder": "",
-"ZoneData": "",
 "ZoneInfo": "",
 "ZoneLoader": ""
 }
