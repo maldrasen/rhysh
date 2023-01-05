@@ -18,9 +18,8 @@ func _ready():
 func loadFeatures():
 	print("=== Loading Feature Library ===")
 	for feature in FeatureList:
-		var template = FeatureLoader.loadFeature(feature)
-		if template:
-			featureLibrary[template.featureName] = template
+		var templates = FeatureLoader.new(feature).loadFeatures()
+		# featureLibrary[template.featureName] = template
 
 # ==== Map Data Files ==============================================================================
 

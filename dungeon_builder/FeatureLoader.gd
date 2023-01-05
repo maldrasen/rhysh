@@ -2,41 +2,90 @@ extends Object
 
 class_name FeatureLoader
 
+var featureMap
+var featureData
+var featureTemplates
+
+func _init(filename):
+	self.featureMap = MapData.loadFeatureMap(filename)
+	self.featureData = MapData.loadFeatureData(filename)
+	self.featureTemplates = {}
+
+func loadFeatures():
+	for featureInfo in featureData["Features"]:
+		loadFeature(featureInfo)
+
+func loadFeature(featureInfo):
+	print("  Load Feature({0})".format([featureInfo["Name"]]))
+	print("    Feature Info > ",featureInfo)
+
+	var tileData = loadTileData(featureInfo)
+	var featureTemplate = FeatureTemplate.new(featureInfo)
+
+	for layerIndex in tileData.size():
+		var layer = tileData[layerIndex]
+		print("    Layer[{0}]".format([layerIndex]))
+		print("    ",layer)
 
 
 
-static func loadFeature(feature):
-	print("Loading: ",feature)
-#	var folder = DirAccess.open("res://map_data/features")
-#	for filename in folder.get_files():
-#		var file = FileAccess.open("res://data/features/{0}".format([filename]), FileAccess.READ)
-#		loadFeature(filename, JSON.parse_string(file.get_as_text()))
+
+# Though the features have to do the same kind of map parsing as the zones, the way these layers
+# are loaded is completely different.
+func loadTileData(featureInfo):
+	var dataLayers = []
+
+	for i in featureInfo["Depth"]:
+		var layer = []
+		layer.resize(featureInfo["Width"] * featureInfo["Height"])
+		dataLayers.push_back(layer)
+
+	for mapLayer in self.featureMap.layers:
+		var layerInfo = MapData.parseLayerName(mapLayer.name)
+
+		for y in range(featureInfo["Y"], featureInfo["Height"]+featureInfo["Y"]):
+			for x in range(featureInfo["X"], featureInfo["Width"]+featureInfo["X"]):
+				var tileIndex = x-featureInfo["X"] + ((y-featureInfo["Y"]) * featureInfo["Width"])
+				var tileData = tileDataAt(mapLayer, layerInfo.type, Vector2i(x,y))
+
+				if tileData:
+					if dataLayers[layerInfo.index][tileIndex] == null:
+						dataLayers[layerInfo.index][tileIndex] = {}
+					dataLayers[layerInfo.index][tileIndex][layerInfo.type] = tileData
+
+	return dataLayers
+
+# The mapLayer will have its tile data in either a 2D array of string if it's the regions layer, or
+# as a 2D array of numbers if it's one of the other layers.
+func tileDataAt(mapLayer, layerType, point):
+
+	if mapLayer.has("grid2D"):
+		var tileId = mapLayer.grid2D[point.y][point.x]
+		if tileId != "0":
+			return null # TODO: Implement regions in features maybe?
+
+	if mapLayer.has("data2D"):
+		var tileId = mapLayer.data2D[point.y][point.x]
+		if tileId >= 0:
+			return MapData.lookup(layerType, tileId)
 
 
 
 
 
-# ==== Old Version =================================================================================
-# Going to need to do this once we add feature maps back in. The format's going to be different
-# though, so while it'll be similar to this it's pretty much all got to change.
 
 
-# Building a feature from a Tiled JSON document is going to be pretty fragile. I immagine that this
-# will break quite a bit as we refine the way that we're building the features in the editor. I'll
-# probably have to tweek this function, then reexport all of the maps a few times as the format
-# evolves. Right now these features are all only a single floor. We'll eventually need a way to
-# indicate that a feature spans multiple floors. Perhaps by setting some properties in the map that
-# specify where the bounds of the floors should be.
-#func loadFeature(filename, document):
+
+
 #	var featureType
 #	var featureName
 #	var properties = {}
 #	var offsets = {}
 #	var layers = {}
-#
-#	# We keep a mapping of the symbol type from the tileset to an acual use for that tile in the
-#	# map properties. These could be things like event triggers and may contain the actual event
-#	# codes and such. Could also be something to be randomized like a trap or a chest.
+
+	# We keep a mapping of the symbol type from the tileset to an acual use for that tile in the
+	# map properties. These could be things like event triggers and may contain the actual event
+	# codes and such. Could also be something to be randomized like a trap or a chest.
 #	for property in document.properties:
 #		if property.name == "FeatureName":
 #			featureName = property.value

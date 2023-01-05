@@ -92,8 +92,8 @@ func loadLayer(layerMap):
 	var layerInfo = MapData.parseLayerName(layerMap.name)
 	var layer = self.layers[layerInfo.index]
 
-	for y in range(0, self.layerSize.y - 1):
-		for x in range(0, self.layerSize.x - 1):
+	for y in self.layerSize.y:
+		for x in self.layerSize.x:
 			var tileIndex = x + (y * self.layerSize.x)
 			var tileId = -1
 
@@ -111,8 +111,8 @@ func loadLayer(layerMap):
 func buildTiles(layer):
 	print("  Build Layer: ",layer.level)
 
-	for y in range(0, self.layerSize.y - 1):
-		for x in range(0, self.layerSize.x - 1):
+	for y in self.layerSize.y:
+		for x in self.layerSize.x:
 			var zoneIndex = x + (y * self.layerSize.x)
 			var tileData = layer.tileData[zoneIndex]
 			if tileData:

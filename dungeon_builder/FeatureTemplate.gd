@@ -1,57 +1,34 @@
 extends Object
+
 class_name FeatureTemplate
 
-var featureName
-var featureType
+var name
 var regionType
+var canFlip
 var size:Vector3i
-var biomeAreas
-var tiles
-var canFlip = false
+var layers
 
-func _init():
-	size = Vector3i.ZERO
-	biomeAreas = {}
-	tiles = []
-	tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+func _init(info):
+	self.layers = []
+	self.name = info["Name"]
+	self.regionType = info["RegionType"]
+	self.canFlip = info["Flip"]
+	self.size = Vector3i(info["Width"], info["Height"], info["Depth"])
 
-# In addition to tiles a feature may contain biome areas, a list of tiles in a biome in the feature
-# that should be randomly generated when built. We store the biome as an array of indices.
-func defineBiomeArea(x,y,biome):
-	if !biomeAreas.has(biome):
-		biomeAreas[biome] = []
-	biomeAreas[biome].append(tileIndex(x,y))
+	for i in self.size.z:
+		var tiles = []
+		tiles.resize(self.size.x * self.size.y)
+		layers.push_back({ "tiles":tiles })
 
-# When loaded from a tilemap tiles will have the (x,y) coords of their position in that map. They
-# need to be put into the upper left corner before they can be placed.
-func reorientTiles(vec):
-	var oldTiles = self.tiles
+# I'm storing the tiles in kind of a strange way. A FeatureTemplate has a 3D volume of tiles,
+# though they'll usually only be a single z-level. There's a layer for each z level, and each layer
+# has a 1D array of tiles which is indexed as a 2D plane.
 
-	self.tiles = []
-	self.tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+func setTile(index:Vector3i, tile:Tile):
+	self.layers[index.z].tiles[tileIndex(index)]
 
-	for x in Constants.ChunkSize:
-		for y in Constants.ChunkSize:
-			var dx = x + vec.x
-			var dy = y + vec.y
-			var newIndex = dx + dy*Constants.ChunkSize
-			var oldIndex = x + y*Constants.ChunkSize
+func getTile(index:Vector3i) -> Tile:
+	return self.layers[index.z].tiles[tileIndex(index)]
 
-			if oldTiles[oldIndex]:
-				tiles[newIndex] = oldTiles[oldIndex]
-
-# We need to force this to make a copy of the tile array when creating a feature.
-func copyTiles():
-	var copy = []
-	for tile in tiles:
-		if tile:
-			copy.push_back(Tile.unpack(tile.pack()))
-		else:
-			copy.push_back(null)
-	return copy
-
-func tileIndex(x,y):
-	return x + (y * Constants.ChunkSize)
-
-func _to_string():
-	return "FeatureTemplate[{0}:{1}]".format([self.featureType,self.featureName])
+func tileIndex(index:Vector3i):
+	return index.x + (index.y * self.size.x)

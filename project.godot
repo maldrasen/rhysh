@@ -47,7 +47,7 @@ _global_script_classes=[{
 "base": "Object",
 "class": &"Feature",
 "language": &"GDScript",
-"path": "res://dungeon_builder/Feature.gd"
+"path": "res://dungeon_builder/OldFeature.gd"
 }, {
 "base": "Object",
 "class": &"FeatureLoader",
