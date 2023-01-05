@@ -111,16 +111,14 @@ func setExtra(extra):
 
 	if extra.type == "SecretDoor":
 		return # TODO: Implement secret doors
-
 	if extra.type == "TrappedDoor":
 		return # TODO: Implement trapped doors
-
 	if extra.type == "Fence":
 		return # TODO: Implement fences
-
+	if extra.type == "FenceGate":
+		return # TODO: Implement fences
 	if extra.type == "Pillar":
 		return # TODO: Implement pillars
-
 	if extra.type == "Gateway":
 		return # TODO: Implement transitions
 

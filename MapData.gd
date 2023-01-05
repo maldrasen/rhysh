@@ -8,18 +8,65 @@ var rhyshRoot = {}
 var rhyshExtra = {}
 var rhyshExtended = {}
 var featureLibrary = {}
-
+var featureSets = {}
 
 func _ready():
 	parseTilemapFiles()
 	loadFeatures()
 
+# ==== Tilemap Loading =============================================================================
+
+func parseTilemapFiles():
+	rhyshRoot = parseTilemap("res://map_data/tilemaps/rhysh-root.json")
+	rhyshExtra = parseTilemap("res://map_data/tilemaps/rhysh-extra.json")
+	rhyshExtended = parseTilemap("res://map_data/tilemaps/rhysh-extended.json")
+
+# The big gatcha in parsing JSON is that all number types are turned into floats. Took me forever
+# to figure that out because the print() function prints 0.0 as 0
+func parseTilemap(path):
+	var file = FileAccess.open(path, FileAccess.READ)
+	var content = JSON.parse_string(file.get_as_text())
+	var tileMap = {}
+
+	for tileDefinition in content.tiles:
+		tileMap[int(tileDefinition.id)] = tileDefinition
+
+	return tileMap
+
+func lookup(type:String, id:int):
+	if type.to_lower() == "root":
+		if rhyshRoot.has(id):
+			return rhyshRoot[id]
+	if type.to_lower() == "extra":
+		if rhyshExtra.has(id):
+			return rhyshExtra[id]
+	if type.to_lower() == "extended":
+		if rhyshExtended.has(id):
+			return rhyshExtended[id]
+	printerr("Error: No MapData for {0}:{1}".format([type,id]))
+
+# ==== Feature Loading =============================================================================
 
 func loadFeatures():
 	print("=== Loading Feature Library ===")
 	for feature in FeatureList:
-		var templates = FeatureLoader.new(feature).loadFeatures()
-		# featureLibrary[template.featureName] = template
+		FeatureLoader.new(feature).loadFeatures()
+	print("Loaded {0} features".format([featureLibrary.size()]))
+
+# Called by the FeatureLoaders for each feature they load.
+func addTemplateToLibrary(template):
+	featureLibrary[template.name] = template
+
+# Features also can belong to a feature set. These are used to select random features when building
+# the dungeon. Biomes can draw features from many sets and sets may belong to many biomes.
+func addTemplateToSets(setList, templateName):
+	for setName in setList:
+		if false == featureSets.has(setName):
+			featureSets[setName] = []
+		featureSets[setName].push_back(templateName)
+
+func lookupFeatureTemplate(templateName):
+	return featureLibrary[templateName]
 
 # ==== Map Data Files ==============================================================================
 
@@ -69,34 +116,3 @@ static func parseLayerName(name):
 				"type": result.strings[1].to_lower(),
 				"index": int(result.strings[2]) - 1 }
 	printerr("Unparsable Layer Name: ",name)
-
-# ==== Tilemaps ====================================================================================
-
-func parseTilemapFiles():
-	rhyshRoot = parseTilemap("res://map_data/tilemaps/rhysh-root.json")
-	rhyshExtra = parseTilemap("res://map_data/tilemaps/rhysh-extra.json")
-	rhyshExtended = parseTilemap("res://map_data/tilemaps/rhysh-extended.json")
-
-# The big gatcha in parsing JSON is that all number types are turned into floats. Took me forever
-# to figure that out because the print() function prints 0.0 as 0
-func parseTilemap(path):
-	var file = FileAccess.open(path, FileAccess.READ)
-	var content = JSON.parse_string(file.get_as_text())
-	var tileMap = {}
-
-	for tileDefinition in content.tiles:
-		tileMap[int(tileDefinition.id)] = tileDefinition
-
-	return tileMap
-
-func lookup(type:String, id:int):
-	if type.to_lower() == "root":
-		if rhyshRoot.has(id):
-			return rhyshRoot[id]
-	if type.to_lower() == "extra":
-		if rhyshExtra.has(id):
-			return rhyshExtra[id]
-	if type.to_lower() == "extended":
-		if rhyshExtended.has(id):
-			return rhyshExtended[id]
-	printerr("Error: No MapData for {0}:{1}".format([type,id]))
