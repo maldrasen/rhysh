@@ -12,7 +12,7 @@ func loadZone(zoneName):
 
 	var loader = ZoneLoader.new(zoneName)
 	if loader.hasBeenBuilt():
-		loader.loadZoneData()
+		MapData.loadZoneData(zoneName)
 		loader.loadZoneChunks()
 	else:
 		loader.createZoneFromTemplate()
