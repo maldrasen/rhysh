@@ -25,7 +25,7 @@ func _init(info):
 # has a 1D array of tiles which is indexed as a 2D plane.
 
 func setTile(index:Vector3i, tile:Tile):
-	self.layers[index.z][tileIndex(index)]
+	self.layers[index.z][tileIndex(index)] = tile
 
 func getTile(index:Vector3i) -> Tile:
 	return self.layers[index.z][tileIndex(index)]
@@ -38,7 +38,7 @@ func copyLayers():
 	var copy = []
 	for layer in self.layers:
 		var tiles = []
-		for tile in layer.tiles:
+		for tile in layer:
 			if tile:
 				tiles.push_back(Tile.unpack(tile.pack()))
 			else:

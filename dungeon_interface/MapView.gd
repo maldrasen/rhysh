@@ -155,10 +155,10 @@ func buildSingleSection():
 	if properties.has("tileSource") == false:
 		return
 
-	if properties.tileSourceType == "FeatureTemplate":
+	if properties.tileSourceType == "ChunkSource":
 		var section = MapSection.new(mapScales[mapScale])
 		section.label = properties.tileSource.name
-		section.tiles = properties.tileSource.layers[0]
+		section.tiles = properties.tileSource.layers[0].tiles
 
 		mapSections[Vector2(0,0)] = section
 		viewport.add_child(section)

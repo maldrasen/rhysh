@@ -18,7 +18,7 @@ func _init(featureName_):
 	self.layers = template.copyLayers()
 
 func getTile(x,y,z):
-	return self.layers[z][x + y * Constants.ChunkSize]
+	return self.layers[z][x + (y*size.x)]
 
 # ==== Flipping ====================================================================================
 # As a way to get more variety out of the feature templates we allow most features to be freely
@@ -40,39 +40,39 @@ func flipH():
 	for z in layers.size():
 		var oldTiles = layers[z]
 
-		self.tiles = []
-		self.tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+		layers[z] = []
+		layers[z].resize(self.size.x * self.size.y)
 
 		for y in self.size.y:
 			var newX = self.size.x - 1
 			for x in self.size.x:
-				var oldIndex = x + y * Constants.ChunkSize
-				var newIndex = newX + y * Constants.ChunkSize
+				var oldIndex = x + (y * self.size.x)
+				var newIndex = newX + (y * self.size.x)
 
-				self.tiles[newIndex] = oldTiles[oldIndex]
+				layers[z][newIndex] = oldTiles[oldIndex]
 				newX -= 1
 
-				if self.tiles[newIndex]:
-					self.tiles[newIndex].flipH()
+				if layers[z][newIndex]:
+					layers[z][newIndex].flipH()
 
 func flipV():
 	for z in layers.size():
 		var oldTiles = layers[z]
 
-		self.tiles = []
-		self.tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+		layers[z] = []
+		layers[z].resize(self.size.x * self.size.y)
 
 		for x in self.size.x:
 			var newY = self.size.y - 1
 			for y in self.size.y:
-				var oldIndex = x + y * Constants.ChunkSize
-				var newIndex = x + newY * Constants.ChunkSize
+				var oldIndex = x + (y * self.size.x)
+				var newIndex = x + (newY * self.size.x)
 
-				self.tiles[newIndex] = oldTiles[oldIndex]
+				layers[z][newIndex] = oldTiles[oldIndex]
 				newY -= 1
 
-				if self.tiles[newIndex]:
-					self.tiles[newIndex].flipV()
+				if layers[z][newIndex]:
+					layers[z][newIndex].flipV()
 
 # I was trying to rotate the tile matrix, but really only got it to flip along the diagonal axis
 # doing it this way. Should be possible to rotate the tiles with a couple loops like this, but I'm
@@ -82,8 +82,8 @@ func flipD():
 		var oldTiles = layers[z]
 		var oldSize = size
 
-		self.tiles = []
-		self.tiles.resize(Constants.ChunkSize * Constants.ChunkSize)
+		layers[z] = []
+		layers[z].resize(self.size.x * self.size.y)
 		self.size = Vector3i(oldSize.y, oldSize.x, 1)
 
 		var newX = size.x
@@ -94,9 +94,12 @@ func flipD():
 			newX -= 1
 			for x in oldSize.x:
 				newY -= 1
-				var oldIndex = x + y * Constants.ChunkSize
-				var newIndex = newX + newY * Constants.ChunkSize
+				var oldIndex = x + (y * self.size.y)
+				var newIndex = newX + (newY * self.size.x)
 
-				self.tiles[newIndex] = oldTiles[oldIndex]
-				if self.tiles[newIndex]:
-					self.tiles[newIndex].flipD()
+				layers[z][newIndex] = oldTiles[oldIndex]
+				if layers[z][newIndex]:
+					layers[z][newIndex].flipD()
+
+func _to_string():
+	return "Feature[{0}]".format([featureName])
