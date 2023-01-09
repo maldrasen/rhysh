@@ -10,7 +10,9 @@ const FeatureColorGreen = Color(0.15, 0.50, 0.25)
 const FeatureColorGray =  Color(0.60, 0.60, 0.60)
 const FeatureColorWhite = Color(1.00, 1.00, 1.00)
 const WallColor =         Color(0.65, 0.625, 0.60)
+const FenceColor =        Color(0.8,  0.4, 0.2)
 const DoorColor =         Color(1.00, 1.00, 1.00)
+const StairColor =        Color(1.00, 1.00, 1.00)
 const GridColor =         Color(0, 0, 0, 0.1)
 
 var tileSize
@@ -61,22 +63,23 @@ func drawTile(x,y,tile):
 	var centerPoint = Vector2(
 		(tileSize/2) + (x*tileSize),
 		(tileSize/2) + (y*tileSize))
-	var corners = createCornerMap(centerPoint)
+	var points = createPointMap(centerPoint)
 
-	drawFloor(tile,corners)
-	drawGrid(corners)
+	drawFloor(tile,points)
+	drawGrid(points)
+	drawStairs(tile,points)
 
 	# Drawing walls should include doors and other direction specific things.
 	for facing in Constants.NSEW:
 		var wall = tile.wallAt(facing)
 		if wall:
-			drawWall(corners, facing, wall)
+			drawWall(points, facing, wall)
 
 func drawBiomeTile(x,y,area):
 	var centerPoint = Vector2(
 		(tileSize/2) + (x*tileSize),
 		(tileSize/2) + (y*tileSize))
-	var corners = createCornerMap(centerPoint)
+	var points = createPointMap(centerPoint)
 
 	var color = {
 		0: Color(0.10, 0.30, 0.15, 0.20),
@@ -84,18 +87,16 @@ func drawBiomeTile(x,y,area):
 		2: Color(0.20, 0.70, 0.35, 0.20),
 	}[area]
 
-	draw_rect(corners.bounds, color, true)
-	drawGrid(corners)
+	draw_rect(points.bounds, color, true)
+	drawGrid(points)
 
-func drawGrid(corners):
-	draw_line(corners.nw, corners.ne, GridColor, wallWidth)
-	draw_line(corners.nw, corners.sw, GridColor, wallWidth)
-
-
+func drawGrid(points):
+	draw_line(points.nw, points.ne, GridColor, wallWidth)
+	draw_line(points.nw, points.sw, GridColor, wallWidth)
 
 # Draw the tile floor. If the tile is solid we should either render a solid block the color of the
 # wall or a symbol representing whatever is filling the tile.
-func drawFloor(tile,corners):
+func drawFloor(tile,points):
 	var floorColor = VoidFloorColor
 	var symbol
 	var symbolColor
@@ -116,44 +117,68 @@ func drawFloor(tile,corners):
 			symbol = "circle"
 			symbolColor = FeatureColorGray
 
-	draw_rect(corners.bounds, floorColor, true)
+	draw_rect(points.bounds, floorColor, true)
 
 	if symbol:
 		if symbol == "square":
-			draw_rect(corners.bounds.grow(wallWidth * -2),symbolColor,true)
+			draw_rect(points.bounds.grow(wallWidth * -2),symbolColor,true)
 		if symbol == "circle":
-			draw_circle(corners.bounds.get_center(), corners.bounds.size.x/4, symbolColor)
+			draw_circle(points.bounds.get_center(), points.bounds.size.x/4, symbolColor)
 
+func drawStairs(tile,points):
+	if [Tile.Type.StairsUp, Tile.Type.StairsDown].has(tile.type):
+		var triangle
 
+		if tile.type == Tile.Type.StairsUp:
+			triangle = [points.n, points.sw, points.se]
+		if tile.type == Tile.Type.StairsDown:
+			triangle = [points.s, points.nw, points.ne]
+
+		draw_colored_polygon(triangle, StairColor)
 
 func drawWall(corners, facing, wall):
 	var doorSide = wallWidth*1.5
 	var doorOut = wallWidth*0.5
 	var doorWidth = wallWidth*2
 
+	var color = WallColor
+	var offset = 0
+
+	if wall.type == Wall.Type.Fence:
+		offset = tileSize / 8
+		color = FenceColor
+
 	if facing == Constants.North:
-		draw_line(corners.nw, corners.ne, WallColor, wallWidth)
+		var nw = corners.nw + Vector2(0,offset)
+		var ne = corners.ne + Vector2(0,offset)
+		draw_line(nw, ne, color, wallWidth)
 		if wall.type == Wall.Type.Door:
 			var d1 = corners.nw + Vector2(doorSide,doorOut)
 			var d2 = corners.ne + Vector2(-doorSide,doorOut)
 			draw_line(d1, d2, DoorColor, doorWidth)
 
 	if facing == Constants.South:
-		draw_line(corners.sw, corners.se, WallColor, wallWidth)
+		var sw = corners.sw + Vector2(0,-offset)
+		var se = corners.se + Vector2(0,-offset)
+		draw_line(sw, se, color, wallWidth)
 		if wall.type == Wall.Type.Door:
 			var d1 = corners.sw + Vector2(doorSide,-doorOut)
 			var d2 = corners.se + Vector2(-doorSide,-doorOut)
 			draw_line(d1, d2, DoorColor, doorWidth)
 
 	if facing == Constants.East:
-		draw_line(corners.ne, corners.se, WallColor, wallWidth)
+		var ne = corners.ne + Vector2(-offset,0)
+		var se = corners.se + Vector2(-offset,0)
+		draw_line(ne, se, color, wallWidth)
 		if wall.type == Wall.Type.Door:
 			var d1 = corners.ne + Vector2(-doorOut, doorSide)
 			var d2 = corners.se + Vector2(-doorOut,-doorSide)
 			draw_line(d1, d2, DoorColor, doorWidth)
 
 	if facing == Constants.West:
-		draw_line(corners.nw, corners.sw, WallColor, wallWidth)
+		var nw = corners.nw + Vector2(offset,0)
+		var sw = corners.sw + Vector2(offset,0)
+		draw_line(nw, sw, color, wallWidth)
 		if wall.type == Wall.Type.Door:
 			var d1 = corners.nw + Vector2(doorOut, doorSide)
 			var d2 = corners.sw + Vector2(doorOut,-doorSide)
@@ -162,38 +187,55 @@ func drawWall(corners, facing, wall):
 # All this shit looks like something that would make a handy utility function as well. I'm making a
 # map of all the corners in a rectangle. I need both bounds and corners because lines are drawn
 # with corners and rectangles are drawn with bounds.
-func createCornerMap(centerPoint:Vector2):
-	var corners = {}
+func createPointMap(centerPoint:Vector2):
+	var points = { "c": centerPoint }
 
-	corners.nw = Vector2(
+	points.n = Vector2(
+		centerPoint.x,
+		centerPoint.y - (tileSize/2))
+	points.s = Vector2(
+		centerPoint.x,
+		centerPoint.y + (tileSize/2))
+	points.e = Vector2(
+		centerPoint.x + (tileSize/2),
+		centerPoint.y)
+	points.w = Vector2(
+		centerPoint.x - (tileSize/2),
+		centerPoint.y)
+
+	points.nw = Vector2(
 		centerPoint.x - (tileSize/2),
 		centerPoint.y - (tileSize/2))
-	corners.ne = Vector2(
-		corners.nw.x + tileSize,
-		corners.nw.y)
-	corners.se = Vector2(
-		corners.ne.x,
-		corners.ne.y + tileSize)
-	corners.sw = Vector2(
-		corners.nw.x,
-		corners.se.y)
+	points.ne = Vector2(
+		points.nw.x + tileSize,
+		points.nw.y)
+	points.se = Vector2(
+		points.ne.x,
+		points.ne.y + tileSize)
+	points.sw = Vector2(
+		points.nw.x,
+		points.se.y)
 
-	corners.bounds = Rect2(
-		corners.nw.x,
-		corners.nw.y,
-		corners.ne.x-corners.nw.x,
-		corners.sw.y-corners.nw.y)
+	points.bounds = Rect2(
+		points.nw.x,
+		points.nw.y,
+		points.ne.x-points.nw.x,
+		points.sw.y-points.nw.y)
 
 	# Apply margin after defining bounds. This should normally be 0 actually, but I sometimes need
 	# check to ensure that if a wall exists between two tiles, both tiles have the opposing walls.
 	var margin = 0#4
-	corners.nw.x += margin
-	corners.nw.y += margin
-	corners.ne.x += -margin
-	corners.ne.y += margin
-	corners.se.x += -margin
-	corners.se.y += -margin
-	corners.sw.x += margin
-	corners.sw.y += -margin
+	points.nw.x += margin
+	points.nw.y += margin
+	points.ne.x += -margin
+	points.ne.y += margin
+	points.se.x += -margin
+	points.se.y += -margin
+	points.sw.x += margin
+	points.sw.y += -margin
 
-	return corners
+	return points
+
+# May need to tweek this size
+func glyphSize():
+	return self.tileSize

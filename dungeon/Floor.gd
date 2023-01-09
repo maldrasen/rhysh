@@ -32,6 +32,7 @@ func typeString():
 	return {
 		Type.Normal: "Nrml",
 		Type.Water: "Watr",
+		Type.Void: "Void",
 	}[self.type]
 
 func _to_string():

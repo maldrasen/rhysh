@@ -98,10 +98,24 @@ func setWallsFromString(string:String, certainty:Wall.Certainty):
 		if string.contains(dir):
 			walls[dir] = Wall.new(Wall.Type.Normal, certainty)
 
+func setFences(extra):
+	print("Set Fences: ",extra)
+	for dir in Constants.NSEW:
+		if extra.facing.contains(dir):
+			if walls[dir] != null:
+				print("Error: Trying to set a fence where a wall has already been placed.")
+			else:
+				walls[dir] = Wall.new(Wall.Type.Fence, Wall.Certainty.High)
+
+
 func setExtra(extra):
 
 	if extra.type == "Stairs":
-		return # TODO: Implement stairs
+		if extra.stairs == "Down":
+			self.type = Type.StairsDown
+		if extra.stairs == "Up":
+			self.type = Type.StairsUp
+		return
 
 	if extra.type == "Door":
 		for dir in Constants.NSEW:
@@ -109,12 +123,14 @@ func setExtra(extra):
 				placeDoor(dir)
 		return
 
+	if extra.type == "Fence":
+		return setFences(extra)
+
+
 	if extra.type == "SecretDoor":
 		return # TODO: Implement secret doors
 	if extra.type == "TrappedDoor":
 		return # TODO: Implement trapped doors
-	if extra.type == "Fence":
-		return # TODO: Implement fences
 	if extra.type == "FenceGate":
 		return # TODO: Implement fences
 	if extra.type == "Pillar":
