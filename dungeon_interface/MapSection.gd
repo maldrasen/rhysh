@@ -5,12 +5,13 @@ class_name MapSection
 const BackgroundColor =   Color(0.10, 0.10, 0.10)
 const NormalFloorColor =  Color(0.16, 0.155, 0.15)
 const WaterFloorColor =   Color(0.20, 0.30, 0.40)
+const StoneColor =        Color(0.25, 0.23, 0.22)
+const FenceColor =        Color(0.8,  0.4, 0.2)
 const VoidFloorColor =    Color(0.00, 0.00, 0.00)
 const FeatureColorGreen = Color(0.15, 0.50, 0.25)
 const FeatureColorGray =  Color(0.60, 0.60, 0.60)
 const FeatureColorWhite = Color(1.00, 1.00, 1.00)
 const WallColor =         Color(0.65, 0.625, 0.60)
-const FenceColor =        Color(0.8,  0.4, 0.2)
 const DoorColor =         Color(1.00, 1.00, 1.00)
 const StairColor =        Color(1.00, 1.00, 1.00)
 const GridColor =         Color(0, 0, 0, 0.1)
@@ -108,8 +109,8 @@ func drawFloor(tile,points):
 			floorColor = WaterFloorColor
 
 	if tile.type == Tile.Type.Solid:
-		if ["stone",null].has(tile.fill):
-			floorColor = WallColor
+		if tile.fill.has("stone"):
+			floorColor = StoneColor
 		elif tile.fill.has("tree"):
 			symbol = "square"
 			symbolColor = FeatureColorGreen

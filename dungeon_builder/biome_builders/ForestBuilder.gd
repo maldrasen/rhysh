@@ -8,7 +8,7 @@ var region = null# DungeonBuilder.PredefinedRegions.LightForestOutside.index
 func placeFeatures():
 	var size = freeTiles.size()
 	var houseCount = floor(size/180)
-	var treeCount = floor(size/10)
+	var treeCount = floor(size/9)
 
 	addHouses(houseCount)
 	addTrees(treeCount)

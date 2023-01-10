@@ -2,7 +2,7 @@
   { "Name":"Farm-1-1",  "Flip":true, "X":1,  "Y":1,  "Width":5, "Height":8, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
   { "Name":"Farm-1-2",  "Flip":true, "X":7,  "Y":1,  "Width":3, "Height":6, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
   { "Name":"Farm-1-3",  "Flip":true, "X":11, "Y":1,  "Width":4, "Height":4, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
-  { "Name":"Farm-1-4",  "Flip":true, "X":11, "Y":6,  "Width":4, "Height":3, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
+  { "Name":"Farm-1-4",  "Flip":true, "X":10, "Y":6,  "Width":5, "Height":3, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
   { "Name":"Farm-1-5",  "Flip":true, "X":16, "Y":1,  "Width":6, "Height":7, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
   { "Name":"Farm-1-6",  "Flip":true, "X":23, "Y":1,  "Width":5, "Height":8, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},
   { "Name":"Farm-1-7",  "Flip":true, "X":29, "Y":1,  "Width":2, "Height":4, "Depth":1, "FeatureSet":"farms", "RegionType":"outside"},

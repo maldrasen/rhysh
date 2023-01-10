@@ -86,6 +86,8 @@ static func fromTileData(tileData) -> Tile:
 			tile.setExtra(tileData.extra)
 		if tileData.has("extended"):
 			tile.setExtensions(tileData.extended)
+		if tileData.root.tile == "Solid":
+			tile.fillWith(tileData.root.fill)
 
 	if tile.theFloor == null:
 		tile.theFloor = Floor.new(Floor.Type.Void)
@@ -153,6 +155,12 @@ func setExtensions(extension):
 		return #TODO: Implement triggers
 
 	print("Unknown Extension Error: What do I do with this?",extension)
+
+func fillWith(fillName):
+	self.type = Type.Solid
+	self.fill = {
+		"Stone": { "stone":"normal" }
+	}[fillName]
 
 func fillWithTree(type = "random"):
 	self.type = Type.Solid

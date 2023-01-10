@@ -168,14 +168,12 @@ func generateBiomes():
 		}
 
 		if biomeName == "Cleft":
-			continue
+			CleftBuilder.new(properties).fullBuild()
 		if biomeName == "Farm":
-			continue
+			FarmBuilder.new(properties).fullBuild()
 		if biomeName == "Forest":
 			ForestBuilder.new(properties).fullBuild()
-			continue
 
-		printerr("Error: No biome builder for ",biomeName)
 	print("  ---")
 
 # The last step is to save all the chunk files.
