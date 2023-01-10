@@ -11,7 +11,7 @@ var chunks
 
 var freeTiles
 var usedTiles
-var connectionPoints
+var supplementaryData
 
 var random: RandomNumberGenerator
 
@@ -24,7 +24,7 @@ func _init(properties):
 
 	self.freeTiles = properties.freeTiles
 	self.usedTiles = []
-	self.connectionPoints = properties.connectionPoints
+	self.supplementaryData = properties.supplementaryData
 
 	self.random = RandomNumberGenerator.new()
 	self.random.seed = "{0}{1}".format([GameState.randomSeed, self.zoneInfo.name]).hash()
