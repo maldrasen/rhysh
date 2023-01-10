@@ -17,8 +17,8 @@ func loadFeature(featureInfo):
 	var tileData = loadTileData(featureInfo)
 	var featureTemplate = FeatureTemplate.new(featureInfo)
 
-	if featureInfo.has("FeatureSets"):
-		MapData.addTemplateToSets(featureInfo["FeatureSets"],featureInfo["Name"])
+	if featureInfo.has("FeatureSet"):
+		MapData.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
 
 	for layerIndex in tileData.size():
 		var layer = tileData[layerIndex]
@@ -47,7 +47,7 @@ func loadTileData(featureInfo):
 		for y in range(featureInfo["Y"], featureInfo["Height"]+featureInfo["Y"]):
 			for x in range(featureInfo["X"], featureInfo["Width"]+featureInfo["X"]):
 				var tileIndex = x-featureInfo["X"] + ((y-featureInfo["Y"]) * featureInfo["Width"])
-				var tileData = tileDataAt(mapLayer, layerInfo.type, Vector2i(x,y))
+				var tileData = tileDataAt(mapLayer, layerInfo.type, Vector3i(x,y,layerInfo.index))
 
 				if tileData:
 					if dataLayers[layerInfo.index][tileIndex] == null:
@@ -59,6 +59,7 @@ func loadTileData(featureInfo):
 # The mapLayer will have its tile data in either a 2D array of string if it's the regions layer, or
 # as a 2D array of numbers if it's one of the other layers.
 func tileDataAt(mapLayer, layerType, point):
+	var extensionLoader = ExtensionLoader.new(featureData)
 
 	if mapLayer.has("grid2D"):
 		var tileId = mapLayer.grid2D[point.y][point.x]
@@ -68,4 +69,4 @@ func tileDataAt(mapLayer, layerType, point):
 	if mapLayer.has("data2D"):
 		var tileId = mapLayer.data2D[point.y][point.x]
 		if tileId >= 0:
-			return MapData.lookup(layerType, tileId)
+			return extensionLoader.adjustedLayerData(layerType, tileId, point)

@@ -1,7 +1,7 @@
 extends Object
 class_name Wall
 
-enum Type { Normal, Door }
+enum Type { Normal, Door, Fence }
 enum Certainty {
   None,         # Absolutely flexible, nothing has touched this.
   Tentative,    # This was placed by a generator and subject to change.

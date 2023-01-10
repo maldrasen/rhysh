@@ -10,6 +10,13 @@ var rhyshExtended = {}
 var featureLibrary = {}
 var featureSets = {}
 
+# The FeatureSet names are buried in the feature data files, which actually can't even be opened
+# in Godot. (Not sure why it can't even view a JSON file, but whatever) Here is a list of the set
+# names:
+#          farms
+#
+# (I mean... I'm going to have more soon.)
+
 func _ready():
 	parseTilemapFiles()
 	loadFeatures()
@@ -32,6 +39,18 @@ func parseTilemap(path):
 		tileMap[int(tileDefinition.id)] = tileDefinition
 
 	return tileMap
+
+func randomFeatureFromSet(setName):
+	return Feature.new(featureSets[setName].pick_random())
+
+func randomFeatureFromSets(setNames):
+	var featureList = []
+
+	for setName in setNames:
+		for feature in featureSets[setName]:
+			featureList.push_back(feature)
+
+	return Feature.new(featureList.pick_random())
 
 func lookup(type:String, id:int):
 	if type.to_lower() == "root":
@@ -59,11 +78,10 @@ func addTemplateToLibrary(template):
 
 # Features also can belong to a feature set. These are used to select random features when building
 # the dungeon. Biomes can draw features from many sets and sets may belong to many biomes.
-func addTemplateToSets(setList, templateName):
-	for setName in setList:
-		if false == featureSets.has(setName):
-			featureSets[setName] = []
-		featureSets[setName].push_back(templateName)
+func addTemplateToSet(setName, templateName):
+	if featureSets.has(setName) == false:
+		featureSets[setName] = []
+	featureSets[setName].push_back(templateName)
 
 func lookupFeatureTemplate(templateName):
 	return featureLibrary[templateName]

@@ -25,6 +25,7 @@ const NSEW = ["N","S","E","W"]
 enum GameStage {
 	Dungeon,
 	Town,
+	TownBlacksmith,
 	TownGuild,
 	TownStore,
 	TownTavern,
@@ -37,3 +38,9 @@ enum Status {
 	Success,
 	Abort,
 }
+
+# UI Constants
+const FontBaskerville = preload("res://assets/fonts/LibreBaskerville-Regular.ttf")
+const FontBaskervilleBold = preload("res://assets/fonts/LibreBaskerville-Bold.ttf")
+const FontBaskervilleItalic = preload("res://assets/fonts/LibreBaskerville-Italic.ttf")
+

@@ -56,6 +56,11 @@
         { "x":64, "y":155, "z":105 },
       ]
     }
+  },
 
-  }
+  "extensions":{
+    "Rook":"Statue:WolgurGuardian",
+    "Point(84,66,104)":"Connection",
+    "Point(35,29,103)":"Connection",
+  },
 }

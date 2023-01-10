@@ -6,8 +6,9 @@ var region = null# DungeonBuilder.PredefinedRegions.LightForestOutside.index
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
-	var houseCount = randi_range(6,9)
-	var treeCount = randi_range(50,70)
+	var size = freeTiles.size()
+	var houseCount = floor(size/180)
+	var treeCount = floor(size/9)
 
 	addHouses(houseCount)
 	addTrees(treeCount)
@@ -16,18 +17,16 @@ func placeFeatures():
 
 # Place a few houses outside of the city wall.
 func addHouses(houseCount):
-	pass # I'll be moving most of this into a 'farm' biome builder that does something similar
-#	while houseCount > 0:
-#		var featureName = FeatureLibrary.featureSets["houses"].pick_random()
-#		var feature = Feature.new(featureName)
-#		feature.randomFlip()
-#
-#		var dungeonIndex = self.freeTiles.pick_random()
-#		if featureCanBePlaced(dungeonIndex,feature) == false:
-#			continue
-#
-#		placeFeature(dungeonIndex,feature)
-#		houseCount -= 1
+	while houseCount > 0:
+		var feature = MapData.randomFeatureFromSet("farms")
+		feature.randomFlip()
+
+		var dungeonIndex = self.freeTiles.pick_random()
+		if featureCanBePlaced(dungeonIndex,feature) == false:
+			continue
+
+		placeFeature(dungeonIndex,feature)
+		houseCount -= 1
 
 # Add a few trees. The area will still be fairly open.
 func addTrees(treeCount):
@@ -38,12 +37,11 @@ func addTrees(treeCount):
 			continue
 
 		var tile = Tile.normal()
-		tile.biome = biome
+		tile.biome = biomeName
 		tile.region = region
-		tile.type = Tile.Type.Solid
-		tile.fill = { "tree":"random" } # TODO: Trees will have actual types at some point.
+		tile.fillWithTree()
 
-		Dungeon.setTile(dungeonIndex, tile)
+		setTile(dungeonIndex, tile)
 		removeFreeIndex(dungeonIndex)
 		treeCount -= 1
 
@@ -56,16 +54,19 @@ func addTrees(treeCount):
 # error. On the one hand, it's a valid connection. On the other, it's weird looking. The real
 # problem thoush is if the front door of a house leades into an unreachable pocket. This can happen
 # if the trees form a fence around an open area in front of a door. No way to really detect that
-# here. I think the connect regions function will have to determine if that happens
+# here. I think the connect regions function will have to determine if that happens.
+#
+# TODO: This should really be a general purpose sort of a thing. Not sure if this should go into
+#       the BiomeBuilder base class, or if I should make a WallFixer class. Also how can this be
+#       made more general? It's rare we'll be dealing with trees after all.
 func fixWalls():
 	for index in usedTiles:
-		var tile = Dungeon.fetchTile(index)
-		var neighbors = Dungeon.fetchNeighborTiles(index)
+		var tile = getTile(index)
+		var neighbors = getNeighborTiles(index)
 
 		for direction in neighbors.keys():
 			if tile.walls[direction]:
 				fixWall(tile, neighbors[direction], direction)
-
 
 # Need to figure out a way to make this more general use or every builder is going to have to have
 # some version of this. In the LightForest though it has to destroy trees that spawned in the way
@@ -82,10 +83,10 @@ func fixWall(tile, neighbor, direction):
 	# If it is though, the next builder needs to take care of fixing it.
 	if neighborTile == null && isIndexFree(neighborIndex):
 		neighborTile = Tile.normal()
-		neighborTile.biome = biome
+		neighborTile.biome = biomeName
 		neighborTile.region = region
 
-		Dungeon.setTile(neighborIndex, neighborTile)
+		setTile(neighborIndex, neighborTile)
 		removeFreeIndex(neighborIndex)
 
 	# The neighbor tile will still be null if the tile was out of bounds for this builder. If
@@ -109,16 +110,16 @@ func fixWall(tile, neighbor, direction):
 		neighborTile.type = Tile.Type.Empty
 		neighborTile.fill = null
 
-	Dungeon.setTile(neighborIndex, neighborTile)
+	setTile(neighborIndex, neighborTile)
 
 # Right now we're just filling the unused tiles with empty space.
 func fillSpace():
 	for index in freeTiles:
 		var emptyTile = Tile.normal()
-		emptyTile.biome = biome
+		emptyTile.biome = biomeName
 		emptyTile.region = region
 
-		Dungeon.setTile(index, emptyTile)
+		setTile(index, emptyTile)
 
 # [BiomeBuilder Implementation]
 func connectRegions():
