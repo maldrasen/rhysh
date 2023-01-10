@@ -88,19 +88,19 @@ func lookupFeatureTemplate(templateName):
 
 # ==== Map Data Files ==============================================================================
 
-static func loadZoneMap(name):
-	return loadMap("zones",name)
+func loadZoneMap(mapName):
+	return loadMap("zones",mapName)
 
-static func loadZoneData(name):
-	return loadData("zones",name)
+func loadZoneData(mapName):
+	return loadData("zones",mapName)
 
-static func loadFeatureMap(name):
-	return loadMap("features",name)
+func loadFeatureMap(mapName):
+	return loadMap("features",mapName)
 
-static func loadFeatureData(name):
-	return loadData("features",name)
+func loadFeatureData(mapName):
+	return loadData("features",mapName)
 
-static func loadMap(mapType, mapName):
+func loadMap(mapType, mapName):
 	var mapPath = "res://map_data/{0}/{1}.json".format([mapType,mapName])
 	var mapFile = FileAccess.open(mapPath, FileAccess.READ)
 
@@ -113,7 +113,7 @@ static func loadMap(mapType, mapName):
 
 	return map
 
-static func loadData(mapType, mapName):
+func loadData(mapType, mapName):
 	var dataPath = "res://map_data/{0}/{1}Data.json".format([mapType,mapName])
 	var dataFile = FileAccess.open(dataPath, FileAccess.READ)
 
@@ -127,10 +127,10 @@ static func loadData(mapType, mapName):
 	return zoneData
 
 # We use the layer's name to determine the layer type and which level it's for.
-static func parseLayerName(name):
-	for result in Static.MapLayerPattern.search_all(name):
+func parseLayerName(layerName):
+	for result in Static.MapLayerPattern.search_all(layerName):
 		if result.strings.size() == 3:
 			return {
 				"type": result.strings[1].to_lower(),
 				"index": int(result.strings[2]) - 1 }
-	printerr("Unparsable Layer Name: ",name)
+	printerr("Unparsable Layer Name: ",layerName)

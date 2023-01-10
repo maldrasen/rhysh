@@ -162,13 +162,13 @@ func fillWith(fillName):
 		"Stone": { "stone":"normal" }
 	}[fillName]
 
-func fillWithTree(type = "random"):
+func fillWithTree(treeType = "random"):
 	self.type = Type.Solid
-	self.fill = { "tree":type }
+	self.fill = { "tree":treeType }
 
-func fillWithStatue(type = "random"):
+func fillWithStatue(statueType = "random"):
 	self.type = Type.Solid
-	self.fill = { "statue":type }
+	self.fill = { "statue":statueType }
 
 # ==== Persistance =================================================================================
 
