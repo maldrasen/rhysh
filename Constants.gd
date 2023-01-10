@@ -25,6 +25,7 @@ const NSEW = ["N","S","E","W"]
 enum GameStage {
 	Dungeon,
 	Town,
+	TownBlacksmith,
 	TownGuild,
 	TownStore,
 	TownTavern,

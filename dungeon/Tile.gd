@@ -84,6 +84,8 @@ static func fromTileData(tileData) -> Tile:
 			tile.setFloorFromString(tileData.root.floor)
 		if tileData.has("extra"):
 			tile.setExtra(tileData.extra)
+		if tileData.has("extended"):
+			tile.setExtensions(tileData.extended)
 
 	if tile.theFloor == null:
 		tile.theFloor = Floor.new(Floor.Type.Void)
@@ -99,7 +101,6 @@ func setWallsFromString(string:String, certainty:Wall.Certainty):
 			walls[dir] = Wall.new(Wall.Type.Normal, certainty)
 
 func setFences(extra):
-	print("Set Fences: ",extra)
 	for dir in Constants.NSEW:
 		if extra.facing.contains(dir):
 			if walls[dir] != null:
@@ -126,7 +127,6 @@ func setExtra(extra):
 	if extra.type == "Fence":
 		return setFences(extra)
 
-
 	if extra.type == "SecretDoor":
 		return # TODO: Implement secret doors
 	if extra.type == "TrappedDoor":
@@ -140,9 +140,27 @@ func setExtra(extra):
 
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
 
-func addExtensions(tileIndex, extendedData, zoneData):
-#	print("TODO: Lookup Extension meaning: ",extendedData)
-	pass
+func setExtensions(extension):
+
+	if extension.type == "Tree":
+		self.type = Type.Solid
+		self.fill = { "tree": "random" }
+		return
+
+	if extension.type == "Statue":
+		self.type = Type.Solid
+		self.fill = { "statue": extension.value }
+		return
+
+	if extension.type == "Bridge":
+		return #TODO: Implement bridges
+	if extension.type == "Sign":
+		return #TODO: Implement signs
+	if extension.type == "Trigger":
+		return #TODO: Implement triggers
+
+
+	print("Unknown Extension Error: What do I do with this?",extension)
 
 # ==== Persistance =================================================================================
 

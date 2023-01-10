@@ -91,6 +91,7 @@ func loadMapData():
 func loadLayer(layerMap):
 	var layerInfo = MapData.parseLayerName(layerMap.name)
 	var layer = self.layers[layerInfo.index]
+	var extensionLoader = ExtensionLoader.new(zoneData)
 
 	for y in self.layerSize.y:
 		for x in self.layerSize.x:
@@ -104,7 +105,8 @@ func loadLayer(layerMap):
 				if layer.tileData[tileIndex] == null:
 					layer.tileData[tileIndex] = {}
 
-				layer.tileData[tileIndex][layerInfo.type] = MapData.lookup(layerInfo.type, tileId)
+				layer.tileData[tileIndex][layerInfo.type] = extensionLoader.adjustedLayerData(
+					layerInfo.type, tileId, Vector3i(x,y,layer.level))
 
 # Now that we have all the data for each tile we can build all the tiles, adding them to a single
 # tile array.
@@ -116,14 +118,12 @@ func buildTiles(layer):
 			var zoneIndex = x + (y * self.layerSize.x)
 			var tileData = layer.tileData[zoneIndex]
 			if tileData:
-
 				if tileData.root.has("biome"):
 					saveAsFreeTile(DungeonIndex.new(x,y,layer.level), tileData.root.biome)
-
 				if tileData.root.has("tile"):
-					var tile = Tile.fromTileData(tileData)
-					applyExtension(tile,tileData,Vector2i(x,y))
-					putTileIntoChunk(DungeonIndex.new(x,y,layer.level), tile)
+					putTileIntoChunk(DungeonIndex.new(x,y,layer.level), Tile.fromTileData(tileData))
+
+
 
 # As we go through the layers we save biomes as an array of points. These will be fed into the
 # biome builders to randomly generate these areas.
@@ -132,16 +132,6 @@ func saveAsFreeTile(dungeonIndex, biomeKey):
 	if self.freeTiles.has(biomeName) == false:
 		self.freeTiles[biomeName] = []
 	self.freeTiles[biomeName].push_back(dungeonIndex)
-
-# Most of these decorate a tile or add triggers to it. None of these things exist yet though which
-# makes it hard to actually implement this function.
-func applyExtension(tile,tileData,index):
-	if tileData.has("extended") == false:
-		return
-
-	# var type = tileData.extended.type
-	# print("    Apply Extension ({0}):{1}".format([index,tileData.extended]))
-	tile.addExtensions(index, tileData.extended, self.zoneData)
 
 # Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
