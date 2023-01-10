@@ -4,6 +4,7 @@ class_name ZoneLoader
 
 var chunks
 var freeTiles
+var connectionPoints
 
 var zoneInfo
 var zoneMap
@@ -17,6 +18,7 @@ var layers
 # are built in a different order.
 func _init(name):
 	self.zoneInfo = ZoneInfo.new(name)
+	self.connectionPoints = []
 	self.freeTiles = {}
 	self.chunks = {}
 
@@ -119,19 +121,29 @@ func buildTiles(layer):
 			var tileData = layer.tileData[zoneIndex]
 			if tileData:
 				if tileData.root.has("biome"):
-					saveAsFreeTile(DungeonIndex.new(x,y,layer.level), tileData.root.biome)
+					saveAsFreeTile(DungeonIndex.new(x,y,layer.level), tileData)
 				if tileData.root.has("tile"):
 					putTileIntoChunk(DungeonIndex.new(x,y,layer.level), Tile.fromTileData(tileData))
 
-
-
 # As we go through the layers we save biomes as an array of points. These will be fed into the
 # biome builders to randomly generate these areas.
-func saveAsFreeTile(dungeonIndex, biomeKey):
-	var biomeName = self.zoneInfo.biomes[biomeKey]
+func saveAsFreeTile(dungeonIndex, tileData):
+	var biomeName = self.zoneInfo.biomes[tileData.root.biome]
 	if self.freeTiles.has(biomeName) == false:
 		self.freeTiles[biomeName] = []
 	self.freeTiles[biomeName].push_back(dungeonIndex)
+
+	# The connection points are still super in progress. I needed some way to flag a tile to force
+	# the biome builder to build a path to that tile. Not sure yet if that's a common problem to
+	# have or it's just the cleft and other random walk builders that are going to have that
+	# problem. This feels icky and it's a definite code smell, but I'm not sure yet what's wrong
+	# with it or how it can be improved.
+	#
+	# How I think this will work is the first step of the biome builder will be to select all
+	# connection points and build those paths first. Once those are taken care of we can fill the
+	# rest of the tiles in.
+	if tileData.has("extended") && tileData.extended.value == "Connection":
+		self.connectionPoints.push_back(dungeonIndex)
 
 # Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
@@ -148,6 +160,7 @@ func generateBiomes():
 	var builder = ZoneBuilder.new({
 		"chunks": self.chunks,
 		"freeTiles": self.freeTiles,
+		"connectionPoints": self.connectionPoints,
 		"zoneInfo": self.zoneInfo,
 		"zoneData": self.zoneData,
 	})

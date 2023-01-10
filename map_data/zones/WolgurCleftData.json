@@ -59,6 +59,8 @@
   },
 
   "extensions":{
-    "Rook":"Statue:WolgurGuardian"
+    "Rook":"Statue:WolgurGuardian",
+    "Point(84,66,104)":"Connection",
+    "Point(35,29,103)":"Connection",
   },
 }

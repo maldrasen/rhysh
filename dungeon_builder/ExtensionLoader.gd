@@ -28,7 +28,6 @@ func adjustedLayerData(layerType, tileId, point:Vector3i):
 
 	if layerData.has("method") && layerData.method == "Point":
 		layerData.value = lookupExtensionValueAt(dataSource, layerData, point)
-		print("Lookup At:",point," -> ",layerData)
 
 	return layerData
 

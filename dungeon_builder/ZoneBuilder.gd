@@ -4,6 +4,7 @@ class_name ZoneBuilder
 
 var chunks
 var freeTiles
+var connectionPoints
 var zoneInfo
 var zoneData
 var random: RandomNumberGenerator
@@ -11,6 +12,7 @@ var random: RandomNumberGenerator
 func _init(properties):
 	self.chunks = properties.chunks
 	self.freeTiles = properties.freeTiles
+	self.connectionPoints = properties.connectionPoints
 	self.zoneInfo = properties.zoneInfo
 	self.zoneData = properties.zoneData
 
