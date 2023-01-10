@@ -4,7 +4,7 @@ class_name Tile
 enum Type { Empty, Solid, StairsUp, StairsDown }
 
 var type:Type
-var region
+var sector
 var biome
 var theFloor
 var walls = {
@@ -181,7 +181,7 @@ func pack():
 
 	return {
 		"type": self.type,
-		"region": self.region,
+		"sector": self.sector,
 		"biome": self.biome,
 		"floor": self.theFloor.pack(),
 		"fill": self.fill,
@@ -192,7 +192,7 @@ func pack():
 static func unpack(data):
 	var tile = Tile.new()
 	tile.type = data.type
-	tile.region = data.region
+	tile.sector = data.sector
 	tile.biome = data.biome
 	tile.theFloor = Floor.unpack(data.floor)
 	tile.fill = data.fill

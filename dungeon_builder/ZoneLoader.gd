@@ -169,9 +169,6 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 # ==== Step 2 : Generate Biomes ====================================================================
 
 func generateBiomes():
-
-	print("OK, What is supplementary:",self.supplementaryData)
-
 	for biomeName in freeTiles.keys():
 		var properties = {
 			"biomeName": biomeName,

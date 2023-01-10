@@ -3,7 +3,7 @@ extends Object
 class_name FeatureTemplate
 
 var name
-var regionType
+var sectorType
 var canFlip
 var size:Vector3i
 var layers
@@ -11,7 +11,7 @@ var layers
 func _init(info):
 	self.layers = []
 	self.name = info["Name"]
-	self.regionType = info["RegionType"]
+	self.sectorType = info["SectorType"]
 	self.canFlip = info["Flip"]
 	self.size = Vector3i(info["Width"], info["Height"], info["Depth"])
 

@@ -34,7 +34,7 @@ func fullBuild():
 	print("  ---")
 	print("  {0}: Starting full build on {1} tiles".format([biomeName,freeTiles.size()]))
 	placeFeatures()
-	connectRegions()
+	connectSectors()
 	trimDeadEnds()
 	decorate()
 
@@ -43,7 +43,7 @@ func placeFeatures():
 	pass
 
 # [BiomeBuilder Implementation]
-func connectRegions():
+func connectSectors():
 	pass
 
 # [BiomeBuilder Implementation]
@@ -104,10 +104,10 @@ func featureCanBePlaced(index:DungeonIndex, feature:Feature):
 	return true
 
 # Place the feature in the dungeon. This is also where the feature becomes 'real' so we set the
-# biome and region values in the tiles and update the region data.
+# biome and sector values in the tiles and update the sector data.
 func placeFeature(baseIndex:DungeonIndex, feature:Feature):
-	var region = Dungeon.nextRegion()
-	Dungeon.defineRegion(region, feature.regionType)
+	var sector = Dungeon.nextSector()
+	Dungeon.defineSector(sector, feature.sectorType)
 
 	for z in feature.size.z:
 		for y in feature.size.y:
@@ -116,7 +116,7 @@ func placeFeature(baseIndex:DungeonIndex, feature:Feature):
 				if tile != null:
 					var index = baseIndex.translate(Vector3i(x,y,z))
 					tile.biome = biomeName
-					tile.region = region
+					tile.sector = sector
 					setTile(index, tile)
 					removeFreeIndex(index)
 

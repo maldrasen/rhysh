@@ -2,7 +2,7 @@ extends BiomeBuilder
 
 class_name ForestBuilder
 
-var region = null# DungeonBuilder.PredefinedRegions.LightForestOutside.index
+var sector = null
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
@@ -38,7 +38,7 @@ func addTrees(treeCount):
 
 		var tile = Tile.normal()
 		tile.biome = biomeName
-		tile.region = region
+		tile.sector = sector
 		tile.fillWithTree()
 
 		setTile(dungeonIndex, tile)
@@ -54,7 +54,7 @@ func addTrees(treeCount):
 # error. On the one hand, it's a valid connection. On the other, it's weird looking. The real
 # problem thoush is if the front door of a house leades into an unreachable pocket. This can happen
 # if the trees form a fence around an open area in front of a door. No way to really detect that
-# here. I think the connect regions function will have to determine if that happens.
+# here. I think the connect sectors function will have to determine if that happens.
 #
 # TODO: This should really be a general purpose sort of a thing. Not sure if this should go into
 #       the BiomeBuilder base class, or if I should make a WallFixer class. Also how can this be
@@ -70,7 +70,7 @@ func fixWalls():
 
 # Need to figure out a way to make this more general use or every builder is going to have to have
 # some version of this. In the LightForest though it has to destroy trees that spawned in the way
-# of doors, and new tiles automatically go into the outside region. Not sure if that logic carries
+# of doors, and new tiles automatically go into the outside sector. Not sure if that logic carries
 # over or not.
 func fixWall(tile, neighbor, direction):
 	var neighborIndex = neighbor.index
@@ -84,7 +84,7 @@ func fixWall(tile, neighbor, direction):
 	if neighborTile == null && isIndexFree(neighborIndex):
 		neighborTile = Tile.normal()
 		neighborTile.biome = biomeName
-		neighborTile.region = region
+		neighborTile.sector = sector
 
 		setTile(neighborIndex, neighborTile)
 		removeFreeIndex(neighborIndex)
@@ -117,12 +117,12 @@ func fillSpace():
 	for index in freeTiles:
 		var emptyTile = Tile.normal()
 		emptyTile.biome = biomeName
-		emptyTile.region = region
+		emptyTile.sector = sector
 
 		setTile(index, emptyTile)
 
 # [BiomeBuilder Implementation]
-func connectRegions():
+func connectSectors():
 	pass
 
 # [BiomeBuilder Implementation]

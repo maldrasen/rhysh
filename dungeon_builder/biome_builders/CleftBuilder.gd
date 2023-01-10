@@ -7,7 +7,7 @@ func placeFeatures():
 	pass
 
 # [BiomeBuilder Implementation]
-func connectRegions():
+func connectSectors():
 	pass
 
 # [BiomeBuilder Implementation]
