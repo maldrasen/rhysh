@@ -17,8 +17,8 @@ func loadFeature(featureInfo):
 	var tileData = loadTileData(featureInfo)
 	var featureTemplate = FeatureTemplate.new(featureInfo)
 
-	if featureInfo.has("FeatureSets"):
-		MapData.addTemplateToSets(featureInfo["FeatureSets"],featureInfo["Name"])
+	if featureInfo.has("FeatureSet"):
+		MapData.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
 
 	for layerIndex in tileData.size():
 		var layer = tileData[layerIndex]

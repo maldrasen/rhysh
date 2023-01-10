@@ -141,17 +141,10 @@ func setExtra(extra):
 	printerr("Unknown Extra Error: What do I do with this? ",extra)
 
 func setExtensions(extension):
-
 	if extension.type == "Tree":
-		self.type = Type.Solid
-		self.fill = { "tree": "random" }
-		return
-
+		return fillWithTree()
 	if extension.type == "Statue":
-		self.type = Type.Solid
-		self.fill = { "statue": extension.value }
-		return
-
+		return fillWithStatue(extension.value)
 	if extension.type == "Bridge":
 		return #TODO: Implement bridges
 	if extension.type == "Sign":
@@ -159,8 +152,15 @@ func setExtensions(extension):
 	if extension.type == "Trigger":
 		return #TODO: Implement triggers
 
-
 	print("Unknown Extension Error: What do I do with this?",extension)
+
+func fillWithTree(type = "random"):
+	self.type = Type.Solid
+	self.fill = { "tree":type }
+
+func fillWithStatue(type = "random"):
+	self.type = Type.Solid
+	self.fill = { "statue":type }
 
 # ==== Persistance =================================================================================
 

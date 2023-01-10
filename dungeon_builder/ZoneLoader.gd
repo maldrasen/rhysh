@@ -157,14 +157,26 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 # ==== Step 2 : Generate Biomes ====================================================================
 
 func generateBiomes():
-	var builder = ZoneBuilder.new({
-		"chunks": self.chunks,
-		"freeTiles": self.freeTiles,
-		"connectionPoints": self.connectionPoints,
-		"zoneInfo": self.zoneInfo,
-		"zoneData": self.zoneData,
-	})
-	builder.generateBiomes()
+	for biomeName in freeTiles.keys():
+		var properties = {
+			"biomeName": biomeName,
+			"zoneInfo": self.zoneInfo,
+			"zoneData": self.zoneData,
+			"chunks": self.chunks,
+			"freeTiles": self.freeTiles[biomeName],
+			"connectionPoints": self.connectionPoints,
+		}
+
+		if biomeName == "Cleft":
+			continue
+		if biomeName == "Farm":
+			continue
+		if biomeName == "Forest":
+			ForestBuilder.new(properties).fullBuild()
+			continue
+
+		printerr("Error: No biome builder for ",biomeName)
+	print("  ---")
 
 # The last step is to save all the chunk files.
 func saveChunks():

@@ -110,11 +110,6 @@ _global_script_classes=[{
 "path": "res://dungeon/Wall.gd"
 }, {
 "base": "Object",
-"class": &"ZoneBuilder",
-"language": &"GDScript",
-"path": "res://dungeon_builder/ZoneBuilder.gd"
-}, {
-"base": "Object",
 "class": &"ZoneInfo",
 "language": &"GDScript",
 "path": "res://dungeon/ZoneInfo.gd"
@@ -145,7 +140,6 @@ _global_script_class_icons={
 "SmallRoomBuilder": "",
 "Tile": "",
 "Wall": "",
-"ZoneBuilder": "",
 "ZoneInfo": "",
 "ZoneLoader": ""
 }
