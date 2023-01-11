@@ -2,13 +2,12 @@ extends Object
 
 class_name BiomeBuilder
 
-
 var status
 var biomeName
 var zoneInfo
 var zoneData
-var chunks
 
+var chunks
 var freeTiles
 var usedTiles
 var supplementaryData
@@ -54,9 +53,6 @@ func trimDeadEnds():
 func decorate():
 	pass
 
-
-
-
 # When setting the free tiles array we want to force a copy because the builders mutate the free
 # and used tile arrays while building, however if we need to abort the build and try again we need
 # a fresh set of free tiles.
@@ -69,6 +65,11 @@ func setTile(dungeonIndex:DungeonIndex, tile:Tile):
 
 func getTile(dungeonIndex:DungeonIndex):
 	return chunks[dungeonIndex.chunkIndex()].getTile(dungeonIndex.tileIndex())
+
+func inRange(dungeonIndex:DungeonIndex):
+	if chunks.has(dungeonIndex.chunkIndex()) == false:
+		return false
+
 
 # Given a dungeon index, get the neighboring tiles along with their indices.
 #   { N:{index:<>, tile:<>}, S:... }
@@ -86,8 +87,6 @@ func getNeighborTiles(dungeonIndex:DungeonIndex):
 	neighbors[Constants.West].tile = getTile(neighbors[Constants.West].index)
 
 	return neighbors
-
-
 
 # Determine if a feature is able to be placed in this location. This only checks to see if there's
 # a null tile at every index the feature's tiles would be placed in. It doesn't look for things
@@ -136,6 +135,3 @@ func removeFreeIndex(tileIndex:DungeonIndex):
 		if freeTiles[i].index == tileIndex.index:
 			usedTiles.push_back(tileIndex)
 			return freeTiles.remove_at(i)
-
-
-

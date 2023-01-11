@@ -25,9 +25,27 @@ static func fromIndices(cIndex:Vector3i, tIndex:Vector2i) -> DungeonIndex:
 static func fromVector(vec) -> DungeonIndex:
 	return DungeonIndex.new(vec.x, vec.y, vec.z)
 
-# Returns a new DungeonIndex because we don't want to mutate this one.
+# Get the index of the adjecent tile in the direction.
+func go(direction) -> DungeonIndex:
+	if direction == Constants.North:
+		return translate(Vector3i(0,-1,0))
+	if direction == Constants.South:
+		return translate(Vector3i(0,1,0))
+	if direction == Constants.East:
+		return translate(Vector3i(1,0,0))
+	if direction == Constants.West:
+		return translate(Vector3i(-1,0,0))
+
+	return printerr(direction," isn't a real direction")
+
+# Returns a new DungeonIndex because we don't want to mutate this one. If the translation would
+# make this index negative return null.
 func translate(point:Vector3i) -> DungeonIndex:
-	return DungeonIndex.fromVector(self.index + point)
+	var new = self.index + point
+	if new.x < 0 || new.y < 0 || new.z < 0:
+		return null
+
+	return DungeonIndex.fromVector(new)
 
 # Get the chunk index for this dungeon index. (Why is integer division a fucking warning, I want
 # integer devision motherfucker. Bitch ass compiler...)

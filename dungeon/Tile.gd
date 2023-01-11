@@ -35,6 +35,12 @@ static func normal():
 func _init():
 	self.type = Type.Empty
 
+func isEmpty():
+	return self.type == Type.Empty
+
+func hasFloor():
+	return self.theFloor != null && self.theFloor.isNormal()
+
 func wallAt(facing):
 	return walls[facing]
 
