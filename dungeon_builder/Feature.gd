@@ -3,7 +3,7 @@ extends Object
 class_name Feature
 
 var featureName
-var regionType
+var sectorType
 var canFlip
 var size:Vector3i
 var layers
@@ -12,7 +12,7 @@ func _init(featureName_):
 	var template = MapData.lookupFeatureTemplate(featureName_)
 
 	self.featureName = featureName_
-	self.regionType = template.regionType
+	self.sectorType = template.sectorType
 	self.canFlip = template.canFlip
 	self.size = template.size
 	self.layers = template.copyLayers()

@@ -5,9 +5,9 @@ var mapView:MapView
 func _ready():
 	loadZone("WolgurCleft","Wolgur")
 
-func loadZone(name, origin):
+func loadZone(zoneName, origin):
 	GameState.createWorld()
-	Dungeon.loadZone(name)
+	Dungeon.loadZone(zoneName)
 	GameState.updateOrigin(origin)
 	GameState.saveGame()
 

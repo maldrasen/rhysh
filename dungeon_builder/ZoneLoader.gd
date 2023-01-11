@@ -4,7 +4,7 @@ class_name ZoneLoader
 
 var chunks
 var freeTiles
-var connectionPoints
+var supplementaryData
 
 var zoneInfo
 var zoneMap
@@ -18,9 +18,9 @@ var layers
 # are built in a different order.
 func _init(name):
 	self.zoneInfo = ZoneInfo.new(name)
-	self.connectionPoints = []
-	self.freeTiles = {}
 	self.chunks = {}
+	self.freeTiles = {}
+	self.supplementaryData = {}
 
 # ==== Managing Chunks =============================================================================
 
@@ -98,7 +98,11 @@ func loadLayer(layerMap):
 	for y in self.layerSize.y:
 		for x in self.layerSize.x:
 			var tileIndex = x + (y * self.layerSize.x)
+			var dungeonIndex = Vector3i(x,y,layer.level)
 			var tileId = -1
+
+			if layerMap.has("grid2D") && layerMap.grid2D[y][x] != "0":
+				saveRegionData(layerMap.grid2D[y][x], dungeonIndex)
 
 			if layerMap.has("data2D"):
 				tileId = layerMap.data2D[y][x]
@@ -108,7 +112,19 @@ func loadLayer(layerMap):
 					layer.tileData[tileIndex] = {}
 
 				layer.tileData[tileIndex][layerInfo.type] = extensionLoader.adjustedLayerData(
-					layerInfo.type, tileId, Vector3i(x,y,layer.level))
+					layerInfo.type, tileId, dungeonIndex)
+
+# Like the extensions and such we need to lookup the actual meaning of the region which will be
+# different in every zone. We save this as supplementary data along with things like Connection
+# points and such. The supplementaryData should always contain arrays of points.
+func saveRegionData(regionID, index):
+	if zoneData.regions.has(regionID) == false:
+		return printerr("No region ({0}) found in zone data.".format([regionID]))
+
+	var regionType = zoneData.regions[regionID]
+	if supplementaryData.has(regionType) == false:
+		supplementaryData[regionType] = []
+	supplementaryData[regionType].push_back(index)
 
 # Now that we have all the data for each tile we can build all the tiles, adding them to a single
 # tile array.
@@ -133,17 +149,13 @@ func saveAsFreeTile(dungeonIndex, tileData):
 		self.freeTiles[biomeName] = []
 	self.freeTiles[biomeName].push_back(dungeonIndex)
 
-	# The connection points are still super in progress. I needed some way to flag a tile to force
-	# the biome builder to build a path to that tile. Not sure yet if that's a common problem to
-	# have or it's just the cleft and other random walk builders that are going to have that
-	# problem. This feels icky and it's a definite code smell, but I'm not sure yet what's wrong
-	# with it or how it can be improved.
-	#
-	# How I think this will work is the first step of the biome builder will be to select all
-	# connection points and build those paths first. Once those are taken care of we can fill the
-	# rest of the tiles in.
+	# Connection Points are still just a type of supplementaryData because they just get turned
+	# into a list of dungeon indices for now. The biome builders are what actually use them. As
+	# such, connection points should only be found inside of biomes.
 	if tileData.has("extended") && tileData.extended.value == "Connection":
-		self.connectionPoints.push_back(dungeonIndex)
+		if supplementaryData.has("connectionPoints") == false:
+			supplementaryData.connectionPoints = []
+		supplementaryData.connectionPoints.push_back(dungeonIndex)
 
 # Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
@@ -164,7 +176,7 @@ func generateBiomes():
 			"zoneData": self.zoneData,
 			"chunks": self.chunks,
 			"freeTiles": self.freeTiles[biomeName],
-			"connectionPoints": self.connectionPoints,
+			"supplementaryData": self.supplementaryData,
 		}
 
 		if biomeName == "Cleft":

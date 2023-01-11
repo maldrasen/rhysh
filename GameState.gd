@@ -45,9 +45,9 @@ func createWorld():
 	Configuration.worldCounter += 1;
 	Configuration.setLastPlayedWorld(currentWorld)
 
-	# Initialize the region state in the Dungeon
-	Dungeon.regionCounter = 0
-	Dungeon.regionDictionary = {}
+	# Initialize the sector state in the Dungeon
+	Dungeon.sectorCounter = 0
+	Dungeon.sectorDictionary = {}
 
 	# Save the initial game state
 	saveGame()

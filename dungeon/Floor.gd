@@ -8,6 +8,8 @@ var type:Type
 func _init(t):
 	self.type = t
 
+func isNormal():
+	return self.type == Type.Normal
 
 # ==== Persistance =================================================================================
 

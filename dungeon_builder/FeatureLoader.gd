@@ -61,10 +61,16 @@ func loadTileData(featureInfo):
 func tileDataAt(mapLayer, layerType, point):
 	var extensionLoader = ExtensionLoader.new(featureData)
 
+	# TODO: The features don't fo anything with the region layers. The ZoneLoader uses the regions
+	#       to add to the supplementary data used by the biome builders. They could be used for
+	#       something else in the features, but I'd either need to figure out where to put
+	#		supplementary data when outside of the biome builder, or find a way to include that
+	#		data when the feature is loaded (but the build order gets super important, better not
+	#		to faff about with all that)
 	if mapLayer.has("grid2D"):
 		var tileId = mapLayer.grid2D[point.y][point.x]
 		if tileId != "0":
-			return null # TODO: Implement regions in features maybe?
+			return null
 
 	if mapLayer.has("data2D"):
 		var tileId = mapLayer.data2D[point.y][point.x]

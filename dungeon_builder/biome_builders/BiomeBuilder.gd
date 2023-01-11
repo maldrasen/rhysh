@@ -2,16 +2,15 @@ extends Object
 
 class_name BiomeBuilder
 
-
 var status
 var biomeName
 var zoneInfo
 var zoneData
-var chunks
 
+var chunks
 var freeTiles
 var usedTiles
-var connectionPoints
+var supplementaryData
 
 var random: RandomNumberGenerator
 
@@ -24,7 +23,7 @@ func _init(properties):
 
 	self.freeTiles = properties.freeTiles
 	self.usedTiles = []
-	self.connectionPoints = properties.connectionPoints
+	self.supplementaryData = properties.supplementaryData
 
 	self.random = RandomNumberGenerator.new()
 	self.random.seed = "{0}{1}".format([GameState.randomSeed, self.zoneInfo.name]).hash()
@@ -34,7 +33,7 @@ func fullBuild():
 	print("  ---")
 	print("  {0}: Starting full build on {1} tiles".format([biomeName,freeTiles.size()]))
 	placeFeatures()
-	connectRegions()
+	connectSectors()
 	trimDeadEnds()
 	decorate()
 
@@ -43,7 +42,7 @@ func placeFeatures():
 	pass
 
 # [BiomeBuilder Implementation]
-func connectRegions():
+func connectSectors():
 	pass
 
 # [BiomeBuilder Implementation]
@@ -53,9 +52,6 @@ func trimDeadEnds():
 # [BiomeBuilder Implementation]
 func decorate():
 	pass
-
-
-
 
 # When setting the free tiles array we want to force a copy because the builders mutate the free
 # and used tile arrays while building, however if we need to abort the build and try again we need
@@ -69,6 +65,11 @@ func setTile(dungeonIndex:DungeonIndex, tile:Tile):
 
 func getTile(dungeonIndex:DungeonIndex):
 	return chunks[dungeonIndex.chunkIndex()].getTile(dungeonIndex.tileIndex())
+
+func inRange(dungeonIndex:DungeonIndex):
+	if chunks.has(dungeonIndex.chunkIndex()) == false:
+		return false
+
 
 # Given a dungeon index, get the neighboring tiles along with their indices.
 #   { N:{index:<>, tile:<>}, S:... }
@@ -87,8 +88,6 @@ func getNeighborTiles(dungeonIndex:DungeonIndex):
 
 	return neighbors
 
-
-
 # Determine if a feature is able to be placed in this location. This only checks to see if there's
 # a null tile at every index the feature's tiles would be placed in. It doesn't look for things
 # like doors being able to be connected. We could extend it to do that possibly or create some kind
@@ -104,10 +103,10 @@ func featureCanBePlaced(index:DungeonIndex, feature:Feature):
 	return true
 
 # Place the feature in the dungeon. This is also where the feature becomes 'real' so we set the
-# biome and region values in the tiles and update the region data.
+# biome and sector values in the tiles and update the sector data.
 func placeFeature(baseIndex:DungeonIndex, feature:Feature):
-	var region = Dungeon.nextRegion()
-	Dungeon.defineRegion(region, feature.regionType)
+	var sector = Dungeon.nextSector()
+	Dungeon.defineSector(sector, feature.sectorType)
 
 	for z in feature.size.z:
 		for y in feature.size.y:
@@ -116,7 +115,7 @@ func placeFeature(baseIndex:DungeonIndex, feature:Feature):
 				if tile != null:
 					var index = baseIndex.translate(Vector3i(x,y,z))
 					tile.biome = biomeName
-					tile.region = region
+					tile.sector = sector
 					setTile(index, tile)
 					removeFreeIndex(index)
 
@@ -136,6 +135,3 @@ func removeFreeIndex(tileIndex:DungeonIndex):
 		if freeTiles[i].index == tileIndex.index:
 			usedTiles.push_back(tileIndex)
 			return freeTiles.remove_at(i)
-
-
-

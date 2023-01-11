@@ -122,6 +122,7 @@ func setScale(scale):
 	positionSections()
 
 # If this is a dungeon map, we use the party's location to center the map.
+@warning_ignore(integer_division)
 func setupLocation():
 	if properties.has("tileSource"):
 		return

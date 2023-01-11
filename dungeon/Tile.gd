@@ -4,7 +4,7 @@ class_name Tile
 enum Type { Empty, Solid, StairsUp, StairsDown }
 
 var type:Type
-var region
+var sector
 var biome
 var theFloor
 var walls = {
@@ -34,6 +34,12 @@ static func normal():
 
 func _init():
 	self.type = Type.Empty
+
+func isEmpty():
+	return self.type == Type.Empty
+
+func hasFloor():
+	return self.theFloor != null && self.theFloor.isNormal()
 
 func wallAt(facing):
 	return walls[facing]
@@ -162,13 +168,13 @@ func fillWith(fillName):
 		"Stone": { "stone":"normal" }
 	}[fillName]
 
-func fillWithTree(type = "random"):
+func fillWithTree(treeType = "random"):
 	self.type = Type.Solid
-	self.fill = { "tree":type }
+	self.fill = { "tree":treeType }
 
-func fillWithStatue(type = "random"):
+func fillWithStatue(statueType = "random"):
 	self.type = Type.Solid
-	self.fill = { "statue":type }
+	self.fill = { "statue":statueType }
 
 # ==== Persistance =================================================================================
 
@@ -181,7 +187,7 @@ func pack():
 
 	return {
 		"type": self.type,
-		"region": self.region,
+		"sector": self.sector,
 		"biome": self.biome,
 		"floor": self.theFloor.pack(),
 		"fill": self.fill,
@@ -192,7 +198,7 @@ func pack():
 static func unpack(data):
 	var tile = Tile.new()
 	tile.type = data.type
-	tile.region = data.region
+	tile.sector = data.sector
 	tile.biome = data.biome
 	tile.theFloor = Floor.unpack(data.floor)
 	tile.fill = data.fill
