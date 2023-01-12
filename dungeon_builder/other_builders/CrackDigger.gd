@@ -13,7 +13,7 @@ var defaultTile
 func _init(properties):
 	self.tileSource = properties.tileSource
 	self.defaultTile = properties.defaultTile
-	self.carvePoints = properties.carvePoints
+	self.carvePoints = []+properties.carvePoints
 
 # Builds the cracks from the given density. Should be beteen 0 and 1. A higher density leads to
 # more cracks.

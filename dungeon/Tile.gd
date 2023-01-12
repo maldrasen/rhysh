@@ -38,6 +38,9 @@ func _init():
 func isEmpty():
 	return self.type == Type.Empty
 
+func isSolid():
+	return self.type == Type.Solid
+
 func hasFloor():
 	return self.theFloor != null && self.theFloor.isNormal()
 

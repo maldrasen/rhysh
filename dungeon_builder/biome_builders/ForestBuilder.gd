@@ -120,15 +120,3 @@ func fillSpace():
 		emptyTile.sector = sector
 
 		setTile(index, emptyTile)
-
-# [BiomeBuilder Implementation]
-func connectSectors():
-	pass
-
-# [BiomeBuilder Implementation]
-func trimDeadEnds():
-	pass
-
-# [BiomeBuilder Implementation]
-func decorate():
-	self.status = Constants.Status.Success

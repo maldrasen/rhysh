@@ -2,7 +2,6 @@ extends Object
 
 class_name BiomeBuilder
 
-var status
 var biomeName
 var zoneInfo
 var zoneData
@@ -12,10 +11,9 @@ var freeTiles
 var usedTiles
 var supplementaryData
 
-var random: RandomNumberGenerator
+var extraBuilders
 
 func _init(properties):
-	self.status = Constants.Status.Working
 	self.biomeName = properties.biomeName
 	self.zoneInfo = properties.zoneInfo
 	self.zoneData = properties.zoneData
@@ -25,17 +23,25 @@ func _init(properties):
 	self.usedTiles = []
 	self.supplementaryData = properties.supplementaryData
 
-	self.random = RandomNumberGenerator.new()
-	self.random.seed = "{0}{1}".format([GameState.randomSeed, self.zoneInfo.name]).hash()
+	if properties.has("extraBuilders"):
+		self.extraBuilders = properties.extraBuilders
+
 
 # [BiomeBuilder Implementation]
 func fullBuild():
+	var startTime = Time.get_ticks_msec()
+
 	print("  ---")
 	print("  {0}: Starting full build on {1} tiles".format([biomeName,freeTiles.size()]))
+
+	runExtraBuilders("First")
 	placeFeatures()
 	connectSectors()
 	trimDeadEnds()
 	decorate()
+	runExtraBuilders("Last")
+
+	print("  {0}: Completed build in {1}ms".format([biomeName, Time.get_ticks_msec() - startTime]))
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
@@ -52,6 +58,28 @@ func trimDeadEnds():
 # [BiomeBuilder Implementation]
 func decorate():
 	pass
+
+# [BiomeBuilder Implementation]
+func defaultTile():
+	pass
+
+# A zone can specify additional options for the biome builders to use. One of these is the
+# "extraBuilders" option, which lists extra build functions to invoke. The option needs to at least
+# specify which builder to use and which phase to run it in.
+func runExtraBuilders(phase):
+	if extraBuilders != null:
+		for extraBuilder in extraBuilders:
+			if extraBuilder.phase == phase:
+				if extraBuilder.type == "Bulldozer":
+					runBulldozer(extraBuilder)
+
+func runBulldozer(options):
+	Bulldozer.new({
+		"tileSource": self,
+		"startPoint": options.startPoint,
+		"direction":  options.direction,
+		"defaultTile": defaultTile(),
+	}).start()
 
 # When setting the free tiles array we want to force a copy because the builders mutate the free
 # and used tile arrays while building, however if we need to abort the build and try again we need
