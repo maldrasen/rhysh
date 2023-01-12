@@ -3,30 +3,25 @@ extends BiomeBuilder
 class_name CleftBuilder
 
 var cleftSector
+var cleftTile
+var startTime
 
 # [BiomeBuilder Implementation]
-# First, randomly select carve points to start from. Carve into the empty area until path length is
-# reached or something solid is encountered. Carving is done with a random walk, but mostly heads
-# away from the empty space next to the carve point.
 #
 # TODO: Also maybe add some cleft specific features before we carve all these paths.
 func placeFeatures():
-	self.cleftSector = Dungeon.nextSector()
-	Dungeon.defineSector(cleftSector, "outside")
+	self.startTime = Time.get_ticks_msec()
+	self.cleftTile = Tile.normal()
+	self.cleftTile.biome = "Cleft"
+	self.cleftTile.sector = Dungeon.defineNextSector("outside")
 
-	for i in floor(self.supplementaryData.CarvePoints.size() / 3):
-		var startIndex = DungeonIndex.fromVector(self.supplementaryData.CarvePoints.pick_random())
-		var neighbors = self.getNeighborTiles(startIndex)
-		var direction = Constants.NSEW.pick_random()
+	CrackDigger.new({
+		"tileSource": self,
+		"carvePoints": self.supplementaryData.CarvePoints,
+		"defaultTile": cleftTile,
+	}).start(0.33)
 
-		for facing in Constants.NSEW:
-			if neighbors[facing].tile != null:
-				direction = Utility.oppositeDirection(facing)
 
-		var averageLength = calculatePathLength(startIndex, direction)
-		var length = random.randi_range(averageLength, averageLength*2)
-
-		carvePath(startIndex, getDirectionMap(direction), length)
 
 # [BiomeBuilder Implementation]
 # The CleftBuilder doesn't actually the sectors to make connections. Instead we get the few points
@@ -59,49 +54,11 @@ func trimDeadEnds():
 # there's a problem first.
 # [BiomeBuilder Implementation]
 func decorate():
+	print("  Build Time: ",Time.get_ticks_msec() - startTime)
 
 	# TODO: Add all the walls, maybe fill in empty spaces with solid tile, that's not actually
 	#       nessessary though.
 	self.status = Constants.Status.Success
-
-# ==== Cleft Carving ===============================================================================
-
-func calculatePathLength(index:DungeonIndex, direction):
-	var nextIndex = index.go(direction)
-	var length = 1
-
-	while true:
-		if  length > 100 || getTile(nextIndex) != null:
-			return length
-
-		nextIndex = nextIndex.go(direction)
-		length += 1
-
-func getDirectionMap(direction):
-	return {
-		Constants.North: [Constants.North, Constants.East,  Constants.West],
-		Constants.South: [Constants.South, Constants.East,  Constants.West],
-		Constants.East:  [Constants.East,  Constants.North, Constants.South],
-		Constants.West:  [Constants.West,  Constants.North, Constants.South],
-	}[direction]
-
-func carvePath(index, directionMap, length):
-	if getTile(index) != null:
-		return
-
-	var direction = directionMap[0]
-	var roll = random.randi_range(1,6)
-
-	if roll == 1:
-		direction = directionMap[1]
-	if roll == 2:
-		direction = directionMap[2]
-
-	setTile(index, cleftTile())
-	removeFreeIndex(index)
-
-	if length > 0:
-		carvePath(index.go(direction), directionMap, length-1)
 
 # ==== Make Connections ============================================================================
 
@@ -163,7 +120,7 @@ func connectPoints(fromPoint, toPoint):
 	if nextTile != null && nextTile.hasFloor() == false:
 		return
 
-	setTile(nextPoint, cleftTile())
+	setTile(nextPoint, cleftTile)
 	removeFreeIndex(nextPoint)
 	connectPoints(nextPoint, toPoint)
 
@@ -174,11 +131,3 @@ func randomDirection(xOffset, yOffset, horizontal, vertical):
 	if abs(xOffset) > abs(yOffset):
 		return vertical if roll < 4 else horizontal
 	return vertical if roll < 7 else horizontal
-
-# ==== Other =======================================================================================
-
-func cleftTile():
-	var tile = Tile.normal()
-	tile.biome = "Cleft"
-	tile.sector = cleftSector
-	return tile

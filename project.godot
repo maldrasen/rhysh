@@ -30,6 +30,11 @@ _global_script_classes=[{
 "path": "res://dungeon_builder/biome_builders/CleftBuilder.gd"
 }, {
 "base": "Object",
+"class": &"CrackDigger",
+"language": &"GDScript",
+"path": "res://dungeon_builder/other_builders/CrackDigger.gd"
+}, {
+"base": "Object",
 "class": &"CrossRoomBuilder",
 "language": &"GDScript",
 "path": "res://dungeon_builder/feature_builders/CrossRoomBuilder.gd"
@@ -110,6 +115,11 @@ _global_script_classes=[{
 "path": "res://dungeon/Wall.gd"
 }, {
 "base": "Object",
+"class": &"Waller",
+"language": &"GDScript",
+"path": "res://dungeon_builder/other_builders/Waller.gd"
+}, {
+"base": "Object",
 "class": &"ZoneInfo",
 "language": &"GDScript",
 "path": "res://dungeon/ZoneInfo.gd"
@@ -124,6 +134,7 @@ _global_script_class_icons={
 "BiomeBuilder": "",
 "Chunk": "",
 "CleftBuilder": "",
+"CrackDigger": "",
 "CrossRoomBuilder": "",
 "DungeonIndex": "",
 "ExtensionLoader": "",
@@ -140,6 +151,7 @@ _global_script_class_icons={
 "SmallRoomBuilder": "",
 "Tile": "",
 "Wall": "",
+"Waller": "",
 "ZoneInfo": "",
 "ZoneLoader": ""
 }

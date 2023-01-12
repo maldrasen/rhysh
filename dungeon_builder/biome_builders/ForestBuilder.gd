@@ -12,7 +12,7 @@ func placeFeatures():
 
 	addHouses(houseCount)
 	addTrees(treeCount)
-	fixWalls()
+#	fixWalls() Broken?
 	fillSpace()
 
 # Place a few houses outside of the city wall.
@@ -62,7 +62,7 @@ func addTrees(treeCount):
 func fixWalls():
 	for index in usedTiles:
 		var tile = getTile(index)
-		var neighbors = getNeighborTiles(index)
+		var neighbors = self.getNeighborTiles(index)
 
 		for direction in neighbors.keys():
 			if tile.walls[direction]:

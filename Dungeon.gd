@@ -42,6 +42,11 @@ func fetchTile(dungeonIndex:DungeonIndex):
 
 # ==== Sector Management ===========================================================================
 
+func defineNextSector(type):
+	var index = nextSector()
+	defineSector(index, type)
+	return index
+
 # The next sector index to use.
 func nextSector():
 	return sectorCounter + 1

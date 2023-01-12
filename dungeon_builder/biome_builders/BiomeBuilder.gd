@@ -70,10 +70,11 @@ func inRange(dungeonIndex:DungeonIndex):
 	if chunks.has(dungeonIndex.chunkIndex()) == false:
 		return false
 
-
-# Given a dungeon index, get the neighboring tiles along with their indices.
+# Given a dungeon index, and a tile source get the neighboring tiles along with their indices. The
+# tile source is anything that has a getTile() function.
 #   { N:{index:<>, tile:<>}, S:... }
 func getNeighborTiles(dungeonIndex:DungeonIndex):
+
 	var neighbors = {
 		Constants.North: { "index":dungeonIndex.translate(Vector3i(0,-1,0)) },
 		Constants.South: { "index":dungeonIndex.translate(Vector3i(0,1,0))  },
