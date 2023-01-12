@@ -5,12 +5,14 @@ class_name CrackDigger
 var tileSource
 var carvePoints
 var defaultTile
+var biomeBuilder
 
 # The tunneler randomly selects carve points to start from, then carves into an empty area until
 # path length is reached or something solid is encountered. Carving is done with a random walk,
 # but mostly heads away from the empty space next to the carve point. This is designed to produce a
 # series of cracks heading away from an open space.
 func _init(properties):
+	self.biomeBuilder = properties.biomeBuilder
 	self.tileSource = properties.tileSource
 	self.defaultTile = properties.defaultTile
 	self.carvePoints = []+properties.carvePoints
@@ -69,7 +71,7 @@ func carvePath(index, directionMap, length):
 		direction = directionMap[2]
 
 	tileSource.setTile(index, defaultTile)
-	tileSource.removeFreeIndex(index)
+	biomeBuilder.removeFreeIndex(index)
 
 	if length > 0:
 		carvePath(index.go(direction), directionMap, length-1)

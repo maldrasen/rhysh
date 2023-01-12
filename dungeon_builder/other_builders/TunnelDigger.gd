@@ -2,6 +2,7 @@ extends Object
 
 class_name TunnelDigger
 
+var biomeBuilder
 var tileSource
 var connectionPoints
 var defaultTile
@@ -11,13 +12,14 @@ var defaultTile
 # diggs a diagonal tunnel to that point. There's a bit of randomness in the tunnel to keep them
 # from looking like streight lines.
 func _init(properties):
+	self.biomeBuilder = properties.biomeBuilder
 	self.tileSource = properties.tileSource
 	self.defaultTile = properties.defaultTile
 	self.connectionPoints = []
 
 func start():
-	for i in floor(tileSource.freeTiles.size() / 50):
-		connectionPoints.push_back(tileSource.freeTiles.pick_random())
+	for i in floor(biomeBuilder.freeTiles.size() / 50):
+		connectionPoints.push_back(biomeBuilder.freeTiles.pick_random())
 
 	while connectionPoints.size() > 0:
 		var toPoint = connectionPoints.pick_random()
@@ -58,7 +60,7 @@ func canConnect(point):
 		return false
 	if tileSource.inRange(point) == false:
 		return false
-	if tileSource.usedTiles.has(point):
+	if biomeBuilder.usedTiles.has(point):
 		return true
 
 	var tile = tileSource.getTile(point)
@@ -84,7 +86,7 @@ func connectPoints(fromPoint, toPoint):
 		return
 
 	tileSource.setTile(nextPoint, defaultTile)
-	tileSource.removeFreeIndex(nextPoint)
+	biomeBuilder.removeFreeIndex(nextPoint)
 	connectPoints(nextPoint, toPoint)
 
 func randomDirection(xOffset, yOffset, horizontal, vertical):

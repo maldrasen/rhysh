@@ -161,12 +161,14 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 # ==== Step 2 : Generate Biomes ====================================================================
 
 func generateBiomes():
+	var chunkTileSource = ChunkTileSource.new(self.chunks)
+
 	for biomeName in freeTiles.keys():
 		var properties = {
 			"biomeName": biomeName,
 			"zoneInfo": self.zoneInfo,
 			"zoneData": self.zoneData,
-			"chunks": self.chunks,
+			"tileSource": chunkTileSource,
 			"freeTiles": self.freeTiles[biomeName],
 			"supplementaryData": self.supplementaryData,
 		}

@@ -2,6 +2,7 @@ extends Object
 
 class_name Bulldozer
 
+var biomeBuilder
 var tileSource
 var startPoint
 var defaultTile
@@ -14,6 +15,7 @@ var directionMap
 func _init(properties):
 	var p = properties.startPoint
 
+	self.biomeBuilder = properties.biomeBuilder
 	self.tileSource = properties.tileSource
 	self.startPoint = DungeonIndex.new(p.x, p.y, p.z)
 	self.defaultTile = properties.defaultTile
@@ -33,6 +35,7 @@ func start():
 
 func carve(point:DungeonIndex):
 	tileSource.setTile(point, defaultTile)
+	biomeBuilder.removeFreeIndex(point)
 
 	var direction = directionMap[0]
 	var roll = randi_range(1,4)

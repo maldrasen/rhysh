@@ -15,13 +15,15 @@ func placeFeatures():
 	self.cleftTile.sector = Dungeon.defineNextSector("outside")
 
 	CrackDigger.new({
-		"tileSource": self,
+		"biomeBuilder": self,
+		"tileSource": self.tileSource,
 		"carvePoints": self.supplementaryData.CarvePoints,
 		"defaultTile": cleftTile,
 	}).start(0.33)
 
 	TunnelDigger.new({
-		"tileSource": self,
+		"biomeBuilder": self,
+		"tileSource": self.tileSource,
 		"defaultTile": cleftTile,
 	}).start()
 
