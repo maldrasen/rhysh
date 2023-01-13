@@ -34,7 +34,7 @@ func start():
 	carve(startPoint)
 
 func carve(point:DungeonIndex):
-	tileSource.setTile(point, defaultTile)
+	tileSource.setTile(point, defaultTile.copy())
 	biomeBuilder.removeFreeIndex(point)
 
 	var direction = directionMap[0]

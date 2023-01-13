@@ -32,6 +32,11 @@ static func normal():
 	tile.theFloor = Floor.new(Floor.Type.Normal)
 	return tile
 
+static func solidStone():
+	var tile = Tile.normal()
+	tile.fillWith("Stone")
+	return tile
+
 func _init():
 	self.type = Type.Empty
 
@@ -40,6 +45,21 @@ func isEmpty():
 
 func isSolid():
 	return self.type == Type.Solid
+
+func isSolidStone():
+	return isSolid() && fill.has("stone")
+
+func isTree():
+	return isSolid() && fill.has("tree")
+
+func canHaveWall():
+	if isSolid() == false:
+		return true
+	if fill.has("statue"):
+		return true
+	if fill.has("tree"):
+		return true
+	return false
 
 func hasFloor():
 	return self.theFloor != null && self.theFloor.isNormal()
@@ -165,6 +185,10 @@ func setExtensions(extension):
 
 	print("Unknown Extension Error: What do I do with this?",extension)
 
+func makeEmpty():
+	self.type = Type.Empty
+	self.fill = null
+
 func fillWith(fillName):
 	self.type = Type.Solid
 	self.fill = {
@@ -180,6 +204,9 @@ func fillWithStatue(statueType = "random"):
 	self.fill = { "statue":statueType }
 
 # ==== Persistance =================================================================================
+
+func copy():
+	return Tile.unpack(pack())
 
 func pack():
 	var packedWalls = {}

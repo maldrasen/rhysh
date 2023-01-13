@@ -120,6 +120,11 @@ _global_script_classes=[{
 "path": "res://dungeon/Tile.gd"
 }, {
 "base": "Object",
+"class": &"TileFixer",
+"language": &"GDScript",
+"path": "res://dungeon_builder/other_builders/TileFixer.gd"
+}, {
+"base": "Object",
 "class": &"TunnelDigger",
 "language": &"GDScript",
 "path": "res://dungeon_builder/other_builders/TunnelDigger.gd"
@@ -128,11 +133,6 @@ _global_script_classes=[{
 "class": &"Wall",
 "language": &"GDScript",
 "path": "res://dungeon/Wall.gd"
-}, {
-"base": "Object",
-"class": &"WallFixer",
-"language": &"GDScript",
-"path": "res://dungeon_builder/other_builders/WallFixer.gd"
 }, {
 "base": "Object",
 "class": &"ZoneInfo",
@@ -167,9 +167,9 @@ _global_script_class_icons={
 "RuinBuilder": "",
 "SmallRoomBuilder": "",
 "Tile": "",
+"TileFixer": "",
 "TunnelDigger": "",
 "Wall": "",
-"WallFixer": "",
 "ZoneInfo": "",
 "ZoneLoader": ""
 }

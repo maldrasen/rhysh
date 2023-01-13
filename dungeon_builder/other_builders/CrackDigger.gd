@@ -70,7 +70,7 @@ func carvePath(index, directionMap, length):
 	if roll == 2:
 		direction = directionMap[2]
 
-	tileSource.setTile(index, defaultTile)
+	tileSource.setTile(index, defaultTile.copy())
 	biomeBuilder.removeFreeIndex(index)
 
 	if length > 0:

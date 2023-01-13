@@ -85,7 +85,7 @@ func connectPoints(fromPoint, toPoint):
 	if nextTile != null && nextTile.hasFloor() == false:
 		return
 
-	tileSource.setTile(nextPoint, defaultTile)
+	tileSource.setTile(nextPoint, defaultTile.copy())
 	biomeBuilder.removeFreeIndex(nextPoint)
 	connectPoints(nextPoint, toPoint)
 

@@ -17,6 +17,9 @@ func _init(t, c):
 	self.type = t
 	self.certainty = c
 
+static func normal(certainty):
+	return Wall.new(Type.Normal, certainty)
+
 # ==== Persistance =================================================================================
 
 func pack():
@@ -31,6 +34,7 @@ func typeString():
 	return {
 		Type.Normal: "Nrml",
 		Type.Door: "Door",
+		Type.Fence: "Fnce",
 	}[self.type]
 
 func certaintyString():

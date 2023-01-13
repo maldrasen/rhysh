@@ -184,6 +184,8 @@ func generateBiomes():
 		if biomeName == "Forest":
 			ForestBuilder.new(properties).fullBuild()
 
+	TileFixer.new({ "tileSource": chunkTileSource }).start()
+
 	print("  ---")
 
 # The last step is to save all the chunk files.
