@@ -16,4 +16,4 @@ func trimDeadEnds():
 
 # [BiomeBuilder Implementation]
 func decorate():
-	self.status = Constants.Status.Success
+	pass

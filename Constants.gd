@@ -31,16 +31,7 @@ enum GameStage {
 	TownTavern,
 }
 
-# A common pattern in the random generation will be to generate a bunch of random bullshit, check
-# to see if it works, and throw everything away and try again if it fails.
-enum Status {
-	Working,
-	Success,
-	Abort,
-}
-
 # UI Constants
 const FontBaskerville = preload("res://assets/fonts/LibreBaskerville-Regular.ttf")
 const FontBaskervilleBold = preload("res://assets/fonts/LibreBaskerville-Bold.ttf")
 const FontBaskervilleItalic = preload("res://assets/fonts/LibreBaskerville-Italic.ttf")
-

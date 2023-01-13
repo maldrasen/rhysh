@@ -2,40 +2,46 @@ extends Object
 
 class_name BiomeBuilder
 
-var status
 var biomeName
 var zoneInfo
 var zoneData
 
-var chunks
+var tileSource
 var freeTiles
 var usedTiles
 var supplementaryData
 
-var random: RandomNumberGenerator
+var extraBuilders
 
 func _init(properties):
-	self.status = Constants.Status.Working
 	self.biomeName = properties.biomeName
 	self.zoneInfo = properties.zoneInfo
 	self.zoneData = properties.zoneData
-	self.chunks = properties.chunks
+	self.tileSource = properties.tileSource
 
 	self.freeTiles = properties.freeTiles
 	self.usedTiles = []
 	self.supplementaryData = properties.supplementaryData
 
-	self.random = RandomNumberGenerator.new()
-	self.random.seed = "{0}{1}".format([GameState.randomSeed, self.zoneInfo.name]).hash()
+	if properties.has("extraBuilders"):
+		self.extraBuilders = properties.extraBuilders
+
 
 # [BiomeBuilder Implementation]
 func fullBuild():
+	var startTime = Time.get_ticks_msec()
+
 	print("  ---")
 	print("  {0}: Starting full build on {1} tiles".format([biomeName,freeTiles.size()]))
+
+	runExtraBuilders("First")
 	placeFeatures()
 	connectSectors()
 	trimDeadEnds()
 	decorate()
+	runExtraBuilders("Last")
+
+	print("  {0}: Completed build in {1}ms".format([biomeName, Time.get_ticks_msec() - startTime]))
 
 # [BiomeBuilder Implementation]
 func placeFeatures():
@@ -53,40 +59,35 @@ func trimDeadEnds():
 func decorate():
 	pass
 
+# [BiomeBuilder Implementation]
+func defaultTile():
+	pass
+
+# A zone can specify additional options for the biome builders to use. One of these is the
+# "extraBuilders" option, which lists extra build functions to invoke. The option needs to at least
+# specify which builder to use and which phase to run it in.
+func runExtraBuilders(phase):
+	if extraBuilders != null:
+		for extraBuilder in extraBuilders:
+			if extraBuilder.phase == phase:
+				if extraBuilder.type == "Bulldozer":
+					runBulldozer(extraBuilder)
+
+func runBulldozer(options):
+	Bulldozer.new({
+		"biomeBuilder": self,
+		"tileSource": tileSource,
+		"startPoint": options.startPoint,
+		"direction":  options.direction,
+		"defaultTile": defaultTile(),
+	}).start()
+
 # When setting the free tiles array we want to force a copy because the builders mutate the free
 # and used tile arrays while building, however if we need to abort the build and try again we need
 # a fresh set of free tiles.
 func setFreeTiles(tiles):
 	self.freeTiles = [] + tiles
 	self.usedTiles = []
-
-func setTile(dungeonIndex:DungeonIndex, tile:Tile):
-	chunks[dungeonIndex.chunkIndex()].setTile(dungeonIndex.tileIndex(), tile)
-
-func getTile(dungeonIndex:DungeonIndex):
-	return chunks[dungeonIndex.chunkIndex()].getTile(dungeonIndex.tileIndex())
-
-func inRange(dungeonIndex:DungeonIndex):
-	if chunks.has(dungeonIndex.chunkIndex()) == false:
-		return false
-
-
-# Given a dungeon index, get the neighboring tiles along with their indices.
-#   { N:{index:<>, tile:<>}, S:... }
-func getNeighborTiles(dungeonIndex:DungeonIndex):
-	var neighbors = {
-		Constants.North: { "index":dungeonIndex.translate(Vector3i(0,-1,0)) },
-		Constants.South: { "index":dungeonIndex.translate(Vector3i(0,1,0))  },
-		Constants.East:  { "index":dungeonIndex.translate(Vector3i(1,0,0))  },
-		Constants.West:  { "index":dungeonIndex.translate(Vector3i(-1,0,0)) },
-	}
-
-	neighbors[Constants.North].tile = getTile(neighbors[Constants.North].index)
-	neighbors[Constants.South].tile = getTile(neighbors[Constants.South].index)
-	neighbors[Constants.East].tile = getTile(neighbors[Constants.East].index)
-	neighbors[Constants.West].tile = getTile(neighbors[Constants.West].index)
-
-	return neighbors
 
 # Determine if a feature is able to be placed in this location. This only checks to see if there's
 # a null tile at every index the feature's tiles would be placed in. It doesn't look for things
@@ -116,7 +117,7 @@ func placeFeature(baseIndex:DungeonIndex, feature:Feature):
 					var index = baseIndex.translate(Vector3i(x,y,z))
 					tile.biome = biomeName
 					tile.sector = sector
-					setTile(index, tile)
+					tileSource.setTile(index, tile)
 					removeFreeIndex(index)
 
 # Appearently all the array has() and find() functions only work on varient types and not on plain

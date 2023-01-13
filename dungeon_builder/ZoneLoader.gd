@@ -149,14 +149,6 @@ func saveAsFreeTile(dungeonIndex, tileData):
 		self.freeTiles[biomeName] = []
 	self.freeTiles[biomeName].push_back(dungeonIndex)
 
-	# Connection Points are still just a type of supplementaryData because they just get turned
-	# into a list of dungeon indices for now. The biome builders are what actually use them. As
-	# such, connection points should only be found inside of biomes.
-	if tileData.has("extended") && tileData.extended.value == "Connection":
-		if supplementaryData.has("connectionPoints") == false:
-			supplementaryData.connectionPoints = []
-		supplementaryData.connectionPoints.push_back(dungeonIndex)
-
 # Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 	var chunkIndex = dungeonIndex.chunkIndex()
@@ -169,15 +161,21 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 # ==== Step 2 : Generate Biomes ====================================================================
 
 func generateBiomes():
+	var chunkTileSource = ChunkTileSource.new(self.chunks)
+
 	for biomeName in freeTiles.keys():
 		var properties = {
 			"biomeName": biomeName,
 			"zoneInfo": self.zoneInfo,
 			"zoneData": self.zoneData,
-			"chunks": self.chunks,
+			"tileSource": chunkTileSource,
 			"freeTiles": self.freeTiles[biomeName],
 			"supplementaryData": self.supplementaryData,
 		}
+
+		if zoneData.has("biomeBuilderOptions") && zoneData.biomeBuilderOptions.has(biomeName):
+			for option in zoneData.biomeBuilderOptions[biomeName]:
+				properties[option] = zoneData.biomeBuilderOptions[biomeName][option]
 
 		if biomeName == "Cleft":
 			CleftBuilder.new(properties).fullBuild()
@@ -185,6 +183,8 @@ func generateBiomes():
 			FarmBuilder.new(properties).fullBuild()
 		if biomeName == "Forest":
 			ForestBuilder.new(properties).fullBuild()
+
+	TileFixer.new({ "tileSource": chunkTileSource }).start()
 
 	print("  ---")
 
