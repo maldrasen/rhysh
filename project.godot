@@ -84,11 +84,6 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://dungeon/Floor.gd"
 }, {
-"base": "BiomeBuilder",
-"class": &"ForestBuilder",
-"language": &"GDScript",
-"path": "res://dungeon_builder/biome_builders/ForestBuilder.gd"
-}, {
 "base": "Object",
 "class": &"GardenRoomBuilder",
 "language": &"GDScript",
@@ -160,7 +155,6 @@ _global_script_class_icons={
 "FeatureLoader": "",
 "FeatureTemplate": "",
 "Floor": "",
-"ForestBuilder": "",
 "GardenRoomBuilder": "",
 "MapSection": "",
 "MapView": "",

@@ -3,6 +3,7 @@ extends Object
 class_name BiomeBuilder
 
 var biomeName
+var biomeOptions
 var zoneInfo
 var zoneData
 
@@ -11,10 +12,9 @@ var freeTiles
 var usedTiles
 var supplementaryData
 
-var extraBuilders
-
 func _init(properties):
 	self.biomeName = properties.biomeName
+	self.biomeOptions = properties.biomeOptions
 	self.zoneInfo = properties.zoneInfo
 	self.zoneData = properties.zoneData
 	self.tileSource = properties.tileSource
@@ -22,10 +22,6 @@ func _init(properties):
 	self.freeTiles = properties.freeTiles
 	self.usedTiles = []
 	self.supplementaryData = properties.supplementaryData
-
-	if properties.has("extraBuilders"):
-		self.extraBuilders = properties.extraBuilders
-
 
 # [BiomeBuilder Implementation]
 func fullBuild():
@@ -67,8 +63,8 @@ func defaultTile():
 # "extraBuilders" option, which lists extra build functions to invoke. The option needs to at least
 # specify which builder to use and which phase to run it in.
 func runExtraBuilders(phase):
-	if extraBuilders != null:
-		for extraBuilder in extraBuilders:
+	if biomeOptions.has("extraBuilders"):
+		for extraBuilder in biomeOptions.extraBuilders:
 			if extraBuilder.phase == phase:
 				if extraBuilder.type == "Bulldozer":
 					runBulldozer(extraBuilder)
@@ -93,14 +89,20 @@ func setFreeTiles(tiles):
 # a null tile at every index the feature's tiles would be placed in. It doesn't look for things
 # like doors being able to be connected. We could extend it to do that possibly or create some kind
 # of abort() function that clears tiles if it becomes impossible to connect the feature.
+#
+# TODO: Because the free tiles come from a single layer this also doesn't consider the z-depth of a
+#       feature at all. This is fine for the cleft and other areas where a zone will have nothing
+#       but air above the tile, but this will need to be fixed when we start building underground
+#       areas. It's easy enough to loop though a feature's z-levels, but the real question is how
+#       to differentiate between zones where features can be any height and are always placed on
+#       the ground, and other zones that are closed off vertically?
 func featureCanBePlaced(index:DungeonIndex, feature:Feature):
-	for z in feature.size.z:
-		for y in feature.size.y:
-			for x in feature.size.x:
-				if feature.getTile(x,y,z) != null:
-					var tileIndex = index.translate(Vector3i(x,y,z))
-					if isIndexFree(tileIndex) == false:
-						return false
+	for y in feature.size.y:
+		for x in feature.size.x:
+			if feature.getTile(x,y,0) != null:
+				var tileIndex = index.translate(Vector3i(x,y,0))
+				if isIndexFree(tileIndex) == false:
+					return false
 	return true
 
 # Place the feature in the dungeon. This is also where the feature becomes 'real' so we set the

@@ -6,17 +6,24 @@
   ],
 
   "biomes":{
-    "Orange": "Cleft",
-    "LightGreen": "Forest",
-    "Green": "Farm",
-  },
-
-  "biomeBuilderOptions":{
-    "Cleft": {
+    "Orange": {
+      "biomeName":"Cleft",
       "extraBuilders":[
         { "type":"Bulldozer", "phase":"Last", "startPoint":{ "x":35, "y":29, "z":103 }, "direction":"E" },
         { "type":"Bulldozer", "phase":"Last", "startPoint":{ "x":84, "y":66, "z":104 }, "direction":"W" },
       ]
+    },
+
+    "LightGreen": {
+      "biomeName":"Farm",
+      "treeCount":66,
+      "houseCount":4,
+    },
+
+    "Green": {
+      "biomeName":"Farm",
+      "treeCount":50,
+      "houseCount":16,
     }
   },
 
