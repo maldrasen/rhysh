@@ -11,9 +11,11 @@ var layers
 func _init(info):
 	self.layers = []
 	self.name = info["Name"]
-	self.sectorType = info["SectorType"]
 	self.canFlip = info["Flip"]
 	self.size = Vector3i(info["Width"], info["Height"], info["Depth"])
+
+	if info.has("SectorType"):
+		self.sectorType = info["SectorType"]
 
 	for i in self.size.z:
 		var tiles = []
