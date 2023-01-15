@@ -74,20 +74,18 @@ func flipV():
 				if layers[z][newIndex]:
 					layers[z][newIndex].flipV()
 
-# I was trying to rotate the tile matrix, but really only got it to flip along the diagonal axis
-# doing it this way. Should be possible to rotate the tiles with a couple loops like this, but I'm
-# to dumb to figure it out.
 func flipD():
+	var oldSize = size
+
+	self.size = Vector3i(oldSize.y, oldSize.x, oldSize.z)
+
 	for z in layers.size():
 		var oldTiles = layers[z]
-		var oldSize = size
+		var newX = size.x
+		var newY = 0
 
 		layers[z] = []
 		layers[z].resize(self.size.x * self.size.y)
-		self.size = Vector3i(oldSize.y, oldSize.x, 1)
-
-		var newX = size.x
-		var newY = 0
 
 		for y in oldSize.y:
 			newY = size.y
@@ -100,6 +98,27 @@ func flipD():
 				layers[z][newIndex] = oldTiles[oldIndex]
 				if layers[z][newIndex]:
 					layers[z][newIndex].flipD()
+
+# TODO: FlipD kinda works, though what I really wanted was rotation. Rather than rewriting it I'll
+#       just make a point of implementing this matrix transform one of these days.
+#
+#          A B C D      I E A
+#          E F G H  ->  J F B
+#          I J K L      K G C
+#                       L H D
+#
+#           A (0,0) -> (2,0)
+#           B (0,0) -> (2,1)
+#           C (0,0) -> (2,2)
+#           D (0,0) -> (2,3)
+#           E (0,0) -> (1,0)
+#           F (0,0) -> (1,1)
+#           G (0,0) -> (1,2)
+#           H (0,0) -> (1,3)
+#           I (0,0) -> (0,0)
+#           J (0,0) -> (0,1)
+#           K (0,0) -> (0,2)
+#           L (0,0) -> (0,3)
 
 func _to_string():
 	return "Feature[{0}]".format([featureName])
