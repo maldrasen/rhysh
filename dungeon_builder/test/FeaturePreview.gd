@@ -6,8 +6,8 @@ func _ready():
 	loadMap()
 
 func loadMap():
-	loadRandomFeature()
-#	loadRandomFeatureFromSet("farms")
+#	loadRandomFeature()
+	loadRandomFeatureFromSet("caves")
 #	loadFeature("Farm-1-6")
 
 func loadRandomFeature():

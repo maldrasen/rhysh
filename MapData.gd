@@ -1,6 +1,7 @@
 extends Node
 
 const FeatureList = [
+	"Caves",
 	"Farms"
 ]
 
