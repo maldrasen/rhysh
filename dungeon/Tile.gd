@@ -182,6 +182,8 @@ func setExtensions(extension):
 		return #TODO: Implement signs
 	if extension.type == "Trigger":
 		return #TODO: Implement triggers
+	if extension.type == "PossibleTrigger":
+		return #TODO: Implement triggers
 
 	print("Unknown Extension Error: What do I do with this?",extension)
 

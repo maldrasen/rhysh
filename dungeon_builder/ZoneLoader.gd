@@ -144,10 +144,10 @@ func buildTiles(layer):
 # As we go through the layers we save biomes as an array of points. These will be fed into the
 # biome builders to randomly generate these areas.
 func saveAsFreeTile(dungeonIndex, tileData):
-	var biomeName = self.zoneInfo.biomes[tileData.root.biome]
-	if self.freeTiles.has(biomeName) == false:
-		self.freeTiles[biomeName] = []
-	self.freeTiles[biomeName].push_back(dungeonIndex)
+	var biomeColor = tileData.root.biome
+	if self.freeTiles.has(biomeColor) == false:
+		self.freeTiles[biomeColor] = []
+	self.freeTiles[biomeColor].push_back(dungeonIndex)
 
 # Place a tile into the appropriate chunk. If the chunk hasn't been built yet this creates it.
 func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
@@ -163,26 +163,24 @@ func putTileIntoChunk(dungeonIndex:DungeonIndex, tile:Tile):
 func generateBiomes():
 	var chunkTileSource = ChunkTileSource.new(self.chunks)
 
-	for biomeName in freeTiles.keys():
+	for biomeColor in freeTiles.keys():
+		var biomeOptions = self.zoneInfo.biomes[biomeColor]
+		var biomeName = biomeOptions.biomeName
+
 		var properties = {
-			"biomeName": biomeName,
+			"biomeName": biomeOptions.biomeName,
+			"biomeOptions": biomeOptions,
 			"zoneInfo": self.zoneInfo,
 			"zoneData": self.zoneData,
 			"tileSource": chunkTileSource,
-			"freeTiles": self.freeTiles[biomeName],
+			"freeTiles": self.freeTiles[biomeColor],
 			"supplementaryData": self.supplementaryData,
 		}
-
-		if zoneData.has("biomeBuilderOptions") && zoneData.biomeBuilderOptions.has(biomeName):
-			for option in zoneData.biomeBuilderOptions[biomeName]:
-				properties[option] = zoneData.biomeBuilderOptions[biomeName][option]
 
 		if biomeName == "Cleft":
 			CleftBuilder.new(properties).fullBuild()
 		if biomeName == "Farm":
 			FarmBuilder.new(properties).fullBuild()
-		if biomeName == "Forest":
-			ForestBuilder.new(properties).fullBuild()
 
 	TileFixer.new({ "tileSource": chunkTileSource }).start()
 

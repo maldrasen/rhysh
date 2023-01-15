@@ -32,12 +32,12 @@ func adjustedLayerData(layerType, tileId, point:Vector3i):
 	return layerData
 
 func lookupExtensionValue(layerData):
-	if dataSource.extensions.has(layerData.value):
+	if dataSource.has("extensions") && dataSource.extensions.has(layerData.value):
 		return dataSource.extensions[layerData.value]
 	printerr("Error: Extension should have a lookup value in the data file but does not. ",layerData)
 
 func lookupExtensionValueAt(layerData, point:Vector3i):
 	var key = "Point({0},{1},{2})".format([point.x, point.y, point.z])
-	if dataSource.extensions.has(key):
+	if dataSource.has("extensions") && dataSource.extensions.has(key):
 		return dataSource.extensions[key]
 	printerr("Error: Extension should have ",key," in the data file but does not. ",layerData)
