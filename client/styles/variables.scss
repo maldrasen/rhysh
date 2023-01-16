@@ -1,0 +1,33 @@
+
+$fs-huge:   18pt;
+$fs-bigger: 14pt;
+$fs-big:    12pt;
+$fs-body:   10pt;
+$fs-small:  9pt;
+$fs-tiny:   8pt;
+
+$fs-h2: 12pt;
+$fs-h3: 12pt;
+$fs-h4: 10pt;
+$fs-h5: 10pt;
+
+$shadow-frame:         0 5px 10px rgba(0,0,0,0.5);
+$shadow-inset:         0 3px 6px rgba(0,0,0,0.4) inset;
+$shadow-inset-button:  0 3px 5px rgba(0,0,0,0.8) inset;
+$shadow-shallow:       0 2px 3px rgba(0,0,0,0.9);
+$shadow-portrait:      0 4px 5px rgba(0,0,0,0.8);
+$shadow-overlay:       0 10px 20px rgba(0,0,0,0.8);
+
+$border-transparent: 1px solid transparent;
+$border-very-light:  1px solid rgba(250,250,250,0.05);
+$border-light:       1px solid rgba(250,250,250,0.1);
+$border-normal:      1px solid rgba(250,250,250,0.2);
+$border-heavy:       2px solid rgba(250,250,250,0.3);
+
+$bg-root:            rgb(30,30,30);
+
+$fg-body:            rgb(180,170,160);
+$fg-link:            rgb(220,80,50);
+$fg-link-hover:      rgb(250,100,60);
+$fg-link-active:     rgb(255,110,70);
+$fg-strong:          rgb(250,250,250);

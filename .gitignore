@@ -1,3 +1,5 @@
 
-/node_modules
 /assets
+/client/rhysh.css
+/client/rhysh.css.map
+/node_modules
