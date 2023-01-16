@@ -1,0 +1,6 @@
+
+color: true
+file: spec.js
+recursive: true
+slow: 1000
+timeout: 2000
