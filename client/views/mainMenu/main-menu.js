@@ -1,5 +1,5 @@
 
-import X from '../tools/exacto.js'
+import X from '../../tools/exacto.js'
 
 const MainMenu = (function() {
 
