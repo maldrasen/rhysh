@@ -1,4 +1,9 @@
 
+global.fs = require('fs');
+global.hash = require('object-hash');
+global.util = require('util');
+global.Sequelize = require('sequelize');
+
 require(`${ROOT}/modules/boot/lib/environment`);
 require(`${ROOT}/modules/boot/lib/loader`);
 require(`${ROOT}/modules/boot/lib/settings`);

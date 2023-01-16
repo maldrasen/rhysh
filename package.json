@@ -16,12 +16,15 @@
   "scripts": {
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
-    "start": "electron . --dev"
+    "start": "electron . --dev",
+    "spec": "mocha modules/**/spec/**/*-spec.js --test",
+    "specv": "mocha modules/**/spec/**/*-spec.js --test -v"
   },
 
   "dependencies": {
     "object-hash": "3.0.0",
-    "sequelize": "6.28.0"
+    "sequelize": "6.28.0",
+    "sqlite3": "^5.1.4"
   },
 
   "devDependencies": {
