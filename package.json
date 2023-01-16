@@ -9,7 +9,7 @@
   "build": {
     "appId": "com.maldrasen.rhysh",
     "files": [
-      "../assets/**/*",
+      "assets/**/*",
       "client/**/*",
       "modules/**/*",
       "node_modules/**/*",
