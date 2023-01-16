@@ -1,7 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://co44hdt5ijbl0"]
-
-[ext_resource type="FontFile" uid="uid://dy4uriadso4b0" path="res://assets/fonts/LibreBaskerville-Regular.ttf" id="1_wwn2k"]
-
-[resource]
-default_font = ExtResource("1_wwn2k")
-default_font_size = 16
