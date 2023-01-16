@@ -8,16 +8,16 @@ Messenger.publish("database.start");
 
 before(() => {
   return new Promise(resolve => {
-    // Messenger.subscribe("database.ready", () => {
-    //   console.log("\n\n=== Test Environment Loaded and Ready ===\n\n");
+    Messenger.subscribe("database.ready", () => {
+      console.log("=== Test Environment Loaded and Ready ===\n\n");
       resolve();
-    // });
+    });
   });
 });
 
 afterEach(() => {
   return new Promise(async resolve => {
-    // await Database.clear();
+    await Database.clear();
     // Settings.reset();
     // Flag.clear();
     resolve();

@@ -1,4 +1,3 @@
-
 global.fs = require('fs');
 global.hash = require('object-hash');
 global.util = require('util');

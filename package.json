@@ -1,5 +1,5 @@
 {
-  "name": "rhysh",
+  "name": "Rhysh",
   "version": "0.0.0",
   "description": "Rhysh: A Lewd Dungeon Crawler",
   "author": "Maldrasen",
@@ -10,7 +10,7 @@
 
   "build": {
     "appId": "com.maldrasen.rhysh",
-    "win":{ "target":[{ "target":"portable", "arch":["x64","ia32"]}]}
+    "win":{ "target":[{ "target":"portable", "arch":["x64"]}]}
   },
 
   "scripts": {

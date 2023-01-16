@@ -26,10 +26,13 @@ global.Browser = (function() {
     });
 
     mainWindow.loadURL(`file://${ROOT}/client/index.html`);
-    mainWindow.setMenu(null);
 
     if (Environment.debug) {
       mainWindow.webContents.openDevTools();
+    }
+
+    if (!Environment.debug) {
+      mainWindow.setMenu(null);
     }
 
     mainWindow.on('closed', () => {
