@@ -1,27 +1,11 @@
-const { app, BrowserWindow } = require('electron')
 
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-  })
+global.ROOT = require('path').normalize(`${__dirname}`).replace(/\\/g,"/");
+global.fs = require('fs');
+global.hash = require('object-hash');
+global.util = require('util');
+global.Sequelize = require('sequelize');
 
-  win.loadFile('index.html')
-}
+require(`${ROOT}/modules/boot/main.js`);
 
-app.whenReady().then(() => {
-  createWindow();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-    	console.log("Does this ever happen?")
-
-      createWindow();
-    }
-  });
-
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { app.quit(); }
-});
+Messenger.publish('database.start');
+Messenger.publish('server.start');

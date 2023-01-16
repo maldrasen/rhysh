@@ -1,5 +1,4 @@
 
-/app/.yarn
-/app/.pnp.cjs
+/app/node_modules
 
 /assets
