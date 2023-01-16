@@ -1,0 +1,47 @@
+{
+  "name": "rhysh",
+  "version": "0.0.0",
+  "description": "Rhysh: A Lewd Dungeon Crawler",
+  "main": "main.js",
+  "author": "Maldrasen",
+  "license": "GPL-3",
+
+  "build": {
+    "appId": "com.maldrasen.rhysh",
+    "files": [
+      "../assets/**/*",
+      "client/**/*",
+      "modules/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "main.js"
+    ],
+    "asar": false,
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    }
+  },
+
+
+  "scripts": {
+    "build": "electron-builder",
+    "start": "electron . --dev"
+  },
+
+  "devDependencies": {
+    "chai": "4.3.7",
+    "electron": "22.0.2",
+    "electron-builder": "23.6.0",
+    "object-hash": "3.0.0",
+    "sequelize": "6.28.0",
+    "mocha": "10.2.0"
+  }
+}
