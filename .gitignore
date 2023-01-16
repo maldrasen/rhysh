@@ -3,4 +3,13 @@
 /client/rhysh.css
 /client/rhysh.css.map
 /dist
+
+# NPM
 /node_modules
+package-lock.json
+
+# Yarn
+.yarn
+.pnp.cjs
+.pnp.loader.mjs
+yarn.lock
