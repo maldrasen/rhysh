@@ -1,11 +1,9 @@
 
 #mainContent {
-  position: absolute;
-  z-index: 100
 }
 
 #activeBackground {
-  z-index: 0
+  z-index: $z-background;
 }
 
 .background-image {
@@ -16,6 +14,29 @@
   right: 0;
   background-position: center;
   background-size: cover;
+}
+
+.root-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: $z-root;
+}
+
+.center-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.base-frame {
+  display: block;
+  padding: 10px;
+  border: $border-normal;
+  background-color: $bg-frame;
+  box-shadow: $shadow-frame;
 }
 
 // Flex Container Classes

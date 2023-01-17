@@ -25,9 +25,13 @@ $border-normal:      1px solid rgba(250,250,250,0.2);
 $border-heavy:       2px solid rgba(250,250,250,0.3);
 
 $bg-root:            rgb(30,30,30);
+$bg-frame:           rgba(20,20,20,0.75);
 
 $fg-body:            rgb(180,170,160);
 $fg-link:            rgb(220,80,50);
 $fg-link-hover:      rgb(250,100,60);
 $fg-link-active:     rgb(255,110,70);
 $fg-strong:          rgb(250,250,250);
+
+$z-background: 0;
+$z-root: 100;

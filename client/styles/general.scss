@@ -57,6 +57,10 @@
 .small-padding-left { padding-left: 5px; }
 .small-padding-right { padding-right: 5px; }
 
+.border-light { border: $border-light; }
+.border-normal { border: $border-normal; }
+.border-heavy { border: $border-heavy; }
+
 .border-heavy-bottom { border-bottom: $border-heavy; }
 .border-heavy-top { border-top: $border-heavy; }
 .border-light-bottom { border-bottom: $border-light; }
