@@ -5,7 +5,8 @@ export default (function() {
 
     X('body').className = "main-menu";
     X('.loading').remove();
-    X('#mainContent').append("TODO: Main Menu");
+
+    Template.load(X('#mainContent'), "client/views/mainMenu/main-menu.html")
   }
 
   return {

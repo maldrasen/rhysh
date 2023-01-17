@@ -7,3 +7,7 @@ ipcMain.handle("client.ready", async () => {
   Browser.send('server.ready', Environment);
   Messenger.publish('server.ready');
 });
+
+ipcMain.handle("client.loadTemplate", async (payload, path) => {
+  return Template.load(path);
+});

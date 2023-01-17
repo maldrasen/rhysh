@@ -3,6 +3,7 @@
 import BackgroundImage from './elements/background-image.js'
 
 // Tools
+import Template from './tools/template.js'
 import X from './tools/exacto.js'
 
 // Views
@@ -16,6 +17,7 @@ export default () => {
   window.BackgroundImage = BackgroundImage;
 
   // Tools
+  window.Template = Template;
   window.X = X;
 
   // Views
