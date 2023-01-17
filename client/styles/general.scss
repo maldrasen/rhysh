@@ -1,0 +1,65 @@
+.hide { display: none !important; }
+
+.align-right { text-align: right; }
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+
+.float-left { float: left; }
+.float-right { float: right; }
+.clear { clear: both; }
+
+.no-margin { margin: 0; }
+.no-margin-top { margin-top: 0; }
+.no-margin-bottom { margin-bottom: 0; }
+.no-margin-left { margin-left: 0; }
+.no-margin-right { margin-right: 0; }
+
+.big-margin { margin: 20px; }
+.big-margin-top { margin-top: 20px; }
+.big-margin-bottom { margin-bottom: 20px; }
+.big-margin-left { margin-left: 20px; }
+.big-margin-right { margin-right: 20px; }
+
+.margin { margin: 10px; }
+.margin-top { margin-top: 10px; }
+.margin-bottom { margin-bottom: 10px; }
+.margin-left { margin-left: 10px; }
+.margin-right { margin-right: 10px; }
+.margin-auto { margin: auto; }
+
+.small-margin { margin: 5px; }
+.small-margin-top { margin-top: 5px; }
+.small-margin-bottom { margin-bottom: 5px; }
+.small-margin-left { margin-left: 5px; }
+.small-margin-right { margin-right: 5px; }
+
+.no-padding { padding: 0; }
+.no-padding-top { padding-top: 0; }
+.no-padding-bottom { padding-bottom: 0; }
+.no-padding-left { padding-left: 0; }
+.no-padding-right { padding-right: 0; }
+
+.big-padding { padding: 20px; }
+.big-padding-top { padding-top: 20px; }
+.big-padding-bottom { padding-bottom: 20px; }
+.big-padding-left { padding-left: 20px; }
+.big-padding-right { padding-right: 20px; }
+
+.padding { padding: 10px; }
+.padding-top { padding-top: 10px; }
+.padding-bottom { padding-bottom: 10px; }
+.padding-left { padding-left: 10px; }
+.padding-right { padding-right: 10px; }
+
+.small-padding { padding: 5px; }
+.small-padding-top { padding-top: 5px; }
+.small-padding-bottom { padding-bottom: 5px; }
+.small-padding-left { padding-left: 5px; }
+.small-padding-right { padding-right: 5px; }
+
+.border-heavy-bottom { border-bottom: $border-heavy; }
+.border-heavy-top { border-top: $border-heavy; }
+.border-light-bottom { border-bottom: $border-light; }
+.border-light-top { border-top: $border-light; }
+.border-bottom { border-bottom: $border-normal; }
+.border-top { border-top: $border-normal; }

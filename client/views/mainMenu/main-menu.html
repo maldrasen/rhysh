@@ -1,15 +1,21 @@
 
-
-<div id="mainMenu">
+<div id="mainMenu" class="flex">
 
   <div class="center-frame">
     <ul>
-      <a href="#" class='new-game'>New Game</a>
-      <a href="#" class='load-game'>Load Game</a>
-      <a href="#" class='continue'>Continue</a>
-      <a href="#" class='options'>Options</a>
-      <a href="#" class='quit'>Quit</a>
+      <li><a href="#" class='send-command' data-command='game.start'>New Game</a></li>
+      <li><a href="#" class='send-command continue-button' data-command='game.continue'>Continue</a></li>
+      <li><a href="#" class='send-command' data-command='game.show-load'>Load Game</a></li>
+      <li><a href="#" class='send-command' data-command='game.show-options'>Options</a></li>
     </ul>
+
+    <div class="show-when-dev margtin-top">
+      <h5>Development Tools</h5>
+      <ul>
+        <li><a href="#" class='send-command' data-command='test.preview-zone'>Preview Features</a></li>
+        <li><a href="#" class='send-command' data-command='test.preview-zone'>Preview Zone</a></li>
+      </ul>
+    </div>
   </div>
 
 </div>

@@ -3,6 +3,8 @@
 @import 'fonts.scss';
 @import 'reset.scss';
 @import 'base.scss';
+
+@import 'general.scss';
 @import 'layout.scss';
 
-@import 'main-menu.scss';
+@import 'views/main-menu.scss';

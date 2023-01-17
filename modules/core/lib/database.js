@@ -10,6 +10,8 @@ global.Database = (function() {
   async function createDatabase() {
     resetLog();
 
+    const { Sequelize } = require('sequelize');
+
     database = new Sequelize('sqlite://:memory:', {
       dialect: 'sqlite',
       operatorsAliases: [],

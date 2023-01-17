@@ -17,3 +17,13 @@
   background-position: center;
   background-size: cover;
 }
+
+// Flex Container Classes
+.flex { display:flex;  }
+.flex-center { justify-content: center; } // Align Horizontally
+.flex-middle { align-items: center; }     // Align Vertically
+.flex-wrap { flex-wrap: wrap; }
+
+// Flex Item Classes
+.flex-grow { flex-grow:1; }
+
