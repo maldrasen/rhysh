@@ -29,6 +29,7 @@ a.disabled {
   color: $fg-link;
   opacity: 0.3;
   border-bottom: none;
+  cursor: default;
 }
 a.no-underline:hover, a.no-underline:focus, a.no-underline:active {
   border-bottom: none;

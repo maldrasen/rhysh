@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
 bin/compile_style.sh
-npm run start --dev
+npm run start

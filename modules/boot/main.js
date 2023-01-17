@@ -2,9 +2,6 @@ global.fs = require('fs');
 global.hash = require('object-hash');
 global.util = require('util');
 
-// Requiring Sequalize somehow prevents the dev tools from opening.
-// global.Sequelize = require('sequelize');
-
 require(`${ROOT}/modules/boot/lib/environment`);
 require(`${ROOT}/modules/boot/lib/loader`);
 require(`${ROOT}/modules/boot/lib/settings`);

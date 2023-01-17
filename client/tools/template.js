@@ -1,8 +1,11 @@
 export default (function() {
 
-  function load(element, templatePath) {
-    ClientCommands.loadTemplate(templatePath).then(template => {
-      element.setHTML(template);
+  function load(selector, templatePath) {
+    return new Promise(resolve => {
+      ClientCommands.loadTemplate(templatePath).then(template => {
+        X.first(selector).setHTML(template);
+        resolve();
+      });
     });
   }
 

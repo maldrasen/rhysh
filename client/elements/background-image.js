@@ -8,11 +8,11 @@ export default (function() {
       return removeBackground();
     }
 
-    X('#backgroundImage').setAttribute("style",`background-image:url('../assets/backgrounds/${code}.png')`);
+    X.first('#backgroundImage').setAttribute("style",`background-image:url('../assets/backgrounds/${code}.png')`);
   }
 
   function removeBackground() {
-    X('#backgroundImage').removeAttribute("style");
+    X.first('#backgroundImage').removeAttribute("style");
   }
 
   return {

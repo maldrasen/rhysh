@@ -1,4 +1,7 @@
 
+// Components
+import MainContent from './components/main-content.js'
+
 // Elements
 import BackgroundImage from './elements/background-image.js'
 
@@ -13,6 +16,9 @@ import PauseMenu from "./views/pauseMenu/pause-menu.js"
 
 export default () => {
 
+  // Components
+  window.MainContent = MainContent;
+
   // Elements
   window.BackgroundImage = BackgroundImage;
 
@@ -24,5 +30,9 @@ export default () => {
   window.MainMenu = MainMenu
   window.MapView = MapView
   window.PauseMenu = PauseMenu
+
+
+  MainContent.init();
+
 
 }
