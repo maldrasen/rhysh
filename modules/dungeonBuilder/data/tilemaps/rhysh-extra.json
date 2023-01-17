@@ -43,5 +43,5 @@
   { "id":117, "type":"FenceGate", "facing":"S" },
   { "id":118, "type":"Gateway", "side":"N" },
   { "id":119, "type":"Gateway", "center":"V" },
-  { "id":120, "type":"Gateway", "side":"S" },
+  { "id":120, "type":"Gateway", "side":"S" }
 ]}

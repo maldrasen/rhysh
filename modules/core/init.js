@@ -23,4 +23,7 @@ Messenger.subscribe("database.ready", () => {
   Loader.loadModule('dungeon');
   Loader.loadModule('dungeonBuilder');
   Loader.loadModule('game');
+
+  DungeonBuilder.load();
+
 });

@@ -57,5 +57,5 @@
   { "id":128, "tile":"Empty", "floor":"Void", "walls":"" },
   { "id":130, "tile":"Empty", "floor":"Void", "walls":"SEW" },
   { "id":131, "tile":"Empty", "floor":"Void", "walls":"E" },
-  { "id":132, "tile":"Empty", "floor":"Void", "walls":"N" },
+  { "id":132, "tile":"Empty", "floor":"Void", "walls":"N" }
 ]}

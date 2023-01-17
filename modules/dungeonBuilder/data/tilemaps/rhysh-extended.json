@@ -72,5 +72,5 @@
   { "id":78,  "type":"Gem", "method":"LootTable" },
   { "id":79,  "type":"Skull", "method":"TrapTable" },
   { "id":93,  "type":"Coins", "method":"LootTable" },
-  { "id":94,  "type":"Key", "method":"Point" },
+  { "id":94,  "type":"Key", "method":"Point" }
 ]}
