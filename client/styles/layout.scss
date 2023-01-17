@@ -1,0 +1,19 @@
+
+#mainContent {
+  position: absolute;
+  z-index: 100
+}
+
+#activeBackground {
+  z-index: 0
+}
+
+.background-image {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  background-size: cover;
+}

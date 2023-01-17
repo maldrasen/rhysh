@@ -3,20 +3,21 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-eval' 'self'" />
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-eval' 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self'" />
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'unsafe-eval' 'self'" />
 
     <title>Loading...</title>
     <link rel="stylesheet" type="text/css" href="rhysh.css">
 
     <script src='lib/pixi.js'></script>
-    <script type="module" src='init.js'></script>
+    <script type="module" src='boot.js'></script>
 
   </head>
   <body class='main-loading'>
     <div class='loading'>Loading...</div>
 
     <div id='mainContent'></div>
+    <div id='backgroundImage' class='background-image'></div>
 
     <!--
     <div id='pagedView' class='hide'>
@@ -30,9 +31,6 @@
     <ul id='centerAlerts'></ul>
     <ul id='sideAlerts'></ul>
     <ul id='eventAlerts'></ul>
-
-    <div id='activeBackground' class='background-image'></div>
-    <div id='defaultBackground' class='background-image unresolved-image' data-image-resource='default-background'></div>
 
     <div id='overlayFrame' class='hide'>
       <div id='overlayTitle'>
