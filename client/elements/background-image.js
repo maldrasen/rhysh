@@ -5,7 +5,7 @@ export default (function() {
       return removeBackground();
     }
 
-    X('#backgroundImage').setAttribute("style",`background-image:url('main-menu.png')`);
+    X('#backgroundImage').setAttribute("style",`background-image:url('${code}.png')`);
   }
 
   function removeBackground() {
