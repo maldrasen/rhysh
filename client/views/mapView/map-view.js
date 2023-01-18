@@ -10,14 +10,21 @@ export default (function() {
 
   function show() {
     MainContent.show({ path:"client/views/mapView/map-view.html", classname:'map-view' }).then(() => {
-      MainContent.hideCover({ fadeTime:1000 });
+      let command = {
+        Feature: 'dungeon-builder.get-feature-tiles',
+        Zone: 'dungeon-builder.get-zone-tiles',
+        Dungeon: 'dungeon-builder.get-dungeon-tiles',
+      }[this.sourceType];
 
-      // One of these... depends on source... Needs to return just a tile source I think.
-      // dungeon-builder.preview-features
-      // dungeon-builder.preview-zone
-      // dungeon-builder.show-dungeon
-      // ClientCommands.send('')
+      ClientCommands.send(command).then((payload, data) => {
+        buildMap(data);
+      });
     });
+  }
+
+  function buildMap(data) {
+    console.log("Build Map From:",data);
+    MainContent.hideCover({ fadeTime:1000 });
   }
 
   return {

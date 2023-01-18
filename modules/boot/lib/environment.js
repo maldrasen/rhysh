@@ -23,7 +23,10 @@ global.Environment = (function() {
 
     try {
       let data = JSON.parse(fs.readFileSync(`${ROOT}/env.json`));
-      if (data.environment == "dev") { env = DEV; }
+      if (data.environment == "dev") {
+        env = DEV;
+        env.debugOptions = data.debugOptions;
+      }
     } catch(error) {}
 
     global.Environment = env;

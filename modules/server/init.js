@@ -37,10 +37,14 @@ ipcMain.handle("game.show-options", async (payload) => {
 
 // === Dungeon ===
 
-ipcMain.handle("dungeon-builder.preview-features", async (payload) => {
-  console.log("TODO: Preview Features")
+ipcMain.handle("dungeon-builder.get-feature-tiles", async (payload) => {
+  return Feature.forPreview();
 });
 
-ipcMain.handle("dungeon-builder.preview-zone", async (payload) => {
-  console.log("TODO: Preview Zone")
+ipcMain.handle("dungeon-builder.get-zone-tiles", async (payload) => {
+  return Zone.forPreview();
+});
+
+ipcMain.handle("dungeon-builder.get-dungeon-tiles", async (payload) => {
+  console.log("TODO: Show Dungeon")
 });
