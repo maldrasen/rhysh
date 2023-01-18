@@ -16,11 +16,10 @@
     { "Name":"Farm-1-14", "Flip":true, "X":0,  "Y":16, "Width":9, "Height":7,  "Depth":2, "FeatureSet":"farms", "SectorType":"outside"},
     { "Name":"Farm-1-15", "Flip":true, "X":8,  "Y":16, "Width":9, "Height":7,  "Depth":2, "FeatureSet":"farms", "SectorType":"outside"},
     { "Name":"Farm-1-16", "Flip":true, "X":16, "Y":15, "Width":8, "Height":8,  "Depth":2, "FeatureSet":"farms", "SectorType":"outside"},
-    { "Name":"Farm-1-17", "Flip":true, "X":23, "Y":15, "Width":9, "Height":8,  "Depth":2, "FeatureSet":"farms", "SectorType":"outside"},
+    { "Name":"Farm-1-17", "Flip":true, "X":23, "Y":15, "Width":9, "Height":8,  "Depth":2, "FeatureSet":"farms", "SectorType":"outside"}
   ],
-
   "extensions":{
     "Green":"farm-house",
-    "Blue":"farm-room",
-  },
+    "Blue":"farm-room"
+  }
 }

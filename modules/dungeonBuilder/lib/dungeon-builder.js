@@ -88,18 +88,32 @@ global.DungeonBuilder = (function() {
 
   async function loadMap(type, name) {
     return new Promise(resolve => {
-      fs.readFile(`${ROOT}/modules/dungeonBuilder/data/${type}/${name}.json`, (error, data) => {
+      let path = `${ROOT}/modules/dungeonBuilder/data/${type}/${name}.json`;
+
+      fs.readFile(path, (error, data) => {
         if (error) throw error;
-        resolve(JSON.parse(data));
+
+        try {
+          resolve(JSON.parse(data));
+        } catch(error) {
+          console.error(`Cannor Parse JSON ${path}`);
+          console.error(error);
+        }
       });
     });
   }
 
   async function loadData(type, name) {
     return new Promise(resolve => {
-      fs.readFile(`${ROOT}/modules/dungeonBuilder/data/${type}/${name}Data.json`, (error, data) => {
+      let path = `${ROOT}/modules/dungeonBuilder/data/${type}/${name}Data.json`;
+      fs.readFile(path, (error, data) => {
         if (error) throw error;
-        resolve(JSON.parse(data));
+        try {
+          resolve(JSON.parse(data));
+        } catch(error) {
+          console.error(`Cannor Parse JSON ${path}`);
+          console.error(error);
+        }
       });
     });
   }

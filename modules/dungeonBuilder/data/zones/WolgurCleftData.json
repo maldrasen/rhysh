@@ -2,7 +2,7 @@
     { "level":103 },
     { "level":104 },
     { "level":105 },
-    { "level":106 },
+    { "level":106 }
   ],
 
   "biomes":{
@@ -11,20 +11,20 @@
       "featureDensity":0.005,
       "extraBuilders":[
         { "type":"Bulldozer", "phase":"Last", "startPoint":{ "x":35, "y":29, "z":103 }, "direction":"E" },
-        { "type":"Bulldozer", "phase":"Last", "startPoint":{ "x":84, "y":66, "z":104 }, "direction":"W" },
+        { "type":"Bulldozer", "phase":"Last", "startPoint":{ "x":84, "y":66, "z":104 }, "direction":"W" }
       ]
     },
 
     "LightGreen": {
       "biomeName":"Farm",
       "treeCount":66,
-      "houseCount":4,
+      "houseCount":4
     },
 
     "Green": {
       "biomeName":"Farm",
       "treeCount":50,
-      "houseCount":16,
+      "houseCount":16
     }
   },
 
@@ -32,7 +32,7 @@
     "Wolgur": { "x":49, "y":1, "z":103, "facing":"S" },
     "RevelGrove": { "x":1, "y":115, "z":104, "facing":"E" },
     "HowlingGlen": { "x":94, "y":66, "z":104, "facing":"W" },
-    "WolgurPassage": { "x":62, "y":154, "z":105, "facing":"N" },
+    "WolgurPassage": { "x":62, "y":154, "z":105, "facing":"N" }
   },
 
   "exits":{
@@ -70,7 +70,7 @@
         { "x":61, "y":155, "z":105 },
         { "x":62, "y":155, "z":105 },
         { "x":63, "y":155, "z":105 },
-        { "x":64, "y":155, "z":105 },
+        { "x":64, "y":155, "z":105 }
       ]
     }
   },
@@ -81,6 +81,6 @@
 
   "regions":{
     "R":"DamageField",
-    "G":"CarvePoints",
-  },
+    "G":"CarvePoints"
+  }
 }

@@ -1,7 +1,8 @@
 global.FeatureLoader = class FeatureLoader {
 
   constructor(name) {
-    console.log("FeatureLoader for : ",name);
+    this.featureMap = DungeonBuilder.loadFeatureMap(name)
+    this.featureData = DungeonBuilder.loadFeatureData(name)
   }
 
   loadFeatures() {
