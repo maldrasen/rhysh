@@ -1,10 +1,9 @@
 
-global.ROOT = require('path').normalize(`${__dirname}`).replace(/\\/g,"/");
 global.expect = require('chai').expect;
+global.ROOT = require('path').normalize(`${__dirname}`).replace(/\\/g,"/");
+global.DATA = `${ROOT}/test`
 
 require(`${ROOT}/modules/boot/main.js`);
-
-Messenger.publish("database.start");
 
 before(() => {
   return new Promise(resolve => {
@@ -48,3 +47,5 @@ global.SpecHelper = {
   },
 
 };
+
+Messenger.publish("database.start");

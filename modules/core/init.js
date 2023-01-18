@@ -3,6 +3,7 @@ Messenger.subscribe("database.start", () => {
   Database.createDatabase();
 });
 
+// Sent by the Database once it has been created.
 Messenger.subscribe("database.created", () => {
   Database.load().then(() => {
     Messenger.publish("database.ready");
@@ -25,5 +26,4 @@ Messenger.subscribe("database.ready", () => {
   Loader.loadModule('game');
 
   DungeonBuilder.load();
-
 });

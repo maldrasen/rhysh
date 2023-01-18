@@ -5,7 +5,11 @@ global.Messenger = (function() {
 
   function publish(channel, data={}) {
     (listeners[channel]||[]).forEach(listener => {
-      listener.callback(data, { listener_id:listener.id });
+      try {
+        listener.callback(data, { listener_id:listener.id });
+      } catch(error) {
+        console.log(error);
+      }
     });
   }
 

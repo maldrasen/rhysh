@@ -3,6 +3,7 @@
 /client/rhysh.css
 /client/rhysh.css.map
 /dist
+/test
 
 # NPM
 /node_modules

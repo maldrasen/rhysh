@@ -5,9 +5,7 @@ global.DungeonBuilder = (function() {
     "Farms"
   ]
 
-  let rhyshRoot;
-  let rhyshExtra;
-  let rhyshExtended;
+  let tilemaps;
 
   let featureLibrary;
   let featureSets;
@@ -18,15 +16,19 @@ global.DungeonBuilder = (function() {
     });
   }
 
+  // === Tilemaps ======================================================================================================
+
   async function loadTilemaps() {
     return Promise.all([
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-root.json`),
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extra.json`),
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extended.json`),
     ]).then(tilemaps => {
-      rhyshRoot = tilemaps[0];
-      rhyshExtra = tilemaps[1];
-      rhyshExtended = tilemaps[2];
+      tilemaps = {
+        root: tilemaps[0],
+        extra: tilemaps[1],
+        extended: tilemaps[2],
+      }
     });
   }
 
@@ -44,6 +46,13 @@ global.DungeonBuilder = (function() {
       });
     });
   }
+
+  function lookupTile(type, id) {
+    let tile = tilemaps[type.toLowerCase()][id];
+    return tile ? tile : console.error(`Error: Unknown Tile ${type}:${id}`);
+  }
+
+  // === Features ======================================================================================================
 
   function loadFeatures() {
     FeatureList.forEach(name => {
@@ -70,12 +79,52 @@ global.DungeonBuilder = (function() {
     return new Feature(Random.from(featureSets[name]));
   }
 
+  // === Map and Data Files ============================================================================================
+
+  async function loadZoneMap(name) { return loadMap("zones",name); }
+  async function loadZoneData(name) { return loadData("zones",name); }
+  async function loadFeatureMap(name) { return loadMap("features",name); }
+  async function loadFeatureData(name) { return loadData("features",name); }
+
+  async function loadMap(type, name) {
+    return new Promise(resolve => {
+      fs.readFile(`${ROOT}/modules/dungeonBuilder/data/${type}/${name}.json`, (error, data) => {
+        if (error) throw error;
+        resolve(JSON.parse(data));
+      });
+    });
+  }
+
+  async function loadData(type, name) {
+    return new Promise(resolve => {
+      fs.readFile(`${ROOT}/modules/dungeonBuilder/data/${type}/${name}Data.json`, (error, data) => {
+        if (error) throw error;
+        resolve(JSON.parse(data));
+      });
+    });
+  }
+
+  function parseLayerName(name) {
+    const matches = name.match(/(\w+) (\d+)/);
+
+    return {
+      type: matches[1].toLowerCase(),
+      index: parseInt(matches[2]) - 1,
+    };
+  }
+
   return {
     load: load,
+    lookupTile: lookupTile,
     addTemplateToLibrary: addTemplateToLibrary,
     addTemplateToSet: addTemplateToSet,
     lookupFeatureTemplate: lookupFeatureTemplate,
     randomFeatureFromSet: randomFeatureFromSet,
+    loadZoneMap: loadZoneMap,
+    loadZoneData: loadZoneData,
+    loadFeatureMap: loadFeatureMap,
+    loadFeatureData: loadFeatureData,
+    parseLayerName: parseLayerName,
   };
 
 })();
