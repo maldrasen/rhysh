@@ -18,8 +18,8 @@ global.Browser = (function() {
 
   function open() {
     mainWindow = new electron.BrowserWindow({
-      width: (Environment.debug ? 1800 : 1200),
-      height: (Environment.debug ? 1000 : 1000),
+      width: (Environment.debug ? 1800 : 1280),
+      height: (Environment.debug ? 720 : 720),
       webPreferences: {
         preload: `${ROOT}/client/preload.js`
       },

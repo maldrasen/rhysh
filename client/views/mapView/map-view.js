@@ -1,4 +1,33 @@
-export default {};
+export default (function() {
+
+  function init() {
+
+  }
+
+  function setProperties(properties) {
+    this.sourceType = properties.sourceType;
+  }
+
+  function show() {
+    MainContent.show({ path:"client/views/mapView/map-view.html", classname:'map-view' }).then(() => {
+      MainContent.hideCover({ fadeTime:1000 });
+
+      // One of these... depends on source... Needs to return just a tile source I think.
+      // dungeon-builder.preview-features
+      // dungeon-builder.preview-zone
+      // dungeon-builder.show-dungeon
+      // ClientCommands.send('')
+    });
+  }
+
+  return {
+    name: "MapView",
+    init: init,
+    show: show,
+    setProperties: setProperties,
+  }
+
+})();
 
 /*
       Got Pixi, not going to do anything with it though until we're building

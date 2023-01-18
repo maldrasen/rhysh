@@ -38,8 +38,6 @@ global.FeatureLoader = class FeatureLoader {
     DungeonBuilder.addTemplateToLibrary(featureTemplate)
   }
 
-
-
   // Though the features have to do the same kind of map parsing as the zones, the way these layers are loaded is
   // completely different. A feature map can contain many individual features, and can be of any size.
   loadTileData(featureInfo) {

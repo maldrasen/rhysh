@@ -31,8 +31,8 @@ export default () => {
   window.MapView = MapView
   window.PauseMenu = PauseMenu
 
-
+  // Run all initializers
   MainContent.init();
-
+  MainMenu.init();
 
 }
