@@ -92,4 +92,95 @@ global.Tile = class Tile {
     };
   }
 
+  // === Tile Loading ==================================================================================================
+  // We create tiles from tile data when loading them from the JSON map data. The tile data should be
+  // the same across map type. For example, a tile with both extra and extended data:
+  //    { "root":     { "id": 20, "tile": "Empty", "floor": "Normal", "walls": "W" },
+  //      "extra":    { "id": 0,  "type": "Door", "doors": "W" },
+  //      "extended": { "id": 58, "type": "Point", "value": "Green" }}
+
+  static fromTileData(tileData) {
+    let tile = new Tile();
+    let root = tileData.root;
+
+    if (root == null) {
+      return console.error('No Root in:',tileData);
+    }
+
+    if (root.walls) { tile.setWallsFromString(root.walls); }
+    if (root.floor) { tile.setFloorFromString(root.floor); }
+    if (tileData.extra) { tile.setExtra(tileData.extra); }
+    if (tileData.extended) { tile.setExtended(tileData.extended); }
+    if (root.tile == "Solid") { tile.setFill(root.fill); }
+
+    return tile;
+  }
+
+  setWallsFromString(wallString) {
+    NSEW(facing => {
+      if (wallString.indexOf(facing) >= 0) {
+        this.placeWall(facing);
+      }
+    });
+  }
+
+  setFloorFromString(floorString) {
+    this.floor = Floor.fromString(floorString);
+  }
+
+  setFill(fillData) {
+    console.log("TODO: Set fill from ",fillData);
+  }
+
+  setExtra(extra) {
+
+    if (extra.type == "Stairs") {
+      if (extra.stairs == "Down") { this.type = Tile.Type.StairsDown; }
+      if (extra.stairs == "Up")   { this.type = Tile.Type.StairsUp; }
+      return;
+    }
+
+    if (extra.type == "Door") { return setDoorExtra(extra); }
+    if (extra.type == "Fence") { return setFenceExtra(extra); }
+
+    if (extra.type == "SecretDoor") { return; } // TODO: Implement secret doors.
+    if (extra.type == "TrappedDoor") { return; } // TODO: Implement trapped doors.
+    if (extra.type == "FenceGate") { return; } // TODO: Implement fence gates.
+    if (extra.type == "Pillar") { return; } // TODO: Implement pillars.
+    if (extra.type == "Gateway") { return; } // TODO: Implement transitions.
+
+    console.error("Unknown Extra Error: What do I do with this? ",extra);
+  }
+
+  setExtended(extended) {
+    if (extension.type == "Tree") { return fillWithTree(extension.value); }
+    if (extension.type == "Statue") { return fillWithStatue(extension.value); }
+    if (extension.type == "Bridge") { return; } // TODO: Implement Bridges
+    if (extension.type == "Sign") { return; } // TODO: Implement Signs
+    if (extension.type == "Trigger") { return; } // TODO: Implement Triggers
+    if (extension.type == "PossibleTrigger") { return; } // TODO: Implement Triggers
+
+    console.error("Unknown Extension Error: What do I do with this?", extension);
+  }
+
+  setFenceExtra(extra) {
+    NSEW(facing => {
+      if (extra.facing.indexOf(facing) >= 0) {
+        if (walls[facing] != null) {
+          console.error("Error: Trying to set a fence where a wall has already been placed.");
+        } else {
+          walls[facing] = new Wall(Wall.Type.Fence);
+        }
+      }
+    });
+  }
+
+  setDoorExtra(extra) {
+    NSEW(facing => {
+      if (extra.facing.indexOf(facing) >= 0) {
+        this.placeDoor(facing);
+      }
+    });
+  }
+
 }

@@ -9,6 +9,14 @@ global.Floor = class Floor {
     return new Floor(Floor.Type.Normal);
   }
 
+  static fromString(string) {
+    return {
+      "Void":   () => { return null },
+      "Normal": () => { return new Floor(Floor.Type.Normal) },
+      "Water":  () => { return new Floor(Floor.Type.Water) },
+    }[string]();
+  }
+
   constructor(type) {
     this.type = type;
   }
