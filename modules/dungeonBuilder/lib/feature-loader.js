@@ -17,7 +17,7 @@ global.FeatureLoader = class FeatureLoader {
 
   loadFeature(featureInfo) {
     let tileData = this.loadTileData(featureInfo);
-  //     var featureTemplate = FeatureTemplate.new(featureInfo)
+    let featureTemplate = new FeatureTemplate(featureInfo)
 
   // if featureInfo.has("FeatureSet"):
   //   MapData.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
@@ -52,10 +52,12 @@ global.FeatureLoader = class FeatureLoader {
         let tileIndex = getTileIndex(featureInfo, x, y);
         let tileData = this.tileDataAt(mapLayer, layerInfo.type, new Vector(x,y,layerInfo.index))
 
-//         if tileData:
-//           if dataLayers[layerInfo.index][tileIndex] == null:
-//             dataLayers[layerInfo.index][tileIndex] = {}
-//           dataLayers[layerInfo.index][tileIndex][layerInfo.type] = tileData
+        if (tileData) {
+          if (dataLayers[layerInfo.index][tileIndex] == null) {
+            dataLayers[layerInfo.index][tileIndex] = {};
+          }
+          dataLayers[layerInfo.index][tileIndex][layerInfo.type] = tileData;
+        }
 
       });
     });
@@ -88,10 +90,7 @@ global.FeatureLoader = class FeatureLoader {
       }
     }
   }
-
 };
-
-
 
 const getTileIndex = function(featureInfo, x, y) {
   return x-featureInfo["X"] + ((y-featureInfo["Y"]) * featureInfo["Width"]);
