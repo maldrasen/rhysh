@@ -6,6 +6,7 @@ global.Wall = class Wall {
     Fence: 2,
   }
 
+
   static normal() { return new Wall(Wall.Type.Normal); }
   static door() { return new Wall(Wall.Type.Door); }
 
@@ -13,7 +14,18 @@ global.Wall = class Wall {
     this.type = type;
   }
 
+  copy() {
+    return new Wall(this.type);
+  }
+
   isNormal() { return this.type == Wall.Type.Normal; }
   isDoor() { return this.type == Wall.Type.Door; }
   isFence() { return this.type == Wall.Type.Fence; }
+
+  forClient() {
+    return {
+      type: ObjectHelper.reverseLookup(Wall.Type, this.type)
+    };
+  }
+
 }

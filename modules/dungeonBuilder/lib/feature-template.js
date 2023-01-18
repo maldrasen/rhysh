@@ -31,17 +31,14 @@ global.FeatureTemplate = class FeatureTemplate {
     return index.x + (index.y * this.size.x);
   }
 
-  // # We need to force this to make a copy of all the tiles when creating a feature.
-  // func copyLayers():
-  //   var copy = []
-  //   for layer in this.layers:
-  //     var tiles = []
-  //     for tile in layer:
-  //       if tile:
-  //         tiles.push_back(Tile.unpack(tile.pack()))
-  //       else:
-  //         tiles.push_back(null)
-  //     copy.push_back(tiles)
-  //   return copy
+  // Because the feature will manipulate the tiles when it's built we need to provide a deep copy of the template when
+  // building features. We can't use JSON serialization to do the deepcopy because we need the class objects intact.
+  copyLayers() {
+    return this.layers.map(layer => {
+      return layer.map(tile => {
+        return tile.copy();
+      })
+    });
+  }
 
 }

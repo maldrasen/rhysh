@@ -11,12 +11,12 @@ export default (function() {
   function show() {
     MainContent.show({ path:"client/views/mapView/map-view.html", classname:'map-view' }).then(() => {
       let command = {
-        Feature: 'dungeon-builder.get-feature-tiles',
-        Zone: 'dungeon-builder.get-zone-tiles',
-        Dungeon: 'dungeon-builder.get-dungeon-tiles',
+        Feature: 'dungeon-builder.get-debug-feature',
+        Zone: 'dungeon-builder.get-debug-zone',
+        Dungeon: 'dungeon-builder.get-dungeon',
       }[this.sourceType];
 
-      ClientCommands.send(command).then((payload, data) => {
+      ClientCommands.send(command).then(data => {
         buildMap(data);
       });
     });

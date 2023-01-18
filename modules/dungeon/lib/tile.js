@@ -29,11 +29,28 @@ global.Tile = class Tile {
   constructor(properties = {}) {
     this.type = properties.type;
     this.sector_id = properties.sector;
-    this.biome_id = properties.sector;
+    this.biome_id = properties.biome;
+    this.fillType = properties.fillType;
+    this.fillName = properties.fillName;
     this.floor = properties.floor;
-
     this.walls = { N:null, S:null, E:null, W:null };
-    this.extensions = {};
+  }
+
+  copy() {
+    let tile = new Tile({
+      type: this.type,
+      sector: this.sector_id,
+      biome: this.biome_id,
+      fillType: this.fillType,
+      fillName: this.fillName,
+      floor: (this.floor ? this.floor.copy() : null)
+    });
+
+    NSEW(facing => {
+      tile.walls[facing] = (this.walls[facing] ? this.walls[facing].copy() : null)
+    });
+
+    return tile;
   }
 
   isEmpty() { return this.type == Tile.Type.Empty; }
@@ -107,6 +124,8 @@ global.Tile = class Tile {
       return console.error('No Root in:',tileData);
     }
 
+    tile.setTypeFromString(root.tile);
+
     if (root.walls) { tile.setWallsFromString(root.walls); }
     if (root.floor) { tile.setFloorFromString(root.floor); }
     if (tileData.extra) { tile.setExtra(tileData.extra); }
@@ -114,6 +133,13 @@ global.Tile = class Tile {
     if (root.tile == "Solid") { tile.setFill(root.fill); }
 
     return tile;
+  }
+
+  setTypeFromString(string) {
+    this.type = {
+      "Empty": Tile.Type.Empty,
+      "Solid":  Tile.Type.Solid,
+    }[string];
   }
 
   setWallsFromString(wallString) {
@@ -182,6 +208,27 @@ global.Tile = class Tile {
         this.placeDoor(facing);
       }
     });
+  }
+
+  // === For Client ====================================================================================================
+
+  forClient() {
+    let tile = {
+      type: ObjectHelper.reverseLookup(Tile.Type, this.type),
+      floor: (this.floor ? this.floor.forClient() : null),
+      walls: {},
+    };
+
+    if (this.fillType) {
+      tile.fillType = ObjectHelper.reverseLookup(Tile.FillType, this.fillType);
+      tile.fillName = this.fillName;
+    }
+
+    NSEW(facing => {
+      tile.walls[facing] = this.walls[facing] ? this.walls[facing].forClient() : null;
+    })
+
+    return tile
   }
 
 }

@@ -79,6 +79,20 @@ global.DungeonBuilder = (function() {
     return new Feature(Random.from(FeatureSets[name]));
   }
 
+  function randomFeatureFromSets(sets) {
+    let featureList = []
+
+    sets.forEach(setName => {
+      if (FeatureSets[setName]) {
+        FeatureSets[setName].forEach(featureName => {
+          featureList.push(featureName);
+        });
+      }
+    });
+
+    return new Feature(Random.from(featureList));
+  }
+
   // === Map and Data Files ============================================================================================
 
   async function loadZoneMap(name) { return loadMap("zones",name); }
@@ -134,6 +148,7 @@ global.DungeonBuilder = (function() {
     addTemplateToSet: addTemplateToSet,
     lookupFeatureTemplate: lookupFeatureTemplate,
     randomFeatureFromSet: randomFeatureFromSet,
+    randomFeatureFromSets: randomFeatureFromSets,
     loadZoneMap: loadZoneMap,
     loadZoneData: loadZoneData,
     loadFeatureMap: loadFeatureMap,

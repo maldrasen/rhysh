@@ -24,6 +24,11 @@ global.Random = {
     }
   },
 
+  // Heads or tails, 50% probability.
+  flipCoin() {
+    return Random.roll(2) == 0;
+  },
+
   // Select a random value from a weighted frequency map. Frequency maps should
   // have the form:
   //

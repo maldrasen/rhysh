@@ -21,7 +21,18 @@ global.Floor = class Floor {
     this.type = type;
   }
 
+  copy() {
+    return new Floor(this.type);
+  }
+
   isNormal() { return this.type == Floor.Type.Normal; }
   isWater() { return this.type == Floor.Type.Water; }
+
+  forClient() {
+    return {
+      type: ObjectHelper.reverseLookup(Floor.Type, this.type)
+    };
+  }
+
 
 }
