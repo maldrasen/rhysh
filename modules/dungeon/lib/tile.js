@@ -128,8 +128,9 @@ global.Tile = class Tile {
     this.floor = Floor.fromString(floorString);
   }
 
-  setFill(fillData) {
-    console.log("TODO: Set fill from ",fillData);
+  setFill(fill) {
+    if (fill == "Stone") { return this.fillWithStone(); }
+    console.error("Unknown Fill:",fill);
   }
 
   setExtra(extra) {
@@ -140,8 +141,8 @@ global.Tile = class Tile {
       return;
     }
 
-    if (extra.type == "Door") { return setDoorExtra(extra); }
-    if (extra.type == "Fence") { return setFenceExtra(extra); }
+    if (extra.type == "Door") { return this.setDoorExtra(extra); }
+    if (extra.type == "Fence") { return this.setFenceExtra(extra); }
 
     if (extra.type == "SecretDoor") { return; } // TODO: Implement secret doors.
     if (extra.type == "TrappedDoor") { return; } // TODO: Implement trapped doors.
@@ -152,9 +153,9 @@ global.Tile = class Tile {
     console.error("Unknown Extra Error: What do I do with this? ",extra);
   }
 
-  setExtended(extended) {
-    if (extension.type == "Tree") { return fillWithTree(extension.value); }
-    if (extension.type == "Statue") { return fillWithStatue(extension.value); }
+  setExtended(extension) {
+    if (extension.type == "Tree") { return this.fillWithTree(extension.value); }
+    if (extension.type == "Statue") { return this.fillWithStatue(extension.value); }
     if (extension.type == "Bridge") { return; } // TODO: Implement Bridges
     if (extension.type == "Sign") { return; } // TODO: Implement Signs
     if (extension.type == "Trigger") { return; } // TODO: Implement Triggers
@@ -166,10 +167,10 @@ global.Tile = class Tile {
   setFenceExtra(extra) {
     NSEW(facing => {
       if (extra.facing.indexOf(facing) >= 0) {
-        if (walls[facing] != null) {
+        if (this.walls[facing] != null) {
           console.error("Error: Trying to set a fence where a wall has already been placed.");
         } else {
-          walls[facing] = new Wall(Wall.Type.Fence);
+          this.walls[facing] = new Wall(Wall.Type.Fence);
         }
       }
     });

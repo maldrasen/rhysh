@@ -6,9 +6,8 @@ global.Wall = class Wall {
     Fence: 2,
   }
 
-  static normal() {
-    return new Wall(Wall.Type.Normal);
-  }
+  static normal() { return new Wall(Wall.Type.Normal); }
+  static door() { return new Wall(Wall.Type.Door); }
 
   constructor(type) {
     this.type = type;
@@ -17,5 +16,4 @@ global.Wall = class Wall {
   isNormal() { return this.type == Wall.Type.Normal; }
   isDoor() { return this.type == Wall.Type.Door; }
   isFence() { return this.type == Wall.Type.Fence; }
-
 }

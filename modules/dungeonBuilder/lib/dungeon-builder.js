@@ -1,7 +1,7 @@
 
 let Tilemaps;
-let FeatureLibrary;
-let FeatureSets;
+let FeatureLibrary = {};
+let FeatureSets = {};
 
 global.DungeonBuilder = (function() {
 
@@ -9,7 +9,6 @@ global.DungeonBuilder = (function() {
     "Caves",
     "Farms"
   ]
-
 
   async function load() {
     loadTilemaps().then(() => {
@@ -62,22 +61,22 @@ global.DungeonBuilder = (function() {
   }
 
   function addTemplateToLibrary(template) {
-    featureLibrary[template.name] = template;
+    FeatureLibrary[template.name] = template;
   }
 
   // Features also can belong to a feature set. These are used to select random features when building the dungeon.
   // Biomes can draw features from many sets and sets may belong to many biomes.
   function addTemplateToSet(setName, templateName) {
-    if (featureSets[setName] == null) { featureSets[setName] = []; }
-    featureSets[setName].push(templateName);
+    if (FeatureSets[setName] == null) { FeatureSets[setName] = []; }
+    FeatureSets[setName].push(templateName);
   }
 
   function lookupFeatureTemplate(name) {
-    return featureLibrary[name];
+    return FeatureLibrary[name];
   }
 
   function randomFeatureFromSet(name) {
-    return new Feature(Random.from(featureSets[name]));
+    return new Feature(Random.from(FeatureSets[name]));
   }
 
   // === Map and Data Files ============================================================================================

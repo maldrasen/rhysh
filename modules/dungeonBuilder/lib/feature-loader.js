@@ -19,19 +19,23 @@ global.FeatureLoader = class FeatureLoader {
     let tileData = this.loadTileData(featureInfo);
     let featureTemplate = new FeatureTemplate(featureInfo)
 
-  // if featureInfo.has("FeatureSet"):
-  //   MapData.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
+    if (featureInfo["FeatureSet"]) {
+      DungeonBuilder.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
+    }
 
-  // for layerIndex in tileData.size():
-  //   var layer = tileData[layerIndex]
-  //   for y in featureInfo["Height"]:
-  //     for x in featureInfo["Width"]:
-  //       var tileIndex = x + (y * featureInfo["Width"])
-  //       if layer[tileIndex]:
-  //         featureTemplate.setTile(Vector3i(x,y,layerIndex), Tile.fromTileData(layer[tileIndex]))
+    forUpTo(tileData.length, layerIndex => {
+      let layer = tileData[layerIndex];
+      forUpTo(featureInfo["Height"], y => {
+        forUpTo(featureInfo["Width"], x => {
+          let tileIndex = x + (y * featureInfo["Width"]);
+          if (layer[tileIndex]) {
+            featureTemplate.setTile(new Vector(x,y,layerIndex), Tile.fromTileData(layer[tileIndex]));
+          }
+        });
+      });
+    });
 
-  // MapData.addTemplateToLibrary(featureTemplate)
-
+    DungeonBuilder.addTemplateToLibrary(featureTemplate)
   }
 
 
