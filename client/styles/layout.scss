@@ -34,6 +34,18 @@
   box-shadow: $shadow-frame;
 }
 
+.overlay {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  height: calc(100% - 100px);
+  width: calc(100% - 100px);
+  background-color: rgba(0,0,0,0.9);
+  border: $border-normal;
+  box-shadow: $shadow-overlay;
+  z-index: $z-overlay;
+}
+
 // Flex Container Classes
 .flex { display:flex;  }
 .flex-center { justify-content: center; } // Align Horizontally

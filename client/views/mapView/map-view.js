@@ -22,9 +22,9 @@ export default (function() {
     });
   }
 
-  function buildMap(tileSource) {
-    let canvas = new MapCanvas(tileSource);
-
+  function buildMap(source) {
+    MapCanvas.show();
+    MapCanvas.setTileSource(source);
     MainContent.hideCover({ fadeTime:1000 });
   }
 

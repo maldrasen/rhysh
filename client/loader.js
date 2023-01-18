@@ -41,5 +41,6 @@ export default () => {
 
   // Run all initializers
   MainContent.init();
+  MapCanvas.init();
   MainMenu.init();
 }

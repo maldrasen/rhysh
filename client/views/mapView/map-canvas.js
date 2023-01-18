@@ -1,25 +1,46 @@
-export default class MapCanvas {
+export default (function() {
 
-  constructor(tileSorce) {
-    this.tileSorce = tileSorce;
+  let tileSource;
+  let application;
+
+  function init() {
+    createApplication()
   }
 
-}
+  async function createApplication() {
+    application = new PIXI.Application({
+      autoStart: false,
+      resizeTo: window,
+      hello: true,
+    });
 
-/*
-      Got Pixi, not going to do anything with it though until we're building
-      maps again.
+    X.first("#mapCanvas").appendChild(application.view)
+  }
 
-      let app = new PIXI.Application({ width:800, height:600 });
-      document.body.appendChild(app.view);
+  function show() {
+    application.start();
+    X.first("#mapCanvas").removeAttribute('class');
+  }
 
-      let sprite = PIXI.Sprite.from('../assets/icons/rhysh-icon.png');
-      app.stage.addChild(sprite);
+  function hide() {
+    application.stop();
+    X.first("#mapCanvas").setAttribute('class','hide');
+  }
 
-      let elapsed = 0.0;
-      app.ticker.add((delta) => {
-        elapsed += delta;
-        sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
-      });
-*/
+  function setTileSource(source) {
+    tileSource = source
 
+    // TODO:
+    //   Clear the stage.
+    //   Add a field for the tiles.
+    //   Create a sprite for each tile.
+  }
+
+  return {
+    init: init,
+    show: show,
+    hide: hide,
+    setTileSource: setTileSource,
+  }
+
+})();
