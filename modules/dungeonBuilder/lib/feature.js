@@ -107,7 +107,7 @@ global.Feature = class Feature {
   static forPreview() {
     const feature = featureFromDebugOptions();
     feature.randomFlip();
-    return feature.forClient();
+    return { tileSource:feature.forClient() };
   }
 }
 

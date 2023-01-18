@@ -17,13 +17,14 @@ export default (function() {
       }[this.sourceType];
 
       ClientCommands.send(command).then(data => {
-        buildMap(data);
+        buildMap(new TileSource(data.tileSource));
       });
     });
   }
 
-  function buildMap(data) {
-    console.log("Build Map From:",data);
+  function buildMap(tileSource) {
+    let canvas = new MapCanvas(tileSource);
+
     MainContent.hideCover({ fadeTime:1000 });
   }
 
@@ -35,21 +36,3 @@ export default (function() {
   }
 
 })();
-
-/*
-      Got Pixi, not going to do anything with it though until we're building
-      maps again.
-
-      let app = new PIXI.Application({ width:800, height:600 });
-      document.body.appendChild(app.view);
-
-      let sprite = PIXI.Sprite.from('../assets/icons/rhysh-icon.png');
-      app.stage.addChild(sprite);
-
-      let elapsed = 0.0;
-      app.ticker.add((delta) => {
-        elapsed += delta;
-        sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
-      });
-*/
-
