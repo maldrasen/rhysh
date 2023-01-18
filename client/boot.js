@@ -27,7 +27,8 @@ import load from './loader.js'
 
     document.title = Environment.debug ? "Rhysh (DEBUG)" : "Rhysh"
     X.remove('.loading');
-    MainMenu.show();
+
+    MainContent.setStage(MainMenu);
   }
 
 })();
