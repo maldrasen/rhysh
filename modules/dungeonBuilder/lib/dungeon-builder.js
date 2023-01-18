@@ -1,3 +1,8 @@
+
+let Tilemaps;
+let FeatureLibrary;
+let FeatureSets;
+
 global.DungeonBuilder = (function() {
 
   const FeatureList = [
@@ -5,10 +10,6 @@ global.DungeonBuilder = (function() {
     "Farms"
   ]
 
-  let tilemaps;
-
-  let featureLibrary;
-  let featureSets;
 
   async function load() {
     loadTilemaps().then(() => {
@@ -23,11 +24,11 @@ global.DungeonBuilder = (function() {
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-root.json`),
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extra.json`),
       parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extended.json`),
-    ]).then(tilemaps => {
-      tilemaps = {
-        root: tilemaps[0],
-        extra: tilemaps[1],
-        extended: tilemaps[2],
+    ]).then(loaded => {
+      Tilemaps = {
+        root: loaded[0],
+        extra: loaded[1],
+        extended: loaded[2],
       }
     });
   }
@@ -48,7 +49,7 @@ global.DungeonBuilder = (function() {
   }
 
   function lookupTile(type, id) {
-    let tile = tilemaps[type.toLowerCase()][id];
+    let tile = Tilemaps[type.toLowerCase()][id];
     return tile ? tile : console.error(`Error: Unknown Tile ${type}:${id}`);
   }
 
