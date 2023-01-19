@@ -1,7 +1,7 @@
 
 // X (or Exacto) is a super tiny replacement for jQuery, just a quick reimplementation of everything I would actually
 // use from that library.
-const X = function(query) {
+window.X = function(query) {
   return document.querySelectorAll(query)
 }
 
@@ -20,5 +20,3 @@ X.onClick = function(selector, callback) {
     }
   });
 }
-
-export default X;

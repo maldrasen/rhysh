@@ -1,4 +1,4 @@
-export default (function() {
+window.Template = (function() {
 
   function load(selector, templatePath) {
     return new Promise(resolve => {

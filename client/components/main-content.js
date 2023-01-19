@@ -1,4 +1,4 @@
-export default (function() {
+window.MainContent = (function() {
 
   let currentStage;
   let tween;

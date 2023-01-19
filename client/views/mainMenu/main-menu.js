@@ -1,4 +1,4 @@
-export default (function() {
+window.MainMenu = (function() {
 
   function init() {
     X.onClick('#mainMenu a.preview-features', previewFeatures);

@@ -1,4 +1,4 @@
-export default (function() {
+window.MapView = (function() {
 
   function init() {
 

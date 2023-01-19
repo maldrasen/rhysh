@@ -1,23 +1,25 @@
-export default (function() {
+window.MapCanvas = (function() {
 
   let tileSource;
   let application;
+  let tileField;
 
   function init() {
-    createApplication()
+    window.addEventListener("resize", handleResize);
+    createApplication();
   }
 
-  async function createApplication() {
+  function createApplication() {
     application = new PIXI.Application({
       autoStart: false,
       resizeTo: window,
-      hello: true,
     });
 
     X.first("#mapCanvas").appendChild(application.view)
   }
 
   function show() {
+    application.resize();
     application.start();
     X.first("#mapCanvas").removeAttribute('class');
   }
@@ -28,13 +30,49 @@ export default (function() {
   }
 
   function setTileSource(source) {
-    tileSource = source
 
-    // TODO:
-    //   Clear the stage.
-    //   Add a field for the tiles.
-    //   Create a sprite for each tile.
+    if (tileField) {
+      application.removeChild(tileField);
+      tileField.destroy({ children:true });
+    }
+
+    tileSource = source
+    tileField = new PIXI.Container();
+    application.stage.addChild(tileField);
+
+    addTiles();
+    positionField();
   }
+
+  function addTiles() {
+    console.log("Add Tiles from ",tileSource);
+  }
+
+  function handleResize() {
+    if (tileField) {
+      application.resize();
+      positionField();
+    }
+  }
+
+  // This is going to be tricky... I feel like I want to be able to move the
+  // pivot around, not the location, but that doesn't seem to work with the
+  // rotation...
+  function positionField() {
+    tileField.x = application.screen.width / 2;
+    tileField.y = application.screen.height / 2;
+    // tileField.pivot.x = -application.screen.width / 2;
+    // tileField.pivot.y = -application.screen.height / 2;
+
+    // application.ticker.add((delta) => {
+    //     tileField.rotation -= 0.01 * delta;
+    // });
+
+  }
+
+
+
+
 
   return {
     init: init,

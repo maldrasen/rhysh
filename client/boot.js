@@ -1,10 +1,34 @@
-import load from './loader.js'
+
+// Components
+import './components/main-content.js'
+
+// Elements
+import './elements/background-image.js'
+
+// Helpers
+import './helpers/random.js'
+import './helpers/rhysh-helper.js'
+
+// Models
+import './models/tile-source.js'
+
+// Tools
+import './tools/template.js'
+import './tools/exacto.js'
+
+// Views
+import "./views/mainMenu/main-menu.js"
+import "./views/mapView/map-view.js"
+import "./views/mapView/map-canvas.js"
+import "./views/pauseMenu/pause-menu.js"
 
 (function() {
   console.log('=== Booting Client ===');
 
   try {
-    load();
+    MainContent.init();
+    MapCanvas.init();
+    MainMenu.init();
 
     // Received a message from the server letting us know that the server has
     // completely finished loading now. This will happen sometime after the

@@ -1,4 +1,4 @@
-export default class TileSource {
+window.TileSource = class TileSource {
 
   constructor(source) {
     this.name = source.name;

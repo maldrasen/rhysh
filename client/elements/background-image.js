@@ -1,4 +1,4 @@
-export default (function() {
+window.BackgroundImage = (function() {
 
   // Currently, I expect that all the background images will be pngs, and they'll all be located in the
   // /assets/backgrounds directory. I'd rather not have to do some kind of complicated image library thing like last
