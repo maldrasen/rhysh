@@ -1,47 +1,62 @@
-
-// Components
-import './components/main-content.js'
-
-// Elements
-import './elements/background-image.js'
-
-// Helpers
-import './helpers/random.js'
-import './helpers/rhysh-helper.js'
-
-// Models
-import './models/tile-source.js'
-
-// Tools
-import './tools/template.js'
-import './tools/exacto.js'
-
-// Views
-import "./views/mainMenu/main-menu.js"
-import "./views/mapView/map-view.js"
-import "./views/mapView/map-canvas.js"
-import "./views/pauseMenu/pause-menu.js"
-
 (function() {
   console.log('=== Booting Client ===');
 
+  window.global = window
+
   try {
-    MainContent.init();
-    MapCanvas.init();
-    MainMenu.init();
+    importAll().then(() => {
+      console.log("Import Complete");
+      initAll();
+      console.log("Init Complete");
 
-    // Received a message from the server letting us know that the server has
-    // completely finished loading now. This will happen sometime after the
-    // "client.ready" message we send just below.
-    ServerEvents.onReady((payload, environment) => {
-      ready(environment);
+      // Received a message from the server letting us know that the server has
+      // completely finished loading now. This will happen sometime after the
+      // "client.ready" message we send just below.
+      ServerEvents.onReady((payload, environment) => {
+        ready(environment);
+      });
+
+      ClientCommands.ready();
     });
-
-    ClientCommands.ready();
-
   } catch(e) {
     console.error("\n!!! Error Booting Client Process !!!\n");
     console.error(e);
+  }
+
+  async function importAll() {
+    return Promise.all([
+
+      // Core
+      import('../modules/core/lib/random.js'),
+      import('../modules/core/lib/helpers/rhysh-helper.js'),
+      import('../modules/core/lib/classes/vector.js'),
+
+      // Components
+      import('./components/main-content.js'),
+
+      // Elements
+      import('./elements/background-image.js'),
+
+      // Models
+      import('./models/tile-source.js'),
+
+      // Tools
+      import('./tools/template.js'),
+      import('./tools/exacto.js'),
+
+      // Views
+      import("./views/mainMenu/main-menu.js"),
+      import("./views/mapView/map-view.js"),
+      import("./views/mapView/map-canvas.js"),
+      import("./views/mapView/tile-graphics.js"),
+      import("./views/pauseMenu/pause-menu.js"),
+    ]);
+  }
+
+  function initAll() {
+    MainContent.init();
+    MapCanvas.init();
+    MainMenu.init();
   }
 
   function ready(environment) {
@@ -54,5 +69,8 @@ import "./views/pauseMenu/pause-menu.js"
 
     MainContent.setStage(MainMenu);
   }
+
+
+
 
 })();

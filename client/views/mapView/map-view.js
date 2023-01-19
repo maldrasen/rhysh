@@ -1,11 +1,13 @@
 window.MapView = (function() {
 
+  let sourceType;
+
   function init() {
 
   }
 
   function setProperties(properties) {
-    this.sourceType = properties.sourceType;
+    sourceType = properties.sourceType;
   }
 
   function show() {
@@ -14,9 +16,10 @@ window.MapView = (function() {
         Feature: 'dungeon-builder.get-debug-feature',
         Zone: 'dungeon-builder.get-debug-zone',
         Dungeon: 'dungeon-builder.get-dungeon',
-      }[this.sourceType];
+      }[sourceType];
 
       ClientCommands.send(command).then(data => {
+        if (sourceType == "Feature") { MapCanvas.setOriginPoint(new Vector(0,0,0)); }
         buildMap(new TileSource(data.tileSource));
       });
     });

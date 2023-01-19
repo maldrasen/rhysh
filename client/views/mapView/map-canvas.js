@@ -3,6 +3,7 @@ window.MapCanvas = (function() {
   let tileSource;
   let application;
   let tileField;
+  let originPoint;
 
   function init() {
     window.addEventListener("resize", handleResize);
@@ -11,6 +12,7 @@ window.MapCanvas = (function() {
 
   function createApplication() {
     application = new PIXI.Application({
+      antialias: true,
       autoStart: false,
       resizeTo: window,
     });
@@ -71,7 +73,9 @@ window.MapCanvas = (function() {
   }
 
 
-
+  function setOriginPoint(point) {
+    originPoint = point;
+  }
 
 
   return {
@@ -79,6 +83,7 @@ window.MapCanvas = (function() {
     show: show,
     hide: hide,
     setTileSource: setTileSource,
+    setOriginPoint: setOriginPoint,
   }
 
 })();
