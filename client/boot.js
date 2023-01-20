@@ -2,7 +2,7 @@
   console.log('=== Booting Client ===');
 
   window.global = window
-  window.TileSize = 32;
+  window.TileSize = 64;
 
   try {
     importAll().then(() => {
@@ -29,6 +29,7 @@
 
       // Core
       import('../modules/core/lib/random.js'),
+      import('../modules/core/lib/helpers/array-helper.js'),
       import('../modules/core/lib/helpers/rhysh-helper.js'),
       import('../modules/core/lib/classes/vector.js'),
 
@@ -57,8 +58,9 @@
 
   function initAll() {
     MainContent.init();
-    MapCanvas.init();
     MainMenu.init();
+    MapCanvas.init();
+    TileGraphics.init();
   }
 
   function ready(environment) {

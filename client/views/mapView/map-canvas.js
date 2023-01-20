@@ -50,9 +50,11 @@ window.MapCanvas = (function() {
 
   function addTiles() {
     tileSource.each(tileEntry => {
-      let graphics = new TileGraphics(tileEntry).build();
-      TileGraphics[tileEntry.index] = graphics;
-      tileField.addChild(graphics);
+      if (tileEntry.tile) {
+        let graphics = new TileGraphics(tileEntry).build();
+        TileGraphics[tileEntry.index] = graphics;
+        tileField.addChild(graphics);
+      }
     });
   }
 
