@@ -1,8 +1,9 @@
 window.MapCanvas = (function() {
 
-  let tileSource;
   let application;
   let tileField;
+  let tileGraphics;
+  let tileSource;
   let originPoint;
 
   function init() {
@@ -38,8 +39,9 @@ window.MapCanvas = (function() {
       tileField.destroy({ children:true });
     }
 
-    tileSource = source
     tileField = new PIXI.Container();
+    tileGraphics = new Map();
+    tileSource = source
     application.stage.addChild(tileField);
 
     addTiles();
@@ -47,7 +49,11 @@ window.MapCanvas = (function() {
   }
 
   function addTiles() {
-    console.log("Add Tiles from ",tileSource);
+    tileSource.each(tileEntry => {
+      let graphics = new TileGraphics(tileEntry).build();
+      TileGraphics[tileEntry.index] = graphics;
+      tileField.addChild(graphics);
+    });
   }
 
   function handleResize() {

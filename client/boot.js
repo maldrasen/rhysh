@@ -2,6 +2,7 @@
   console.log('=== Booting Client ===');
 
   window.global = window
+  window.TileSize = 32;
 
   try {
     importAll().then(() => {
@@ -38,6 +39,7 @@
       import('./elements/background-image.js'),
 
       // Models
+      import('./models/tile-entry.js'),
       import('./models/tile-source.js'),
 
       // Tools
