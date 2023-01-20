@@ -20,9 +20,9 @@ global.DungeonBuilder = (function() {
 
   async function loadTilemaps() {
     return Promise.all([
-      parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-root.json`),
-      parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extra.json`),
-      parseTilemap(`${ROOT}/modules/dungeonBuilder/data/tilemaps/rhysh-extended.json`),
+      parseTilemap(`${ROOT}/data/tilemaps/rhysh-root.json`),
+      parseTilemap(`${ROOT}/data/tilemaps/rhysh-extra.json`),
+      parseTilemap(`${ROOT}/data/tilemaps/rhysh-extended.json`),
     ]).then(loaded => {
       Tilemaps = {
         root: loaded[0],
@@ -102,7 +102,7 @@ global.DungeonBuilder = (function() {
 
   async function loadMap(type, name) {
     return new Promise(resolve => {
-      let path = `${ROOT}/modules/dungeonBuilder/data/${type}/${name}.json`;
+      let path = `${ROOT}/data/${type}/${name}.json`;
 
       fs.readFile(path, (error, data) => {
         if (error) throw error;
@@ -119,7 +119,7 @@ global.DungeonBuilder = (function() {
 
   async function loadData(type, name) {
     return new Promise(resolve => {
-      let path = `${ROOT}/modules/dungeonBuilder/data/${type}/${name}Data.json`;
+      let path = `${ROOT}/data/${type}/${name}Data.json`;
       fs.readFile(path, (error, data) => {
         if (error) throw error;
         try {

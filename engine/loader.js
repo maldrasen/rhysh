@@ -9,7 +9,6 @@ global.Loader = (function() {
     'helpers',
     'models',
     'scrutinizers',
-    'server',
   ];
 
   const Preload = [
@@ -47,15 +46,14 @@ global.Loader = (function() {
     }
   }
 
-  // Only load files once.
+  // Only require files once.
   function loadFile(path) {
     if (complete.indexOf(path) < 0) {
       complete.push(path);
       require(path);
-      console.log(" - loaded:",path)
     }
   }
 
-  return { load };
+  return { load, loadFile, loadDirectory };
 
 })();

@@ -17,16 +17,12 @@ global.Switchboard = (function() {
     // heavy libraries like Sequalize interefers with the client (it breaks the
     // development tools) so we have to ping pong a bit between the two to start.
     Messenger.subscribe("server.start", () => {
-      Loader.loadModule('server');
+      Loader.loadDirectory(`${ROOT}/engine/server`);
       Browser.init();
     });
 
-    // When the database is ready it's safe to load the rest of the modules.
+    // When the database is ready it's safe to initialize.
     Messenger.subscribe("database.ready", () => {
-      Loader.loadModule('dungeon');
-      Loader.loadModule('dungeonBuilder');
-      Loader.loadModule('game');
-
       DungeonBuilder.load();
     });
 

@@ -27,11 +27,12 @@
   async function importAll() {
     return Promise.all([
 
-      // Core
-      import('../modules/core/lib/random.js'),
-      import('../modules/core/lib/helpers/array-helper.js'),
-      import('../modules/core/lib/helpers/rhysh-helper.js'),
-      import('../modules/core/lib/classes/vector.js'),
+      // Engine
+      import('../engine/classes/vector.js'),
+      import('../engine/helpers/array-helper.js'),
+      import('../engine/helpers/object-helper.js'),
+      import('../engine/helpers/random-helper.js'),
+      import('../engine/helpers/rhysh-helper.js'),
 
       // Components
       import('./components/main-content.js'),
