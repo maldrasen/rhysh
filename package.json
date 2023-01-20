@@ -17,8 +17,8 @@
     "dist": "electron-builder",
     "pack": "electron-builder --dir",
     "start": "electron .",
-    "spec": "mocha modules/**/spec/**/*-spec.js --test",
-    "specv": "mocha modules/**/spec/**/*-spec.js --test -v"
+    "spec": "mocha spec/**/*-spec.js --test",
+    "specv": "mocha spec/**/*-spec.js --test -v"
   },
 
   "dependencies": {

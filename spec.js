@@ -3,7 +3,7 @@ global.expect = require('chai').expect;
 global.ROOT = require('path').normalize(`${__dirname}`).replace(/\\/g,"/");
 global.DATA = `${ROOT}/test`
 
-require(`${ROOT}/modules/boot/main.js`);
+require(`${ROOT}/engine/boot.js`);
 
 before(() => {
   return new Promise(resolve => {
