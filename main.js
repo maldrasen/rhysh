@@ -8,9 +8,9 @@ global.DATA = app.getPath("userData")
 // from anywhere without requiring things. Tree Shaking really only makes sense for web pages where only a small
 // percentage of your code is applicable on any given page. This is a game though, and a single page web app on top of
 // that. There no reason not to have all the logic loaded at once.
-require(`${ROOT}/modules/boot/main.js`);
+require(`${ROOT}/engine/boot.js`);
 
 // Once all the JavaScripts are loaded we open the webview to the client. It will do its boot process and send a
 // message back to the server once it's ready. At that point we finish the boot process by creating and loading the
 // database.
-Messenger.publish('server.start');
+// Messenger.publish('server.start');

@@ -1,7 +1,0 @@
-{ "first":[
-  "lib/messenger.js",
-  "lib/weaver.js",
-  "lib/forms/form.js",
-  "lib/models/model.js",
-  "lib/scrutinizers/central-scrutinizer.js"
-]}

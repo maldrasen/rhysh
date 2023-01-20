@@ -2,9 +2,9 @@ global.fs = require('fs');
 global.hash = require('object-hash');
 global.util = require('util');
 
-require(`${ROOT}/modules/boot/lib/environment`);
-require(`${ROOT}/modules/boot/lib/loader`);
-require(`${ROOT}/modules/boot/lib/settings`);
+require(`${ROOT}/engine/environment`);
+require(`${ROOT}/engine/loader`);
+require(`${ROOT}/engine/settings`);
 
 (function() {
   console.log('=== Booting Main Process ===')
@@ -12,7 +12,8 @@ require(`${ROOT}/modules/boot/lib/settings`);
   try {
     Environment.init();
     Settings.init();
-    Loader.loadModule('core');
+    Loader.load();
+    Switchboard.init();
   } catch(e) {
     console.error("\n!!! Error Booting Main Process !!!\n");
     console.error(e);
