@@ -10,17 +10,20 @@ global.Database = (function() {
   async function createDatabase() {
     resetLog();
 
-    const { Sequelize } = require('sequelize');
-
     database = new Sequelize('sqlite://:memory:', {
       dialect: 'sqlite',
       operatorsAliases: [],
       logging: writeToLog,
     });
 
-    await database.sync();
-
-    Messenger.publish('database.created');
+    try {
+      await database.authenticate();
+      await database.sync();
+      Messenger.publish('database.created');
+    } catch(error) {
+      console.error("Database is fucked.")
+      console.error(error);
+    }
   }
 
   // Completely clear the database. This is called both by the specs and when

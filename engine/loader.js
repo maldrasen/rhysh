@@ -1,12 +1,16 @@
 global.Loader = (function() {
 
-  const Modules = [
+  const FirstStage = [
     'classes',
     'core',
+    'helpers',
+  ];
+
+  const SecondStage = [
     'dungeon',
     'dungeonBuilder',
     'forms',
-    'helpers',
+    'game',
     'models',
     'scrutinizers',
   ];
@@ -21,13 +25,26 @@ global.Loader = (function() {
 
   let complete = [];
 
-  // TODO: Prolly won't work for test environment. We'll need to somehow know to exclude 'server' in test.
-  function load() {
+  // The order that all the various scripts needs to be loaded in unfortunately complicated. The first stage loads all
+  // of the core classes, opens a browser window, then starts the database when it receives a message back from the
+  // browser.
+  function loadFirstStage() {
+    console.log(" - Loading first stage.")
+
     Preload.forEach(script => {
       loadFile(`${ROOT}/engine/${script}`);
     });
 
-    Modules.forEach(directory => {
+    FirstStage.forEach(directory => {
+      loadDirectory(`${ROOT}/engine/${directory}`);
+    });
+  }
+
+  // The second stage loads and initializes all the database classes.
+  function loadSecondStage() {
+    console.log(" - Loading second stage.")
+
+    SecondStage.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
     });
   }
@@ -54,6 +71,11 @@ global.Loader = (function() {
     }
   }
 
-  return { load, loadFile, loadDirectory };
+  return {
+    loadFirstStage,
+    loadSecondStage,
+    loadFile,
+    loadDirectory
+  };
 
 })();

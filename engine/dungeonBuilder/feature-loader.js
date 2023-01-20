@@ -1,5 +1,3 @@
-
-
 global.FeatureLoader = class FeatureLoader {
 
   constructor(name) {

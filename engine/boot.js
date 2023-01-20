@@ -12,7 +12,7 @@ require(`${ROOT}/engine/settings`);
   try {
     Environment.init();
     Settings.init();
-    Loader.load();
+    Loader.loadFirstStage();
     Switchboard.init();
   } catch(e) {
     console.error("\n!!! Error Booting Main Process !!!\n");
