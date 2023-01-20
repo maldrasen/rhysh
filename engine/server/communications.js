@@ -20,7 +20,7 @@ ipcMain.handle("client.loadTemplate", async (payload, path) => {
 // === Game ===
 
 ipcMain.handle("game.new", async (payload) => {
-  console.log("TODO: New Game")
+  GameState.start();
 });
 
 ipcMain.handle("game.continue", async (payload) => {

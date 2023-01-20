@@ -20,6 +20,8 @@ global.GameState = (function() {
     partyDirection = startDirection;
     stage = startStage;
     world = worldIndex;
+
+    // Add an event that starts us in town.
   }
 
   async function clear() {
