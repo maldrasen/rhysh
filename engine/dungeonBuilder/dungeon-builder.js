@@ -120,8 +120,10 @@ global.DungeonBuilder = (function() {
   async function loadData(type, name) {
     return new Promise(resolve => {
       let path = `${ROOT}/data/${type}/${name}Data.json`;
+
       fs.readFile(path, (error, data) => {
         if (error) throw error;
+
         try {
           resolve(JSON.parse(data));
         } catch(error) {

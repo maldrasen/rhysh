@@ -3,6 +3,7 @@ global.GameState = (function() {
   const StartLocation = new Vector(0,0,0);
   const StartDirection = "W";
   const StartStage = "TownGuild";
+  const StartZone = "Wolgur";
 
   var timeCount;
   var dayCount;
@@ -22,6 +23,9 @@ global.GameState = (function() {
     partyDirection = StartDirection;
     stage = StartStage;
     world = worldIndex;
+
+    Dungeon.start();
+    Dungeon.loadZone(StartZone);
 
     // Add an event that starts us in town.
     // For now though we can start on the Wolgur map
