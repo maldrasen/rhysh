@@ -1,0 +1,149 @@
+
+@mixin button($color) {
+  display: inline-block;
+  font-family: crete;
+  padding: 0 10px;
+  line-height: 30px;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: $bg-button;
+  color: transparentize($color, 0.25) !important;
+  border: 1px solid transparentize($color, 0.8);
+  border-radius: 3px;
+
+  &:focus {
+    color: transparentize($color, 0.25) !important;
+    border-color: transparentize($color, 0.8);
+  }
+  &:hover {
+    color: $color !important;
+    border-color: transparentize($color, 0.7);
+  }
+  &:active {
+    box-shadow: $shadow-inset-button;
+  }
+
+  &:before { content:''; }
+  &:after { content:''; }
+}
+
+.button { @include button($fg-button-default); }
+.button-danger { @include button($fg-button-danger); }
+.button-warning { @include button($fg-button-warning); }
+.button-success { @include button($fg-button-success); }
+.button-primary { @include button($fg-button-primary); }
+.button-secondary { @include button($fg-button-secondary); }
+
+.button-big {
+  padding: 0 8px;
+  line-height: 40px;
+  font-size: $fs-big;
+}
+
+.button-small {
+  padding: 0 8px;
+  line-height: 18px;
+  font-size: $fs-small;
+}
+
+.button-tiny {
+  padding: 0 8px;
+  line-height: 16px;
+  font-size: $fs-tiny;
+}
+
+// Imortant all the things!
+.disabled-button {
+  cursor: default !important;
+  color: $fg-very-weak !important;
+  border: 1px solid transparentize($fg-very-weak, 0.4) !important;
+
+  div {
+    color: $fg-very-weak !important;
+  }
+  .item-icon {
+    opacity: 0.33 !important;
+  }
+
+  &:hover, &:active, &:focus {
+    box-shadow: none !important;
+    color: $fg-very-weak !important;
+    border: 1px solid transparentize($fg-very-weak, 0.4) !important;
+  }
+}
+
+.button-icon {
+  @include button($fg-button-default);
+
+  padding: 0;
+  height: 44px;
+  width: 44px;
+  border-radius: 8px;
+
+  .item-icon.large-icon {
+    margin: 0;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+  }
+
+  &:active { border-color:$fg-button-default; }
+}
+
+// Large button icon, used in crafting dialog.
+.button-icon-with-label {
+  @include button($fg-button-default);
+
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  text-align: center;
+  font-size: $fs-small;
+
+  .item-icon {
+    position: relative;
+    top: 5px;
+  }
+  .label {
+    position: relative;
+    top: -3px;
+  }
+}
+
+.radio-buttons {
+  display: inline-block;
+  height: 30px;
+  padding: 5px;
+  box-shadow: $shadow-inset;
+  border-radius: 5px;
+}
+
+.radio-button {
+  @include button($fg-button-default);
+
+  line-height: 29px;
+  border-right-width: 0;
+  border-radius: 0;
+
+  &:last-child {
+    border-right-width: 1px;
+    border-radius: 0 3px 3px 0;
+  }
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+  }
+  &.on {
+    color: $fg-radio-button-on !important;
+    background-color: $bg-radio-button-on;
+    text-shadow: $glow-radio-button-on;
+    box-shadow: $shadow-inset-button;
+  }
+}
+.radio-button.disabled {
+  cursor: default;
+  color: $fg-very-weak !important;
+  border: 1px solid transparentize($fg-very-weak, 0.3);
+  &:hover {  }
+  &:active { box-shadow:none; }
+  &:focus {  }
+}
