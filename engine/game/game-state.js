@@ -11,7 +11,7 @@ global.GameState = (function() {
   var stage;
   var world;
 
-  function start() {
+  function newGame() {
     if (world != null) { throw `Error: Game is not empty.` }
 
     let worldIndex = 666; // TODO: Look this up from configuration file.
@@ -38,6 +38,6 @@ global.GameState = (function() {
     await Database.clear();
   }
 
-  return { start };
+  return { newGame, clear };
 
 })();

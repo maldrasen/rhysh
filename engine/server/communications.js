@@ -20,7 +20,12 @@ ipcMain.handle("client.loadTemplate", async (payload, path) => {
 // === Game ===
 
 ipcMain.handle("game.new", async (payload) => {
-  GameState.start();
+  GameState.newGame();
+});
+
+// TODO: Create the player character, set stage.
+ipcMain.handle("game.start", async (payload) => {
+  console.log("TODO: Start");
 });
 
 ipcMain.handle("game.continue", async (payload) => {

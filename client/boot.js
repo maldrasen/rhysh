@@ -50,6 +50,7 @@
 
       // Views
       import("./views/mainMenu/main-menu.js"),
+      import("./views/mainMenu/new-game.js"),
       import("./views/mapView/map-view.js"),
       import("./views/mapView/map-canvas.js"),
       import("./views/mapView/tile-graphics.js"),

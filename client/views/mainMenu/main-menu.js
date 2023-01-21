@@ -10,9 +10,12 @@ window.MainMenu = (function() {
     X.onClick('#mainMenu a.preview-zone', previewZone);
   }
 
-
   function showNewGame() {
     MainContent.clear();
+    MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game' }).then(() => {
+      MainContent.hideCover({ fadeTime:2000 });
+      NewGame.fadeIn();
+    });
   }
 
   function showLoadGame() {

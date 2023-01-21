@@ -44,6 +44,27 @@
   border: $border-normal;
   box-shadow: $shadow-overlay;
   z-index: $z-overlay;
+
+  .body {
+    margin: 10px;
+  }
+
+  .button-row {
+    position: absolute;
+    bottom:0;
+
+    text-align: right;
+
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin-top: 5px;
+
+    border-top: $border-light;
+    background-color: rgba(0,0,0,0.25);
+  }
+}
+.overlay.light-overlay {
+  background-color: rgba(0,0,0,0.666);
 }
 
 // Flex Container Classes
