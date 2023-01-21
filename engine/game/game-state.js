@@ -11,17 +11,20 @@ global.GameState = (function() {
   var stage;
   var world;
 
-  function start(worldIndex) {
+  function start() {
     if (world != null) { throw `Error: Game is not empty.` }
+
+    let worldIndex = 666; // TODO: Look this up from configuration file.
 
     timeCount = 0;
     dayCount = 0;
-    partyLocation = startLocation;
-    partyDirection = startDirection;
-    stage = startStage;
+    partyLocation = StartLocation;
+    partyDirection = StartDirection;
+    stage = StartStage;
     world = worldIndex;
 
     // Add an event that starts us in town.
+    // For now though we can start on the Wolgur map
   }
 
   async function clear() {

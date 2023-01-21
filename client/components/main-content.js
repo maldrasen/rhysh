@@ -4,12 +4,17 @@ window.MainContent = (function() {
   let tween;
 
   // Wire the global event listeners.
-  const init = function() {
+  function init() {
     X.onClick('a.send-command', handleSendCommend);
   }
 
+  function clear() {
+    showCover();
+    X.first('#mainContent').setHTML("");
+  }
+
   // Views that can be used as stages will have a name and a show() function.
-  const setStage = function(view) {
+  function setStage(view) {
     currentStage = view.name;
     showCover();
     view.show();
@@ -19,7 +24,7 @@ window.MainContent = (function() {
   // command names into the HREF as anchors. I suppose they're technically like HREFs anyway. I may also need to
   // include arguments along with these commands though, including them inside of the href and parsing them out. A
   // comma seperated list should work well enough though.
-  const handleSendCommend = function(event) {
+  function handleSendCommend(event) {
     const href = event.target.getAttribute('href');
     const command = href.substring(1, href.length);
     ClientCommands.send(command);
@@ -27,7 +32,7 @@ window.MainContent = (function() {
 
   // The main content screnes should all be loaded in a pretty similar way. We fetch an HTML template from the server,
   // replace the contents of main content with it.
-  const show = function(options) {
+  function show(options) {
     return new Promise(resolve => {
       Template.load('#mainContent', options.path).then(() => {
         BackgroundImage.setBackground(options.background);
@@ -40,20 +45,20 @@ window.MainContent = (function() {
 
   // Called after the template has been loaded. We remove all the debug elements in every template if there are any,
   // but there might be other global template tasks at some point.
-  const ready = function() {
+  function ready() {
     if (Environment.debug == false) {
       X.remove('.show-when-dev');
     }
   }
 
-  const showCover = function() {
+  function showCover() {
     X.first('#mainCover').removeAttribute('class');
   }
 
   // Elements can jump around and shuffle a bit when we change stages, so to cover that up we fade in the view when
   // the stage changes. For some stage transitions we may want to disable this though, in which case I'll add a
   // property to just skip to the onComplete()
-  const hideCover = function(properties = {}) {
+  function hideCover(properties = {}) {
     const cover = X.first('#mainCover');
 
     const animate = () => {
@@ -82,12 +87,13 @@ window.MainContent = (function() {
   }
 
   return {
-    init: init,
-    ready: ready,
-    setStage: setStage,
-    showCover: showCover,
-    hideCover: hideCover,
-    show: show,
+    init,
+    ready,
+    clear,
+    setStage,
+    showCover,
+    hideCover,
+    show,
   };
 
 })();

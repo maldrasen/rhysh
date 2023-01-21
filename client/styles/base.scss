@@ -4,7 +4,7 @@ body {
   background-color: $bg-root;
   color: $fg-body;
   font-size: $fs-body;
-  font-family: baskerville;
+  font-family: roboto;
   line-height: 1.5;
   min-width: 1000px;
   overflow-x: hidden;
@@ -35,37 +35,37 @@ a.no-underline:hover, a.no-underline:focus, a.no-underline:active {
   border-bottom: none;
 }
 
-i { font-family: baskerville-italic; }
-b { font-family: baskerville-bold; color:$fg-strong; }
+i { font-family: roboto-italic; }
+b { font-family: roboto-bold; color:$fg-strong; }
 
 h1 {
   font-size: 50px;
   line-height: 50px;
-  font-family: baskerville-bold;
+  font-family: roboto-bold;
   color: $fg-strong;
 }
 
 h2 {
   font-size: $fs-h2;
-  font-family: baskerville-bold;
+  font-family: roboto-bold;
   color: $fg-strong;
 }
 
 h3 {
   font-size: $fs-h3;
-  font-family: baskerville-bold;
+  font-family: roboto-bold;
   color: $fg-strong;
 }
 
 h4 {
   font-size: $fs-h4;
-  font-family: baskerville-bold;
+  font-family: roboto-bold;
   color: $fg-strong;
 }
 
 h5 {
   font-size: $fs-h5;
-  font-family: baskerville-bold;
+  font-family: roboto-bold;
 }
 
 p {

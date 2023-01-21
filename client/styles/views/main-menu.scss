@@ -1,7 +1,14 @@
-
-
 #mainMenu {
-  .base-frame {
-    width: 300px;
+  .base-frame { width: 300px; }
+
+  h1 {
+    font-family: baskerville;
+  }
+
+  ul {
+    a.button {
+      display: block;
+      margin-bottom: 5px;
+    }
   }
 }
