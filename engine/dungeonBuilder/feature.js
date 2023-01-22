@@ -2,9 +2,17 @@ global.Feature = class Feature {
 
   constructor(name) {
     const template = DungeonBuilder.lookupFeatureTemplate(name);
+    if (template == null) {
+      throw `Error: No template named ${name}`
+    }
+
     this.tileSource = template.copyTileSource();
     this.canFlip = template.canFlip;
   }
+
+  getName() { return this.tileSource.name; }
+  getSize() { return this.tileSource.size; }
+  getTile(index) { return this.tileSource.getTile(index); }
 
   // ==== Flipping =====================================================================================================
   // As a way to get more variety out of the feature templates we allow most features to be freely flipped, turning

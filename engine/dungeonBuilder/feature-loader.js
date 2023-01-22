@@ -17,8 +17,8 @@ global.FeatureLoader = class FeatureLoader {
     let tileData = this.loadTileData(featureInfo);
     let featureTemplate = new FeatureTemplate(featureInfo)
 
-    if (featureInfo["FeatureSet"]) {
-      DungeonBuilder.addTemplateToSet(featureInfo["FeatureSet"],featureInfo["Name"])
+    if (this.featureData["FeatureSet"]) {
+      DungeonBuilder.addTemplateToSet(this.featureData["FeatureSet"],featureInfo["Name"])
     }
 
     forUpTo(tileData.length, layerIndex => {

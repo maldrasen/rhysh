@@ -61,7 +61,7 @@ global.DungeonBuilder = (function() {
   }
 
   function addTemplateToLibrary(template) {
-    FeatureLibrary[template.name] = template;
+    FeatureLibrary[template.getName()] = template;
   }
 
   // Features also can belong to a feature set. These are used to select random features when building the dungeon.
