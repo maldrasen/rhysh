@@ -2,16 +2,8 @@ global.Feature = class Feature {
 
   constructor(name) {
     const template = DungeonBuilder.lookupFeatureTemplate(name);
-
-    this.featureName = name;
-    this.sectorType = template.sectorType;
+    this.tileSource = template.copyTileSource();
     this.canFlip = template.canFlip;
-    this.size = template.size;
-    this.layers = template.copyLayers();
-  }
-
-  getTile(x,y,z) {
-    return self.layers[z][x + (y*size.x)]
   }
 
   // ==== Flipping =====================================================================================================
@@ -92,16 +84,8 @@ global.Feature = class Feature {
 //           layers[z][newIndex].flipD()
   }
 
-  // ==== For Client ===================================================================================================
-
   forClient() {
-    return {
-      name: this.featureName,
-      size: this.size,
-      layers: this.layers.map(layer => {
-        return layer.map(tile => tile ? tile.forClient() : null);
-      })
-    };
+    return this.tileSource.forClient();
   }
 
   static forPreview() {
@@ -110,7 +94,6 @@ global.Feature = class Feature {
     return { tileSource:feature.forClient() };
   }
 }
-
 
 const featureFromDebugOptions = function() {
   const options = Environment.debugOptions.featurePreview;

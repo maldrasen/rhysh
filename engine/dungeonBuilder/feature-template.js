@@ -12,6 +12,5 @@ global.FeatureTemplate = class FeatureTemplate {
   // Pass through
   setTile(index, tile) { this.tileSource.setTile(index,tile); }
   getTile(index) { return this.tileSource.getTile(index); }
-  copyLayers() { return this.tileSource.copyLayers(); }
-
+  copyTileSource() { return this.tileSource.copy(); }
 }

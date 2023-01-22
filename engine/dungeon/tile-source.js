@@ -43,14 +43,31 @@ global.TileSource = class TileSource {
 
   // Because the feature will manipulate the tiles when it's built we need to provide a deep copy of the layers when
   // building features. We can't use JSON serialization to do the deepcopy because we need the class objects intact.
-  copyLayers() {
-    return this.layers.map(layer => {
+  copy() {
+    let source = new TileSource({
+      name: this.name,
+      size: this.size,
+    });
+
+    source.layers = this.layers.map(layer => {
       return layer.map(tile => {
         return tile.copy();
-      })
+      });
     });
+
+    return source;
   }
 
-
+  forClient() {
+    return {
+      name: this.name,
+      size: this.size,
+      layers: this.layers.map(layer => {
+        return layer.map(tile => {
+          return tile ? tile.forClient() : null
+        });
+      }),
+    };
+  }
 
 }
