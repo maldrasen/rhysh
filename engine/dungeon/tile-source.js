@@ -41,6 +41,32 @@ global.TileSource = class TileSource {
     return x + (y * this.size.x);
   }
 
+  inRange(index) {
+    if (index.x < 0 || index.x >= this.size.x) { return false; }
+    if (index.y < 0 || index.y >= this.size.y) { return false; }
+    if (index.z < 0 || index.z >= this.size.z) { return false; }
+    return true;
+  }
+
+  // Given a dungeon index get the neighboring tiles along with their indices. These indices could all be out of bounds
+  // so we only include a neighbor entry if it's possible for one to exist. Even if it's possible that a neighboring
+  // tile might exist, the tile itself may also be null.
+  //   { N:{index:<>, tile:<>}, S:... }
+  getNeighborTiles(index) {
+    let neighbors = {};
+    let n = index.translate(new Vector(0,-1,0));
+    let s = index.translate(new Vector(0,1,0));
+    let e = index.translate(new Vector(1,0,0));
+    let w = index.translate(new Vector(-1,0,0));
+
+    if (this.inRange(n)) { neighbors.N = { index:n, tile:this.getTile(n) }; }
+    if (this.inRange(s)) { neighbors.S = { index:s, tile:this.getTile(s) }; }
+    if (this.inRange(e)) { neighbors.E = { index:e, tile:this.getTile(e) }; }
+    if (this.inRange(w)) { neighbors.W = { index:w, tile:this.getTile(w) }; }
+
+    return neighbors;
+  }
+
   // Because the feature will manipulate the tiles when it's built we need to provide a deep copy of the layers when
   // building features. We can't use JSON serialization to do the deepcopy because we need the class objects intact.
   copy() {

@@ -1,3 +1,4 @@
+
 global.GameStage = {
   Battle:{},
   Dungeon:{},

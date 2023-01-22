@@ -6,4 +6,11 @@ global.Vector = class Vector {
     this.z = z;
   }
 
+  translate(vector) {
+    return new Vector(
+      this.x + vector.x,
+      this.y + vector.y,
+      this.z + vector.z);
+  }
+
 }

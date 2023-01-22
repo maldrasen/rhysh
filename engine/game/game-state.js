@@ -3,7 +3,7 @@ global.GameState = (function() {
   const StartLocation = new Vector(0,0,0);
   const StartDirection = "W";
   const StartStage = "TownGuild";
-  const StartZone = "Wolgur";
+  const StartZone = "WolgurCleft";
 
   var timeCount;
   var dayCount;

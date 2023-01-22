@@ -98,7 +98,7 @@ global.ZoneLoader = class ZoneLoader {
     this.forEachTile(layer.level, (tileIndex, dungeonIndex) => {
       let tileData = layer.tileData[tileIndex];
       if (tileData && tileData.root) {
-        if (tileData.root.biome) { saveAsFreeTile(dungeonIndex, tileData); }
+        if (tileData.root.biome) { this.saveAsFreeTile(dungeonIndex, tileData); }
         if (tileData.root.tile) { this.tileSource.setTile(dungeonIndex, Tile.fromTileData(tileData)); }
       }
     });
@@ -117,8 +117,31 @@ global.ZoneLoader = class ZoneLoader {
 
   // ==== Step 2 : Generate Biomes =====================================================================================
 
-  generateBiomes() {}
-  saveFile() {}
+  generateBiomes() {
+    ObjectHelper.each(this.freeTiles, (biomeColor,biomeTiles) => {
+      let biomeOptions = this.zoneInfo.biomes[biomeColor];
+      let biomeName = biomeOptions.biomeName;
+
+      let properties = {
+        biomeName: biomeOptions.biomeName,
+        biomeOptions: biomeOptions,
+        zoneInfo: this.zoneInfo,
+        zoneData: this.zoneData,
+        tileSource: this.tileSource,
+        freeTiles: biomeTiles,
+        supplementaryData: this.supplementaryData,
+      };
+
+      if (biomeName == "Cleft") { new CleftBuilder(properties).fullBuild(); }
+      if (biomeName == "Farm")  { new FarmBuilder(properties).fullBuild();  }
+    });
+
+    new TileFixer({ tileSource: this.tileSource }).start()
+  }
+
+  saveFile() {
+    // TODO: Save Zone
+  }
 
   // Iterator through all the tiles based on the size of the zone. Both the tileIndex (the actual array index) and the
   // dungeonIndex (the tile's logical location in the dungeon) are sent as parameters.
