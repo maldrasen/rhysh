@@ -107,12 +107,12 @@ global.ZoneLoader = class ZoneLoader {
 
   // As we go through the layers we save biomes as an array of points. These will be fed into the biome builders to
   // randomly generate these areas.
-  saveAsFreeTile(dungeonIndex, tileData) {
+  saveAsFreeTile(index, tileData) {
     let biomeColor = tileData.root.biome;
-    if (this.freeTiles.biomeColor == null) {
+    if (this.freeTiles[biomeColor] == null) {
       this.freeTiles[biomeColor] = [];
     }
-    this.freeTiles[biomeColor].push(dungeonIndex);
+    this.freeTiles[biomeColor].push(index);
   }
 
   // ==== Step 2 : Generate Biomes =====================================================================================

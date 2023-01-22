@@ -1,4 +1,4 @@
-global.FarmBuilder = class FarmBuilder {
+global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
 
   placeFeatures() {}
 

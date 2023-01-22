@@ -1,4 +1,4 @@
-global.CleftBuilder = class CleftBuilder {
+global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
 
   placeFeatures() {}
 

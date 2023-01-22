@@ -13,6 +13,7 @@ global.Feature = class Feature {
   getName() { return this.tileSource.name; }
   getSize() { return this.tileSource.size; }
   getTile(index) { return this.tileSource.getTile(index); }
+  eachTile(callback) { this.tileSource.each(callback); }
 
   // ==== Flipping =====================================================================================================
   // As a way to get more variety out of the feature templates we allow most features to be freely flipped, turning
