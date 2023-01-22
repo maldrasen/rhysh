@@ -10,7 +10,7 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
     this.cleftSector = Sector.defineNextSector({ type:'outside' });
 
     this.cleftTile = Tile.normal();
-    this.cleftTile.biome = "Cleft"
+    this.cleftTile.biome = this.biomeName;
     this.cleftTile.sector = this.cleftSector;
 
     new CrackDigger({
@@ -34,7 +34,7 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
   }
 
   fillSpace() {
-    this.freeTiles.forEach(index => {
+    this.freeTiles.each(index => {
       this.tileSource.setTile(index, Tile.solidStone());
     });
   }

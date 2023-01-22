@@ -13,4 +13,14 @@ global.Vector = class Vector {
       this.z + vector.z);
   }
 
+  equals(vector) {
+    return this.x == vector.x &&
+           this.y == vector.y &&
+           this.z == vector.z;
+  }
+
+  toString() {
+    return `(${this.x},${this.y},${this.z})`;
+  }
+
 }

@@ -110,7 +110,7 @@ global.ZoneLoader = class ZoneLoader {
   saveAsFreeTile(index, tileData) {
     let biomeColor = tileData.root.biome;
     if (this.freeTiles[biomeColor] == null) {
-      this.freeTiles[biomeColor] = [];
+      this.freeTiles[biomeColor] = new VectorArray();
     }
     this.freeTiles[biomeColor].push(index);
   }

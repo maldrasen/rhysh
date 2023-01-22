@@ -13,7 +13,7 @@ global.BiomeBuilder = class BiomeBuilder {
   fullBuild() {
     var startTime = Date.now()
 
-    console.log(`  ${this.biomeName}: Starting full build on ${this.freeTiles.length} tiles`)
+    console.log(`  ${this.biomeName}: Starting full build on ${this.freeTiles.size()} tiles`)
 
     this.runExtraBuilders("First")
     this.placeFeatures()
@@ -35,7 +35,7 @@ global.BiomeBuilder = class BiomeBuilder {
   // When setting the free tiles array we want to force a copy because the builders mutate the free and used tile
   // arrays while building.
   setFreeTiles(tiles) {
-    this.freeTiles = [...tiles];
+    this.freeTiles = tiles.copy();
     this.usedTiles = [];
   }
 
@@ -73,27 +73,36 @@ global.BiomeBuilder = class BiomeBuilder {
   //       z-levels, but the real question is how to differentiate between zones where features can be any height and
   //       are always placed on the ground, and other zones that are closed off vertically?
   //
-  featureCanBePlaced(index, feature) {
-    feature.eachTile(tileEntry => {
-      console.log("TODO: Tile Entry?",tileEntry);
-      // if feature.getTile(x,y,0) != null:
-      //   var tileIndex = index.translate(Vector3i(x,y,0))
-      //   if isIndexFree(tileIndex) == false:
-      //     return false
+  featureCanBePlaced(baseIndex, feature) {
+    let placable = true
+
+    feature.eachTile((index, _) => {
+      if (feature.getTile(index)) {
+        let tileIndex = baseIndex.translate(new Vector(index.x, index.y, 0));
+        if (this.freeTiles.has(tileIndex) == false) {
+          placable = false;
+        }
+      }
     });
-    return true
+
+    return placable
   }
 
+  // TODO: I've completely changed how sectors work here. A feature can actually have multiple sectors. The farms for
+  //       instance have both room and outside tiles. I'm going to need a way to get a tile's sector from the feature,
+  //       perhaps using the region layer for the sections of feature maps. Sector can be null for now though.
   placeFeature(baseIndex, feature) {
-    console.log("TODO: Place Feature",baseIndex,feature);
-  }
+    feature.eachTile((index, tile) => {
+      if (tile) {
+        let tileIndex = baseIndex.translate(new Vector(index.x, index.y, index.z));
 
-  isIndexFree(index) {
-    return ArrayHelper.contains(this.freeTiles, index);
-  }
+        tile.biome = this.biomeName;
+        tile.sector = null; // Fix
 
-  removeFreeIndex(index) {
-    ArrayHelper.remove(this.freeTiles, index);
+        this.tileSource.setTile(tileIndex, tile);
+        this.freeTiles.remove(tileIndex);
+      }
+    });
   }
 
 }
