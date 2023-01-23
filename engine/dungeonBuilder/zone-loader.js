@@ -139,8 +139,11 @@ global.ZoneLoader = class ZoneLoader {
     new TileFixer({ tileSource: this.tileSource }).start()
   }
 
+  // Save the Zone as a compressed json file.
   saveFile() {
-    // TODO: Save Zone
+    Kompressor.write(`${GameState.worldPath()}/${this.zoneName}.cum`, {
+      tileSource: this.tileSource
+    });
   }
 
   // Iterator through all the tiles based on the size of the zone. Both the tileIndex (the actual array index) and the

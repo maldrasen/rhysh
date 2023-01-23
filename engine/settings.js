@@ -17,9 +17,8 @@ global.Settings = (function() {
 
   function getLastWorld() { return currentSettings.lastWorld; }
   function getWorldCounter() { return currentSettings.worldCounter; }
-
-  function setLastWorld(world) { currentSettings.lastWorld = world; save(); }
-  function incWorldCounter() { currentSettings.worldCounter += 1; save(); }
+  function setLastWorld(world) { currentSettings.lastWorld = world; }
+  function incWorldCounter() { currentSettings.worldCounter += 1; }
 
   function save() {
     fs.writeFile(filepath, JSON.stringify(currentSettings), (error) => {
@@ -31,7 +30,6 @@ global.Settings = (function() {
     fs.readFile(filepath, (error, data) => {
       if (error) { throw `Error: Cannot load settings. ${error}` }
       currentSettings = JSON.parse(data);
-      console.log("Settings: ",currentSettings);
     });
   }
 
@@ -41,6 +39,7 @@ global.Settings = (function() {
     getWorldCounter,
     setLastWorld,
     incWorldCounter,
+    save,
   };
 
 })();
