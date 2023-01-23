@@ -7,11 +7,14 @@ global.GameState = (function() {
 
   var worldIndex;
   var worldPath;
+
   var timeCount;
   var dayCount;
+
+  var stage;
+  var currentZone;
   var partyLocation;
   var partyDirection;
-  var stage;
 
   function newGame() {
     if (worldIndex != null) { throw `Error: Game is not empty.` }
@@ -21,9 +24,11 @@ global.GameState = (function() {
 
     timeCount = 0;
     dayCount = 0;
+
+    stage = StartStage;
+    currentZone = StartZone;
     partyLocation = StartLocation;
     partyDirection = StartDirection;
-    stage = StartStage;
 
     console.log(`\n\nCreating new game in ${worldPath}`)
 
@@ -35,7 +40,9 @@ global.GameState = (function() {
       Settings.save();
 
       Dungeon.start();
-      Dungeon.loadZone(StartZone);
+      Dungeon.loadZone("Wolgur");
+      Dungeon.loadZone("WolgurCleft");
+
       // Add an event that starts us in town.
       // For now though we can start on the Wolgur map
     });

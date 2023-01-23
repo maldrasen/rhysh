@@ -1,30 +1,28 @@
 global.Dungeon = (function() {
 
   let zoneCache;
-  let currentZone;
 
   // Initial Dungeon state for a new game.
   function start() {
     zoneCache = {};
   }
 
-  async function loadZone(name) {
-    console.log(`Loading Zone - ${name}`)
-
-    const zoneLoader = new ZoneLoader(name);
-
-    // If the zones needs to be loaded
-    zoneLoader.createZoneFromTemplate().then(() => {
-      console.log("Done");
-    })
-
-    // currentZone = name;
-    // zoneCache[currentZone] = zoneLoader.hasBeenBuilt() ?
-    //   zoneLoader.loadZone() :
-    //   zoneLoader.createZoneFromTemplate()
+  // This function will get the cached copy of the zone if it's already been loaded. If it's already been built this
+  // will read the zone file first, then return the zone. If the zone has never been built it will be created first.
+  function getZone(name, callback) {
+    zoneCache[name] ? callback(zoneCache[name]) : loadZone(name).then(callback(zone));
   }
 
-  return { start, loadZone }
+  function loadZone(name) {
+    return new Promise(resolve => {
+      new Zone(name).load().then(zone => {
+        zoneCache[name] = zone;
+        resolve(zone);
+      });
+    });
+  }
+
+  return { start, getZone, loadZone }
 
 })();
 

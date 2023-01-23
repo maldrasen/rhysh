@@ -96,6 +96,7 @@ global.TileSource = class TileSource {
     return {
       name: this.name,
       size: this.size,
+      layerOffset: this.layerOffset,
       layers: this.layers.map(layer => {
         return layer.map(tile => {
           return tile ? tile.forClient() : null

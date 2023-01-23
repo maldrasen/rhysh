@@ -1,9 +1,10 @@
 global.ZoneLoader = class ZoneLoader {
 
-  constructor(name) {
-    this.zoneName = name;
-    this.freeTiles = {}
-    this.supplementaryData = {}
+  constructor(zone) {
+    this.zone = zone;
+    this.zoneName = zone.name;
+    this.freeTiles = {};
+    this.supplementaryData = {};
   }
 
   hasBeenBuilt() { return false }
@@ -28,7 +29,11 @@ global.ZoneLoader = class ZoneLoader {
 
     this.loadMapData();
     this.generateBiomes();
-    this.saveFile();
+
+    return {
+      zoneData: this.zoneData,
+      tileSource: this.tileSource,
+    };
   }
 
   // ==== Step 1 : Load Map Data =======================================================================================
@@ -137,13 +142,6 @@ global.ZoneLoader = class ZoneLoader {
     });
 
     new TileFixer({ tileSource: this.tileSource }).start()
-  }
-
-  // Save the Zone as a compressed json file.
-  saveFile() {
-    Kompressor.write(`${GameState.worldPath()}/${this.zoneName}.cum`, {
-      tileSource: this.tileSource
-    });
   }
 
   // Iterator through all the tiles based on the size of the zone. Both the tileIndex (the actual array index) and the
