@@ -1,49 +1,46 @@
 global.Settings = (function() {
 
-  const defaultSettings = {
-    metric: false,
+  const filepath = `${DATA}/settings.json`;
+
+  let currentSettings = {
+    lastWorld: null,
+    worldCounter: 1,
   };
 
-  const filepath = `${ROOT}/settings.json`;
-  const settings = {};
-
-  // The init() function reads the settings.json file for the player's settings.
-  // If the file doesn't exist the default settings are used. The settings file
-  // is only written when and if the settings are set.
+  // If the settings file exists we load it into the current settings. If it doesn't exist we save a file with the
+  // default settings.
   function init() {
     fs.exists(filepath, exists => {
-      set(exists ? JSON.parse(fs.readFileSync(filepath)) : defaultSettings);
+      exists ? load() : save();
     });
   }
 
-  // Should probably only be used by the specs to set everything back to its
-  // default state.
-  function reset() { set(defaultSettings); }
+  function getLastWorld() { return currentSettings.lastWorld; }
+  function getWorldCounter() { return currentSettings.worldCounter; }
 
-  // Change the settings without updating the settings file. This is used by
-  // the specs to try different settings. The main application however should
-  // always use update()
-  function set(data) {
-    settings.metric = !! data.metric;
-  }
+  function setLastWorld(world) { currentSettings.lastWorld = world; save(); }
+  function incWorldCounter() { currentSettings.worldCounter += 1; save(); }
 
-  async function update(data) {
-    set(data);
-    fs.writeFile(filepath, JSON.stringify(settings), (error) => {
-      if (error) { `Error: Cannot save settings. ${error}` }
+  function save() {
+    fs.writeFile(filepath, JSON.stringify(currentSettings), (error) => {
+      if (error) { throw `Error: Cannot save settings. ${error}` }
     });
   }
 
-  function fetch() { return settings; }
-  function metric() { return settings.metric; }
+  function load() {
+    fs.readFile(filepath, (error, data) => {
+      if (error) { throw `Error: Cannot load settings. ${error}` }
+      currentSettings = JSON.parse(data);
+      console.log("Settings: ",currentSettings);
+    });
+  }
 
   return {
     init,
-    reset,
-    set,
-    update,
-    fetch,
-    metric,
+    getLastWorld,
+    getWorldCounter,
+    setLastWorld,
+    incWorldCounter,
   };
 
 })();

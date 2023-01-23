@@ -75,7 +75,6 @@ global.TileFixer = class TileFixer {
   getOppositeWall(neighbor, direction) {
     return (neighbor == null) ? null : neighbor.walls[oppositeDirection(direction)];
   }
-
 }
 
 function isDoor(wall) { return wall && wall.isDoor(); }

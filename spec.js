@@ -17,7 +17,6 @@ before(() => {
 afterEach(() => {
   return new Promise(async resolve => {
     await Database.clear();
-    // Settings.reset();
     // Flag.clear();
     resolve();
   });
