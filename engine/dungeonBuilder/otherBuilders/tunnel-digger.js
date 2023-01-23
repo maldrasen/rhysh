@@ -24,13 +24,9 @@ global.TunnelDigger = class TunnelDigger {
       attempts -= 1;
 
       let toPoint = this.connectionPoints.getRandom();
-
-      // This isn't working. It finds a tile, but that tile can't be connected to because the sector isn't the same.
-      // It looks like the whole tile is invalid for some reason though.
       let fromPoint = this.closestConnectionTo(toPoint);
 
       if (fromPoint) {// TEMP, there should always be a from point
-        console.log("Found Points! ",toPoint, fromPoint)
         this.connectPoints(fromPoint, toPoint);
         this.connectionPoints.remove(toPoint);
       }
@@ -72,35 +68,23 @@ global.TunnelDigger = class TunnelDigger {
     if (this.biomeBuilder.usedTiles.has(point)) { return true; }
 
     let tile = this.tileSource.getTile(point);
-
-    if (tile) {
-
-      console.log("Found Tile at:",point,tile)
-
-      return tile
-
-    }
-
-
-
-    // return (tile != null) && (tile.sector == this.defaultTile.sector)
+    return (tile != null) && (tile.sector == this.defaultTile.sector)
   }
 
   connectPoints(fromPoint, toPoint) {
-    console.log("Connect:",fromPoint,toPoint)
+    let xOffset = fromPoint.x - toPoint.x;
+    let yOffset = fromPoint.y - toPoint.y;
+    let horizontal = fromPoint.x < toPoint.x ? E : W;
+    let vertical = fromPoint.y < toPoint.y ? S : N;
 
-    let xOffset = fromPoint.index.x - toPoint.index.x;
-    let yOffset = fromPoint.index.y - toPoint.index.y;
-    let horizontal = fromPoint.index.x < toPoint.index.x ? E : W;
-    let vertical = fromPoint.index.y < toPoint.index.y ? S : N;
-
+    // Return when the from point and the to point are the same point.
     if (xOffset == 0 && yOffset == 0) {
       return;
     }
 
     let direction = this.randomDirection(xOffset, yOffset, horizontal, vertical)
     let nextPoint = fromPoint.go(direction)
-    let nextTile = tileSource.getTile(nextPoint)
+    let nextTile = this.tileSource.getTile(nextPoint)
 
     // The only big problem with connecting tiles this way is that sometimes we randomly fall off a cliff, this should
     // be fine though. I don't think it can happen for the most important connection points.
@@ -116,11 +100,11 @@ global.TunnelDigger = class TunnelDigger {
   randomDirection(xOffset, yOffset, horizontal, vertical) {
     var roll = Random.roll(12);
 
-    if (abs(xOffset) < abs(yOffset)) {
+    if (Math.abs(xOffset) < Math.abs(yOffset)) {
       return (roll < 4) ? horizontal : vertical;
     }
 
-    if (abs(xOffset) > abs(yOffset)) {
+    if (Math.abs(xOffset) > Math.abs(yOffset)) {
       return (roll < 4) ? vertical : horizontal;
     }
 

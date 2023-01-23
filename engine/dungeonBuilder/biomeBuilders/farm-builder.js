@@ -7,8 +7,6 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
     this.farmTile.biome = this.biomeName;
     this.farmTile.sector_id = this.farmSector_id;
 
-    console.log("=== Place Features ===");
-
     this.addHouses(this.biomeOptions.houseCount);
     this.addTrees(this.biomeOptions.treeCount);
     this.fillSpace();

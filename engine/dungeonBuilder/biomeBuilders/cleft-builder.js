@@ -20,11 +20,11 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
       "defaultTile": this.defaultTile(),
     }).start(0.33);
 
-    // new TunnelDigger({
-    //   "biomeBuilder": this,
-    //   "tileSource": this.tileSource,
-    //   "defaultTile": this.defaultTile(),
-    // }).start();
+    new TunnelDigger({
+      "biomeBuilder": this,
+      "tileSource": this.tileSource,
+      "defaultTile": this.defaultTile(),
+    }).start();
 
     this.fillSpace();
   }
