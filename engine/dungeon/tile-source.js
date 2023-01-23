@@ -15,7 +15,7 @@ global.TileSource = class TileSource {
   }
 
   each(callback) {
-    forUpTo(this.size.z, z => {
+    forRange(this.zMin, this.zMax, z => {
       forUpTo(this.size.y, y => {
         forUpTo(this.size.x, x => {
           let index = new Vector(x,y,z);

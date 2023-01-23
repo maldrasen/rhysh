@@ -6,7 +6,6 @@ global.Wall = class Wall {
     Fence: 2,
   }
 
-
   static normal() { return new Wall(Wall.Type.Normal); }
   static door() { return new Wall(Wall.Type.Door); }
 

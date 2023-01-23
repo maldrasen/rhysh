@@ -11,8 +11,6 @@ global.BiomeBuilder = class BiomeBuilder {
   }
 
   fullBuild() {
-    var startTime = Date.now()
-
     console.log(`  ${this.biomeName}: Starting full build on ${this.freeTiles.size()} tiles`)
 
     this.runExtraBuilders("First")
@@ -21,8 +19,6 @@ global.BiomeBuilder = class BiomeBuilder {
     this.trimDeadEnds()
     this.decorate()
     this.runExtraBuilders("Last")
-
-    console.log(`  ${this.biomeName}: Completed build in ${Date.now() - startTime}ms`)
   }
 
   // Child classes should implement these functions when needed.
