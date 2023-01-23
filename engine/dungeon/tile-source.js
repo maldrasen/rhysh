@@ -47,7 +47,7 @@ global.TileSource = class TileSource {
   inRange(index) {
     if (index.x < 0 || index.x >= this.size.x) { return false; }
     if (index.y < 0 || index.y >= this.size.y) { return false; }
-    if (index.z < this.zMin || index.y >= this.zMax) { return false; }
+    if (index.z < this.zMin || index.z >= this.zMax) { return false; }
     return true;
   }
 
@@ -56,6 +56,11 @@ global.TileSource = class TileSource {
   // tile might exist, the tile itself may also be null.
   //   { N:{index:<>, tile:<>}, S:... }
   getNeighborTiles(index) {
+
+    if (this.inRange(index) == false) {
+      throw(`Error: Cannot get neighbor tiles. ${index} is not in range.`)
+    }
+
     let neighbors = {};
     let n = index.translate(new Vector(0,-1,0));
     let s = index.translate(new Vector(0,1,0));

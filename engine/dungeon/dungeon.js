@@ -1,14 +1,10 @@
 global.Dungeon = (function() {
 
-  let sectorCounter
-  let sectorDictionary
   let zoneCache;
   let currentZone;
 
   // Initial Dungeon state for a new game.
   function start() {
-    sectorCounter = 1;
-    sectorDictionary = {};
     zoneCache = {};
   }
 

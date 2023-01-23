@@ -72,7 +72,18 @@ global.TunnelDigger = class TunnelDigger {
     if (this.biomeBuilder.usedTiles.has(point)) { return true; }
 
     let tile = this.tileSource.getTile(point);
-    return (tile != null) && (tile.sector == this.defaultTile.sector)
+
+    if (tile) {
+
+      console.log("Found Tile at:",point,tile)
+
+      return tile
+
+    }
+
+
+
+    // return (tile != null) && (tile.sector == this.defaultTile.sector)
   }
 
   connectPoints(fromPoint, toPoint) {

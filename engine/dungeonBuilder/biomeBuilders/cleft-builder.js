@@ -7,11 +7,11 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
   //       for those dead ends that are looking off the side of the cliff.
 
   placeFeatures() {
-    this.cleftSector = Sector.defineNextSector({ type:'outside' });
+    this.cleftSector_id = Sector.defineNextSector({ type:'outside' });
 
     this.cleftTile = Tile.normal();
     this.cleftTile.biome = this.biomeName;
-    this.cleftTile.sector = this.cleftSector;
+    this.cleftTile.sector_id = this.cleftSector_id;
 
     new CrackDigger({
       "biomeBuilder": this,
@@ -20,11 +20,11 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
       "defaultTile": this.defaultTile(),
     }).start(0.33);
 
-    new TunnelDigger({
-      "biomeBuilder": this,
-      "tileSource": this.tileSource,
-      "defaultTile": this.defaultTile(),
-    }).start();
+    // new TunnelDigger({
+    //   "biomeBuilder": this,
+    //   "tileSource": this.tileSource,
+    //   "defaultTile": this.defaultTile(),
+    // }).start();
 
     this.fillSpace();
   }

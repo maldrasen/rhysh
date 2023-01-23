@@ -4,9 +4,8 @@ global.Sector = (function() {
   let sectorCounter = 1;
   let sectorDictionary = {};
 
-  // The next sector index to use.
-  function nextSector() {
-    return sectorCounter + 1;
+  function lookup(sector_id) {
+    return sectorDictionary[sector_id];
   }
 
   // When starting a new sector we want to make sure that the sector goes into the dictionary, but the creator of the
@@ -22,25 +21,23 @@ global.Sector = (function() {
   //     building  - A single building. Could be many rooms connected with doors.
   //     hall      - Standard dungeon corridor
   //     room      - Standard dungeon room
-
   //
   function defineNextSector(options) {
-    let index = nextSector();
+    let sector_id = sectorCounter + 1;
 
-    if (sectorDictionary[index]) {
-      throw `Error: Sector ${index} has already been defined as ${sectorDictionary[index]}`;
+    if (sectorDictionary[sector_id]) {
+      throw `Error: Sector ${sector_id} has already been defined as ${sectorDictionary[sector_id]}`;
     }
 
-    sectorDictionary[index] = options;
+    sectorDictionary[sector_id] = options;
     sectorCounter += 1;
 
-    return index
+    return sector_id
   }
 
   return {
-    nextSector,
+    lookup,
     defineNextSector,
-  }
-
+  };
 
 })();

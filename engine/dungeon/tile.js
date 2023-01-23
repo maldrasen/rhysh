@@ -28,7 +28,7 @@ global.Tile = class Tile {
 
   constructor(properties = {}) {
     this.type = properties.type;
-    this.sector_id = properties.sector;
+    this.sector_id = properties.sector_id;
     this.biome_id = properties.biome;
     this.fillType = properties.fillType;
     this.fillName = properties.fillName;
@@ -39,7 +39,7 @@ global.Tile = class Tile {
   copy() {
     let tile = new Tile({
       type: this.type,
-      sector: this.sector_id,
+      sector_id: this.sector_id,
       biome: this.biome_id,
       fillType: this.fillType,
       fillName: this.fillName,
