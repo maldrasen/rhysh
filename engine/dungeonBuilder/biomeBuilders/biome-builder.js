@@ -36,7 +36,7 @@ global.BiomeBuilder = class BiomeBuilder {
   // arrays while building.
   setFreeTiles(tiles) {
     this.freeTiles = tiles.copy();
-    this.usedTiles = [];
+    this.usedTiles = new VectorArray();
   }
 
   // A zone can specify additional options for the biome builders to use. One of these is the "extraBuilders" option,

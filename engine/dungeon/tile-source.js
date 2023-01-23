@@ -6,6 +6,9 @@ global.TileSource = class TileSource {
     this.layerOffset = (properties.layerOffset || 0);
     this.layers = [];
 
+    this.zMin = this.layerOffset;
+    this.zMax = this.layerOffset + this.size.z
+
     forUpTo(this.size.z, _ => {
       this.layers.push(new Array(this.size.x * this.size.y));
     });
@@ -44,7 +47,7 @@ global.TileSource = class TileSource {
   inRange(index) {
     if (index.x < 0 || index.x >= this.size.x) { return false; }
     if (index.y < 0 || index.y >= this.size.y) { return false; }
-    if (index.z < 0 || index.z >= this.size.z) { return false; }
+    if (index.z < this.zMin || index.y >= this.zMax) { return false; }
     return true;
   }
 

@@ -6,9 +6,9 @@ global.Random = {
     return Math.floor(Math.random() * limit);
   },
 
-  // Roll 1d(rand)+plus, rand or plus can be undefined.
-  roll(rand, plus) {
-    return Random.upTo(rand||0)+(plus||0);
+  // Roll 1d(rand) + plus.
+  roll(rand, plus=0) {
+    return Random.upTo(rand)+plus;
   },
 
   // Rolls between the new numbers inclusive, meaning min or max value could be
