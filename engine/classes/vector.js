@@ -1,4 +1,8 @@
 global.Vector = class Vector {
+
+  static from(object) {
+    return new Vector(object.x, object.y, object.z);
+  }
   
   constructor(x,y,z=null) {
     this.x = x;

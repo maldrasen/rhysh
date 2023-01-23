@@ -56,7 +56,7 @@ global.BiomeBuilder = class BiomeBuilder {
     new Bulldozer({
       "biomeBuilder": this,
       "tileSource": this.tileSource,
-      "startPoint": options.startPoint,
+      "startPoint": Vector.from(options.startPoint),
       "direction":  options.direction,
       "defaultTile": this.defaultTile(),
     }).start();
