@@ -23,8 +23,13 @@ global.Switchboard = (function() {
     // here. This is mostly because including heavy libraries like Sequalize interefers with the client (it breaks the
     // development tools) so we have to ping pong a bit between the two to start.
     Messenger.subscribe("server.start", () => {
+      console.log(" - Loading client modules.");
+
+      Loader.loadDirectory(`${ROOT}/engine/controllers`);
       Loader.loadDirectory(`${ROOT}/engine/server`);
+
       Browser.init();
+      Controllers.init();
     });
 
     // When the database is ready it's safe to initialize.

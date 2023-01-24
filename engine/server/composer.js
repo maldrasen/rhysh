@@ -7,8 +7,6 @@ global.Composer = (function() {
   async function render() {
  
     /*
-    if (typeof Browser == 'undefined') { return; }
-
     // If a current event is set then it should be rendered. This will happen
     // when events are chained together.
     if (Game.getCurrentEvent()) { return renderEvent(Game.getCurrentEvent()); }

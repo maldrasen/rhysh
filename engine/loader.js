@@ -1,12 +1,12 @@
 global.Loader = (function() {
 
-  const FirstStage = [
+  const CoreModules = [
     'classes',
     'core',
     'helpers',
   ];
 
-  const SecondStage = [
+  const GameModules = [
     'dungeon',
     'dungeonBuilder',
     'forms',
@@ -29,22 +29,22 @@ global.Loader = (function() {
   // of the core classes, opens a browser window, then starts the database when it receives a message back from the
   // browser.
   function loadFirstStage() {
-    console.log(" - Loading first stage.")
+    console.log(" - Loading core modules.")
 
     Preload.forEach(script => {
       loadFile(`${ROOT}/engine/${script}`);
     });
 
-    FirstStage.forEach(directory => {
+    CoreModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
     });
   }
 
   // The second stage loads and initializes all the database classes.
   function loadSecondStage() {
-    console.log(" - Loading second stage.")
+    console.log(" - Loading game modules.")
 
-    SecondStage.forEach(directory => {
+    GameModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
     });
   }

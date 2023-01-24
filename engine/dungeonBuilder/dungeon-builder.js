@@ -10,7 +10,7 @@ global.DungeonBuilder = (function() {
     "Farms"
   ]
 
-  async function load() {
+  function load() {
     loadTilemaps().then(() => {
       loadFeatures();
     });
@@ -18,7 +18,7 @@ global.DungeonBuilder = (function() {
 
   // === Tilemaps ======================================================================================================
 
-  async function loadTilemaps() {
+  function loadTilemaps() {
     return Promise.all([
       parseTilemap(`${ROOT}/data/tilemaps/rhysh-root.json`),
       parseTilemap(`${ROOT}/data/tilemaps/rhysh-extra.json`),
@@ -32,7 +32,7 @@ global.DungeonBuilder = (function() {
     });
   }
 
-  async function parseTilemap(path) {
+  function parseTilemap(path) {
     return new Promise(resolve => {
       fs.readFile(path, (error, data) => {
         if (error) throw error;
