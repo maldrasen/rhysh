@@ -1,6 +1,6 @@
 global.GameState = (function() {
 
-  const StartLocation = new Vector(0,0,0);
+  const StartLocation = new Vector(61,59,102);
   const StartDirection = "W";
   const StartStage = "TownGuild";
   const StartZone = "Wolgur";
@@ -97,6 +97,32 @@ global.GameState = (function() {
   }
 
   function getWorldPath() { return worldPath; }
+
+  // Whenever the party moves from one zone into another we update the party location to the point where they enter the
+  // zone from. The new point is found in the zoneData for their current zone which should have a list of places it's
+  // possible to come to the current zone from. (Or there should at least be a "Default" value)
+  function setZone(zoneName) {
+    let previousZone = currentZone;
+    let currentZone = zoneName;
+
+    Dungeon.getZone(zoneName).then(zone => {
+      let zoneData = zone.zoneData;
+      let origin;
+
+      if (zoneData.origins.Default) {
+        origin = zoneInfo.origins.Default;
+      }
+      if (zoneInfo.origins[previousZone]) {
+        origin = zoneInfo.origins[previousZone]
+      }
+      if (origin == null) {
+        throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
+      }
+
+      this.partyLocation = origin.index
+      this.partyDirection = origin.facing
+    });
+  }
 
   return {
     newGame,
