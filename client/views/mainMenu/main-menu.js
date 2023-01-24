@@ -1,5 +1,7 @@
 window.MainMenu = (function() {
 
+  let lastWorld;
+
   function init() {
     X.onClick('#mainMenu a.new-game', showNewGame);
     X.onClick('#mainMenu a.continue-button', continueGame);
@@ -8,6 +10,10 @@ window.MainMenu = (function() {
 
     X.onClick('#mainMenu a.preview-features', previewFeatures);
     X.onClick('#mainMenu a.preview-zone', previewZone);
+  }
+
+  function setContext(context) {
+    lastWorld = context.lastWorld;
   }
 
   function showNewGame() {
@@ -42,12 +48,23 @@ window.MainMenu = (function() {
 
   function show() {
     MainContent.show({ path:"client/views/mainMenu/main-menu.html", classname:'main-menu', background:'main-menu' }).then(() => {
+      enableContinue();
       MainContent.hideCover({ fadeTime:1000 });
     });
   }
 
+  function enableContinue() {
+    let continueButton = X.first('#mainMenu .continue-button');
+
+    if (lastWorld) {
+      continueButton.setAttribute('href',`${continueButton.getAttribute('href')},${lastWorld}`);
+      X.removeClass('#mainMenu .continue-button','disabled');
+    }
+  }
+
   return {
     name: "MainMenu",
+    setContext, setContext,
     init: init,
     show: show,
   };

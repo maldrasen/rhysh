@@ -20,3 +20,7 @@ X.onClick = function(selector, callback) {
     }
   });
 }
+
+X.removeClass = function(query, classname) {
+  Array.from(document.querySelectorAll(query)).forEach((element) => element.classList.remove(classname));
+}

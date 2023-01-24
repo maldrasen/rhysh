@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require("electron")
 
 contextBridge.exposeInMainWorld("ClientCommands", {
-  send: async (command, data={}) => { return ipcRenderer.invoke(command, data) },
+  send: async (command, parameters=[]) => { return ipcRenderer.invoke(command, parameters) },
   ready: async () => { return ipcRenderer.invoke("client.ready") },
   loadTemplate: async (path) => { return ipcRenderer.invoke("client.loadTemplate", path) },
 });

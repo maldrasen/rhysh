@@ -8,7 +8,11 @@ global.app = electron.app;
 // testing message passing is kinda pointless.
 
 ipcMain.handle("client.ready", async () => {
-  Browser.send('server.ready', Environment);
+  Browser.send('server.ready', {
+    environment: Environment,
+    lastWorld: Settings.getLastWorld(),
+  });
+
   Messenger.publish('server.ready');
   Messenger.publish('database.start');
 });
@@ -28,8 +32,8 @@ ipcMain.handle("game.start", async (payload) => {
   console.log("TODO: Start");
 });
 
-ipcMain.handle("game.continue", async (payload) => {
-  console.log("TODO: Continue")
+ipcMain.handle("game.continue", async (payload, parameters) => {
+  GameState.loadGame(parameters[0]);
 });
 
 ipcMain.handle("game.show-load", async (payload) => {

@@ -13,8 +13,8 @@
       // Received a message from the server letting us know that the server has
       // completely finished loading now. This will happen sometime after the
       // "client.ready" message we send just below.
-      ServerEvents.onReady((payload, environment) => {
-        ready(environment);
+      ServerEvents.onReady((payload, context) => {
+        ready(context);
       });
 
       ClientCommands.ready();
@@ -65,14 +65,15 @@
     TileGraphics.init();
   }
 
-  function ready(environment) {
-    window.Environment = environment;
+  function ready(context) {
+    window.Environment = context.environment;
 
     console.log(`Rhysh started in ${Environment.name} mode.`)
 
     document.title = Environment.debug ? "Rhysh (DEBUG)" : "Rhysh"
     X.remove('.loading');
 
+    MainMenu.setContext(context);
     MainContent.setStage(MainMenu);
   }
 

@@ -21,13 +21,14 @@ window.MainContent = (function() {
   }
 
   // The chrome sanitizer strips out data attributes when using the setHTML() function so I'm stuck sticking the
-  // command names into the HREF as anchors. I suppose they're technically like HREFs anyway. I may also need to
-  // include arguments along with these commands though, including them inside of the href and parsing them out. A
-  // comma seperated list should work well enough though.
+  // command names into the HREF as anchors. I suppose they're technically like HREFs anyway. A command can include
+  // arguments by including them after the command name in a comma seperated list.
   function handleSendCommend(event) {
-    const href = event.target.getAttribute('href');
-    const command = href.substring(1, href.length);
-    ClientCommands.send(command);
+    let parameters = event.target.getAttribute('href').split(',');
+    let command = parameters.shift();
+        command = command.substring(1, command.length);
+
+    ClientCommands.send(command,parameters);
   }
 
   // The main content screnes should all be loaded in a pretty similar way. We fetch an HTML template from the server,

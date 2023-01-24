@@ -63,9 +63,9 @@ global.GameState = (function() {
   }
 
   async function loadGame(index) {
-    setWorldIndex(index);
-
     clear().then(async () => {
+      setWorldIndex(index);
+
       let state = await Kompressor.read(`${worldPath}/GameState.cum`);
 
       timeCount = state.timeCount;
@@ -92,7 +92,7 @@ global.GameState = (function() {
   }
 
   function setWorldIndex(index) {
-    worldIndex = Settings.getWorldCounter();
+    worldIndex = index;
     worldPath = `${DATA}/worlds/world-${worldIndex}`;
   }
 
