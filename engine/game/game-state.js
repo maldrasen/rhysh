@@ -19,8 +19,7 @@ global.GameState = (function() {
   function newGame() {
     if (worldIndex != null) { throw `Error: Game is not empty.` }
 
-    worldIndex = Settings.getWorldCounter();
-    worldPath = `${DATA}/worlds/world-${worldIndex}`;
+    setWorldIndex(Settings.getWorldCounter());
 
     timeCount = 0;
     dayCount = 0;
@@ -45,6 +44,38 @@ global.GameState = (function() {
 
       // Add an event that starts us in town.
       // For now though we can start on the Wolgur map
+
+      saveGame();
+    });
+  }
+
+  function saveGame() {
+    Kompressor.write(`${worldPath}/GameState.cum`,{
+      timeCount: timeCount,
+      dayCount: dayCount,
+      stage: stage,
+      currentZone: currentZone,
+      partyLocation: partyLocation,
+      partyDirection: partyDirection,
+    });
+
+    Sector.save();
+  }
+
+  async function loadGame(index) {
+    setWorldIndex(index);
+
+    clear().then(async () => {
+      let state = await Kompressor.read(`${worldPath}/GameState.cum`);
+
+      timeCount = state.timeCount;
+      dayCount = state.dayCount;
+      stage = state.stage;
+      currentZone = state.currentZone;
+      partyLocation = state.partyLocation;
+      partyDirection = state.partyDirection;
+
+      await Sector.load();
     });
   }
 
@@ -60,12 +91,19 @@ global.GameState = (function() {
     await Database.clear();
   }
 
-  function worldPath() { return worldPath }
+  function setWorldIndex(index) {
+    worldIndex = Settings.getWorldCounter();
+    worldPath = `${DATA}/worlds/world-${worldIndex}`;
+  }
+
+  function getWorldPath() { return worldPath; }
 
   return {
     newGame,
+    saveGame,
+    loadGame,
     clear,
-    worldPath
+    getWorldPath,
   };
 
 })();

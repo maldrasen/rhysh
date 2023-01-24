@@ -55,7 +55,7 @@ global.Zone = class Zone {
   }
 
   filepath() {
-    return `${GameState.worldPath()}/${this.name}.cum`;
+    return `${GameState.getWorldPath()}/${this.name}.cum`;
   }
 
 }

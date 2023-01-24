@@ -35,9 +35,24 @@ global.Sector = (function() {
     return sector_id
   }
 
+  function save() {
+    Kompressor.write(`${GameState.getWorldPath()}/Sector.cum`,{
+      sectorCounter: sectorCounter,
+      sectorDictionary: sectorDictionary,
+    });
+  }
+
+  async function load() {
+    let state = await Kompressor.read(`${GameState.getWorldPath()}/Sector.cum`);
+    sectorCounter = state.sectorCounter;
+    sectorDictionary = state.sectorDictionary;
+  }
+
   return {
     lookup,
     defineNextSector,
+    save,
+    load,
   };
 
 })();
