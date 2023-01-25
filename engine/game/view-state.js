@@ -2,49 +2,44 @@ global.ViewState = (function() {
 
   let gameState;
 
-  function render(state) {
-    gameState = state;
+  function render(gameState) {
+    // If there's a current event it takes highest priority and should be
+    // rendered first. Otherwise render the current stage.
 
-    console.log("Rendering View");
-    console.log(gameState);
+    // These views don't need any other data to be rendered.
+    let basicView = {
+      NewGame:        "NewGame",
+      TownBlacksmith: "TownBlacksmith",
+      TownGuild:      "TownGuild",
+      TownStore:      "TownStore",
+      TownTavern:     "TownTavern",
+    }[gameState.stage]
 
-    Messenger.publish("browser.render",{ gameState });
+    if (basicView) {
+      return Messenger.publish("browser.render",{ showView:basicView });
+    }
+
+    Messenger.publish("browser.render", {
+      Battle: renderBattle,
+      Dungeon: renderDungeon,
+    }[gameState.stage](gameState));
+  }
+
+  function renderEvent() {
+    console.log("TODO: Render Event")
+    return {};
+  }
+
+  function renderBattle(gameState) {
+    console.log("TODO: Render Battle")
+    return {};
+  }
+
+  function renderDungeon(gameState) {
+    console.log("TODO: Render Dungeon")
+    return {};
   }
 
   return { render }
 
 })();
-
-    /*
-    // If a current event is set then it should be rendered. This will happen
-    // when events are chained together.
-    if (Game.getCurrentEvent()) { return renderEvent(Game.getCurrentEvent()); }
-
-    log(`Rendering [${Game.getPhase()}]`,true)
-
-    // If there isn't a current event set in the Game then try to find one.
-    // This function will advance the game time until a phase with an event is
-    // found or it will return null if there are no events.
-    const eventData = await Game.pullNextEvent();
-    if (eventData) {
-      return renderEvent(eventData);
-    }
-
-    // If there is nothing else to render then we render the current location.
-    renderLocation();
-    */
-
-
-  // function renderEvent(eventData) {
-  //   log(`Rendering Event: ${eventData.event.code}`);
-  //   Event.prepare(eventData).then(prepared => {
-  //     Browser.send('render.event', prepared);
-  //   });
-  // }
-
-  // function renderLocation() {
-  //   log(`Rendering Location: ${Game.getLocation()}`);
-  //   Location.lookup(Game.getLocation()).render().then(rendered => {
-  //     Browser.send('render.location', rendered);
-  //   });
-  // }
