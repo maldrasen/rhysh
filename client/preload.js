@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld("ClientCommands", {
 });
 
 contextBridge.exposeInMainWorld("ServerEvents", {
-  onReady: (callback) => { ipcRenderer.on("server.ready", callback) }
+  onReady: (callback) => { ipcRenderer.on("server.ready", callback) },
+  onRender: (callback) => { ipcRenderer.on("render", callback) },
 });

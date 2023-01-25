@@ -27,6 +27,8 @@
   async function importAll() {
     return Promise.all([
 
+      import('./renderer.js'),
+
       // Engine
       import('../engine/classes/vector.js'),
       import('../engine/helpers/array-helper.js'),
@@ -63,6 +65,7 @@
     MainMenu.init();
     MapCanvas.init();
     TileGraphics.init();
+    Renderer.init();
   }
 
   function ready(context) {
@@ -76,8 +79,5 @@
     MainMenu.setContext(context);
     MainContent.setStage(MainMenu);
   }
-
-
-
 
 })();

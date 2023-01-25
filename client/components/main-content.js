@@ -6,6 +6,7 @@ window.MainContent = (function() {
   // Wire the global event listeners.
   function init() {
     X.onClick('a.send-command', handleSendCommend);
+    X.onClick('a.clear-content', clear);
   }
 
   function clear() {

@@ -60,3 +60,11 @@ global.Browser = (function() {
   return { init, open, quit, activate, send };
 
 })();
+
+// Rather than calling this function directly we pass a message to it. The
+// specs don't include the server module so the Browser would be undefined
+// there.
+Messenger.subscribe("browser.render", viewState => {
+  Browser.send("render", viewState);
+});
+

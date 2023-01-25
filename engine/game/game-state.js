@@ -2,7 +2,7 @@ global.GameState = (function() {
 
   const StartLocation = new Vector(61,59,102);
   const StartDirection = "W";
-  const StartStage = "TownGuild";
+  const StartStage = "NewGame";
   const StartZone = "Wolgur";
 
   var worldIndex;
@@ -46,6 +46,7 @@ global.GameState = (function() {
       // For now though we can start on the Wolgur map
 
       saveGame();
+      render();
     });
   }
 
@@ -76,6 +77,8 @@ global.GameState = (function() {
       partyDirection = state.partyDirection;
 
       await Sector.load();
+
+      render();
     });
   }
 
@@ -124,11 +127,23 @@ global.GameState = (function() {
     });
   }
 
+  function render() {
+    ViewState.render({
+      timeCount: timeCount,
+      dayCount: dayCount,
+      stage: stage,
+      currentZone: currentZone,
+      partyLocation: partyLocation,
+      partyDirection: partyDirection,
+    });
+  }
+
   return {
     newGame,
     saveGame,
     loadGame,
     clear,
+
     getWorldPath,
   };
 

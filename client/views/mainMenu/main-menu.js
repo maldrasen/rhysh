@@ -3,11 +3,8 @@ window.MainMenu = (function() {
   let lastWorld;
 
   function init() {
-    X.onClick('#mainMenu a.new-game', showNewGame);
-    X.onClick('#mainMenu a.continue-button', continueGame);
     X.onClick('#mainMenu a.load-game', showLoadGame);
     X.onClick('#mainMenu a.show-options', showOptions);
-
     X.onClick('#mainMenu a.preview-features', previewFeatures);
     X.onClick('#mainMenu a.preview-zone', previewZone);
   }
@@ -16,24 +13,12 @@ window.MainMenu = (function() {
     lastWorld = context.lastWorld;
   }
 
-  function showNewGame() {
-    MainContent.clear();
-    MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game' }).then(() => {
-      MainContent.hideCover({ fadeTime:2000 });
-      NewGame.fadeIn();
-    });
-  }
-
   function showLoadGame() {
-    MainContent.clear();
+    console.log("TODO: Show Load Overlay");
   }
 
   function showOptions() {
-    MainContent.clear();
-  }
-
-  function continueGame() {
-    MainContent.clear();
+    console.log("TODO: Show Options Overlay");
   }
 
   function previewFeatures() {

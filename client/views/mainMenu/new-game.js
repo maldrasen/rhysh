@@ -4,6 +4,13 @@ window.NewGame = (function() {
 
   }
 
+  function show() {
+    MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game' }).then(() => {
+      MainContent.hideCover({ fadeTime:2000 });
+      fadeIn();
+    });
+  }
+
   function enableStart() {
     X.first('#newGame .start-button').setAttribute('class','button send-command start-button')
   }
@@ -29,7 +36,7 @@ window.NewGame = (function() {
       tween = null;
       newGame.removeAttribute('style');
 
-      // TEMP
+      // TEMP.. Needs to ask if Wolgur is loaded on a loop.
       enableStart();
     });
 
@@ -39,6 +46,6 @@ window.NewGame = (function() {
     },500);
   }
 
-  return { init, fadeIn }
+  return { init, show, fadeIn }
 
 })();

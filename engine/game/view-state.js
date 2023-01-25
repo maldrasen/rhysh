@@ -1,11 +1,20 @@
-global.Composer = (function() {
+global.ViewState = (function() {
 
-  // I have a feeling that something like this will be needed, but it's 
-  // currently all wrapped up with the Game object. We'll need the game object
-  // too of course, but besides the event queue everything else will probably 
-  // be different on it.
-  async function render() {
- 
+  let gameState;
+
+  function render(state) {
+    gameState = state;
+
+    console.log("Rendering View");
+    console.log(gameState);
+
+    Messenger.publish("browser.render",{ gameState });
+  }
+
+  return { render }
+
+})();
+
     /*
     // If a current event is set then it should be rendered. This will happen
     // when events are chained together.
@@ -25,7 +34,6 @@ global.Composer = (function() {
     renderLocation();
     */
 
-  }
 
   // function renderEvent(eventData) {
   //   log(`Rendering Event: ${eventData.event.code}`);
@@ -40,9 +48,3 @@ global.Composer = (function() {
   //     Browser.send('render.location', rendered);
   //   });
   // }
-
-  return {
-    render,
-  };
-
-})();
