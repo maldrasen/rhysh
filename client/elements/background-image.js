@@ -8,7 +8,7 @@ window.BackgroundImage = (function() {
       return removeBackground();
     }
 
-    X.first('#backgroundImage').setAttribute("style",`background-image:url('../assets/backgrounds/${code}.png')`);
+    X.first('#backgroundImage').setAttribute("style",`background-image:url('../assets/backgrounds/${code}.jpg')`);
   }
 
   function removeBackground() {
