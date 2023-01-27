@@ -6,38 +6,30 @@ global.ViewState = (function() {
     // If there's a current event it takes highest priority and should be
     // rendered first. Otherwise render the current stage.
 
-    // These views don't need any other data to be rendered.
-    let basicView = {
-      NewGame:        "NewGame",
-      TownBlacksmith: "TownBlacksmith",
-      TownGuild:      "TownGuild",
-      TownStore:      "TownStore",
-      TownTavern:     "TownTavern",
-    }[gameState.stage]
-
-    if (basicView) {
-      return Messenger.publish("browser.render",{ showView:basicView });
+    if (gameState.stage.view) {
+      return Messenger.publish("browser.render",{ showView:gameState.stage.view });
     }
 
-    Messenger.publish("browser.render", {
-      Battle: renderBattle,
-      Dungeon: renderDungeon,
-    }[gameState.stage](gameState));
+    if (gameState.stage.control == "Dungeon") { return renderDungeon(gameState); }
+    if (gameState.stage.control == "Battle")  { return renderBattle(gameState);  }
   }
 
   function renderEvent() {
     console.log("TODO: Render Event")
-    return {};
   }
 
   function renderBattle(gameState) {
     console.log("TODO: Render Battle")
-    return {};
   }
 
   function renderDungeon(gameState) {
     console.log("TODO: Render Dungeon")
-    return {};
+
+    Dungeon.getZone(GameState.getZone(), zone => {
+      console.log("Zone: ",zone)
+      // Messenger.publish("browser.render", {})
+    });
+
   }
 
   return { render }

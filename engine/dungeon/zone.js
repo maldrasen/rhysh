@@ -20,10 +20,9 @@ global.Zone = class Zone {
     };
   }
 
+  // Name is already set, so really the tile source is the only thing that needs to be set.
   unpack(data) {
-    console.log("TODO: Unpack raw JSON data.");
-    // Create tileSource from JSON
-    // Load data from map data
+    this.tileSource = TileSource.unpack(data.tileSource);
   }
 
   load() {
@@ -48,7 +47,7 @@ global.Zone = class Zone {
 
   // We know the zone file exists so load and unpack the JSON.
   loadZone(callback) {
-    Kompressor.read(filepath()).then(data => {
+    Kompressor.read(this.filepath()).then(data => {
       this.unpack(data);
       callback(this);
     });

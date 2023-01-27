@@ -11,7 +11,7 @@ global.GameState = (function() {
   var timeCount;
   var dayCount;
 
-  var stage;
+  var stageName;
   var currentZone;
   var partyLocation;
   var partyDirection;
@@ -24,7 +24,7 @@ global.GameState = (function() {
     timeCount = 0;
     dayCount = 0;
 
-    stage = StartStage;
+    stageName = StartStage;
     currentZone = StartZone;
     partyLocation = StartLocation;
     partyDirection = StartDirection;
@@ -38,7 +38,6 @@ global.GameState = (function() {
       Settings.incWorldCounter();
       Settings.save();
 
-      Dungeon.start();
       Dungeon.loadZone("Wolgur");
       Dungeon.loadZone("WolgurCleft");
 
@@ -54,7 +53,7 @@ global.GameState = (function() {
     Kompressor.write(`${worldPath}/GameState.cum`,{
       timeCount: timeCount,
       dayCount: dayCount,
-      stage: stage,
+      stageName: stageName,
       currentZone: currentZone,
       partyLocation: partyLocation,
       partyDirection: partyDirection,
@@ -71,7 +70,7 @@ global.GameState = (function() {
 
       timeCount = state.timeCount;
       dayCount = state.dayCount;
-      stage = state.stage;
+      stageName = state.stageName;
       currentZone = state.currentZone;
       partyLocation = state.partyLocation;
       partyDirection = state.partyDirection;
@@ -89,17 +88,23 @@ global.GameState = (function() {
     dayCount = null;
     partyLocation = null;
     partyDirection = null;
-    stage = null;
+    stageName = null;
 
     await Database.clear();
+  }
+
+  // I'm not sure if setting the stage should trigger the render or that should be done manually. Maybe do it manually
+  // for now and see if there are instances where we don't. It's possible this will need to do some work between the
+  // set and the render that only the setter knows about.
+  function setStageName(stage) {
+    if (GameState.Stages[stage] == null) { throw `Error: Unknown Stage "${stage}"`; }
+    stageName = stage;
   }
 
   function setWorldIndex(index) {
     worldIndex = index;
     worldPath = `${DATA}/worlds/world-${worldIndex}`;
   }
-
-  function getWorldPath() { return worldPath; }
 
   // Whenever the party moves from one zone into another we update the party location to the point where they enter the
   // zone from. The new point is found in the zoneData for their current zone which should have a list of places it's
@@ -127,11 +132,17 @@ global.GameState = (function() {
     });
   }
 
+  function getStage() { return GameState.Stages[stageName]; }
+  function getStageName() { return stageName; }
+  function getWorldPath() { return worldPath; }
+  function getZone() { return currentZone; }
+
   function render() {
     ViewState.render({
       timeCount: timeCount,
       dayCount: dayCount,
-      stage: stage,
+      stageName: getStageName(),
+      stage: getStage(),
       currentZone: currentZone,
       partyLocation: partyLocation,
       partyDirection: partyDirection,
@@ -144,7 +155,29 @@ global.GameState = (function() {
     loadGame,
     clear,
 
+    setStageName,
+
+    getStage,
+    getStageName,
     getWorldPath,
+    getZone,
+
+    render,
   };
 
 })();
+
+GameState.Stages = {
+
+  // Basic Views
+  NewGame:        { view:"NewGame"        },
+  TownBlacksmith: { view:"TownBlacksmith" },
+  TownGuild:      { view:"TownGuild"      },
+  TownStore:      { view:"TownStore"      },
+  TownTavern:     { view:"TownTavern"     },
+
+  // Complex Views
+  Dungeon: { control:"Dungeon" },
+  Battle:  { control:"Battle"  },
+
+};

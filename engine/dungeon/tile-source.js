@@ -14,6 +14,13 @@ global.TileSource = class TileSource {
     });
   }
 
+  // Create a TileSource from raw JSON data.
+  static unpack(data) {
+    console.log("TODO: Unpack raw JSON data.");
+    console.log(data)
+  }
+
+  // Tile iterator
   each(callback) {
     forRange(this.zMin, this.zMax, z => {
       forUpTo(this.size.y, y => {

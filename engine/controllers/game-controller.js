@@ -5,9 +5,10 @@ global.GameController = (function() {
       GameState.newGame();
     });
 
-    // TODO: Create the player character, set stage.
+    // TODO: Create the player character using the values we get from the new game form.
     ipcMain.handle("game.start", async (payload) => {
-      console.log("TODO: Start");
+      GameState.setStageName("Dungeon");
+      GameState.render();
     });
 
     ipcMain.handle("game.continue", async (payload, parameters) => {
