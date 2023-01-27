@@ -16,8 +16,26 @@ global.TileSource = class TileSource {
 
   // Create a TileSource from raw JSON data.
   static unpack(data) {
-    console.log("TODO: Unpack raw JSON data.");
-    console.log(data)
+    let tileSource = new TileSource({
+      name: data.name,
+      size: Vector.from(data.size),
+      layerOffset: data.layerOffset,
+    });
+
+    forUpTo(data.layers.length, layerIndex => {
+      let z = layerIndex + data.layerOffset;
+      let layer = data.layers[layerIndex];
+
+      forUpTo(layer.length, index => {
+        if (layer[index]) {
+          let x = index % data.size.y;
+          let y = Math.floor(index / data.size.y);
+          tileSource.setTile(new Vector(x,y,z), Tile.unpack(layer[index]));
+        }
+      });
+    });
+
+    return tileSource;
   }
 
   // Tile iterator

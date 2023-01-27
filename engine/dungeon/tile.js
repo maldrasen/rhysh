@@ -135,6 +135,12 @@ global.Tile = class Tile {
     return tile;
   }
 
+  // Similar to loading a tile from the tile data, a Tile object can also be created from the JSON a tile gets
+  // stringified into.
+  static unpack(tileData) {
+    console.log("Make Tile: ",tileData);
+  }
+
   setTypeFromString(string) {
     this.type = {
       "Empty": Tile.Type.Empty,
