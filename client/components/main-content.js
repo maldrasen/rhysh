@@ -23,8 +23,14 @@ window.MainContent = (function() {
 
   // The chrome sanitizer strips out data attributes when using the setHTML() function so I'm stuck sticking the
   // command names into the HREF as anchors. I suppose they're technically like HREFs anyway. A command can include
-  // arguments by including them after the command name in a comma seperated list.
+  // arguments by including them after the command name in a comma seperated list. To prevent double clicking we add
+  // the 'working' class to the button. It doesn't change the button visibly, but prevents the associated event from
+  // firing twice. The working flag needs to be cleared if the button should be usable again.
   function handleSendCommend(event) {
+    if (X.hasClass(event.target, "working")) { return; }
+
+    X.addClass(event.target, "working");
+
     let parameters = event.target.getAttribute('href').split(',');
     let command = parameters.shift();
         command = command.substring(1, command.length);

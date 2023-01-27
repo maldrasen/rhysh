@@ -21,6 +21,23 @@ X.onClick = function(selector, callback) {
   });
 }
 
-X.removeClass = function(query, classname) {
-  Array.from(document.querySelectorAll(query)).forEach((element) => element.classList.remove(classname));
+// These class manipulation function can all take either an element or a query selector. With hasClass() the function
+// really only makes sense for a single element so it only considers the first element with the selector, indended for
+// use with element IDs.
+X.hasClass = function(arg, classname) {
+  return (typeof arg == "string" ? X.first(arg) : arg).classList.contains(classname);
+}
+
+X.addClass = function(arg, classname) {
+  if (typeof arg == "string") {
+    return Array.from(document.querySelectorAll(arg)).forEach((element) => element.classList.add(classname));
+  }
+  arg.classList.add(classname);
+}
+
+X.removeClass = function(arg, classname) {
+  if (typeof arg == "string") {
+    return Array.from(document.querySelectorAll(arg)).forEach((element) => element.classList.remove(classname));
+  }
+  arg.classList.remove(classname);
 }
