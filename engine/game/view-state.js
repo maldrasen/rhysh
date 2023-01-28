@@ -23,13 +23,13 @@ global.ViewState = (function() {
   }
 
   function renderDungeon(gameState) {
-    console.log("TODO: Render Dungeon")
-
-    Dungeon.getZone(GameState.getZone(), zone => {
-      console.log("Zone: ",zone)
-      // Messenger.publish("browser.render", {})
+    Dungeon.getZone(gameState.zone, zone => {
+      Messenger.publish("browser.render", {
+        showView: "Dungeon",
+        position: gameState.position,
+        zone: zone.forClient(),
+      });
     });
-
   }
 
   return { render }

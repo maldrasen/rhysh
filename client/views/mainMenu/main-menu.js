@@ -22,13 +22,11 @@ window.MainMenu = (function() {
   }
 
   function previewFeatures() {
-    MapView.setProperties({ sourceType:"Feature" });
-    MainContent.setStage(MapView);
+    MainContent.setStage(MapView, { sourceType:"Feature" });
   }
 
   function previewZone() {
-    MapView.setProperties({ sourceType:"Zone" });
-    MainContent.setStage(MapView);
+    MainContent.setStage(MapView, { sourceType:"Zone" });
   }
 
   function show() {

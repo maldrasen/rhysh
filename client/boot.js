@@ -51,6 +51,7 @@
       import('./tools/exacto.js'),
 
       // Views
+      import("./views/dungeon/dungeon.js"),
       import("./views/mainMenu/main-menu.js"),
       import("./views/mainMenu/new-game.js"),
       import("./views/mapView/map-view.js"),
@@ -62,6 +63,7 @@
   }
 
   function initAll() {
+    Dungeon.init();
     MainContent.init();
     MainMenu.init();
     MapCanvas.init();

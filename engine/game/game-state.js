@@ -127,8 +127,8 @@ global.GameState = (function() {
         throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
       }
 
-      this.partyLocation = origin.index
-      this.partyDirection = origin.facing
+      partyLocation = origin.index
+      partyDirection = origin.facing
     });
   }
 
@@ -137,15 +137,21 @@ global.GameState = (function() {
   function getWorldPath() { return worldPath; }
   function getZone() { return currentZone; }
 
+  function getPartyPosition() {
+    return {
+      location: partyLocation,
+      direction: partyDirection
+    };
+  }
+
   function render() {
     ViewState.render({
       timeCount: timeCount,
       dayCount: dayCount,
       stageName: getStageName(),
       stage: getStage(),
-      currentZone: currentZone,
-      partyLocation: partyLocation,
-      partyDirection: partyDirection,
+      zone: currentZone,
+      position: getPartyPosition(),
     });
   }
 
@@ -161,6 +167,7 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getZone,
+    getPartyPosition,
 
     render,
   };

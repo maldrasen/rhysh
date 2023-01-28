@@ -15,10 +15,10 @@ window.MainContent = (function() {
   }
 
   // Views that can be used as stages will have a name and a show() function.
-  function setStage(view) {
+  function setStage(view, options={}) {
     currentStage = view.name;
     showCover();
-    view.show();
+    view.show(options);
   }
 
   // The chrome sanitizer strips out data attributes when using the setHTML() function so I'm stuck sticking the

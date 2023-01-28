@@ -5,6 +5,7 @@ window.MapCanvas = (function() {
   let tileGraphics;
   let tileSource;
   let originPoint;
+  let direction;
 
   function init() {
     window.addEventListener("resize", handleResize);
@@ -77,21 +78,18 @@ window.MapCanvas = (function() {
     // application.ticker.add((delta) => {
     //     tileField.rotation -= 0.01 * delta;
     // });
-
   }
 
-
-  function setOriginPoint(point) {
-    originPoint = point;
-  }
-
+  function setOriginPoint(point) { originPoint = point; }
+  function setDirection(dir) { direction = dir; }
 
   return {
-    init: init,
-    show: show,
-    hide: hide,
-    setTileSource: setTileSource,
-    setOriginPoint: setOriginPoint,
-  }
+    init,
+    show,
+    hide,
+    setTileSource,
+    setOriginPoint,
+    setDirection,
+  };
 
 })();

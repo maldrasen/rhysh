@@ -4,6 +4,13 @@ global.Zone = class Zone {
     this.name = name;
   }
 
+  forClient() {
+    return {
+      name: this.name,
+      tileSource: this.tileSource.forClient(),
+    }
+  }
+
   static forPreview() {
     let options = Environment.debugOptions.zonePreview;
     console.log("TODO: Preview Zone")

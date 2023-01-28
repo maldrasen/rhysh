@@ -17,6 +17,7 @@ window.Renderer = (function() {
 
   function showView(viewState) {
     let showFunction = {
+      Dungeon:        Dungeon.show,
       NewGame:        NewGame.show,
       TownBlacksmith: TownView.showBlacksmith,
       TownGuild:      TownView.showGuild,
@@ -24,7 +25,11 @@ window.Renderer = (function() {
       TownTavern:     TownView.showTavern,
     }[viewState.showView];
 
-    showFunction(viewState)
+    if (showFunction == null) {
+      throw `No view named "${viewState.showView}"`
+    }
+
+    showFunction(viewState);
   }
 
   return { init }
