@@ -8,6 +8,7 @@ global.Wall = class Wall {
 
   static normal() { return new Wall(Wall.Type.Normal); }
   static door() { return new Wall(Wall.Type.Door); }
+  static unpack(data) { return new Wall(data.type); }
 
   constructor(type) {
     this.type = type;

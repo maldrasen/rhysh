@@ -5,9 +5,8 @@ global.Floor = class Floor {
     Water: 1,
   }
 
-  static normal() {
-    return new Floor(Floor.Type.Normal);
-  }
+  static normal() { return new Floor(Floor.Type.Normal); }
+  static unpack(data) { return new Floor(data.type); }
 
   static fromString(string) {
     return {

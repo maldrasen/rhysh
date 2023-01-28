@@ -59,9 +59,11 @@ global.Tile = class Tile {
   isStatue() { return this.isSolid() && this.fillType == Tile.FillType.Statue; }
   isTree() { return this.isSolid() && this.fillType == Tile.FillType.Tree; }
 
+  setFloor(floor) { this.floor = floor; }
   hasFloor() { return this.floor && this.floor.isNormal(); }
 
   wallAt(facing) { return this.walls[facing]; }
+  setWall(facing, wall) { this.walls[facing] = wall; }
   placeWall(facing) { this.walls[facing] = Wall.normal(); }
   placeDoor(facing) { this.walls[facing] = Wall.door(); }
   removeWall(facing) { this.walls[facing] = null; }
@@ -138,7 +140,27 @@ global.Tile = class Tile {
   // Similar to loading a tile from the tile data, a Tile object can also be created from the JSON a tile gets
   // stringified into.
   static unpack(tileData) {
-    console.log("Make Tile: ",tileData);
+    let tile = new Tile({
+      type: tileData.type,
+      sector_id: tileData.sector_id,
+      biome_id: tileData.biome_id,
+      fillType: tileData.fillType,
+      fillName: tileData.fillName,
+    });
+
+    if (tileData.floor) {
+      tile.setFloor(Floor.unpack(tileData.floor));
+    }
+
+    if (tileData.walls) {
+      NSEW(facing => {
+        if (tileData.walls[facing]) {
+          tile.setWall(facing, Wall.unpack(tileData.walls[facing]));
+        }
+      });
+    }
+
+    return tile;
   }
 
   setTypeFromString(string) {
