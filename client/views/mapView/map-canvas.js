@@ -46,7 +46,7 @@ window.MapCanvas = (function() {
     drawPartyGlyph();
 
     tileField = new PIXI.Container();
-    tileGraphics = new Map();
+    tileGraphics = [];
     tileSource = source
     application.stage.addChild(tileField);
     application.stage.addChild(partyGlyph);
@@ -67,7 +67,7 @@ window.MapCanvas = (function() {
     tileSource.each(tileEntry => {
       if (tileEntry.tile) {
         let graphics = new TileGraphics(tileEntry).build();
-        TileGraphics[tileEntry.index] = graphics;
+        tileGraphics.push({ index:tileEntry.index, graphics:graphics });
         tileField.addChild(graphics);
       }
     });
@@ -80,10 +80,9 @@ window.MapCanvas = (function() {
     }
   }
 
-  // Instantly position the field so that the location point is in the center.
-  function setLocation(point) {
-    location = point;
-  }
+  // === Set Scale and Position ================================================
+
+  function setLocation(point) { location = point; }
 
   function move(direction, instant = false) {
     if (instant) {
@@ -93,6 +92,14 @@ window.MapCanvas = (function() {
 
     let fromPoint = location;
     let toPoint = location.go(direction);
+  }
+
+  function changeLevel(direction) {
+    if (location.go(direction).z < tileSource.layerOffset) { return false; }
+    if (location.go(direction).z >= tileSource.layerOffset + tileSource.layers.length) { return false; }
+
+    location = location.go(direction);
+    updateTileVisibility();
   }
 
   function zoomIn() {
@@ -109,6 +116,10 @@ window.MapCanvas = (function() {
     }
   }
 
+  // === Positioning ===========================================================
+  // The map scale, position, and tile visibility needs to be updated every
+  // time the location is updated.
+
   function positionField() {
     tileField.x = application.screen.width / 2;
     tileField.y = application.screen.height / 2;
@@ -121,6 +132,33 @@ window.MapCanvas = (function() {
 
     tileField.scale.set(ScaleFactors[scale]);
     partyGlyph.scale.set(ScaleFactors[scale]);
+
+    updateTileVisibility();
+  }
+
+  // Only tiles on the current Z-Level and within the bounds of the window
+  // should be rendered.
+  function updateTileVisibility() {
+    let scaleFactor = ScaleFactors[scale];
+    let xTileCount = Math.ceil(application.screen.width / (TileSize * scaleFactor) / 2);
+    let yTileCount = Math.ceil(application.screen.height / (TileSize * scaleFactor) / 2);
+
+    let xMin = location.x - xTileCount;
+    let xMax = location.x + xTileCount;
+    let yMin = location.y - yTileCount;
+    let yMax = location.y + yTileCount;
+
+    tileGraphics.forEach(tile => {
+      let tileZ = tile.index.z + tileSource.layerOffset
+
+      tile.graphics.renderable = true
+
+      if (tile.index.x < xMin) { tile.graphics.renderable = false; }
+      if (tile.index.x > xMax) { tile.graphics.renderable = false; }
+      if (tile.index.y < yMin) { tile.graphics.renderable = false; }
+      if (tile.index.y > yMax) { tile.graphics.renderable = false; }
+      if (tileZ != location.z) { tile.graphics.renderable = false; }
+    });
   }
 
   return {
@@ -128,8 +166,10 @@ window.MapCanvas = (function() {
     show,
     hide,
     setTileSource,
+
     setLocation,
     move,
+    changeLevel,
     zoomIn,
     zoomOut,
   };

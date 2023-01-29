@@ -22,6 +22,8 @@ global.Vector = class Vector {
     if (direction == S) { return this.translate(new Vector( 0, 1, 0)); }
     if (direction == E) { return this.translate(new Vector( 1, 0, 0)); }
     if (direction == W) { return this.translate(new Vector(-1, 0, 0)); }
+    if (direction == U) { return this.translate(new Vector( 0, 0, 1)); }
+    if (direction == D) { return this.translate(new Vector( 0, 0,-1)); }
   }
 
   equals(vector) {

@@ -4,6 +4,7 @@ window.TileSource = class TileSource {
     this.name = source.name;
     this.size = source.size;
     this.layers = source.layers;
+    this.layerOffset = source.layerOffset;
   }
 
   each(callback) {

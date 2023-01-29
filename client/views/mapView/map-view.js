@@ -13,7 +13,9 @@ window.MapView = (function() {
     X.onArrowDown(when,    e => { MapCanvas.move('S', true); });
     X.onArrowRight(when,   e => { MapCanvas.move('E', true); });
     X.onArrowLeft(when,    e => { MapCanvas.move('W', true); });
-    X.onWheelUp(when,      e => { MapCanvas.zoomIn();  });
+    X.onPageUp(when,       e => { MapCanvas.changeLevel('U'); });
+    X.onPageDown(when,     e => { MapCanvas.changeLevel('D'); });
+    X.onWheelUp(when,      e => { MapCanvas.zoomIn(); });
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 

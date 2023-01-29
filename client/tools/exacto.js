@@ -48,6 +48,8 @@ X.onWheelDown = function(when, callback) {
 }
 
 X.onEscape = function(when, callback)     { X.onCodeDown(27, when, callback); }
+X.onPageUp = function(when, callback)     { X.onCodeDown(33, when, callback); }
+X.onPageDown = function(when, callback)   { X.onCodeDown(34, when, callback); }
 X.onArrowUp = function(when, callback)    { X.onCodeDown(38, when, callback); }
 X.onArrowDown = function(when, callback)  { X.onCodeDown(40, when, callback); }
 X.onArrowLeft = function(when, callback)  { X.onCodeDown(37, when, callback); }
