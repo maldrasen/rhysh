@@ -8,11 +8,23 @@ window.NewGame = (function() {
     MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game' }).then(() => {
       MainContent.hideCover({ fadeTime:2000 });
       fadeIn();
+      testWolgur();
     });
   }
 
+  function testWolgur() {
+    setTimeout(function() {
+      ClientCommands.send("dungeon.is-zone-ready",{ zone:"Wolgur" }).then(response => {
+        (response == true) ? enableStart() : testWolgur();
+      });
+    },100);
+  }
+
+  // TODO: Right now we're just enabling the start button as soon as the zone is loaded. In the future this will need
+  //       to test to see if the form is valid before actually enabling the button. The testWolgur() function will
+  //       probably need to set a flag and this will test that flag and the form values before enabling.
   function enableStart() {
-    X.first('#newGame .start-button').setAttribute('class','button send-command start-button')
+    X.first('#newGame .start-button').setAttribute('class','button send-command start-button');
   }
 
   function fadeIn() {
@@ -35,9 +47,6 @@ window.NewGame = (function() {
     tween.onComplete(()=>{
       tween = null;
       newGame.removeAttribute('style');
-
-      // TEMP.. Needs to ask if Wolgur is loaded on a loop.
-      enableStart();
     });
 
     setTimeout(() => {

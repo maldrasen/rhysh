@@ -75,6 +75,8 @@ global.GameState = (function() {
       partyLocation = state.partyLocation;
       partyDirection = state.partyDirection;
 
+      Dungeon.loadZone(currentZone);
+
       await Sector.load();
 
       render();
