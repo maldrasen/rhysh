@@ -4,13 +4,22 @@
 window.MapView = (function() {
 
   function initPreviewControls() {
-
+    let when = (e) => { return true; }
+    X.onKeyDown('w', when, e => { MapCanvas.move('N'); });
+    X.onKeyDown('s', when, e => { MapCanvas.move('S'); });
+    X.onKeyDown('d', when, e => { MapCanvas.move('E'); });
+    X.onKeyDown('a', when, e => { MapCanvas.move('W'); });
+    X.onArrowUp(when,      e => { MapCanvas.move("N"); });
+    X.onArrowDown(when,    e => { MapCanvas.move("S"); });
+    X.onArrowRight(when,   e => { MapCanvas.move("E"); });
+    X.onArrowLeft(when,    e => { MapCanvas.move("W"); });
+    X.onWheelUp(when,      e => { MapCanvas.zoomIn();  });
+    X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
   function showDungeon(options) {
     showMap({
-      location: Vector.from(options.position.location),
-      direction: options.position.direction,
+      location: Vector.from(options.location),
       tileSource: new TileSource(options.tileSource),
     });
   }
@@ -19,7 +28,6 @@ window.MapView = (function() {
     initPreviewControls();
     showMap({
       location: new Vector(0,0,0),
-      direction: "N",
       tileSource: new TileSource(options.feature.tileSource),
     });
   }
@@ -27,16 +35,14 @@ window.MapView = (function() {
   function showZonePreview(options) {
     initPreviewControls();
     showMap({
-      location: Vector.from(options.position.location),
-      direction: options.position.direction,
+      location: Vector.from(options.location),
       tileSource: new TileSource(options.zone.tileSource),
     });
   }
 
   function showMap(options) {
     MapCanvas.show();
-    MapCanvas.setOriginPoint(options.location);
-    MapCanvas.setDirection(options.direction);
+    MapCanvas.setLocation(options.location);
     MapCanvas.setTileSource(options.tileSource);
     MainContent.hideCover({ fadeTime:1000 });
   }

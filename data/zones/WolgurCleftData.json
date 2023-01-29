@@ -29,10 +29,10 @@
   },
 
   "origins":{
-    "Wolgur": { "x":49, "y":1, "z":103, "facing":"S" },
-    "RevelGrove": { "x":1, "y":115, "z":104, "facing":"E" },
-    "HowlingGlen": { "x":94, "y":66, "z":104, "facing":"W" },
-    "WolgurPassage": { "x":62, "y":154, "z":105, "facing":"N" }
+    "Wolgur": { "x":49, "y":1, "z":103 },
+    "RevelGrove": { "x":1, "y":115, "z":104 },
+    "HowlingGlen": { "x":94, "y":66, "z":104 },
+    "WolgurPassage": { "x":62, "y":154, "z":105 }
   },
 
   "exits":{

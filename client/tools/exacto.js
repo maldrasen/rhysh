@@ -13,13 +13,47 @@ X.remove = function(query) {
   X(query).forEach(element => { element.remove(); });
 }
 
+// === Events ==========================================================================================================
+
 X.onClick = function(selector, callback) {
-  X.body().addEventListener('click', event => {
+  window.addEventListener('click', event => {
     if (event.target.matches(".disabled") == false && event.target.matches(selector)) {
       callback(event);
     }
   });
 }
+
+X.onKeyDown = function(key, when, callback) {
+  window.addEventListener('keydown', event => {
+    if (event.key == key && when(event)) { callback(event); }
+  });
+}
+
+X.onCodeDown = function(code, when, callback) {
+  window.addEventListener('keydown', event => {
+    if (event.keyCode == code && when(event)) { callback(event); }
+  });
+}
+
+X.onWheelUp = function(when, callback) {
+  window.addEventListener('wheel', event => {
+    if (event.deltaY < 0 && when(event)) { callback(event); }
+  });
+}
+
+X.onWheelDown = function(when, callback) {
+  window.addEventListener('wheel', event => {
+    if (event.deltaY > 0 && when(event)) { callback(event); }
+  });
+}
+
+X.onEscape = function(when, callback)     { X.onCodeDown(27, when, callback); }
+X.onArrowUp = function(when, callback)    { X.onCodeDown(38, when, callback); }
+X.onArrowDown = function(when, callback)  { X.onCodeDown(40, when, callback); }
+X.onArrowLeft = function(when, callback)  { X.onCodeDown(37, when, callback); }
+X.onArrowRight = function(when, callback) { X.onCodeDown(39, when, callback); }
+
+// === Classes =========================================================================================================
 
 // These class manipulation function can all take either an element or a query selector. With hasClass() the function
 // really only makes sense for a single element so it only considers the first element with the selector, indended for

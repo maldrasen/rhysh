@@ -26,7 +26,7 @@ global.ViewState = (function() {
     Dungeon.getZone(gameState.zone, zone => {
       Messenger.publish("browser.render", {
         showView: "Dungeon",
-        position: gameState.position,
+        location: gameState.location,
         zone: zone.forClient(),
       });
     });

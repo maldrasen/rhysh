@@ -9,11 +9,11 @@
   "biomes":{},
 
   "origins":{
-    "Guild":       { "x":61, "y":59, "z":102, "facing":"W" },
-    "Tavern":      { "x":60, "y":51, "z":102, "facing":"W" },
-    "Store":       { "x":56, "y":65, "z":102, "facing":"E" },
-    "Blacksmith":  { "x":63, "y":64, "z":102, "facing":"W" },
-    "WolgurCleft": { "x":58, "y":76, "z":102, "facing":"N" }
+    "Guild":       { "x":61, "y":59, "z":102 },
+    "Tavern":      { "x":60, "y":51, "z":102 },
+    "Store":       { "x":56, "y":65, "z":102 },
+    "Blacksmith":  { "x":63, "y":64, "z":102 },
+    "WolgurCleft": { "x":58, "y":76, "z":102 }
   },
 
   "exits":{

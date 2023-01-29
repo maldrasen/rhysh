@@ -4,8 +4,7 @@ window.MapCanvas = (function() {
   let tileField;
   let tileGraphics;
   let tileSource;
-  let originPoint;
-  let direction;
+  let location;
 
   function init() {
     window.addEventListener("resize", handleResize);
@@ -66,6 +65,17 @@ window.MapCanvas = (function() {
     }
   }
 
+  function setLocation(point) {
+    location = point;
+  }
+
+  function move(direction) {
+    console.log("Move:",direction)
+  }
+
+  function zoomIn() {}
+  function zoomOut() {}
+
   // This is going to be tricky... I feel like I want to be able to move the
   // pivot around, not the location, but that doesn't seem to work with the
   // rotation...
@@ -80,16 +90,16 @@ window.MapCanvas = (function() {
     // });
   }
 
-  function setOriginPoint(point) { originPoint = point; }
-  function setDirection(dir) { direction = dir; }
 
   return {
     init,
     show,
     hide,
     setTileSource,
-    setOriginPoint,
-    setDirection,
+    setLocation,
+    move,
+    zoomIn,
+    zoomOut,
   };
 
 })();

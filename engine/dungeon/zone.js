@@ -67,15 +67,11 @@ global.Zone = class Zone {
 
     Dungeon.getZone(options.zone, zone => {
       let origin = zone.zoneData.origins[options.origin];
-
-      let position = {
-        direction: origin.facing,
-        location: { x:origin.x, y:origin.y, z:origin.z },
-      };
+      let location = { x:origin.x, y:origin.y, z:origin.z };
 
       Messenger.publish("browser.render", {
         showView: "ZonePreview",
-        position: position,
+        location: location,
         zone: zone.forClient(),
       });
     });

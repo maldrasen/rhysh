@@ -10,7 +10,7 @@ window.Dungeon = (function() {
   function show(options) {
     MainContent.clear();
     MapView.showDungeon({
-      position: options.position,
+      location: options.location,
       tileSource: options.zone.tileSource,
     });
   }

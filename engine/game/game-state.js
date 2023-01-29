@@ -1,7 +1,6 @@
 global.GameState = (function() {
 
   const StartLocation = new Vector(61,59,102);
-  const StartDirection = "W";
   const StartStage = "NewGame";
   const StartZone = "Wolgur";
 
@@ -14,7 +13,6 @@ global.GameState = (function() {
   var stageName;
   var currentZone;
   var partyLocation;
-  var partyDirection;
 
   function newGame() {
     if (worldIndex != null) { throw `Error: Game is not empty.` }
@@ -27,7 +25,6 @@ global.GameState = (function() {
     stageName = StartStage;
     currentZone = StartZone;
     partyLocation = StartLocation;
-    partyDirection = StartDirection;
 
     console.log(`\n\nCreating new game in ${worldPath}`)
 
@@ -56,7 +53,6 @@ global.GameState = (function() {
       stageName: stageName,
       currentZone: currentZone,
       partyLocation: partyLocation,
-      partyDirection: partyDirection,
     });
 
     Sector.save();
@@ -73,7 +69,6 @@ global.GameState = (function() {
       stageName = state.stageName;
       currentZone = state.currentZone;
       partyLocation = state.partyLocation;
-      partyDirection = state.partyDirection;
 
       Dungeon.loadZone(currentZone);
 
@@ -89,7 +84,6 @@ global.GameState = (function() {
     timeCount = null;
     dayCount = null;
     partyLocation = null;
-    partyDirection = null;
     stageName = null;
 
     await Database.clear();
@@ -130,7 +124,6 @@ global.GameState = (function() {
       }
 
       partyLocation = origin.index
-      partyDirection = origin.facing
     });
   }
 
@@ -138,13 +131,7 @@ global.GameState = (function() {
   function getStageName() { return stageName; }
   function getWorldPath() { return worldPath; }
   function getZone() { return currentZone; }
-
-  function getPartyPosition() {
-    return {
-      location: partyLocation,
-      direction: partyDirection
-    };
-  }
+  function getPartyLocation() { return partyLocation; }
 
   function render() {
     ViewState.render({
@@ -153,7 +140,7 @@ global.GameState = (function() {
       stageName: getStageName(),
       stage: getStage(),
       zone: currentZone,
-      position: getPartyPosition(),
+      location: getPartyLocation(),
     });
   }
 
@@ -169,7 +156,7 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getZone,
-    getPartyPosition,
+    getPartyLocation,
 
     render,
   };
