@@ -5,14 +5,14 @@ window.MapView = (function() {
 
   function initPreviewControls() {
     let when = (e) => { return true; }
-    X.onKeyDown('w', when, e => { MapCanvas.move('N'); });
-    X.onKeyDown('s', when, e => { MapCanvas.move('S'); });
-    X.onKeyDown('d', when, e => { MapCanvas.move('E'); });
-    X.onKeyDown('a', when, e => { MapCanvas.move('W'); });
-    X.onArrowUp(when,      e => { MapCanvas.move("N"); });
-    X.onArrowDown(when,    e => { MapCanvas.move("S"); });
-    X.onArrowRight(when,   e => { MapCanvas.move("E"); });
-    X.onArrowLeft(when,    e => { MapCanvas.move("W"); });
+    X.onKeyDown('w', when, e => { MapCanvas.move('N', true); });
+    X.onKeyDown('s', when, e => { MapCanvas.move('S', true); });
+    X.onKeyDown('d', when, e => { MapCanvas.move('E', true); });
+    X.onKeyDown('a', when, e => { MapCanvas.move('W', true); });
+    X.onArrowUp(when,      e => { MapCanvas.move('N', true); });
+    X.onArrowDown(when,    e => { MapCanvas.move('S', true); });
+    X.onArrowRight(when,   e => { MapCanvas.move('E', true); });
+    X.onArrowLeft(when,    e => { MapCanvas.move('W', true); });
     X.onWheelUp(when,      e => { MapCanvas.zoomIn();  });
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
