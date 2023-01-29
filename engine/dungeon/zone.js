@@ -11,13 +11,6 @@ global.Zone = class Zone {
     }
   }
 
-  static forPreview() {
-    let options = Environment.debugOptions.zonePreview;
-    console.log("TODO: Preview Zone")
-    console.log(options)
-    return {}
-  }
-
   // === Persistance ===================================================================================================
 
   pack() {
@@ -47,7 +40,10 @@ global.Zone = class Zone {
     this.tileSource = properties.tileSource;
     this.zoneData = properties.zoneData;
 
-    Kompressor.write(this.filepath(), this.pack()).then(callback);
+    // We can create a zone without saving it in a world.
+    if (GameState.getWorldPath()) {
+      Kompressor.write(this.filepath(), this.pack()).then(callback);
+    }
 
     callback(this);
   }
@@ -62,6 +58,27 @@ global.Zone = class Zone {
 
   filepath() {
     return `${GameState.getWorldPath()}/${this.name}.cum`;
+  }
+
+  // === Preview ===============================================================
+
+  static previewZone() {
+    let options = Environment.debugOptions.zonePreview;
+
+    Dungeon.getZone(options.zone, zone => {
+      let origin = zone.zoneData.origins[options.origin];
+
+      let position = {
+        direction: origin.facing,
+        location: { x:origin.x, y:origin.y, z:origin.z },
+      };
+
+      Messenger.publish("browser.render", {
+        showView: "ZonePreview",
+        position: position,
+        zone: zone.forClient(),
+      });
+    });
   }
 
 }

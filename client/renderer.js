@@ -23,10 +23,12 @@ window.Renderer = (function() {
       TownGuild:      TownView.showGuild,
       TownStore:      TownView.showStore,
       TownTavern:     TownView.showTavern,
+      FeaturePreview: MapView.showFeaturePreview,
+      ZonePreview:    MapView.showZonePreview,
     }[viewState.showView];
 
     if (showFunction == null) {
-      throw `No view named "${viewState.showView}"`
+      return console.error(`Error: No view named "${viewState.showView}"`);
     }
 
     showFunction(viewState);

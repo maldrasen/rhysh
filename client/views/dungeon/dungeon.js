@@ -8,8 +8,8 @@ window.Dungeon = (function() {
   }
 
   function show(options) {
-    MapView.show({
-      sourceType: "Dungeon",
+    MainContent.clear();
+    MapView.showDungeon({
       position: options.position,
       tileSource: options.zone.tileSource,
     });

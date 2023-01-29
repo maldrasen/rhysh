@@ -97,6 +97,16 @@ global.Feature = class Feature {
     return this.tileSource.forClient();
   }
 
+  // === Preview ===============================================================
+
+  static previewFeature() {
+    Messenger.publish("browser.render", {
+      showView: "FeaturePreview",
+      feature: Feature.forPreview(),
+    });
+  }
+
+  // Could be called to get a feature when building the map the first time, or when randomly picking another feature.
   static forPreview() {
     const feature = featureFromDebugOptions();
     feature.randomFlip();

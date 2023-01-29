@@ -1,12 +1,12 @@
 global.DungeonController = (function() {
 
   function init() {
-    ipcMain.handle("dungeon-builder.get-debug-feature", async (payload) => {
-      return Feature.forPreview();
+    ipcMain.handle("dungeon-builder.show-debug-feature", async (payload) => {
+      Feature.previewFeature();
     });
 
-    ipcMain.handle("dungeon-builder.get-debug-zone", async (payload) => {
-      return Zone.forPreview();
+    ipcMain.handle("dungeon-builder.show-debug-zone", async (payload) => {
+      Zone.previewZone();
     });
   }
 

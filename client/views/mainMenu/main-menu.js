@@ -22,11 +22,13 @@ window.MainMenu = (function() {
   }
 
   function previewFeatures() {
-    MainContent.setStage(MapView, { sourceType:"Feature" });
+    MainContent.clear();
+    ClientCommands.send('dungeon-builder.show-debug-feature');
   }
 
   function previewZone() {
-    MainContent.setStage(MapView, { sourceType:"Zone" });
+    MainContent.clear();
+    ClientCommands.send('dungeon-builder.show-debug-zone');
   }
 
   function show() {
