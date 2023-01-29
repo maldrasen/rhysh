@@ -59,7 +59,7 @@ global.ZoneLoader = class ZoneLoader {
       this.saveRegionData(layerMap, dungeonIndex);
 
       let tileId = this.lookupTileId(layerMap,dungeonIndex);
-      if (tileId && tileId >= 0) {
+      if (tileId != null && tileId >= 0) {
 
         // Create a tile if this is the first layer with any data for that tile.
         if (layer.tileData[tileIndex] == null) {
