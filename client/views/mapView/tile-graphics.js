@@ -1,11 +1,16 @@
 
 const MapColor = {
+  solidStone: 0x080808,
   floorStone: 0x161616,
+  floorWater: 0x293b6a,
+  floorVoid:  0x000000,
   wallStone:  0x888888,
   fence:      0x432d20,
   door:       0xCCCCCC,
   outline:    0x000000,
 };
+
+const TreeColors = [0x33532b, 0x2c4c28, 0x23401f, 0x1c3a1b, 0x1a351b, 0x132d13, 0x0d2b0d, 0x072809];
 
 const WallGeometry = {}
 const FenceGeometry = {}
@@ -40,7 +45,7 @@ window.TileGraphics = class TileGraphics {
     this.graphics.pivot.y = TileSize/2;
   }
 
-  build(entry) {
+  build() {
     this.setPosition();
     this.drawGround();
 
@@ -49,17 +54,28 @@ window.TileGraphics = class TileGraphics {
       if (wall) { this.drawWall(facing, wall); }
     });
 
-    // Draw Biome Tiles
-    // Draw Fills (stone, tree, statue)
+    this.drawFill();
+
+    // Draw Fills (tree, statue)
     // Draw Stairs
     // Draw Grid
 
     return this.graphics;
   }
 
-  // TODO: Draw water tiles.
   drawGround() {
-    this.graphics.beginFill(MapColor.floorStone);
+    let floor = this.tileEntry.tile.floor;
+    let fillColor = MapColor.floorStone;
+
+    if (floor && floor.type == "Water") {
+      fillColor = MapColor.floorWater;
+    }
+    if (floor == null) {
+      if (this.tileEntry.tile.type == "Empty") { fillColor = MapColor.floorVoid; }
+      if (this.tileEntry.tile.type == "Solid") { fillColor = MapColor.solidStone; }
+    }
+
+    this.graphics.beginFill(fillColor);
     this.graphics.drawRect(0, 0, TileSize, TileSize);
     this.graphics.endFill();
   }
@@ -98,6 +114,50 @@ window.TileGraphics = class TileGraphics {
     this.graphics.moveTo(g.start.x, g.start.y);
     this.graphics.lineTo(g.stop.x, g.stop.y);
     this.graphics.lineStyle(0, MapColor.outline);
+  }
+
+  drawFill() {
+    if (this.tileEntry.tile.fillType == null) { return; }
+
+    let drawFunction = {
+      Tree: 'drawTree',
+      Statue: 'drawStatue',
+    }[this.tileEntry.tile.fillType]
+
+    if (drawFunction) {
+      return this[drawFunction]();
+    }
+
+    console.error(`No draw function for fill ${this.tileEntry.tile.fillType}`)
+  }
+
+  drawTree() {
+    let fillName = this.tileEntry.tile.fillName;
+    let size;
+    let color;
+
+    if (fillName == 'random') {
+      color = Random.from(TreeColors);
+      size = Random.between(20,28);
+    }
+
+    this.graphics.lineStyle(0);
+    this.graphics.beginFill(color);
+    this.graphics.drawCircle(TileSize/2,TileSize/2,size);
+    this.graphics.endFill();
+  }
+
+  drawStatue() {
+    let fillName = this.tileEntry.tile.fillName;
+    let fillColor = MapColor.wallStone;
+    let size = 25;
+
+    console.log("Draw Statue:", fillName);
+
+    this.graphics.lineStyle(0);
+    this.graphics.beginFill(fillColor);
+    this.graphics.drawCircle(TileSize/2,TileSize/2,size);
+    this.graphics.endFill();
   }
 
   setPosition() {
