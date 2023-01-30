@@ -68,7 +68,7 @@ global.GameState = (function() {
       dayCount = state.dayCount;
       stageName = state.stageName;
       currentZone = state.currentZone;
-      partyLocation = state.partyLocation;
+      partyLocation = Vector.from(state.partyLocation);
 
       Dungeon.loadZone(currentZone);
 
@@ -127,6 +127,10 @@ global.GameState = (function() {
     });
   }
 
+  function setPartyLocation(location) {
+    partyLocation = location;
+  }
+
   function getStage() { return GameState.Stages[stageName]; }
   function getStageName() { return stageName; }
   function getWorldPath() { return worldPath; }
@@ -151,6 +155,7 @@ global.GameState = (function() {
     clear,
 
     setStageName,
+    setPartyLocation,
 
     getStage,
     getStageName,

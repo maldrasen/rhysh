@@ -37,6 +37,10 @@ window.MapCanvas = (function() {
     X.first("#mapCanvas").setAttribute('class','hide');
   }
 
+  function visible() {
+    return X.hasClass('#mapCanvas','hide') == false;
+  }
+
   function setTileSource(source) {
     if (tileField) {
       application.removeChild(tileField);
@@ -165,6 +169,7 @@ window.MapCanvas = (function() {
     init,
     show,
     hide,
+    visible,
     setTileSource,
 
     setLocation,

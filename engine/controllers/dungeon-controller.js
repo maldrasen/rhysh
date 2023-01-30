@@ -7,6 +7,11 @@ global.DungeonController = (function() {
       return Dungeon.isZoneReady(options.zone);
     });
 
+    // Options format: { direction:"N" }
+    ipcMain.handle("dungeon.request-move", async (payload, options) => {
+      return Dungeon.requestMove(options.direction);
+    });
+
     ipcMain.handle("dungeon-builder.show-debug-feature", async (payload) => {
       Feature.previewFeature();
     });
