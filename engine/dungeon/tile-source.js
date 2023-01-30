@@ -27,11 +27,7 @@ global.TileSource = class TileSource {
       let layer = data.layers[layerIndex];
 
       forUpTo(layer.length, index => {
-        if (layer[index]) {
-          let x = index % data.size.y;
-          let y = Math.floor(index / data.size.y);
-          tileSource.setTile(new Vector(x,y,z), Tile.unpack(layer[index]));
-        }
+        unpackTile(index, layer, data, z, tileSource);
       });
     });
 
@@ -131,3 +127,25 @@ global.TileSource = class TileSource {
   }
 
 }
+
+
+
+function unpackTile(index, layer, data, z, tileSource) {
+  if (layer[index]) {
+    let x = index % data.size.y;
+    let y = Math.floor(index / data.size.y);
+    let tile;
+
+    try {
+      tile = Tile.unpack(layer[index]);
+    }
+    catch(error) {
+      console.error(`Invalid Tile at ${new Vector(x,y,z)} > ${error}`);
+    }
+
+    if (tile) {
+      tileSource.setTile(new Vector(x,y,z), tile);
+    }
+  }
+}
+

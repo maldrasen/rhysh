@@ -34,8 +34,11 @@
     "S":"Goto:TownStore",
     "T":"Goto:TownTavern",
     "Rook": "Statue:WolgurFountain",
+    "Pawn": "Statue:GuildHero",
     "Point(15,34,101)":"Sign:Grotto-A",
     "Point(15,37,101)":"Sign:Grotto-B",
-    "Point(18,42,100)":"Sign:Grotto-C"
+    "Point(18,42,100)":"Sign:Grotto-C",
+    "Point(71,54,103)":"Trigger:Tavern-DiscoveredSecretHall",
+    "Point(76,54,103)":"Trigger:Tavern-DiscoveredSlavePens"
   }
 }

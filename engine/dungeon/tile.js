@@ -152,6 +152,8 @@ global.Tile = class Tile {
   // Similar to loading a tile from the tile data, a Tile object can also be created from the JSON a tile gets
   // stringified into.
   static unpack(tileData) {
+    if (tileData.type == null) { throw `No Type.` }
+
     let tile = new Tile({
       type: tileData.type,
       sector_id: tileData.sector_id,
@@ -220,6 +222,7 @@ global.Tile = class Tile {
     if (extension.type == "Statue") { return this.fillWithStatue(extension.value); }
     if (extension.type == "Bridge") { return; } // TODO: Implement Bridges
     if (extension.type == "Sign") { return; } // TODO: Implement Signs
+    if (extension.type == "Bang") { return; } // TODO: Implement Triggers
     if (extension.type == "Trigger") { return; } // TODO: Implement Triggers
     if (extension.type == "PossibleTrigger") { return; } // TODO: Implement Triggers
 
