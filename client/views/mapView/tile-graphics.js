@@ -149,16 +149,42 @@ window.TileGraphics = class TileGraphics {
     let fillColor = MapColor.wallStone;
     let size = 25;
 
-    console.log("Draw Statue:", fillName);
-
     this.graphics.lineStyle(0);
     this.graphics.beginFill(fillColor);
     this.graphics.drawCircle(TileSize/2,TileSize/2,size);
     this.graphics.endFill();
   }
 
+  // The size of the sprite is adjusted so that the walls are visble.
   drawStairs() {
+    if (this.tileEntry.tile.type == "Stairs") {
+      let direction = this.tileEntry.tile.stairDirection;
+      let facing = this.tileEntry.tile.stairFacing;
+      let walls = this.tileEntry.tile.walls;
+      let sprite = PIXI.Sprite.from(iconForStairs(direction, facing));
 
+      sprite.x = 0;
+      sprite.y = 0;
+      sprite.height = TileSize;
+      sprite.width = TileSize;
+
+      if (walls.W) {
+        sprite.x = wallThickness;
+        sprite.width = sprite.width - wallThickness;
+      }
+      if (walls.E) {
+        sprite.width = sprite.width - wallThickness;
+      }
+      if (walls.N) {
+        sprite.y = wallThickness;
+        sprite.height = sprite.height - wallThickness;
+      }
+      if (walls.S) {
+        sprite.height = sprite.height - wallThickness;
+      }
+
+      this.graphics.addChild(sprite);
+    }
   }
 
   setPosition() {
@@ -209,4 +235,9 @@ function initDoorGeometry() {
   DoorGeometry.W = { x:0, y:doorInset, width:doorThickness, height:doorWidth };
   DoorGeometry.W.start = new Vector(0, lineStart);
   DoorGeometry.W.stop = new Vector(0, lineStop);
+}
+
+function iconForStairs(direction, facing) {
+  let dir = direction == "U" ? "up" : "down";
+  return `../assets/icons/stairs-${dir}-${facing}.png`;
 }

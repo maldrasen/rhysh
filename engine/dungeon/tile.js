@@ -158,6 +158,8 @@ global.Tile = class Tile {
       biome_id: tileData.biome_id,
       fillType: tileData.fillType,
       fillName: tileData.fillName,
+      stairDirection: tileData.stairDirection,
+      stairFacing: tileData.stairFacing,
     });
 
     if (tileData.floor) {
@@ -256,6 +258,11 @@ global.Tile = class Tile {
     if (this.fillType) {
       tile.fillType = ObjectHelper.reverseLookup(Tile.FillType, this.fillType);
       tile.fillName = this.fillName;
+    }
+
+    if (this.stairDirection) {
+      tile.stairDirection = this.stairDirection;
+      tile.stairFacing = this.stairFacing;
     }
 
     NSEW(facing => {
