@@ -55,10 +55,7 @@ window.TileGraphics = class TileGraphics {
     });
 
     this.drawFill();
-
-    // Draw Fills (tree, statue)
-    // Draw Stairs
-    // Draw Grid
+    this.drawStairs();
 
     return this.graphics;
   }
@@ -158,6 +155,10 @@ window.TileGraphics = class TileGraphics {
     this.graphics.beginFill(fillColor);
     this.graphics.drawCircle(TileSize/2,TileSize/2,size);
     this.graphics.endFill();
+  }
+
+  drawStairs() {
+
   }
 
   setPosition() {

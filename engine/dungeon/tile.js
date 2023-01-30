@@ -3,8 +3,7 @@ global.Tile = class Tile {
   static Type = {
     Empty: 0,
     Solid: 1,
-    StairsUp: 2,
-    StairsDown: 3,
+    Stairs: 2,
   }
 
   static FillType = {
@@ -30,10 +29,12 @@ global.Tile = class Tile {
     this.type = properties.type;
     this.sector_id = properties.sector_id;
     this.biome_id = properties.biome;
-    this.fillType = properties.fillType;
-    this.fillName = properties.fillName;
     this.floor = properties.floor;
     this.walls = { N:null, S:null, E:null, W:null };
+    this.fillType = properties.fillType;
+    this.fillName = properties.fillName;
+    this.stairDirection = properties.stairDirection;
+    this.stairFacing = properties.stairFacing;
   }
 
   copy() {
@@ -41,9 +42,11 @@ global.Tile = class Tile {
       type: this.type,
       sector_id: this.sector_id,
       biome: this.biome_id,
+      floor: (this.floor ? this.floor.copy() : null),
       fillType: this.fillType,
       fillName: this.fillName,
-      floor: (this.floor ? this.floor.copy() : null)
+      stairDirection: this.stairDirection,
+      stairFacing: this.stairFacing,
     });
 
     NSEW(facing => {
@@ -97,6 +100,15 @@ global.Tile = class Tile {
     this.type = Tile.Type.Empty;
     this.fillType = null
     this.fillName = null
+  }
+
+  makeStairs(direction, facing) {
+    if (ArrayHelper.contains([N,S,E,W],facing) == false) { throw `Bad facing for stairs: ${facing}`; }
+    if (ArrayHelper.contains([U,D],direction) == false) { throw `Bad direction for stairs: ${direction}`; }
+
+    this.type = Tile.Type.Stairs;
+    this.stairDirection = direction;
+    this.stairFacing = facing;
   }
 
   flipH() { [this.walls.W, this.walls.E] = [this.walls.E, this.walls.W] }
@@ -188,13 +200,7 @@ global.Tile = class Tile {
   }
 
   setExtra(extra) {
-
-    if (extra.type == "Stairs") {
-      if (extra.stairs == "Down") { this.type = Tile.Type.StairsDown; }
-      if (extra.stairs == "Up")   { this.type = Tile.Type.StairsUp; }
-      return;
-    }
-
+    if (extra.type == "Stairs") { return this.makeStairs((extra.stairs == "Up" ? U : D), extra.facing); }
     if (extra.type == "Door") { return this.setDoorExtra(extra); }
     if (extra.type == "Fence") { return this.setFenceExtra(extra); }
 
