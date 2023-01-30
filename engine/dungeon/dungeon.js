@@ -15,6 +15,7 @@ global.Dungeon = (function() {
     let destinationTile = zone.tileSource.getNeighborTiles(location)[direction];
 
     if (destinationTile == null) { return false; }
+    if (destinationTile.tile == null) { return false; }
 
     // First make sure that the destination tile is a valid tile.
     destinationTile = destinationTile.tile;

@@ -20,6 +20,8 @@ window.Dungeon = (function() {
     X.onArrowDown(when,    e => { requestMove('S'); });
     X.onArrowRight(when,   e => { requestMove('E'); });
     X.onArrowLeft(when,    e => { requestMove('W'); });
+    X.onWheelUp(when,      e => { MapCanvas.zoomIn(); });
+    X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
   function requestMove(direction) {
@@ -27,7 +29,9 @@ window.Dungeon = (function() {
 
     moving = direction;
     ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
-      console.log("Moved:",response)
+      if (response) {
+        if (response.moveTo) { MapView.moveTo(Vector.from(response.moveTo)); }
+      }
       moving = null;
     });
   }

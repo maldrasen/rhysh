@@ -1,6 +1,7 @@
-// The map view is really just used to fetch and load the data into the map canvas. I suppose all of this could have
-// gone into the canvas itself, but I think I'd like to keep the canvas focused on the map rendering while the view
-// takes care of everything else.
+// The map view is really just used to fetch and load the data into the map
+// canvas. I suppose all of this could have gone into the canvas itself, but I
+// think I'd like to keep the canvas focused on the map rendering while the
+// view takes care of everything else.
 window.MapView = (function() {
 
   function initPreviewControls() {
@@ -17,6 +18,13 @@ window.MapView = (function() {
     X.onPageDown(when,     e => { MapCanvas.changeLevel('D'); });
     X.onWheelUp(when,      e => { MapCanvas.zoomIn(); });
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
+  }
+
+  // This is just passing the new location to the canvas because I don't want
+  // other non-map classes interacting with the canvas. Is there anything else
+  // the view needs to do with this though?
+  function moveTo(location) {
+    MapCanvas.moveTo(location);
   }
 
   function showDungeon(options) {
@@ -51,6 +59,7 @@ window.MapView = (function() {
 
   return {
     name: "MapView",
+    moveTo: moveTo,
     showDungeon: showDungeon,
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,

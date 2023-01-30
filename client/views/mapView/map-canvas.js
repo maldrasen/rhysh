@@ -88,14 +88,22 @@ window.MapCanvas = (function() {
 
   function setLocation(point) { location = point; }
 
-  function move(direction, instant = false) {
+  function moveTo(newLocation, instant = false) {
     if (instant) {
-      location = location.go(direction);
+      location = newLocation;
       return positionField();
     }
 
     let fromPoint = location;
-    let toPoint = location.go(direction);
+    let toPoint = newLocation;
+
+    console.log("TODO: Tween This Move...");
+    location = toPoint;
+    positionField();
+  }
+
+  function move(direction, instant = false) {
+    moveTo(location.go(direction), instant);
   }
 
   function changeLevel(direction) {
@@ -174,6 +182,7 @@ window.MapCanvas = (function() {
 
     setLocation,
     move,
+    moveTo,
     changeLevel,
     zoomIn,
     zoomOut,
