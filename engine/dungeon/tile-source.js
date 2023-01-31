@@ -27,7 +27,9 @@ global.TileSource = class TileSource {
       let layer = data.layers[layerIndex];
 
       forUpTo(layer.length, index => {
-        unpackTile(index, layer, data, z, tileSource);
+        let x = index % data.size.x;
+        let y = Math.floor(index / data.size.x);
+        unpackTile(new Vector(x,y,z), layer[index], tileSource);
       });
     });
 
@@ -128,24 +130,15 @@ global.TileSource = class TileSource {
 
 }
 
+function unpackTile(dungeonIndex, tileData, tileSource) {
+  if (tileData == null) { return null; }
 
-
-function unpackTile(index, layer, data, z, tileSource) {
-  if (layer[index]) {
-    let x = index % data.size.y;
-    let y = Math.floor(index / data.size.y);
-    let tile;
-
-    try {
-      tile = Tile.unpack(layer[index]);
-    }
-    catch(error) {
-      console.error(`Invalid Tile at ${new Vector(x,y,z)} > ${error}`);
-    }
-
-    if (tile) {
-      tileSource.setTile(new Vector(x,y,z), tile);
-    }
+  try {
+    let tile = Tile.unpack(tileData);
+    tileSource.setTile(dungeonIndex, tile);
+  }
+  catch(error) {
+    console.error(`Invalid Tile at ${dungeonIndex} > ${error}`);
   }
 }
 

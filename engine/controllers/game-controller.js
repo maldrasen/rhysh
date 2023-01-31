@@ -6,9 +6,11 @@ global.GameController = (function() {
     });
 
     // TODO: Create the player character using the values we get from the new game form.
+
     ipcMain.handle("game.start", async (payload) => {
       GameState.setStageName("Dungeon");
       GameState.render();
+      GameState.saveGame();
     });
 
     ipcMain.handle("game.continue", async (payload, parameters) => {

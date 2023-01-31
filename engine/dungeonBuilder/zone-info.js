@@ -26,7 +26,7 @@ global.ZoneInfo = (function() {
       };
     }
 
-    for (const [code, exit] of Object.entries(zoneData.exits)) {
+    for (const [code, exit] of Object.entries(zoneData.exits||{})) {
       zoneInfo.exits[code] = {
         visible: exit.visible,
         points: exit.points.map(p => new Vector(p.x, p.y, p.z)),
