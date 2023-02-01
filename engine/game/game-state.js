@@ -1,8 +1,13 @@
 global.GameState = (function() {
 
+  // New Game Constants
   const StartLocation = new Vector(61,59,102);
   const StartStage = "NewGame";
   const StartZone = "Wolgur";
+
+  // Time - Each tick is 10 seconds
+  //        We'll eventually want to put this into a calander class.
+  const DayLength = 24*60*60*6;
 
   var worldIndex;
   var worldPath;
@@ -89,9 +94,10 @@ global.GameState = (function() {
     await Database.clear();
   }
 
-  // I'm not sure if setting the stage should trigger the render or that should be done manually. Maybe do it manually
-  // for now and see if there are instances where we don't. It's possible this will need to do some work between the
-  // set and the render that only the setter knows about.
+  // I'm not sure if setting the stage should trigger the render or that should
+  // be done manually. Maybe do it manually for now and see if there are
+  // instances where we don't. It's possible this will need to do some work
+  // between the set and the render that only the setter knows about.
   function setStageName(stage) {
     if (GameState.Stages[stage] == null) { throw `Error: Unknown Stage "${stage}"`; }
     stageName = stage;
@@ -102,28 +108,30 @@ global.GameState = (function() {
     worldPath = `${DATA}/worlds/world-${worldIndex}`;
   }
 
-  // Whenever the party moves from one zone into another we update the party location to the point where they enter the
-  // zone from. The new point is found in the zoneData for their current zone which should have a list of places it's
-  // possible to come to the current zone from. (Or there should at least be a "Default" value)
+  // Whenever the party moves from one zone into another we update the party
+  // location to the point where they enter the zone from. The new point is
+  // found in the zoneData for their current zone which should have a list of
+  // places it's possible to come to the current zone from. (Or there should at
+  // least be a "Default" value)
   function setCurrentZone(zoneName) {
-    let previousZone = currentZone;
-    let currentZone = zoneName;
+    return new Promise(resolve => {
+      Dungeon.getZone(zoneName, async (zone) => {
 
-    Dungeon.getZone(zoneName).then(zone => {
-      let zoneData = zone.zoneData;
-      let origin;
+        let previousZone = currentZone;
+        let zoneData = await zone.getZoneData();
+        let origin;
 
-      if (zoneData.origins.Default) {
-        origin = zoneInfo.origins.Default;
-      }
-      if (zoneInfo.origins[previousZone]) {
-        origin = zoneInfo.origins[previousZone]
-      }
-      if (origin == null) {
-        throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
-      }
+        if (zoneData.origins.Default) { origin = Vector.from(zoneData.origins.Default); }
+        if (zoneData.origins[previousZone]) { origin = Vector.from(zoneData.origins[previousZone]); }
 
-      partyLocation = origin.index
+        if (origin == null) {
+          throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
+        }
+
+        currentZone = zoneName;
+        partyLocation = origin.index
+        resolve();
+      });
     });
   }
 
@@ -137,6 +145,17 @@ global.GameState = (function() {
   function getCurrentZoneName() { return currentZone; }
   function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
   function getPartyLocation() { return partyLocation; }
+
+  // TODO: Right now we're only keeping track of the time. Eventually the
+  //       passage of time will trigger different events and conditions and
+  //       whatnot.
+  function advanceTime(ticks) {
+    timeCount += ticks;
+    if (timeCount >= DayLength) {
+      dayCount += 1;
+      timeCount = 0;
+    }
+  }
 
   function render() {
     ViewState.render({
@@ -165,6 +184,8 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getPartyLocation,
+
+    advanceTime,
 
     render,
   };

@@ -48,6 +48,12 @@ global.Zone = class Zone {
     callback(this);
   }
 
+  async getZoneData() {
+    if (this.zoneData != null) { return this.zoneData }
+    this.zoneData = await DungeonBuilder.loadZoneData(this.name);
+    return this.zoneData;
+  }
+
   // We know the zone file exists so load and unpack the JSON.
   loadZone(callback) {
     Kompressor.read(this.filepath()).then(data => {

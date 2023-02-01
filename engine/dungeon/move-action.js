@@ -16,7 +16,7 @@ global.MoveAction = class MoveAction {
   // Response:
   //   action:[none, move, climb, warp]
   //   location: the location being moved to
-  getResponse() {
+  async getResponse() {
 
     // First make sure that the destination tile is a valid tile.
     if (this.destinationTile == null) { return this.response; }
@@ -45,7 +45,7 @@ global.MoveAction = class MoveAction {
       this.response.action = 'climb';
     }
 
-    this.handleMovement();
+    await this.handleMovement();
 
     return this.response;
   }
@@ -77,25 +77,36 @@ global.MoveAction = class MoveAction {
   // When we move from one tile to another we need to check for a bunch of
   // different things that can happen. Events can be triggered, battles can
   // start, secrets can be reveiled.
-  handleMovement() {
+  async handleMovement() {
     if (this.response.action == 'none') { return; }
 
     if (this.destinationTile.hasTrigger()) {
       let trigger = this.destinationTile.getTrigger();
-      if (trigger.isExit()) { this.handleExit(trigger); }
+      if (trigger.isExit()) {
+        await this.handleExit(trigger);
+      }
     }
 
     // console.log("Handle Movement:");
     // console.log(`  From (${this.location}):`,this.sourceTile);
     // console.log(`  To (${this.response.location}):`,this.destinationTile);
     // console.log("  Response:",this.response);
+    GameState.advanceTime(1);
 
-    GameState.setPartyLocation(this.response.location);
+    // The response location may have been cleared if this movements changes
+    // the current zone. When that happens the party location is updated by the
+    // GameState itself though.
+    if (this.response.location) {
+      GameState.setPartyLocation(this.response.location);
+    }
   }
 
-  handleExit(trigger) {
-    console.log("Oh... this needs to become async.")
-    // this.response.action = 'warp';
+  // A zone exit will change the current zone in the game state. When this
+  // happens the client only needs to know that the zone has been changed. The
+  // client will then clear and reload the map with the current zone.
+  async handleExit(trigger) {
+    await GameState.setCurrentZone(trigger.exitOptions.toZone);
+    this.response = { action:'changeZone' }
   }
 
 }

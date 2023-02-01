@@ -9,8 +9,9 @@ global.DungeonController = (function() {
 
     // Options format: { direction:"N" }
     ipcMain.handle("dungeon.request-move", async (payload, options) => {
+      let action = new MoveAction(options.direction);
       try {
-        return new MoveAction(options.direction).getResponse();
+        return await action.getResponse();
       } catch(error) {
         console.error("=== Error thrown while moving ===");
         console.error(error);
