@@ -37,15 +37,27 @@ window.MapCanvas = (function() {
     X.first("#mapCanvas").setAttribute('class','hide');
   }
 
+  function clear() {
+    hide();
+
+    application.stage.removeChild(tileField);
+    application.stage.removeChild(partyGlyph);
+
+    partyGlyph.destroy({ children:true });
+    tileField.destroy({ children:true });
+
+    partyGlyph = null;
+    tileField = null;
+    tileGraphics = null;
+    tileSource = null;
+  }
+
   function visible() {
     return X.hasClass('#mapCanvas','hide') == false;
   }
 
   function setTileSource(source) {
-    if (tileField) {
-      application.removeChild(tileField);
-      tileField.destroy({ children:true });
-    }
+    if (tileField) { throw `TileField is present, call clear first.` }
 
     drawPartyGlyph();
 
@@ -174,6 +186,7 @@ window.MapCanvas = (function() {
     init,
     show,
     hide,
+    clear,
     visible,
     setTileSource,
 

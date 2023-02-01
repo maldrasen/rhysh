@@ -39,10 +39,18 @@ window.Dungeon = (function() {
 
     moving = direction;
     ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
+      moving = null;
+
+      if (response.action == 'changeZone') { return handleZoneChange(); }
       if (response.action != 'none') { MapView.move(response); }
       if (response.doorAction) { handleDoor(response); }
-      moving = null;
     });
+  }
+
+  function handleZoneChange() {
+    MainContent.clear();
+    MapView.clear();
+    ClientCommands.send('game.render');
   }
 
   function handleDoor(response) {

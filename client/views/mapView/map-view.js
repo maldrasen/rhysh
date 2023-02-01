@@ -55,6 +55,7 @@ window.MapView = (function() {
   // non-map classes interacting with the canvas. Is there anything else the
   // view needs to do with these though?
   function move(response) { MapCanvas.move(response); }
+  function clear() { MapCanvas.clear(); }
 
   return {
     name: "MapView",
@@ -62,6 +63,7 @@ window.MapView = (function() {
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,
     move: move,
+    clear: clear,
   }
 
 })();

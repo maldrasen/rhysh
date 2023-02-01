@@ -12,6 +12,7 @@ window.MainContent = (function() {
   function clear() {
     showCover();
     X.first('#mainContent').setHTML("");
+    BackgroundImage.removeBackground();
   }
 
   // Views that can be used as stages will have a name and a show() function.

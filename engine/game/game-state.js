@@ -119,17 +119,15 @@ global.GameState = (function() {
 
         let previousZone = currentZone;
         let zoneData = await zone.getZoneData();
-        let origin;
 
-        if (zoneData.origins.Default) { origin = Vector.from(zoneData.origins.Default); }
-        if (zoneData.origins[previousZone]) { origin = Vector.from(zoneData.origins[previousZone]); }
+        if (zoneData.origins.Default) { setPartyLocation(Vector.from(zoneData.origins.Default)); }
+        if (zoneData.origins[previousZone]) { setPartyLocation(Vector.from(zoneData.origins[previousZone])); }
 
-        if (origin == null) {
+        if (getPartyLocation() == null) {
           throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
         }
 
         currentZone = zoneName;
-        partyLocation = origin.index
         resolve();
       });
     });

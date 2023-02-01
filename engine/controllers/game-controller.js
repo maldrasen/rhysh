@@ -5,6 +5,10 @@ global.GameController = (function() {
       GameState.newGame();
     });
 
+    ipcMain.handle("game.render", async (payload) => {
+      GameState.render();
+    });
+
     // TODO: Create the player character using the values we get from the new game form.
 
     ipcMain.handle("game.start", async (payload) => {
