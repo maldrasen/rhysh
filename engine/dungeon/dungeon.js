@@ -22,8 +22,17 @@ global.Dungeon = (function() {
     if (destinationTile.type == Tile.Type.Solid) { return false; }
     if (destinationTile.hasFloor() == false) { return false; }
 
-    // Need to check for door and that door can be opened.
-    if (sourceTile.wallAt(direction)) { return false; }
+    // The party pushed against a wall. This can be a complicated interaction.
+    if (sourceTile.wallAt(direction) || destinationTile.wallAt(oppositeDirection(direction))) {
+      return handleWall({
+        location: location,
+        direction: direction,
+        sourceTile: sourceTile,
+        destinationTile: destinationTile,
+        sourceWall: sourceTile.wallAt(direction),
+        destinationWall: destinationTile.wallAt(oppositeDirection(direction)),
+      });
+    }
 
     // Both source and destination are valid. We can move to the new tile.
     // Moving might trigger an event or a battle though. If so that trigger
@@ -31,9 +40,51 @@ global.Dungeon = (function() {
     let newLocation = location.go(direction);
     let response = { moveTo:newLocation };
 
+    // Climb stairs
+    if (destinationTile.type == Tile.Type.Stairs) {
+      if (destinationTile.stairDirection == U) { newLocation = newLocation.go(U); }
+      if (destinationTile.stairDirection == D) { newLocation = newLocation.go(D); }
+      response = { climbTo:newLocation }
+    }
+
+    // console.log("Check for everything:");
+    // console.log("  From:",sourceTile);
+    // console.log("  To:",destinationTile);
+
     GameState.setPartyLocation(newLocation);
 
     return response;
+  }
+
+  // Pushing against a wall can be rather complicated. If the wall is solid and
+  // uninteresting we can just return false. If there is something interesting
+  // about the wall, pushing against it may trigger something, like reveiling a
+  // hidden door.
+  //
+  // TODO: Eventually we'll need to handle trapped or locked doors but for now
+  //       we assume that every door is unlocked and can be passed though.
+  function handleWall(context) {
+    let location = context.location;
+    let direction = context.direction;
+    let sourceType = context.sourceWall ? context.sourceWall.type : null;
+    let destinationType = context.destinationWall ? context.destinationWall.type : null;
+
+    if (sourceType == Wall.Type.Normal)      { return false; }
+    if (sourceType == Wall.Type.Fence)       { return false; }
+    if (destinationType == Wall.Type.Fence)  { return false; }
+    if (destinationType == Wall.Type.Normal) { return false; }
+
+    if (sourceType == Wall.Type.Door) {
+      let newLocation = location.go(direction);
+
+      GameState.setPartyLocation(newLocation);
+
+      return {
+        moveTo: newLocation,
+        doorAction: "opened",
+        doorStory: "The door was unlocked.",
+      };
+    }
   }
 
   // === Zone Management =======================================================

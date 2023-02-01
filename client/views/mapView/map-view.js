@@ -20,12 +20,12 @@ window.MapView = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
-  // This is just passing the new location to the canvas because I don't want
-  // other non-map classes interacting with the canvas. Is there anything else
-  // the view needs to do with this though?
-  function moveTo(location) {
-    MapCanvas.moveTo(location);
-  }
+  // These functions are just passed to the canvas because I don't want other
+  // non-map classes interacting with the canvas. Is there anything else the
+  // view needs to do with these though?
+  function moveTo(location) { MapCanvas.moveTo(location); }
+  function climbTo(location) { MapCanvas.climbTo(location); }
+  function warpTo(location) { MapCanvas.warpTo(location); }
 
   function showDungeon(options) {
     showMap({
@@ -60,6 +60,8 @@ window.MapView = (function() {
   return {
     name: "MapView",
     moveTo: moveTo,
+    climbTo: climbTo,
+    warpTo: warpTo,
     showDungeon: showDungeon,
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,

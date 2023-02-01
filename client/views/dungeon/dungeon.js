@@ -24,18 +24,6 @@ window.Dungeon = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
-  function requestMove(direction) {
-    if (moving) { return console.log("Already Moving...") }
-
-    moving = direction;
-    ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
-      if (response) {
-        if (response.moveTo) { MapView.moveTo(Vector.from(response.moveTo)); }
-      }
-      moving = null;
-    });
-  }
-
   function show(options) {
     active = true;
 
@@ -44,6 +32,25 @@ window.Dungeon = (function() {
       location: options.location,
       tileSource: options.zone.tileSource,
     });
+  }
+
+  function requestMove(direction) {
+    if (moving) { return; }
+
+    moving = direction;
+    ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
+      if (response) {
+        if (response.moveTo)  { MapView.moveTo(Vector.from(response.moveTo));   }
+        if (response.climbTo) { MapView.climbTo(Vector.from(response.climbTo)); }
+        if (response.warpTo)  { MapView.warpTo(Vector.from(response.warpTo));   }
+        if (response.doorAction) { handleDoor(response); }
+      }
+      moving = null;
+    });
+  }
+
+  function handleDoor(response) {
+    console.log(`TODO: Door Event (${response.doorAction}) ${response.doorStory}`);
   }
 
   return {
