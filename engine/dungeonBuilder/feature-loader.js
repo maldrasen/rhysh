@@ -27,7 +27,8 @@ global.FeatureLoader = class FeatureLoader {
         forUpTo(featureInfo["Width"], x => {
           let tileIndex = x + (y * featureInfo["Width"]);
           if (layer[tileIndex]) {
-            featureTemplate.setTile(new Vector(x,y,layerIndex), Tile.fromTileData(layer[tileIndex]));
+            let dungeonIndex = new Vector(x,y,layerIndex);
+            featureTemplate.setTile(dungeonIndex, Tile.fromTileData(layer[tileIndex], null, dungeonIndex));
           }
         });
       });

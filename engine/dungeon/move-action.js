@@ -80,12 +80,22 @@ global.MoveAction = class MoveAction {
   handleMovement() {
     if (this.response.action == 'none') { return; }
 
+    if (this.destinationTile.hasTrigger()) {
+      let trigger = this.destinationTile.getTrigger();
+      if (trigger.isExit()) { this.handleExit(trigger); }
+    }
+
     // console.log("Handle Movement:");
     // console.log(`  From (${this.location}):`,this.sourceTile);
     // console.log(`  To (${this.response.location}):`,this.destinationTile);
     // console.log("  Response:",this.response);
 
     GameState.setPartyLocation(this.response.location);
+  }
+
+  handleExit(trigger) {
+    console.log("Oh... this needs to become async.")
+    // this.response.action = 'warp';
   }
 
 }

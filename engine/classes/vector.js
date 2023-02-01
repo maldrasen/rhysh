@@ -26,6 +26,8 @@ global.Vector = class Vector {
     if (direction == D) { return this.translate(new Vector( 0, 0,-1)); }
   }
 
+  // The vector argument doesn't have to be a vector, just an object with an x,
+  // y, and z property.
   equals(vector) {
     return this.x == vector.x &&
            this.y == vector.y &&

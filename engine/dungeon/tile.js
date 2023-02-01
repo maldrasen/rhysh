@@ -63,7 +63,6 @@ global.Tile = class Tile {
   isStatue() { return this.isSolid() && this.fillType == Tile.FillType.Statue; }
   isTree() { return this.isSolid() && this.fillType == Tile.FillType.Tree; }
 
-
   setFloor(floor) { this.floor = floor; }
   hasFloor() { return this.floor != null && this.floor.isNormal(); }
 
@@ -72,6 +71,10 @@ global.Tile = class Tile {
   placeWall(facing) { this.walls[facing] = Wall.normal(); }
   placeDoor(facing) { this.walls[facing] = Wall.door(); }
   removeWall(facing) { this.walls[facing] = null; }
+
+  setTrigger(trigger) { this.trigger = trigger; }
+  hasTrigger() { return this.trigger != null; }
+  getTrigger() { return this.trigger; }
 
   // A tile can have walls if it's empty, stairs, or is filled with something that can be seen around like a tree or a
   // statue.
@@ -125,14 +128,19 @@ global.Tile = class Tile {
     };
   }
 
-  // === Tile Loading ==================================================================================================
-  // We create tiles from tile data when loading them from the JSON map data. The tile data should be
-  // the same across map type. For example, a tile with both extra and extended data:
-  //    { "root":     { "id": 20, "tile": "Empty", "floor": "Normal", "walls": "W" },
-  //      "extra":    { "id": 0,  "type": "Door", "doors": "W" },
-  //      "extended": { "id": 58, "type": "Point", "value": "Green" }}
-
-  static fromTileData(tileData) {
+  // === Tile Loading ==========================================================
+  // We create tiles from tile data when loading them from the JSON map data.
+  // The tile data should be the same across map type. For example, a tile with
+  // both extra and extended data:
+  //
+  // { "root":     { "id": 20, "tile": "Empty", "floor": "Normal", "walls": "W" },
+  //   "extra":    { "id": 0,  "type": "Door", "doors": "W" },
+  //   "extended": { "id": 58, "type": "Point", "value": "Green" }}
+  //
+  // The zone data may be null if we're loading a feature. That should be okay
+  // because the zoneData is used to lookup event points and such, which
+  // shouldn't apply to plain features.
+  static fromTileData(tileData, zoneData, index) {
     let tile = new Tile();
     let root = tileData.root;
 
@@ -144,15 +152,15 @@ global.Tile = class Tile {
 
     if (root.walls) { tile.setWallsFromString(root.walls); }
     if (root.floor) { tile.setFloorFromString(root.floor); }
-    if (tileData.extra) { tile.setExtra(tileData.extra); }
-    if (tileData.extended) { tile.setExtended(tileData.extended); }
+    if (tileData.extra) { tile.setExtra(tileData.extra, zoneData, index); }
+    if (tileData.extended) { tile.setExtended(tileData.extended, zoneData, index); }
     if (root.tile == "Solid") { tile.setFill(root.fill); }
 
     return tile;
   }
 
-  // Similar to loading a tile from the tile data, a Tile object can also be created from the JSON a tile gets
-  // stringified into.
+  // Similar to loading a tile from the tile data, a Tile object can also be
+  // created from the JSON a tile gets stringified into.
   static unpack(tileData) {
     if (tileData.type == null) { throw `No Type.` }
 
@@ -168,6 +176,10 @@ global.Tile = class Tile {
 
     if (tileData.floor) {
       tile.setFloor(Floor.unpack(tileData.floor));
+    }
+
+    if (tileData.trigger) {
+      tile.setTrigger(Trigger.unpack(tileData.trigger));
     }
 
     if (tileData.walls) {
@@ -205,21 +217,21 @@ global.Tile = class Tile {
     console.error("Unknown Fill:",fill);
   }
 
-  setExtra(extra) {
+  setExtra(extra, zoneData, index) {
     if (extra.type == "Stairs") { return this.makeStairs((extra.stairs == "Up" ? U : D), extra.facing); }
     if (extra.type == "Door") { return this.setDoorExtra(extra); }
     if (extra.type == "Fence") { return this.setFenceExtra(extra); }
+    if (extra.type == "Gateway") { return this.setGatewayExtra(extra, zoneData, index); }
 
     if (extra.type == "SecretDoor") { return; } // TODO: Implement secret doors.
     if (extra.type == "TrappedDoor") { return; } // TODO: Implement trapped doors.
     if (extra.type == "FenceGate") { return; } // TODO: Implement fence gates.
     if (extra.type == "Pillar") { return; } // TODO: Implement pillars.
-    if (extra.type == "Gateway") { return; } // TODO: Implement transitions.
 
     console.error("Unknown Extra Error: What do I do with this? ",extra);
   }
 
-  setExtended(extension) {
+  setExtended(extension, zoneData, index) {
     if (extension.type == "Tree") { return this.fillWithTree(extension.value); }
     if (extension.type == "Statue") { return this.fillWithStatue(extension.value); }
     if (extension.type == "Bridge") { return; } // TODO: Implement Bridges
@@ -251,12 +263,26 @@ global.Tile = class Tile {
     });
   }
 
+  setGatewayExtra(extra, zoneData, index) {
+    // Loop through all of the exit points in the zone data to see if this exit
+    // point matches.
+    ObjectHelper.each(zoneData.exits, zoneName => {
+      let exitData = zoneData.exits[zoneName]
+      exitData.points.forEach(point => {
+        if (index.equals(point)) {
+          this.setTrigger(Trigger.exit({ toZone:zoneName, visible:exitData.visible }))
+        }
+      });
+    });
+  }
+
   // === For Client ====================================================================================================
 
   forClient() {
     let tile = {
       type: ObjectHelper.reverseLookup(Tile.Type, this.type),
       floor: (this.floor ? this.floor.forClient() : null),
+      trigger: (this.trigger ? this.trigger.forClient() : null),
       walls: {},
     };
 

@@ -104,7 +104,7 @@ global.ZoneLoader = class ZoneLoader {
       let tileData = layer.tileData[tileIndex];
       if (tileData && tileData.root) {
         if (tileData.root.biome) { this.saveAsFreeTile(dungeonIndex, tileData); }
-        if (tileData.root.tile) { this.tileSource.setTile(dungeonIndex, Tile.fromTileData(tileData)); }
+        if (tileData.root.tile) { this.tileSource.setTile(dungeonIndex, Tile.fromTileData(tileData, this.zoneData, dungeonIndex)); }
       }
     });
   }
