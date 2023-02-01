@@ -6,26 +6,19 @@ window.MapView = (function() {
 
   function initPreviewControls() {
     let when = (e) => { return true; }
-    X.onKeyDown('w', when, e => { MapCanvas.move('N', true); });
-    X.onKeyDown('s', when, e => { MapCanvas.move('S', true); });
-    X.onKeyDown('d', when, e => { MapCanvas.move('E', true); });
-    X.onKeyDown('a', when, e => { MapCanvas.move('W', true); });
-    X.onArrowUp(when,      e => { MapCanvas.move('N', true); });
-    X.onArrowDown(when,    e => { MapCanvas.move('S', true); });
-    X.onArrowRight(when,   e => { MapCanvas.move('E', true); });
-    X.onArrowLeft(when,    e => { MapCanvas.move('W', true); });
+    X.onKeyDown('w', when, e => { MapCanvas.moveTo('N'); });
+    X.onKeyDown('s', when, e => { MapCanvas.moveTo('S'); });
+    X.onKeyDown('d', when, e => { MapCanvas.moveTo('E'); });
+    X.onKeyDown('a', when, e => { MapCanvas.moveTo('W'); });
+    X.onArrowUp(when,      e => { MapCanvas.moveTo('N'); });
+    X.onArrowDown(when,    e => { MapCanvas.moveTo('S'); });
+    X.onArrowRight(when,   e => { MapCanvas.moveTo('E'); });
+    X.onArrowLeft(when,    e => { MapCanvas.moveTo('W'); });
     X.onPageUp(when,       e => { MapCanvas.changeLevel('U'); });
     X.onPageDown(when,     e => { MapCanvas.changeLevel('D'); });
     X.onWheelUp(when,      e => { MapCanvas.zoomIn(); });
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
-
-  // These functions are just passed to the canvas because I don't want other
-  // non-map classes interacting with the canvas. Is there anything else the
-  // view needs to do with these though?
-  function moveTo(location) { MapCanvas.moveTo(location); }
-  function climbTo(location) { MapCanvas.climbTo(location); }
-  function warpTo(location) { MapCanvas.warpTo(location); }
 
   function showDungeon(options) {
     showMap({
@@ -57,14 +50,18 @@ window.MapView = (function() {
     MainContent.hideCover({ fadeTime:1000 });
   }
 
+  // === Pass Through ==========================================================
+  // These functions are just passed to the canvas because I don't want other
+  // non-map classes interacting with the canvas. Is there anything else the
+  // view needs to do with these though?
+  function move(response) { MapCanvas.move(response); }
+
   return {
     name: "MapView",
-    moveTo: moveTo,
-    climbTo: climbTo,
-    warpTo: warpTo,
     showDungeon: showDungeon,
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,
+    move: move,
   }
 
 })();

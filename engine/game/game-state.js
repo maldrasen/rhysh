@@ -105,7 +105,7 @@ global.GameState = (function() {
   // Whenever the party moves from one zone into another we update the party location to the point where they enter the
   // zone from. The new point is found in the zoneData for their current zone which should have a list of places it's
   // possible to come to the current zone from. (Or there should at least be a "Default" value)
-  function setZone(zoneName) {
+  function setCurrentZone(zoneName) {
     let previousZone = currentZone;
     let currentZone = zoneName;
 
@@ -134,7 +134,8 @@ global.GameState = (function() {
   function getStage() { return GameState.Stages[stageName]; }
   function getStageName() { return stageName; }
   function getWorldPath() { return worldPath; }
-  function getZone() { return currentZone; }
+  function getCurrentZoneName() { return currentZone; }
+  function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
   function getPartyLocation() { return partyLocation; }
 
   function render() {
@@ -143,7 +144,7 @@ global.GameState = (function() {
       dayCount: dayCount,
       stageName: getStageName(),
       stage: getStage(),
-      zone: currentZone,
+      zone: getCurrentZoneName(),
       location: getPartyLocation(),
     });
   }
@@ -154,13 +155,15 @@ global.GameState = (function() {
     loadGame,
     clear,
 
+    setCurrentZone,
     setStageName,
     setPartyLocation,
 
+    getCurrentZone,
+    getCurrentZoneName,
     getStage,
     getStageName,
     getWorldPath,
-    getZone,
     getPartyLocation,
 
     render,

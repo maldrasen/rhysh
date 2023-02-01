@@ -88,30 +88,19 @@ window.MapCanvas = (function() {
 
   function setLocation(point) { location = point; }
 
-  // TODO: Fow now I'm just making the climb, move, and warp actions identical.
-  //       Eventually like to handle each one of these slightly differently.
+  // TODO: Eventually we need to handle each move action slightly differently.
   //       The climb changes the z-level so it might be interesting to fade one
   //       layer in while the other fades out. Moving should tween the position
   //       so that it looks like the party is taking a step, and warp should
   //       have some kind of magical effect.
 
-  function climbTo(newLocation) {
-    location = newLocation;
+  function move(response) {
+    location = response.location;
     positionField();
   }
 
-  function moveTo(newLocation) {
-    location = newLocation;
-    positionField();
-  }
-
-  function warpTo(newLocation) {
-    location = newLocation;
-    positionField();
-  }
-
-  function move(direction) {
-    moveTo(location.go(direction));
+  function moveTo(direction) {
+    move({ location: location.go(direction) });
   }
 
   function changeLevel(direction) {
@@ -191,8 +180,6 @@ window.MapCanvas = (function() {
     setLocation,
     move,
     moveTo,
-    climbTo,
-    warpTo,
     changeLevel,
     zoomIn,
     zoomOut,

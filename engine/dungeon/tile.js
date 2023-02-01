@@ -58,12 +58,14 @@ global.Tile = class Tile {
 
   isEmpty() { return this.type == Tile.Type.Empty; }
   isSolid() { return this.type == Tile.Type.Solid; }
+  isStairs() { return this.type == Tile.Type.Stairs; }
   isStone() { return this.isSolid() && this.fillType == Tile.FillType.Stone; }
   isStatue() { return this.isSolid() && this.fillType == Tile.FillType.Statue; }
   isTree() { return this.isSolid() && this.fillType == Tile.FillType.Tree; }
 
+
   setFloor(floor) { this.floor = floor; }
-  hasFloor() { return this.floor && this.floor.isNormal(); }
+  hasFloor() { return this.floor != null && this.floor.isNormal(); }
 
   wallAt(facing) { return this.walls[facing]; }
   setWall(facing, wall) { this.walls[facing] = wall; }

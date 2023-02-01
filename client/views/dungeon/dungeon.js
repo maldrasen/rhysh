@@ -39,12 +39,8 @@ window.Dungeon = (function() {
 
     moving = direction;
     ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
-      if (response) {
-        if (response.moveTo)  { MapView.moveTo(Vector.from(response.moveTo));   }
-        if (response.climbTo) { MapView.climbTo(Vector.from(response.climbTo)); }
-        if (response.warpTo)  { MapView.warpTo(Vector.from(response.warpTo));   }
-        if (response.doorAction) { handleDoor(response); }
-      }
+      if (response.action != 'none') { MapView.move(response); }
+      if (response.doorAction) { handleDoor(response); }
       moving = null;
     });
   }

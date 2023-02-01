@@ -9,7 +9,7 @@ global.DungeonController = (function() {
 
     // Options format: { direction:"N" }
     ipcMain.handle("dungeon.request-move", async (payload, options) => {
-      return Dungeon.requestMove(options.direction);
+      return new MoveAction(options.direction).getResponse();
     });
 
     ipcMain.handle("dungeon-builder.show-debug-feature", async (payload) => {
