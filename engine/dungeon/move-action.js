@@ -36,8 +36,10 @@ global.MoveAction = class MoveAction {
       this.response.action = 'move';
     }
 
-    // Climb stairs
-    if (this.destinationTile.isStairs()) {
+    // Climb stairs. We first check to see if this is a move because a wall can
+    // be between the stairs and the party. If we are moving then we can also
+    // change the z-level of the party and we change the move type to climb.
+    if (this.response.action == 'move' && this.destinationTile.isStairs()) {
       let dir = this.destinationTile.stairDirection == U ? U : D;
       this.response.location = this.response.location.go(dir);
       this.response.action = 'climb';
