@@ -5,7 +5,7 @@ window.NewGame = (function() {
   }
 
   function show() {
-    MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game' }).then(() => {
+    MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-1' }).then(() => {
       MainContent.hideCover({ fadeTime:2000 });
       fadeIn();
       testWolgur();
