@@ -3,11 +3,20 @@
 
   #newGameForm {
     padding: 20px 60px;
+    min-width: 700px;
+  }
+
+  h2 {
+    text-align: center;
+    width: 666px;
+    margin: auto;
+    border-bottom: $border-normal;
+    color: $fg-body;
   }
 
   .architypes {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 50px;
 
     li {
@@ -38,7 +47,7 @@
     .drop {
       display: block;
       position: absolute;
-      top: 170px;
+      top: 185px;
       width: 100px;
     }
   }
