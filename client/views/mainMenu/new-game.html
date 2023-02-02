@@ -1,63 +1,61 @@
-<div id='newGame' class='overlay' style="opacity:0;">
+<div id='newGame'>
 
-  <div class='body'>
+  <div class='overlay'>
     <form id='newGameForm'>
 
       <!-- Step 1 : Pick Architype -->
       <div class='step-1'>
-        <p>Choose Architype</p>
-
         <ul class='architypes'>
-          <li><a href='#' class='button black-knight selected'>Black Knight</a></li>
-          <li><a href='#' class='button slaver'>Slaver</a></li>
-          <li><a href='#' class='button cultist'>Cultist</a></li>
-          <li><a href='#' class='button mindbender'>Mindbender</a></li>
-          <li><a href='#' class='button dominatrix'>Dominatrix</a></li>
-          <li><a href='#' class='button chosen'>Chosen</a></li>
+          <li><a href='#' class='button black-knight selected'><span class='drop'>Black Knight</span></a></li>
+          <li><a href='#' class='button slaver'><span class='drop'>Slaver</span></a></li>
+          <li><a href='#' class='button cultist'><span class='drop'>Cultist</span></a></li>
+          <li><a href='#' class='button mindbender'><span class='drop'>Mindbender</span></a></li>
+          <li><a href='#' class='button dominatrix'><span class='drop'>Dominatrix</span></a></li>
+          <li><a href='#' class='button chosen'><span class='drop'>Chosen</span></a></li>
         </ul>
 
         <div class='descriptions'>
-          <p class='black-knight selected'>
+          <p class='black-knight'>
             The Black Knight is a fearsome armored warrior whose defensive fighting style is focused on disabling
             opponents with grappling techniques and counter attacks. While his persistent fear aura keeps his followers
             in line, it also ensures that he will always be more feared than loved.
           </p>
-          <p class='slaver'>
+          <p class='slaver hide'>
             The Slavers are cruel and cunning rogues who prefer to attack from the shadows, letting their many slaves
             put themselves in danger while they uses their skills to cripple their opponents.
           </p>
-          <p class='cultist'>
+          <p class='cultist hide'>
             The Cultists of Rahm are feared across the world for their ability to capture and convert people to their
             strange eldritch religion. Their unspeakable gods grant them otherworldly powers but require sacrifice to
             remain in their favor.
           </p>
-          <p class='mindbender'>
+          <p class='mindbender hide'>
             The Mindbenders pursue a dangerous school of mind control magics that have been banned in most civilised
             nations. While they also learn some telekinetic spells for basic defense their real power comes from their
             fanatically devoted followers.
           </p>
-          <p class='dominatrix'>
+          <p class='dominatrix hide'>
             The Dominatrix delights in the suffering of others, learning a variety of skills to both inflict pain and
             to inspire people to worship her. She is an agile and deadly combatant when she chooses to be, though often
             she'd let her devoted slaves do the fighting for her.
           </p>
-          <p class='chosen'>
+          <p class='chosen hide'>
             The eldritch gods of the Cult of Rahm have chosen this one to be a vessel. While the cultists act as a
             conduit for the unspeakable gods' power, the Chosen are the physical embodiments of corruption. They wield
             many of the same otherworldly powers, though often in a more physical way.
           </p>
-        </div>
 
-        <div class='requirements'>
-          <p>Requirements:</p>
-          <dl>
-            <dt>Sex</dt>
-            <dd class='sex'></dd>
-          </dl>
-          <dl>
-            <dt>Species</dt>
-            <dd class='species'></dd>
-          </dl>
+          <div class='requirements'>
+            <p>Requirements:</p>
+            <dl>
+              <dt>Sex</dt>
+              <dd class='sex'></dd>
+            </dl>
+            <dl>
+              <dt>Species</dt>
+              <dd class='species'></dd>
+            </dl>
+          </div>
         </div>
       </div>
 
@@ -68,8 +66,8 @@
     </form>
   </div>
 
-  <div class='footer button-row'>
-    <a href='#' class='button back-button'>Back</a>
+  <div class='overlay-footer button-row'>
+    <a href='#' class='hide button back-button'>Back</a>
     <a href='#' class='button choose-architype-button'>Choose</a>
     <a href='#' class='hide button choose-species-button'>Choose</a>
     <a href='#game.start' class='hide button start-button'>Start</a>

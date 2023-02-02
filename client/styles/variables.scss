@@ -12,6 +12,7 @@ $fs-h4: 10pt;
 $fs-h5: 10pt;
 
 $shadow-frame:         0 5px 10px rgba(0,0,0,0.5);
+$shadow-deep:          0 5px 10px rgba(0,0,0,0.8);
 $shadow-inset:         0 3px 6px rgba(0,0,0,0.4) inset;
 $shadow-inset-button:  0 3px 5px rgba(0,0,0,0.8) inset;
 $shadow-shallow:       0 2px 3px rgba(0,0,0,0.9);
@@ -55,4 +56,5 @@ $z-root: 100;
 $z-map-canvas: 5000;
 $z-map-controls: 5100;
 $z-overlay: 9000;
+$z-overlay-footer: 9001;
 $z-main-cover: 10000;

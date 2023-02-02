@@ -6,11 +6,20 @@ window.NewGame = (function() {
 
   function show() {
     MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-1' }).then(() => {
-      MainContent.hideCover({ fadeTime:2000 });
-      fadeIn();
-      testWolgur();
+      MainContent.hideCover({ fadeTime:500 });
     });
   }
+
+
+
+  // Overlay element had style="opacity:0;"
+  //
+  // Boat Start
+  // MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-2' }).then(() => {
+  //   MainContent.hideCover({ fadeTime:2000 });
+  //   fadeIn();
+  //   testWolgur();
+  // });
 
   function testWolgur() {
     setTimeout(function() {

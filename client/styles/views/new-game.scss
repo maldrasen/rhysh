@@ -1,4 +1,55 @@
 
 #newGame {
-  background-color: rgba(0, 8, 16, 0.8);
+
+  #newGameForm {
+    padding: 20px 60px;
+  }
+
+  .architypes {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+
+    li {
+      display: inline-block;
+      margin: 5px;
+    }
+
+    a.button {
+      height: 100px;
+      width: 100px;
+      padding: 0;
+      text-align: center;
+
+      background-size: contain;
+      border: none;
+    }
+
+    a.selected { color: rgb(246,88,88) !important; }
+    a:active { box-shadow:none }
+
+    a.black-knight { background-image: url('../assets/icons/arch-black-knight.png'); }
+    a.slaver { background-image: url('../assets/icons/arch-slaver.png'); }
+    a.cultist { background-image: url('../assets/icons/arch-cultist.png'); }
+    a.mindbender { background-image: url('../assets/icons/arch-mindbender.png'); }
+    a.dominatrix { background-image: url('../assets/icons/arch-dominatrix.png'); }
+    a.chosen { background-image: url('../assets/icons/arch-chosen.png'); }
+
+    .drop {
+      display: block;
+      position: absolute;
+      top: 170px;
+      width: 100px;
+    }
+  }
+
+  .descriptions {
+    margin: auto;
+    width: 666px;
+    font-size: $fs-big;
+  }
+
+
+  // For boat
+  // background-color: rgba(0, 8, 16, 0.8);
 }
