@@ -1,7 +1,9 @@
 window.NewGame = (function() {
 
-  function init() {
+  let selectedArchitype = 'knight';
 
+  function init() {
+    X.onClick('#newGame .architypes .button', e => { selectArchitype(e.target) });
   }
 
   function show() {
@@ -10,10 +12,40 @@ window.NewGame = (function() {
     });
   }
 
+  function selectArchitype(target) {
+    let name = X.classesExcept(target, ['button','selected'])[0];
+    if (name == selectedArchitype) { return; }
+
+    X.removeClass('#newGame .architypes .selected','selected');
+    X.addClass(`#newGame .descriptions .${selectedArchitype}`,'hide');
+    X.addClass(target,'selected');
+    X.removeClass(`#newGame .descriptions .${name}`,'hide');
+
+    selectedArchitype = name;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   // Overlay element had style="opacity:0;"
-  //
+  // background-color: rgba(0, 8, 16, 0.8);
   // Boat Start
   // MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-2' }).then(() => {
   //   MainContent.hideCover({ fadeTime:2000 });

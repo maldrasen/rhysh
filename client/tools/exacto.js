@@ -77,3 +77,11 @@ X.removeClass = function(arg, classname) {
   }
   arg.classList.remove(classname);
 }
+
+X.classesExcept = function(element, classList) {
+  let list = [];
+  element.classList.forEach(classname => {
+    if (classList.indexOf(classname) == -1) { list.push(classname); }
+  });
+  return list;
+}

@@ -1,14 +1,13 @@
-
 #newGame {
 
   #newGameForm {
     padding: 20px 60px;
-    min-width: 700px;
+    min-width: 900px;
   }
 
   h2 {
     text-align: center;
-    width: 666px;
+    width: 850px;
     margin: auto;
     border-bottom: $border-normal;
     color: $fg-body;
@@ -25,8 +24,8 @@
     }
 
     a.button {
-      height: 100px;
-      width: 100px;
+      height: 128px;
+      width: 128px;
       padding: 0;
       text-align: center;
 
@@ -37,7 +36,7 @@
     a.selected { color: rgb(246,88,88) !important; }
     a:active { box-shadow:none }
 
-    a.black-knight { background-image: url('../assets/icons/arch-black-knight.png'); }
+    a.knight { background-image: url('../assets/icons/arch-black-knight.png'); }
     a.slaver { background-image: url('../assets/icons/arch-slaver.png'); }
     a.cultist { background-image: url('../assets/icons/arch-cultist.png'); }
     a.mindbender { background-image: url('../assets/icons/arch-mindbender.png'); }
@@ -47,14 +46,14 @@
     .drop {
       display: block;
       position: absolute;
-      top: 185px;
-      width: 100px;
+      top: 215px;
+      width: 128px;
     }
   }
 
   .descriptions {
     margin: auto;
-    width: 666px;
+    width: 850px;
     font-size: $fs-big;
 
     p.requirements {
@@ -71,8 +70,4 @@
       margin-left: 20px;
     }
   }
-
-
-  // For boat
-  // background-color: rgba(0, 8, 16, 0.8);
 }

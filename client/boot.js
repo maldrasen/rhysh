@@ -67,6 +67,7 @@
     MainContent.init();
     MainMenu.init();
     MapCanvas.init();
+    NewGame.init();
     TileGraphics.init();
     Renderer.init();
   }
