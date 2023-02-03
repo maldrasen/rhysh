@@ -51,6 +51,13 @@ global.GameState = (function() {
     });
   }
 
+  // This should only be called from the newGame view when we start a new game,
+  // but give up before the first event has completed.
+  function abortGame() {
+    deleteGame(worldIndex);
+    clear()
+  }
+
   function saveGame() {
     Kompressor.write(`${worldPath}/GameState.cum`,{
       timeCount: timeCount,
@@ -61,6 +68,13 @@ global.GameState = (function() {
     });
 
     Sector.save();
+  }
+
+  function deleteGame(index) {
+    let path = `${DATA}/worlds/world-${index}`;
+    fs.rm(path, { recursive: true, force: true }, error => {
+      console.log(`Deleted Game: ${path}`);
+    });
   }
 
   async function loadGame(index) {
@@ -168,6 +182,7 @@ global.GameState = (function() {
 
   return {
     newGame,
+    abortGame,
     saveGame,
     loadGame,
     clear,

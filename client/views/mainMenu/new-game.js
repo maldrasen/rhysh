@@ -18,20 +18,35 @@ window.NewGame = (function() {
     chosen:     ['elf','orc','minotaur','dragonkind','lupin','satyr'],
   };
 
-  let selectedArchitype = 'knight';
-  let selectedSex = 'male';
-  let selectedSpecies = 'elf';
+  let selectedArchitype;
+  let selectedSex;
+  let selectedSpecies;
 
   function init() {
     X.onClick('#newGame .architypes .button', e => { handleSelectArchitype(e.target); });
     X.onClick('#newGame .sexes .button', e => { handleSelectSex(e.target); });
     X.onClick('#newGame .species .button', e => { handleSelectSpecies(e.target); });
+
     X.onClick('#newGame .choose-architype-button', e => { showSpeciesStep(); });
+    X.onClick('#newGame .choose-species-button', e => { showAttributeStep(); });
+
+    X.onClick('#newGame .back-to-main-button', e => { backToMain(); });
     X.onClick('#newGame .back-to-architype-button', e => { showArchitypeStep(); });
+    X.onClick('#newGame .back-to-species-button', e => { showSpeciesStep(); });
+  }
+
+  function backToMain() {
+    ClientCommands.send("game.abort");
+    MainMenu.show();
   }
 
   function show() {
     MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-1' }).then(() => {
+      selectedArchitype = 'knight';
+      selectedSex = 'male';
+      selectedSpecies = 'elf';
+
+      showArchitypeStep();
       MainContent.hideCover({ fadeTime:500 });
     });
   }
@@ -53,7 +68,6 @@ window.NewGame = (function() {
 
   function selectArchitype(name) {
     let button = X.first(`.architypes a.${name}`);
-
     X.removeClass('.architype-step .architypes .selected','selected');
     X.addClass(button,'selected');
 
@@ -94,15 +108,19 @@ window.NewGame = (function() {
   }
 
   function showArchitypeStep()  {
-    X.addClass('.species-step','hide');
-    X.addClass('.back-to-architype-button','hide');
+    hideAll()
+
     X.removeClass('.architype-step','hide');
+    X.removeClass('.back-to-main-button','hide');
+    X.removeClass('.choose-architype-button','hide');
   }
 
   function showSpeciesStep() {
-    X.addClass('.architype-step','hide');
+    hideAll()
+
     X.removeClass('.species-step','hide');
     X.removeClass('.back-to-architype-button','hide');
+    X.removeClass('.choose-species-button','hide');
 
     X.each('.species-step .sexes a.button', button => {
       X.removeClass(button,'selected');
@@ -134,6 +152,14 @@ window.NewGame = (function() {
     updateSpeciesImages();
   }
 
+  function showAttributeStep() {
+    hideAll();
+
+    X.removeClass('.attributes-step','hide');
+    X.removeClass('.back-to-species-button','hide');
+    X.removeClass('.choose-attributes-button','hide');
+  }
+
   function updateSpeciesImages() {
     X.each('.species-step .species a', button => {
       X.removeClass(button, 'male');
@@ -159,9 +185,20 @@ window.NewGame = (function() {
     }
   }
 
+  // Called between steps to hide all the other steps and buttons.
+  function hideAll() {
+    X.addClass('.architype-step','hide');
+    X.addClass('.species-step','hide');
+    X.addClass('.attributes-step','hide');
 
+    X.addClass('.back-to-main-button','hide');
+    X.addClass('.back-to-architype-button','hide');
+    X.addClass('.back-to-species-button','hide');
 
-
+    X.addClass('.choose-architype-button','hide');
+    X.addClass('.choose-species-button','hide');
+    X.addClass('.choose-attributes-button','hide');
+  }
 
 
 
