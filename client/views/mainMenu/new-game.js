@@ -23,9 +23,9 @@ window.NewGame = (function() {
   let selectedSpecies = 'elf';
 
   function init() {
-    X.onClick('#newGame .architypes .button', e => { selectArchitype(e.target); });
-    X.onClick('#newGame .sexes .button', e => { selectSex(e.target); });
-    X.onClick('#newGame .species .button', e => { selectSpecies(e.target); });
+    X.onClick('#newGame .architypes .button', e => { handleSelectArchitype(e.target); });
+    X.onClick('#newGame .sexes .button', e => { handleSelectSex(e.target); });
+    X.onClick('#newGame .species .button', e => { handleSelectSpecies(e.target); });
     X.onClick('#newGame .choose-architype-button', e => { showSpeciesStep(); });
     X.onClick('#newGame .back-to-architype-button', e => { showArchitypeStep(); });
   }
@@ -36,14 +36,29 @@ window.NewGame = (function() {
     });
   }
 
-  function selectArchitype(target) {
+  function handleSelectArchitype(target) {
     let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name == selectedArchitype) { return; }
+    if (name != selectedArchitype) { selectArchitype(name); }
+  }
 
-    X.removeClass('.architypes .selected','selected');
-    X.addClass(`.descriptions .${selectedArchitype}`,'hide');
-    X.addClass(target,'selected');
-    X.removeClass(`.descriptions .${name}`,'hide');
+  function handleSelectSex(target) {
+    let name = X.classesExcept(target, ['button','selected'])[0];
+    if (name != selectedSex) { selectSex(name); }
+  }
+
+  function handleSelectSpecies(target) {
+    let name = X.classesExcept(target, ['button','selected'])[0];
+    if (name != selectedSpecies) { selectSpecies(name); }
+  }
+
+  function selectArchitype(name) {
+    let button = X.first(`.architypes a.${name}`);
+
+    X.removeClass('.architype-step .architypes .selected','selected');
+    X.addClass(button,'selected');
+
+    X.addClass(`.architype-step .descriptions .${selectedArchitype}`,'hide');
+    X.removeClass(`.architype-step .descriptions .${name}`,'hide');
 
     let allowedSexes = SexMapping[name];
     let allowedSpecies = SpeciesMapping[name];
@@ -53,40 +68,27 @@ window.NewGame = (function() {
     selectedSpecies = allowedSpecies[0];
   }
 
-  function selectSex(target) {
-    let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name == selectedSex) { return; }
+  function selectSex(name) {
+    let button = X.first(`.sexes a.${name}`);
 
     X.removeClass('.sexes .selected','selected');
-    X.addClass(target,'selected');
+    X.addClass(button,'selected');
 
     selectedSex = name;
     updateSpeciesImages();
 
-    // If a nymph is selected and we change the sex to male we reset the
-    // species back to elf.
-    if (selectedSpecies == 'nymph' && selectedSex == 'male') {
-      X.removeClass('.species .nymph','selected');
-      X.addClass('.species .elf','selected');
-      selectedSpecies = 'elf';
-    }
-
-    // Likewise if a minotaur is selected and we change the sex to something
-    // other than male we reset the species back to elf.
-    if (selectedSpecies == 'minotaur' && selectedSex != 'male') {
-      X.removeClass('.species .minotaur','selected');
-      X.addClass('.species .elf','selected');
-      selectedSpecies = 'elf';
-    }
-
+    if (selectedSpecies == 'nymph' && selectedSex == 'male') { selectSpecies('elf'); }
+    if (selectedSpecies == 'minotaur' && selectedSex != 'male') { selectSpecies('elf'); }
   }
 
-  function selectSpecies(target) {
-    let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name == selectedSpecies) { return; }
+  function selectSpecies(name) {
+    let button = X.first(`.species a.${name}`);
 
     X.removeClass('.species .selected','selected');
-    X.addClass(target,'selected');
+    X.addClass(button,'selected');
+
+    X.addClass(`.species-step .descriptions .${selectedSpecies}`,'hide');
+    X.removeClass(`.species-step .descriptions .${name}`,'hide');
 
     selectedSpecies = name;
   }
