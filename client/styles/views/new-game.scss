@@ -13,24 +13,22 @@
     color: $fg-body;
   }
 
-  .architypes {
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 50px;
-
+  .radio-icons {
     li {
       display: inline-block;
-      margin: 5px;
     }
 
     a.button {
-      height: 128px;
-      width: 128px;
       padding: 0;
+      margin: 5px;
       text-align: center;
-
       background-size: contain;
       border: none;
+    }
+
+    .drop {
+      display: block;
+      position: absolute;
     }
 
     a.selected { color: rgb(246,88,88) !important; }
@@ -43,9 +41,32 @@
     a.dominatrix { background-image: url('../assets/icons/arch-dominatrix.png'); }
     a.chosen { background-image: url('../assets/icons/arch-chosen.png'); }
 
+    a.elf.male { background-image: url('../assets/icons/species-elf-m.png'); }
+    a.orc.male { background-image: url('../assets/icons/species-orc-m.png'); }
+    a.minotaur.male { background-image: url('../assets/icons/species-minotaur-m.png'); }
+    a.dragonkind.male { background-image: url('../assets/icons/species-dragonkind-m.png'); }
+    a.lupin.male { background-image: url('../assets/icons/species-lupin-m.png'); }
+    a.satyr.male { background-image: url('../assets/icons/species-satyr-m.png'); }
+
+    a.elf.female { background-image: url('../assets/icons/species-elf-f.png'); }
+    a.nymph.female { background-image: url('../assets/icons/species-nymph-f.png'); }
+    a.orc.female { background-image: url('../assets/icons/species-orc-f.png'); }
+    a.dragonkind.female { background-image: url('../assets/icons/species-dragonkind-f.png'); }
+    a.lupin.female { background-image: url('../assets/icons/species-lupin-f.png'); }
+    a.satyr.female { background-image: url('../assets/icons/species-satyr-f.png'); }
+  }
+
+  .architypes {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    a.button {
+      height: 128px;
+      width: 128px;
+    }
+
     .drop {
-      display: block;
-      position: absolute;
       top: 215px;
       width: 128px;
     }
@@ -70,4 +91,35 @@
       margin-left: 20px;
     }
   }
+
+  .sexes {
+    text-align: center;
+    margin: 30px;
+
+    a.button {
+      height: 64px;
+      width: 64px;
+    }
+
+    .drop {
+      top: 160px;
+      width: 64px;
+    }
+  }
+
+  .species {
+    text-align: center;
+    margin: 30px;
+
+    a.button {
+      height: 183px;
+      width: 128px;
+    }
+
+    .drop {
+      top: 390px;
+      width: 128px;
+    }
+  }
+
 }

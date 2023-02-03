@@ -3,11 +3,11 @@
   <div class='overlay'>
     <form id='newGameForm'>
 
-      <h2>Create a main character</h2>
-
       <!-- Step 1 : Pick Architype -->
-      <div class='step-1'>
-        <ul class='architypes'>
+      <div class='architype-step'>
+        <h2>Create a main character</h2>
+
+        <ul class='radio-icons architypes'>
           <li><a href='#' class='knight button selected'><span class='drop'>Black Knight</span></a></li>
           <li><a href='#' class='slaver button'><span class='drop'>Slaver</span></a></li>
           <li><a href='#' class='cultist button'><span class='drop'>Cultist</span></a></li>
@@ -47,7 +47,7 @@
               strange eldritch religion. Their unspeakable gods grant them otherworldly powers but require sacrifice to
               remain in their favor.
             </p>
-            <p class='requirements'>Elf, Nymph, Dragon, or Satyr Only</p>
+            <p class='requirements'>Elf, Nymph, Dragonkind, or Satyr Only</p>
             <p class='note'>
               A cultist must have a strong natural affinity to magic in order to attract the attention of the nameless
               gods.
@@ -60,7 +60,7 @@
               nations. While they also learn some telekinetic spells for basic defense their real power comes from
               their fanatically devoted followers.
             </p>
-            <p class='requirements'>Elf, Nymph, Dragon, or Satyr Only</p>
+            <p class='requirements'>Elf, Nymph, Dragonkind, or Satyr Only</p>
             <p class='note'>
               The mindbender's spells require a strong natural affinity to magic to learn.
             </p>
@@ -94,14 +94,32 @@
       </div>
 
       <!-- Step 2 : Pick Species Sex and Gender -->
-      <div class='step-2 hide'>
+      <div class='species-step hide'>
+        <h2>Choose sex and species</h2>
+
+        <ul class='radio-icons sexes'>
+          <li><a href='#' class='male button'><span class='drop'>Male</span></a></li>
+          <li><a href='#' class='female button'><span class='drop'>Female</span></a></li>
+          <li><a href='#' class='futa button'><span class='drop'>Futa</span></a></li>
+        </ul>
+
+        <ul class='radio-icons species'>
+          <li><a href='#' class='elf button'><span class='drop'>Elf</span></a></li>
+          <li><a href='#' class='nymph button'><span class='drop'>Nymph</span></a></li>
+          <li><a href='#' class='orc button'><span class='drop'>Orc</span></a></li>
+          <li><a href='#' class='minotaur button'><span class='drop'>Minotaur</span></a></li>
+          <li><a href='#' class='dragonkind button'><span class='drop'>Dragonkind</span></a></li>
+          <li><a href='#' class='lupin button'><span class='drop'>Lupin</span></a></li>
+          <li><a href='#' class='satyr button'><span class='drop'>Satyr</span></a></li>
+        </ul>
+
       </div>
 
     </form>
   </div>
 
   <div class='overlay-footer button-row'>
-    <a href='#' class='hide button back-button'>Back</a>
+    <a href='#' class='hide button back-to-architype-button'>Back</a>
     <a href='#' class='button choose-architype-button'>Choose</a>
     <a href='#' class='hide button choose-species-button'>Choose</a>
     <a href='#game.start' class='hide button start-button'>Start</a>
