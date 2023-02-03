@@ -20,7 +20,6 @@
 
     a.button {
       padding: 0;
-      margin: 5px;
       text-align: center;
       background-size: contain;
       border: none;
@@ -29,10 +28,17 @@
     .drop {
       display: block;
       position: absolute;
+      height: 24px;
+      line-height: 24px;
+      background-color: rgba(0,0,0,0.5);
     }
 
     a.selected { color: rgb(246,88,88) !important; }
     a:active { box-shadow:none }
+
+    &.sexes a.male { background-image: url('../assets/icons/sex-male.png'); }
+    &.sexes a.female { background-image: url('../assets/icons/sex-female.png'); }
+    &.sexes a.futa { background-image: url('../assets/icons/sex-futa.png'); }
 
     a.knight { background-image: url('../assets/icons/arch-black-knight.png'); }
     a.slaver { background-image: url('../assets/icons/arch-slaver.png'); }
@@ -67,7 +73,7 @@
     }
 
     .drop {
-      top: 215px;
+      top: 210px;
       width: 128px;
     }
   }
@@ -102,7 +108,7 @@
     }
 
     .drop {
-      top: 160px;
+      top: 155px;
       width: 64px;
     }
   }
@@ -117,7 +123,7 @@
     }
 
     .drop {
-      top: 390px;
+      top: 374px;
       width: 128px;
     }
   }
