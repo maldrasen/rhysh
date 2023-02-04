@@ -6,6 +6,10 @@ global.Loader = (function() {
     'helpers',
   ];
 
+  const DataDirectories = [
+    'character',
+  ];
+
   const GameModules = [
     'dungeon',
     'dungeonBuilder',
@@ -46,6 +50,10 @@ global.Loader = (function() {
 
     GameModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
+    });
+
+    DataDirectories.forEach(directory => {
+      loadDirectory(`${ROOT}/data/${directory}`);
     });
   }
 

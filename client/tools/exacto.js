@@ -9,11 +9,30 @@ X.body = function() { return document.getElementsByTagName('body')[0]; }
 X.each = function(query, callback) { X(query).forEach(callback); }
 X.first = function(query) { return X(query)[0]; }
 
+
+// === Create and Modify Elements -=============================================
+
+// Either remove all elements that match the query string. There's no need for
+// this to only work on a single element, just call element.remove() instead.
 X.remove = function(query) {
   X(query).forEach(element => { element.remove(); });
 }
 
-// === Events ==========================================================================================================
+X.empty = function(arg) {
+  (typeof arg == "string" ? X.first(arg) : arg).replaceChildren();
+}
+
+X.fill = function(arg, element) {
+  (typeof arg == "string" ? X.first(arg) : arg).replaceChildren(element);
+}
+
+X.createElement = function(string) {
+  let element = document.createElement("div");
+  element.setHTML(string);
+  return element.children[0];
+}
+
+// === Events ==================================================================
 
 X.onClick = function(selector, callback) {
   window.addEventListener('click', event => {

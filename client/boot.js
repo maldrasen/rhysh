@@ -60,6 +60,10 @@
       import("./views/mapView/tile-graphics.js"),
       import("./views/pauseMenu/pause-menu.js"),
       import("./views/townView/town-view.js"),
+
+      // Data
+      import("../data/character/archetype-data.js"),
+      import("../data/character/species-data.js"),
     ]);
   }
 
