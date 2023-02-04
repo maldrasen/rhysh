@@ -4,6 +4,7 @@ window.NewGame = (function() {
   let selectedSex;
   let selectedSpecies;
   let attributeControl;
+  let summaryList
 
   function init() {
     X.onClick('#newGame .archetypes .button', e => { handleSelectArchetype(e.target); });
@@ -54,12 +55,11 @@ window.NewGame = (function() {
     X.removeClass('.archetype-step .archetypes .selected','selected');
     X.addClass(button,'selected');
 
-    X.addClass(`.archetype-step .descriptions .${selectedArchetype}`,'hide');
-    X.removeClass(`.archetype-step .descriptions .${name}`,'hide');
-
     selectedArchetype = name;
     selectedSex = ArchetypeData[name].availableSexes[0];
-    selectedSpecies = ArchetypeData[name].availableSexes[0];
+    selectedSpecies = ArchetypeData[name].availableSpecies[0];
+
+    showArchetypeDescription();
   }
 
   function selectSex(name) {
@@ -81,10 +81,9 @@ window.NewGame = (function() {
     X.removeClass('.species .selected','selected');
     X.addClass(button,'selected');
 
-    X.addClass(`.species-step .descriptions .${selectedSpecies}`,'hide');
-    X.removeClass(`.species-step .descriptions .${name}`,'hide');
-
     selectedSpecies = name;
+
+    showSpeciesDescription();
   }
 
   function showArchetypeStep()  {
@@ -93,6 +92,8 @@ window.NewGame = (function() {
     X.removeClass('.archetype-step','hide');
     X.removeClass('.back-to-main-button','hide');
     X.removeClass('.choose-archetype-button','hide');
+
+    showArchetypeDescription();
   }
 
   function showSpeciesStep() {
@@ -121,7 +122,7 @@ window.NewGame = (function() {
 
     X.each('.species-step .species a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(ArchetypeData[selectedArchetype].availableSexes, name)) {
+      if (false == ArrayHelper.contains(ArchetypeData[selectedArchetype].availableSpecies, name)) {
         X.addClass(button,'hide');
       }
     });
@@ -130,16 +131,20 @@ window.NewGame = (function() {
     X.addClass(`.species-step .species a.${selectedSpecies}`,'selected');
 
     updateSpeciesImages();
+    showSpeciesDescription();
   }
 
   function showAttributeStep() {
     hideAll();
 
     let baseAttributes = {};
-    let attributeData = SpeciesData[selectedSpecies].basePlayerAttributes;
+    let attributeBase = SpeciesData[selectedSpecies].basePlayerAttributes;
+    let attributeBonus = ArchetypeData[selectedArchetype].attributeBonus;
 
-    ObjectHelper.each(attributeData, name => {
-      baseAttributes[name] = attributeData[name];
+
+    ObjectHelper.each(attributeBase, name => {
+      baseAttributes[name] = attributeBase[name];
+      if (attributeBonus[name]) { baseAttributes[name] += attributeBonus[name]; }
       if (Random.flipCoin()) { baseAttributes[name] -= 1; }
       if (Random.flipCoin()) { baseAttributes[name] += 1; }
     });
@@ -183,6 +188,16 @@ window.NewGame = (function() {
     }
   }
 
+  function showArchetypeDescription() {
+    X.addClass(`.archetype-step .descriptions > div`,'hide');
+    X.removeClass(`.archetype-step .descriptions .${selectedArchetype}`,'hide');
+  }
+
+  function showSpeciesDescription() {
+    X.addClass(`.species-step .descriptions > div`,'hide');
+    X.removeClass(`.species-step .descriptions .${selectedSpecies}`,'hide');
+  }
+
   // Called between steps to hide all the other steps and buttons.
   function hideAll() {
     X.addClass('.archetype-step','hide');
@@ -198,13 +213,31 @@ window.NewGame = (function() {
     X.addClass('.choose-attributes-button','hide');
   }
 
-  function updateSummary() {
-    let summaryList = X.first('.summary-list');
-
+  function initSummary() {
+    summaryList = X.first('.summary-list');
     X.empty(summaryList);
-
-    summaryList.appendChild(X.createElement(`<li>Character is an exemplar of their species with higher than average attributes.</li>`));
   }
+
+  function updateSummary() {
+    let archetypeData = ArchetypeData[selectedArchetype];
+    let speciesData = SpeciesData[selectedSpecies];
+
+    initSummary();
+    addSummaryItem('The player character is an exemplar of their species with higher than average attributes.');
+    addSummaryItem(`A ${archetypeData.name} receives the following attribute bonuses:`);
+
+    ObjectHelper.each(archetypeData.attributeBonus, attr => {
+      addSummaryItem(`<span class='sub attribute ${attr}'>
+        ${AttributeNames[attr]} +${archetypeData.attributeBonus[attr]}
+      </span>`);
+    });
+
+  }
+
+  function addSummaryItem(string) {
+    summaryList.appendChild(X.createElement(`<li>${string}</li>`));
+  }
+
 
 
 

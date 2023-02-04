@@ -138,10 +138,15 @@
       flex-grow: 1;
       padding: 10px;
       margin-left: 60px;
-
+      font-size: $fs-big;
       background-color: rgba(0,0,0,0.666);
       border: $border-light;
       box-shadow: $shadow-deep;
+
+      .sub {
+        margin-left: 20px;
+        font-size: $fs-body;
+      }
     }
   }
 

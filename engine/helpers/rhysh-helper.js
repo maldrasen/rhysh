@@ -1,6 +1,15 @@
 
 // === Directions ===
 
+global.AttributeNames = {
+  str: 'Strength',
+  dex: 'Dexterity',
+  con: 'Constitution',
+  int: 'Intelligence',
+  wis: 'Wisdom',
+  cha: 'Charisma',
+};
+
 global.N = "N";
 global.S = "S";
 global.E = "E";
