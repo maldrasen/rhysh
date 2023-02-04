@@ -7,8 +7,8 @@ $fs-small:  9pt;
 $fs-tiny:   8pt;
 
 $fs-h2: 20pt;
-$fs-h3: 12pt;
-$fs-h4: 10pt;
+$fs-h3: 16pt;
+$fs-h4: 12pt;
 $fs-h5: 10pt;
 
 $shadow-frame:         0 5px 10px rgba(0,0,0,0.5);
@@ -45,13 +45,9 @@ $fg-button-danger:    rgb(250, 100, 100);
 $fg-button-warning:   rgb(153, 112, 77);
 $fg-button-success:   rgb(127, 201, 127);
 
-// Attributes
-$fg-str: #905555;
-$fg-dex: #8f9055;
-$fg-con: #604e31;
-$fg-int: #3f6486;
-$fg-wis: #395c39;
-$fg-cha: #8a5698;
+// Other
+$fg-bonus: rgb(240,230,220);
+$fg-penalty: rgb(180,150,120);
 
 // === Radio Buttons ===
 $fg-radio-button-on: rgb(250,250,250);

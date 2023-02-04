@@ -75,10 +75,6 @@
 .border-bottom { border-bottom: $border-normal; }
 .border-top { border-top: $border-normal; }
 
-// === Attributes ===
-.attribute.str { color:$fg-str; }
-.attribute.dex { color:$fg-dex; }
-.attribute.con { color:$fg-con; }
-.attribute.int { color:$fg-int; }
-.attribute.wis { color:$fg-wis; }
-.attribute.cha { color:$fg-cha; }
+// === Other ===
+.bonus { color: $fg-bonus; }
+.penalty { color: $fg-penalty; }

@@ -4,7 +4,6 @@ window.NewGame = (function() {
   let selectedSex;
   let selectedSpecies;
   let attributeControl;
-  let summaryList
 
   function init() {
     X.onClick('#newGame .archetypes .button', e => { handleSelectArchetype(e.target); });
@@ -12,7 +11,8 @@ window.NewGame = (function() {
     X.onClick('#newGame .species .button', e => { handleSelectSpecies(e.target); });
 
     X.onClick('#newGame .choose-archetype-button', e => { showSpeciesStep(); });
-    X.onClick('#newGame .choose-species-button', e => { showAttributeStep(); });
+    X.onClick('#newGame .choose-species-button', e => { showSummaryStep(); });
+    X.onClick('#newGame .begin-button', e => { beginGame(); });
 
     X.onClick('#newGame .back-to-main-button', e => { backToMain(); });
     X.onClick('#newGame .back-to-archetype-button', e => { showArchetypeStep(); });
@@ -134,7 +134,7 @@ window.NewGame = (function() {
     showSpeciesDescription();
   }
 
-  function showAttributeStep() {
+  function showSummaryStep() {
     hideAll();
 
     let baseAttributes = {};
@@ -149,9 +149,9 @@ window.NewGame = (function() {
       if (Random.flipCoin()) { baseAttributes[name] += 1; }
     });
 
-    X.removeClass('.attributes-step','hide');
+    X.removeClass('.summary-step','hide');
     X.removeClass('.back-to-species-button','hide');
-    X.removeClass('.choose-attributes-button','hide');
+    X.removeClass('.begin-button','hide');
 
     attributeControl = new AttributeControl();
     attributeControl.setAttributes(baseAttributes);
@@ -202,7 +202,7 @@ window.NewGame = (function() {
   function hideAll() {
     X.addClass('.archetype-step','hide');
     X.addClass('.species-step','hide');
-    X.addClass('.attributes-step','hide');
+    X.addClass('.summary-step','hide');
 
     X.addClass('.back-to-main-button','hide');
     X.addClass('.back-to-archetype-button','hide');
@@ -210,36 +210,34 @@ window.NewGame = (function() {
 
     X.addClass('.choose-archetype-button','hide');
     X.addClass('.choose-species-button','hide');
-    X.addClass('.choose-attributes-button','hide');
-  }
-
-  function initSummary() {
-    summaryList = X.first('.summary-list');
-    X.empty(summaryList);
+    X.addClass('.begin-button','hide');
   }
 
   function updateSummary() {
     let archetypeData = ArchetypeData[selectedArchetype];
-    let speciesData = SpeciesData[selectedSpecies];
+    let attributeList = X.first('.summary .attribute-list');
 
-    initSummary();
+    X.empty(attributeList);
+    X.addClass('.summary .archetype-list','hide');
+    X.addClass('.summary .species-list','hide');
+    X.removeClass(`.summary .${selectedArchetype}-archetype-list`,'hide');
+    X.removeClass(`.summary .${selectedSpecies}-species-list`,'hide');
+
+    const addSummaryItem = function(string) {
+      attributeList.appendChild(X.createElement(`<li>${string}</li>`));
+    }
+
     addSummaryItem('The player character is an exemplar of their species with higher than average attributes.');
-    addSummaryItem(`A ${archetypeData.name} receives the following attribute bonuses:`);
+    addSummaryItem(`<div class='small-margin-top'>A ${archetypeData.name} receives the following attribute bonuses:</div>`);
 
     ObjectHelper.each(archetypeData.attributeBonus, attr => {
-      addSummaryItem(`<span class='sub attribute ${attr}'>
-        ${AttributeNames[attr]} +${archetypeData.attributeBonus[attr]}
-      </span>`);
+      addSummaryItem(`<span class='sub bonus'>${AttributeNames[attr]} +${archetypeData.attributeBonus[attr]}</span>`);
     });
-
   }
 
-  function addSummaryItem(string) {
-    summaryList.appendChild(X.createElement(`<li>${string}</li>`));
+  function beginGame() {
+    console.log("=== BEGIN GAME ===");
   }
-
-
-
 
 
 

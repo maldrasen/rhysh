@@ -131,22 +131,35 @@
 
   // === Attributes Step =======================================================
 
-  .attributes-step {
+  .summary-step {
     display: flex;
+
+    h3 {
+      border-bottom: $border-light;
+      margin-bottom: 10px;
+    }
 
     .summary {
       flex-grow: 1;
-      padding: 10px;
+      padding: 10px 20px;
       margin-left: 60px;
       font-size: $fs-big;
       background-color: rgba(0,0,0,0.666);
       border: $border-light;
       box-shadow: $shadow-deep;
 
+      .archetype-list { margin-top: 10px; }
+      .species-list { margin-top: 10px; }
+
+      li {
+        line-height: 20px;
+      }
+
       .sub {
         margin-left: 20px;
         font-size: $fs-body;
       }
+
     }
   }
 

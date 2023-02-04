@@ -4,8 +4,8 @@ ArchetypeData.knight = {
   name:"Black Knight",
 
   availableSexes: ['male'],
-  availableSpecies: ['elf','orc','minotaur','dragonkind','lupin','satyr'],
-  attributeBonus:{ str:2, con:2 }
+  availableSpecies: ['elf','orc','minotaur'],
+  attributeBonus:{ str:3, con:2 }
 };
 
 ArchetypeData.slaver = {
@@ -13,7 +13,7 @@ ArchetypeData.slaver = {
 
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','orc','lupin','satyr'],
-  attributeBonus:{ str:2, dex:2 }
+  attributeBonus:{ str:2, dex:3 }
 };
 
 ArchetypeData.cultist = {
@@ -21,7 +21,7 @@ ArchetypeData.cultist = {
 
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','nymph','dragonkind','satyr'],
-  attributeBonus:{ wis:2, cha:2 }
+  attributeBonus:{ wis:3, cha:2 }
 };
 
 ArchetypeData.mindbender = {
@@ -29,7 +29,7 @@ ArchetypeData.mindbender = {
 
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','nymph','dragonkind','satyr'],
-  attributeBonus:{ int:2, cha:2 }
+  attributeBonus:{ int:3, cha:2 }
 };
 
 ArchetypeData.dominatrix = {
