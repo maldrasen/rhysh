@@ -129,4 +129,20 @@
     }
   }
 
+  // === Attributes Step =======================================================
+
+  .attributes-step {
+    display: flex;
+
+    .summary {
+      flex-grow: 1;
+      padding: 10px;
+      margin-left: 60px;
+
+      background-color: rgba(0,0,0,0.666);
+      border: $border-light;
+      box-shadow: $shadow-deep;
+    }
+  }
+
 }

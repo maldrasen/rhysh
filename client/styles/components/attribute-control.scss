@@ -1,0 +1,28 @@
+.attribute-control {
+  background-color: rgba(0,0,0,0.666);
+  border: $border-light;
+  box-shadow: $shadow-deep;
+
+  .attribute-list > .attribute {
+    display: flex;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px;
+
+    .name {
+      width: 100px;
+      text-align: right;
+      margin-right: 10px;
+    }
+    .value {
+      width: 29px;
+      height: 29px;
+      font-size: 18px;
+      font-family: roboto;
+      text-align: center;
+      color: $fg-strong;
+      border: $border-light;
+      box-shadow: $shadow-frame;
+    }
+  }
+}

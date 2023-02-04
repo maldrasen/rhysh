@@ -1,5 +1,9 @@
 window.NewGame = (function() {
 
+  // TODO: Perhaps move all of this data into a constants or configuration
+  //       file for the species. This might be the only place they're used
+  //       though, still it'd be a good practice.
+
   const SexMapping = {
     knight:     ['male'],
     slaver:     ['male','female','futa'],
@@ -18,9 +22,20 @@ window.NewGame = (function() {
     chosen:     ['elf','orc','minotaur','dragonkind','lupin','satyr'],
   };
 
+  const SpeciesAttributeMapping = {
+    elf:        { str:12, dex:14, con:10, int:12, wis:10, cha:10 },
+    nymph:      { str:8,  dex:8,  con:8,  int:12, wis:12, cha:16 },
+    orc:        { str:14, dex:12, con:16, int:8,  wis:10, cha:8  },
+    minotaur:   { str:16, dex:8,  con:14, int:8,  wis:8,  cha:8  },
+    dragonkind: { str:14, dex:14, con:12, int:14, wis:12, cha:12 },
+    lupin:      { str:14, dex:14, con:16, int:9,  wis:9,  cha:9  },
+    satyr:      { str:12, dex:10, con:10, int:8,  wis:8,  cha:12 },
+  }
+
   let selectedArchitype;
   let selectedSex;
   let selectedSpecies;
+  let attributeControl;
 
   function init() {
     X.onClick('#newGame .architypes .button', e => { handleSelectArchitype(e.target); });
@@ -155,9 +170,22 @@ window.NewGame = (function() {
   function showAttributeStep() {
     hideAll();
 
+    let baseAttributes = {};
+
+    ObjectHelper.each(SpeciesAttributeMapping[selectedSpecies], name => {
+      baseAttributes[name] = SpeciesAttributeMapping[selectedSpecies][name];
+      if (Random.flipCoin()) { baseAttributes[name] -= 1; }
+      if (Random.flipCoin()) { baseAttributes[name] += 1; }
+    });
+
     X.removeClass('.attributes-step','hide');
     X.removeClass('.back-to-species-button','hide');
     X.removeClass('.choose-attributes-button','hide');
+
+    attributeControl = new AttributeControl();
+    attributeControl.setAttributes(baseAttributes);
+
+    X.first('.attributes-container').replaceChildren(attributeControl.getElement());
   }
 
   function updateSpeciesImages() {
@@ -199,6 +227,10 @@ window.NewGame = (function() {
     X.addClass('.choose-species-button','hide');
     X.addClass('.choose-attributes-button','hide');
   }
+
+
+
+
 
 
 

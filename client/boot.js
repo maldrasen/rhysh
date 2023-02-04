@@ -37,6 +37,7 @@
       import('../engine/helpers/rhysh-helper.js'),
 
       // Components
+      import('./components/attribute-control.js'),
       import('./components/main-content.js'),
 
       // Elements
