@@ -10,32 +10,9 @@ global.Switchboard = (function() {
       Loader.loadDirectory(`${ROOT}/engine/controllers`);
       Loader.loadDirectory(`${ROOT}/engine/server`);
 
+      DungeonBuilder.load();
       Browser.init();
       Controllers.init();
-    });
-
-    // Requiring Sequalize breaks Chrome's dev tools for some reason, so I have to wait until the client is finished
-    // loading before we can start the database. The specs can start the database at any time though.
-    Messenger.subscribe("database.start", () => {
-      const { Sequelize, DataTypes } = require('sequelize');
-
-      global.Sequelize = Sequelize;
-      global.DataTypes = DataTypes;
-
-      Database.createDatabase();
-    });
-
-    // Sent by the Database once it has been created.
-    Messenger.subscribe("database.created", () => {
-      Database.load().then(() => {
-        Messenger.publish("database.ready");
-      });
-    });
-
-    // When the database is ready it's safe to initialize.
-    Messenger.subscribe("database.ready", () => {
-      Loader.loadSecondStage();
-      DungeonBuilder.load();
     });
 
   }};

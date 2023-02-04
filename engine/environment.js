@@ -4,14 +4,12 @@ global.Environment = (function() {
     name: 'production',
     debug: false,
     verbose: false,
-    databaseLogging: false,
   };
 
   const DEV = {
     name: 'development',
     debug: true,
     verbose: true,
-    databaseLogging: true,
   };
 
   // The env.json file is really just used to switch between the development and production modes. The environment is

@@ -8,7 +8,6 @@ global.RootController = (function() {
       });
 
       Messenger.publish('server.ready');
-      Messenger.publish('database.start');
     });
 
     ipcMain.handle("client.loadTemplate", async (payload, path) => {

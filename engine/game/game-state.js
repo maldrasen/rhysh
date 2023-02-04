@@ -104,8 +104,6 @@ global.GameState = (function() {
     dayCount = null;
     partyLocation = null;
     stageName = null;
-
-    await Database.clear();
   }
 
   // I'm not sure if setting the stage should trigger the render or that should

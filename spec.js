@@ -5,23 +5,6 @@ global.DATA = `${ROOT}/test`
 
 require(`${ROOT}/engine/boot.js`);
 
-before(() => {
-  return new Promise(resolve => {
-    Messenger.subscribe("database.ready", () => {
-      console.log("=== Test Environment Loaded and Ready ===\n\n");
-      resolve();
-    });
-  });
-});
-
-afterEach(() => {
-  return new Promise(async resolve => {
-    await Database.clear();
-    // Flag.clear();
-    resolve();
-  });
-});
-
 global.SpecHelper = {
 
   print(message) {
@@ -46,5 +29,3 @@ global.SpecHelper = {
   },
 
 };
-
-Messenger.publish("database.start");

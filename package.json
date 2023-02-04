@@ -22,9 +22,7 @@
   },
 
   "dependencies": {
-    "object-hash": "3.0.0",
-    "sequelize": "6.28.0",
-    "sqlite3": "^5.1.4"
+    "object-hash": "3.0.0"
   },
 
   "devDependencies": {

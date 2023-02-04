@@ -8,6 +8,7 @@ global.Loader = (function() {
 
   const DataDirectories = [
     'character',
+    'names',
   ];
 
   const GameModules = [
@@ -15,26 +16,18 @@ global.Loader = (function() {
     'dungeonBuilder',
     'forms',
     'game',
-    'models',
     'scrutinizers',
   ];
 
   const Preload = [
     'core/messenger.js',
     'core/weaver.js',
-    'forms/form.js',
-    'models/model.js',
     'scrutinizers/central-scrutinizer.js',
   ];
 
   let complete = [];
 
-  // The order that all the various scripts needs to be loaded in unfortunately complicated. The first stage loads all
-  // of the core classes, opens a browser window, then starts the database when it receives a message back from the
-  // browser.
-  function loadFirstStage() {
-    console.log(" - Loading core modules.")
-
+  function run() {
     Preload.forEach(script => {
       loadFile(`${ROOT}/engine/${script}`);
     });
@@ -42,11 +35,6 @@ global.Loader = (function() {
     CoreModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
     });
-  }
-
-  // The second stage loads and initializes all the database classes.
-  function loadSecondStage() {
-    console.log(" - Loading game modules.")
 
     GameModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
@@ -80,8 +68,7 @@ global.Loader = (function() {
   }
 
   return {
-    loadFirstStage,
-    loadSecondStage,
+    run,
     loadFile,
     loadDirectory
   };

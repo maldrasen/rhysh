@@ -11,6 +11,5 @@ global.DATA = app.getPath("userData")
 require(`${ROOT}/engine/boot.js`);
 
 // Once all the JavaScripts are loaded we open the webview to the client. It will do its boot process and send a
-// message back to the server once it's ready. At that point we finish the boot process by creating and loading the
-// database.
+// message back to the server once it's ready. At that point we finish the boot process by loading all the data files.
 Messenger.publish('server.start');
