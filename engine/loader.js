@@ -28,6 +28,8 @@ global.Loader = (function() {
   let complete = [];
 
   function run() {
+    console.log(" - Loading core modules");
+
     Preload.forEach(script => {
       loadFile(`${ROOT}/engine/${script}`);
     });
@@ -39,6 +41,8 @@ global.Loader = (function() {
     GameModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
     });
+
+    console.log(" - Loading data files");
 
     DataDirectories.forEach(directory => {
       loadDirectory(`${ROOT}/data/${directory}`);
