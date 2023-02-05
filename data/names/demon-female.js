@@ -25,7 +25,6 @@ let names = [
   { name:"Belphegoria" },
   { name:"Blasphemia" },
   { name:"Cadaveria" },
-  { name:"Christfuck" },
   { name:"Clitoria", triggers:['monster-clit']},
   { name:"Cloven" },
   { name:"Concubine" },
@@ -109,5 +108,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'demon', position:'first', restriction:'not-male' });
+  Name.add(name, 'DemonFemale');
 });

@@ -161,5 +161,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'goblin', position:'first', restriction:'male' });
+  Name.add(name,  'GoblinMale');
 });

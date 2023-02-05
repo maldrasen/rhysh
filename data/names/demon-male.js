@@ -44,7 +44,6 @@ let names = [
   { name:"Depravity" },
   { name:"Desecration" },
   { name:"Deviant" },
-  { name:"Devilman" },
   { name:"Dødheimsgard" },
   { name:"Doomcock" },
   { name:"Duromast" },
@@ -135,5 +134,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'demon', position:'first', restriction:'male' });
+  Name.add(name, 'DemonMale');
 });

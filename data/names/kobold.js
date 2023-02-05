@@ -56,11 +56,11 @@ let names = [
  { name:"Delves-Deeply", triggers:['smart']},
  { name:"Dies-Horribly", restriction:'male' },
  { name:"Dives-From-Below" },
- { name:"Dodges-An-Attack" },
  { name:"Doubts-The-Moon", triggers:['smart']},
  { name:"Draws-A-Map", triggers:['smart']},
  { name:"Dreams-In-Daylight" },
  { name:"Dreams-Of-Blood", aspects:['violent.3']},
+ { name:"Dreams-Of-Dragons" },
  { name:"Dreams-Of-Honey-And-Gold", aspects:['pussy-lover.3','passive','slut.2','golden.3']},
  { name:"Drifts-On-Wind", aspects:['passive']},
  { name:"Drinks-Down-The-Moon" },
@@ -111,6 +111,7 @@ let names = [
  { name:"Has-No-Regrets" },
  { name:"Has-Trouble-Acting-Normal", aspects:['perverted.3'], triggers:['stupid'], restriction:'male' },
  { name:"He-Cuts-The-Flesh", aspects:['violent.2'], restriction:'male' },
+ { name:"Head-Like-A-Hole" },
  { name:"Hears-A-Whisper" },
  { name:"Hears-The-Stone", triggers:['magical']},
  { name:"Hears-Voices-From-The-Deep", triggers:['magical']},
@@ -166,6 +167,8 @@ let names = [
  { name:"Moves-Many-Rocks", triggers:['strong']},
  { name:"Names-The-Leaves", triggers:['smart','beautiful']},
  { name:"Narrows-His-Eyes", restriction:'male' },
+ { name:"Never-Clever", triggers:['stupid']},
+ { name:"One-Eye-Green" },
  { name:"Only-He-Stands-There", restriction:'male' },
  { name:"Opens-His-Eyes", restriction:'male' },
  { name:"Paints-With-Dreams", aspects:['passive.2'], triggers:['magical'], restriction:'female' },
@@ -214,6 +217,7 @@ let names = [
  { name:"Sleeps-All-Day", aspects:['passive']},
  { name:"Slim-Pickins" },
  { name:"Slips-Through-Fingers" },
+ { name:"Sloppy-Seconds", aspects:['slut'], restriction:'female' },
  { name:"Smells-Like-Shit", aspects:['golden.2','revolting.3'], restriction:'male' },
  { name:"Smiles-With-Knife", aspects:['violent']},
  { name:"Smokes-A-Pipe", aspects:['passive.3']},
@@ -272,6 +276,8 @@ let names = [
  { name:"The-Color-Of-A-Dream", aspects:['passive.2'], restriction:'female' },
  { name:"The-Glitter-Of-Gold" },
  { name:"The-Ugly-One", triggers:['ugly']},
+ { name:"The-Wind-From-Below" },
+ { name:"Third-Times-The-Charm" },
  { name:"Thinks-Like-A-Knife", triggers:['smart']},
  { name:"Thinks-Of-Traps", aspects:['violent'], triggers:['smart']},
  { name:"Thoughts-Of-The-Wind", aspects:['passive'], triggers:['smart']},
@@ -308,5 +314,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'kobold' });
-})
+  Name.add(name, 'Kobold');
+});

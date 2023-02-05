@@ -223,6 +223,7 @@ let names = [
   { name:"Florence" },
   { name:"Florens" },
   { name:"Foriel" },
+  { name:"Foxy", triggers:['beautiful','dark-skin']},
   { name:"Francisca" },
   { name:"Fredricka" },
   { name:"Freja" },
@@ -327,16 +328,17 @@ let names = [
   { name:"Lesbia", aspects:['gynephilic','androphobic']},
   { name:"Lexie" },
   { name:"Lexus" },
+  { name:"Lil'", triggers:['short','thin','small-tits']},
   { name:"Lilith", aspects:['dominant'], triggers:['magical']},
   { name:"Linette" },
-  { name:"Little" },
+  { name:"Little", triggers:['short','thin','small-tits']},
   { name:"Llana" },
   { name:"Loituma" },
   { name:"Loli", triggers:['short','thin','small-tits']},
   { name:"Lolly", triggers:['short','thin','small-tits']},
   { name:"Lovely", triggers:['beautiful']},
   { name:"Lucilla" },
-  { name:"Lupa" },
+  { name:"Luna" },
   { name:"Lyra" },
   { name:"Maddeline" },
   { name:"Madison" },
@@ -372,6 +374,7 @@ let names = [
   { name:"Mia" },
   { name:"Millicent" },
   { name:"Milly" },
+  { name:"Milky", aspects:['milky'], triggers:['big-tits']},
   { name:"Minerva" },
   { name:"Mint" },
   { name:"Mirabelle" },
@@ -453,6 +456,7 @@ let names = [
   { name:"Ravyn" },
   { name:"Ready" },
   { name:"Rebeccah" },
+  { name:"Renna" },
   { name:"Rhætia" },
   { name:"Rhapsody" },
   { name:"Rhyan" },
@@ -526,6 +530,7 @@ let names = [
   { name:"Sorcha" },
   { name:"Sparkle", triggers:['stupid','beautiful','magical','weak']},
   { name:"Sparrow" },
+  { name:"Splendid", triggers:['beautiful']},
   { name:"Spider" },
   { name:"Splendid" },
   { name:"Stabitha", aspects:['violent.2']},
@@ -569,7 +574,7 @@ let names = [
   { name:"Tickle", triggers:['stupid']},
   { name:"Tiki" },
   { name:"Tina" },
-  { name:"Tiny", triggers:['thin','small-tits']},
+  { name:"Tiny", triggers:['short','thin','small-tits']},
   { name:"Tiphina" },
   { name:"Titania" },
   { name:"Tiyani" },
@@ -625,5 +630,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'elf', position:'first', restriction:'not-male' });
+  Name.add(name, 'ElfFemale');
 });

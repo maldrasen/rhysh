@@ -1,8 +1,9 @@
 let names = [
   { name:"Angry", aspects:['violent']},
-  { name:"Anal", aspects:['anal-slut','size-queen']},
+  { name:"Anal", aspects:['anal-slut.2','size-queen']},
+  { name:"Assy", aspects:['anal-slut','size-queen']},
   { name:"Babycakes" },
-  { name:"Backpussy", aspects:['anal-slut','size-queen']},
+  { name:"Backpussy", aspects:['anal-slut.2','size-queen']},
   { name:"Battlepussy", aspects:['violent']},
   { name:"Birthy", aspects:['breeder']},
   { name:"Bitchbucket", aspects:['violent']},
@@ -20,6 +21,7 @@ let names = [
   { name:"Classic" },
   { name:"Clitty", aspects:['pussy-slut'], triggers:['monster-clit']},
   { name:"Coochy", aspects:['pussy-slut'], triggers:['big-pussy']},
+  { name:"Cocksleeve", aspects:['size-queen.2'], triggers:['big-pussy']},
   { name:"Creampie", aspects:['pussy-slut.2','androphilic','cum-lover']},
   { name:"Creamy", aspects:['androphilic','cum-lover']},
   { name:"Cumcovered", aspects:['androphilic','cum-lover.3']},
@@ -142,5 +144,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'goblin', position:'first', restriction:'not-male' });
+  Name.add(name, 'GoblinFemale');
 });

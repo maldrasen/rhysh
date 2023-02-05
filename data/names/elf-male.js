@@ -111,6 +111,8 @@ let names = [
   { name:"Bertram" },
   { name:"Bertrand" },
   { name:"Bethan" },
+  { name:"Big", triggers:['tall','strong','thicc','big-cock']},
+  { name:"Black", triggers:['dark-skin','big-cock']},
   { name:"Blackcock", triggers:['dark-skin','monster-cock']},
   { name:"Blackmore" },
   { name:"Blavier" },
@@ -301,6 +303,7 @@ let names = [
   { name:"Grond" },
   { name:"Grondal" },
   { name:"Gryffen" },
+  { name:"Gunter" },
   { name:"Guston" },
   { name:"Gwayne" },
   { name:"Gylbart" },
@@ -326,6 +329,7 @@ let names = [
   { name:"Hewrey" },
   { name:"Hieronymus" },
   { name:"Honest" },
+  { name:"Horse", triggers:['tall','strong','big-cock','horse-cock','big-balls']},
   { name:"Hotspur", triggers:['red-hair']},
   { name:"Ibanion" },
   { name:"Ibium" },
@@ -647,5 +651,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'elf', position:'first', restriction:'male' });
+  Name.add(name, 'ElfMale');
 });

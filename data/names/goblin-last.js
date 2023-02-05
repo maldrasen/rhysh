@@ -91,6 +91,7 @@ let names = [
   { name:"Horsefucker", aspects:['beast-lover.3']},
   { name:"Horseshits", aspects:['beast-lover.2','revolting']},
   { name:"Killfucker", aspects:['violent']},
+  { name:"Knobpolish", aspects:['androphilic']},
   { name:"Manglefucker", aspects:['violent']},
   { name:"Manglestabber", aspects:['violent']},
   { name:"Motherfister", aspects:['stretcher.3']},
@@ -156,5 +157,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, { species:'goblin', position:'last' });
+  Name.add(name, 'GoblinLast');
 });
