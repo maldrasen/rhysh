@@ -139,6 +139,13 @@
       margin-bottom: 10px;
     }
 
+    .name-container {
+      margin-bottom: 20px;
+      background-color: rgba(0,0,0,0.666);
+      border: $border-light;
+      box-shadow: $shadow-deep;
+    }
+
     .summary {
       flex-grow: 1;
       padding: 10px 20px;

@@ -29,9 +29,10 @@ $bg-root:            rgb(30,30,30);
 $bg-frame:           rgba(0,0,0,0.666);
 
 $fg-body:            rgb(180,170,160);
-$fg-strong:          rgb(250, 250, 250);
-$fg-weak:            rgb(150, 150, 150);
-$fg-very-weak:       rgba(150, 150, 150, 0.5);
+$fg-strong:          rgb(240,230,220);
+$fg-very-strong:     rgb(250, 250, 250);
+$fg-weak:            rgb(180, 150, 120);
+$fg-very-weak:       rgba(180, 150, 120, 0.5);
 $fg-link:            rgb(220,80,50);
 $fg-link-hover:      rgb(250,100,60);
 $fg-link-active:     rgb(255,110,70);
@@ -46,8 +47,14 @@ $fg-button-warning:   rgb(153, 112, 77);
 $fg-button-success:   rgb(127, 201, 127);
 
 // Other
-$fg-bonus: rgb(240,230,220);
-$fg-penalty: rgb(180,150,120);
+$fg-bonus: $fg-strong;
+$fg-penalty: $fg-weak;
+
+// === Forms ===
+$bg-input: rgba(0,0,0,0.8);
+$border-input: 1px solid rgba(180,170,160,0.5);
+$border-input-hover: 1px solid rgba(180,170,160,0.75);
+$border-input-focus: 1px solid rgba(180,170,160,0.75);
 
 // === Radio Buttons ===
 $fg-radio-button-on: rgb(250,250,250);
