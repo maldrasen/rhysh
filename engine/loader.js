@@ -12,9 +12,9 @@ global.Loader = (function() {
   ];
 
   const GameModules = [
+    'characters',
     'dungeon',
     'dungeonBuilder',
-    'forms',
     'game',
     'scrutinizers',
   ];
