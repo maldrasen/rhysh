@@ -4,6 +4,7 @@ window.NewGame = (function() {
   let selectedSex;
   let selectedSpecies;
   let attributeControl;
+  let randomNames;
 
   function init() {
     X.onClick('#newGame .archetypes .button', e => { handleSelectArchetype(e.target); });
@@ -32,6 +33,10 @@ window.NewGame = (function() {
 
       showArchetypeStep();
       MainContent.hideCover({ fadeTime:500 });
+
+      ClientCommands.send('game.get-random-names').then((names) => {
+        randomNames = names;
+      });
     });
   }
 
@@ -140,7 +145,13 @@ window.NewGame = (function() {
     let baseAttributes = {};
     let attributeBase = SpeciesData[selectedSpecies].basePlayerAttributes;
     let attributeBonus = ArchetypeData[selectedArchetype].attributeBonus;
+    let firstNameInput = X.first('input#firstName');
+    let lastNameInput = X.first('input#lastName');
 
+    if (firstNameInput.value == '') {
+      firstNameInput.value = randomNames[selectedSex].first.name
+      lastNameInput.value = randomNames[selectedSex].last.name
+    }
 
     ObjectHelper.each(attributeBase, name => {
       baseAttributes[name] = attributeBase[name];

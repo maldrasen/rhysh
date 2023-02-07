@@ -78,7 +78,6 @@ let names = [
   { name:'Ravenclaw' },
   { name:'Raveneye' },
   { name:'Redleaf' },
-  { name:'Redlight' },
   { name:'Redwood' },
   { name:'Rockstalker' },
   { name:'Rushwater' },

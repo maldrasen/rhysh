@@ -1,7 +1,6 @@
 global.Name = (function() {
 
   const NameRestrictions = ['male','female','not-male','not-female','has-cock','has-pussy','has-tits','has-scales'];
-  const NamePositions = ['pre','first','last'];
 
   const Names = {
     DemonMale: [],
@@ -19,9 +18,8 @@ global.Name = (function() {
   function add(data, index) {
     try {
       if (data.restriction) { Validate.isIn(data.restriction, NameRestrictions); }
-      if (data.position) { Validate.isIn(data.position, NamePositions); }
     } catch(error) {
-      console.error(`Invalid Name:`,data,options);
+      console.error(`Invalid Name:`,data);
       throw error;
     }
 
@@ -56,13 +54,26 @@ global.Name = (function() {
     return { name:"Greg" };
   }
 
+  // Get a full random name given a gender and a species. Arguments should be
+  // capitalized so that we can easilly make an index name from them.
+  function getFullRandom(gender, species) {
+    let sex = (gender == "Futa") ? "Female" : gender;
+
+    if (species == 'Kobold') {
+      return { first: getRandom({ index:'Kobold', sex:sex }) }
+    }
+
+    return {
+      first: getRandom({ index:`${species}${sex}`, sex:sex }),
+      last:  getRandom({ index:`${species}Last`,   sex:sex }),
+    };
+  }
+
+
   // This will eventually need to be rewritten. It works for checking against a
   // sex option, but eventually we'll probably need to check against a
   // character to see if the name fits or not.
   function meetsRequirements(name, options) {
-    if (options.position && (name.position != options.position)) { console.log("No, bad position"); return false; }
-    if (options.species && (name.species != options.species)) { console.log("No, bad species"); return false; }
-
     if (name.restriction) {
       if (name.restriction == 'male') { return options.sex == 'male'; }
       if (name.restriction == 'female') { return options.sex == 'female'; }
@@ -77,6 +88,6 @@ global.Name = (function() {
     return true;
   }
 
-  return { add, getRandom };
+  return { add, getRandom, getFullRandom };
 
 })();

@@ -1,21 +1,30 @@
 global.GameController = (function() {
 
   function init() {
-    ipcMain.handle("game.new", (payload) => {
+    ipcMain.handle("game.new", () => {
       GameState.newGame();
     });
 
-    ipcMain.handle("game.abort", (payload) => {
+    ipcMain.handle("game.abort", () => {
       GameState.abortGame();
     });
 
-    ipcMain.handle("game.render", (payload) => {
+    ipcMain.handle("game.render", () => {
       GameState.render();
     });
 
-    // TODO: Create the player character using the values we get from the new game form.
+    // TODO: Orc and Dragon name should probably come from different indices.
+    ipcMain.handle("game.get-random-names", () => {
+      return {
+        male: Name.getFullRandom('Male','Elf'),
+        futa: Name.getFullRandom('Futa','Elf'),
+        female: Name.getFullRandom('Female','Elf'),
+      };
+    });
 
-    ipcMain.handle("game.start", (payload) => {
+    // TODO: Create the player character using the values we get from the new
+    //       game form.
+    ipcMain.handle("game.start", () => {
       GameState.setStageName("Dungeon");
       GameState.render();
       GameState.saveGame();
@@ -25,11 +34,11 @@ global.GameController = (function() {
       GameState.loadGame(parameters[0]);
     });
 
-    ipcMain.handle("game.show-load", (payload) => {
+    ipcMain.handle("game.show-load", () => {
       console.log("TODO: Show Load")
     });
 
-    ipcMain.handle("game.show-options", (payload) => {
+    ipcMain.handle("game.show-options", () => {
       console.log("TODO: Show Options")
     });
   }
