@@ -53,7 +53,7 @@
 }
 
 // Imortant all the things!
-.disabled-button {
+.disabled {
   cursor: default !important;
   color: $fg-very-weak !important;
   border: 1px solid transparentize($fg-very-weak, 0.4) !important;

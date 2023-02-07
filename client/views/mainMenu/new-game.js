@@ -18,6 +18,8 @@ window.NewGame = (function() {
     X.onClick('#newGame .back-to-main-button', e => { backToMain(); });
     X.onClick('#newGame .back-to-archetype-button', e => { showArchetypeStep(); });
     X.onClick('#newGame .back-to-species-button', e => { showSpeciesStep(); });
+
+    X.onInput('#newGame input', e => { setTimeout(validateForm, 1); });
   }
 
   function backToMain() {
@@ -246,12 +248,40 @@ window.NewGame = (function() {
     });
   }
 
-  function beginGame() {
-    console.log("=== BEGIN GAME ===");
+
+  function validateForm() {
+    let beginButton = X.first('#newGame .begin-button');
+
+    if (X.hasClass(beginButton,'disabled') && isFormValid()) {
+      console.log("ENABLE")
+      X.removeClass(beginButton, 'disabled');
+    }
+
+    if (!X.hasClass(beginButton,'disabled') && !isFormValid()) {
+      console.log("DISABLE")
+      X.addClass(beginButton, 'disabled');
+    }
   }
 
+  function isFormValid() {
+    if (!X.first('input#firstName').value.match(/\w+/)) { return false; };
+    if (!X.first('input#lastName').value.match(/\w+/)) { return false; };
+    return true;
+  }
 
+  function beginGame() {
+    let parameters = {
+      archetype: selectedArchetype,
+      species: selectedSpecies,
+      sex: selectedSex,
+      firstName: X.first('input#firstName').value,
+      lastName: X.first('input#lastName').value,
+    }
 
+    ClientCommands.send('game.start', parameters).then(() => {
+      MainContent.clear();
+    });
+  }
 
   // Overlay element had style="opacity:0;"
   // background-color: rgba(0, 8, 16, 0.8);

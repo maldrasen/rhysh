@@ -42,6 +42,14 @@ X.onClick = function(selector, callback) {
   });
 }
 
+X.onInput = function(selector, callback) {
+  window.addEventListener('keydown', event => {
+    if (event.target.matches(".disabled") == false && event.target.matches(selector)) {
+      callback(event);
+    }
+  });
+}
+
 X.onKeyDown = function(key, when, callback) {
   window.addEventListener('keydown', event => {
     if (event.key == key && when(event)) { callback(event); }
