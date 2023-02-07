@@ -1,3 +1,3 @@
-Arcanum.register('RushingWaters', {
+Arcanum.register('rushingWaters', {
   name:'Arcanum of the Rushing Waters',
 });

@@ -14,11 +14,17 @@ global.Species = (function() {
   }
 
   function build(code, options) {
-    return { code:code };
+    return {
+      code: code,
+      name: options.name,
+      basePlayerAttributes: options.basePlayerAttributes,
+    };
   }
 
   function lookup(code) {
-    return SpeciesDictionary[code];
+    let species = SpeciesDictionary[code];
+    if (species == null) { throw `Unknown Species (${code})` }
+    return species;
   }
 
   function all() {

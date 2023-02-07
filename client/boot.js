@@ -30,6 +30,8 @@
       import('./renderer.js'),
 
       // Engine
+      import("../engine/characters/archetype.js"),
+      import("../engine/characters/species.js"),
       import('../engine/classes/vector.js'),
       import('../engine/helpers/array-helper.js'),
       import('../engine/helpers/object-helper.js'),
@@ -62,8 +64,21 @@
       import("./views/townView/town-view.js"),
 
       // Data
-      import("../data/character/archetype-data.js"),
-      import("../data/character/species-data.js"),
+      import("../data/characters/archetypes/black-knight.js"),
+      import("../data/characters/archetypes/chosen.js"),
+      import("../data/characters/archetypes/cultist.js"),
+      import("../data/characters/archetypes/dominatrix.js"),
+      import("../data/characters/archetypes/mindbender.js"),
+      import("../data/characters/archetypes/slaver.js"),
+
+      import("../data/characters/species/dragonkind.js"),
+      import("../data/characters/species/elf.js"),
+      import("../data/characters/species/lupin.js"),
+      import("../data/characters/species/minotaur.js"),
+      import("../data/characters/species/nymph.js"),
+      import("../data/characters/species/orc.js"),
+      import("../data/characters/species/satyr.js"),
+
     ]);
   }
 

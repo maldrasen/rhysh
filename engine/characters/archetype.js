@@ -14,11 +14,19 @@ global.Archetype = (function() {
   }
 
   function build(code, options) {
-    return { code:code };
+    return {
+      code:             code,
+      name:             options.name,
+      availableSexes:   options.availableSexes,
+      availableSpecies: options.availableSpecies,
+      attributeBonus:   options.attributeBonus,
+    };
   }
 
   function lookup(code) {
-    return ArchetypeDictionary[code];
+    let archetype = ArchetypeDictionary[code];
+    if (archetype == null) { throw `Unknown Archetype (${code})` }
+    return archetype;
   }
 
   function all() {

@@ -18,7 +18,9 @@ global.Gnosis = (function() {
   }
 
   function lookup(code) {
-    return GnosisDictionary[code];
+    let gnosis = GnosisDictionary[code];
+    if (gnosis == null) { throw `Unknown Gnosis (${code})` }
+    return gnosis;
   }
 
   function all() {

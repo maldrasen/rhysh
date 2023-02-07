@@ -7,7 +7,7 @@ global.Loader = (function() {
   ];
 
   const DataDirectories = [
-    'character',
+    'characters',
     'names',
   ];
 

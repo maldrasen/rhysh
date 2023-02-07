@@ -1,3 +1,3 @@
-Arcanum.register('Domination', {
+Arcanum.register('domination', {
   name:'Arcanum of Domination',
 });

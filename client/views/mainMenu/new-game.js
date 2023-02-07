@@ -59,12 +59,14 @@ window.NewGame = (function() {
 
   function selectArchetype(name) {
     let button = X.first(`.archetypes a.${name}`);
+    let archetype = Archetype.lookup(name);
+
     X.removeClass('.archetype-step .archetypes .selected','selected');
     X.addClass(button,'selected');
 
     selectedArchetype = name;
-    selectedSex = ArchetypeData[name].availableSexes[0];
-    selectedSpecies = ArchetypeData[name].availableSpecies[0];
+    selectedSex = archetype.availableSexes[0];
+    selectedSpecies = archetype.availableSpecies[0];
 
     showArchetypeDescription();
   }
@@ -122,14 +124,14 @@ window.NewGame = (function() {
 
     X.each('.species-step .sexes a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(ArchetypeData[selectedArchetype].availableSexes, name)) {
+      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSexes, name)) {
         X.addClass(button,'hide');
       }
     });
 
     X.each('.species-step .species a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(ArchetypeData[selectedArchetype].availableSpecies, name)) {
+      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSpecies, name)) {
         X.addClass(button,'hide');
       }
     });
@@ -145,8 +147,8 @@ window.NewGame = (function() {
     hideAll();
 
     let baseAttributes = {};
-    let attributeBase = SpeciesData[selectedSpecies].basePlayerAttributes;
-    let attributeBonus = ArchetypeData[selectedArchetype].attributeBonus;
+    let attributeBase = Species.lookup(selectedSpecies).basePlayerAttributes;
+    let attributeBonus = Archetype.lookup(selectedArchetype).attributeBonus;
     let firstNameInput = X.first('input#firstName');
     let lastNameInput = X.first('input#lastName');
 
@@ -175,7 +177,7 @@ window.NewGame = (function() {
   }
 
   function updateSpeciesImages() {
-    let availableSpecies = ArchetypeData[selectedArchetype].availableSpecies;
+    let availableSpecies = Archetype.lookup(selectedArchetype).availableSpecies;
 
     X.each('.species-step .species a', button => {
       X.removeClass(button, 'male');
@@ -227,7 +229,7 @@ window.NewGame = (function() {
   }
 
   function updateSummary() {
-    let archetypeData = ArchetypeData[selectedArchetype];
+    let archetype = Archetype.lookup(selectedArchetype);
     let attributeList = X.first('.summary .attribute-list');
 
     X.empty(attributeList);
@@ -241,10 +243,10 @@ window.NewGame = (function() {
     }
 
     addSummaryItem('The player character is an exemplar of their species with higher than average attributes.');
-    addSummaryItem(`<div class='small-margin-top'>A ${archetypeData.name} receives the following attribute bonuses:</div>`);
+    addSummaryItem(`<div class='small-margin-top'>A ${archetype.name} receives the following attribute bonuses:</div>`);
 
-    ObjectHelper.each(archetypeData.attributeBonus, attr => {
-      addSummaryItem(`<span class='sub bonus'>${AttributeNames[attr]} +${archetypeData.attributeBonus[attr]}</span>`);
+    ObjectHelper.each(archetype.attributeBonus, attr => {
+      addSummaryItem(`<span class='sub bonus'>${AttributeNames[attr]} +${archetype.attributeBonus[attr]}</span>`);
     });
   }
 
