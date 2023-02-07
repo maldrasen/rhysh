@@ -18,7 +18,7 @@ global.Archetype = (function() {
   }
 
   function lookup(code) {
-
+    return ArchetypeDictionary[code];
   }
 
   return {

@@ -18,7 +18,7 @@ global.Gnosis = (function() {
   }
 
   function lookup(code) {
-
+    return GnosisDictionary[code];
   }
 
   return {

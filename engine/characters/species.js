@@ -18,7 +18,7 @@ global.Species = (function() {
   }
 
   function lookup(code) {
-
+    return SpeciesDictionary[code];
   }
 
   return {

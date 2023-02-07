@@ -21,7 +21,7 @@ global.Arcanum = (function() {
   }
 
   function lookup(code) {
-
+    return ArcanumDictionary[code];
   }
 
   return {
