@@ -1,3 +1,3 @@
 Arcanum.register('suffering', {
-  name:'Arcanum of Suffering',
+  name: 'Arcanum of Suffering',
 });

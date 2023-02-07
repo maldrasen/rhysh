@@ -1,3 +1,3 @@
 Arcanum.register('flame', {
-  name:'Arcanum of Flame',
+  name: 'Arcanum of Flame',
 });

@@ -1,11 +1,3 @@
-
-// [Fear Aura]
-// [Sacrificial Rites]
-// [Corruption Aura]
-// [Greater Devotion Aura]
-// [Devotion Aura]
-// [Hideous Corruption Aura]
-
 global.Archetype = (function() {
   const ArchetypeDictionary = {};
 
@@ -40,3 +32,12 @@ global.Archetype = (function() {
   };
 
 })();
+
+//   What Do?
+//
+// [Fear Aura]
+// [Sacrificial Rites]
+// [Corruption Aura]
+// [Greater Devotion Aura]
+// [Devotion Aura]
+// [Hideous Corruption Aura]

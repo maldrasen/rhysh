@@ -1,3 +1,3 @@
 Arcanum.register('force', {
-  name:'Arcanum of Force',
+  name: 'Arcanum of Force',
 });

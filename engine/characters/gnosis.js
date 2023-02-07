@@ -1,11 +1,3 @@
-
-// [Gnosis of Carnage]
-// [Gnosis of Strife]
-// [Gnosis of the Claw]
-// [Gnosis of the Horn]
-// [Gnosis of the Spider]
-// [Gnosis of the Umbral Knight]
-
 global.Gnosis = (function() {
   const GnosisDictionary = {};
 
@@ -14,7 +6,10 @@ global.Gnosis = (function() {
   }
 
   function build(code, options) {
-    return { code:code };
+    return {
+      code: code,
+      name: options.name,
+    };
   }
 
   function lookup(code) {
