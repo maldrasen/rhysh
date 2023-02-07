@@ -21,9 +21,14 @@ global.Archetype = (function() {
     return ArchetypeDictionary[code];
   }
 
+  function all() {
+    return ArchetypeDictionary;
+  }
+
   return {
     register,
     lookup,
+    all,
   };
 
 })();

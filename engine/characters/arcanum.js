@@ -24,9 +24,14 @@ global.Arcanum = (function() {
     return ArcanumDictionary[code];
   }
 
+  function all() {
+    return ArcanumDictionary;
+  }
+
   return {
     register,
     lookup,
+    all,
   };
 
 })();

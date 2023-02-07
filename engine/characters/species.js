@@ -1,11 +1,3 @@
-
-// [Bloodrage]
-// [Fortitude]
-// [Fire Breath]
-// [Regeneration]
-// [Curse of the Moon]
-// [Lust Aura]
-
 global.Species = (function() {
   const SpeciesDictionary = {};
 
@@ -21,9 +13,14 @@ global.Species = (function() {
     return SpeciesDictionary[code];
   }
 
+  function all() {
+    return SpeciesDictionary;
+  }
+
   return {
     register,
     lookup,
+    all,
   };
 
 })();

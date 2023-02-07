@@ -21,9 +21,14 @@ global.Gnosis = (function() {
     return GnosisDictionary[code];
   }
 
+  function all() {
+    return GnosisDictionary;
+  }
+
   return {
     register,
     lookup,
+    all,
   };
 
 })();
