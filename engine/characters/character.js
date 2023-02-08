@@ -1,15 +1,39 @@
 global.Character = class Character {
 
-  getAttributes() { return this.attributes; }
+  // The character code is part of the filename where the character is saved
+  // and how the character is referenced in the CharacterLibrary.
+  constructor(code) { this.code = code; }
+  getCode() { return this.code; }
+
+  setFirstName(name) { this.firstName = name; }
+  setLastName(name) { this.lastName = name; }
+  getFirstName() { return this.firstName; }
+  getLastName()  { return this.lastName; }
+  getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }
+
+
+  setSex(sex) { this.sex = sex; }
+  getSex(sex) { return this.sex; }
+
+  setArchetypeCode(code) { this.archetypeCode = code; }
   getArchetypeCode() { return this.archetypeCode; }
-  getSpeciesCode() { return this.speciesCode; }
   getArchetype() { return Archetype.lookup(this.archetypeCode); }
+
+  setSpeciesCode(code) { this.speciesCode = code; }
+  getSpeciesCode() { return this.speciesCode; }
   getSpecies() { return Species.lookup(this.speciesCode); }
+
+  setAttributes(attributesObject) { this.attributes = attributesObject; }
+  getAttributes() { return this.attributes; }
 
   // === Persistance ===========================================================
 
   pack() {
     return {
+      code: this.code,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      sex: this.sex,
       archetypeCode: this.archetypeCode,
       speciesCode: this.speciesCode,
       attributes: this.attributes.pack(),
@@ -17,6 +41,10 @@ global.Character = class Character {
   }
 
   static unpack(data) {
+    this.code = data.code;
+    this.firstName = data.firstName;
+    this.lastName = data.lastName;
+    this.sex = data.sex;
     this.archetypeCode = data.archetypeCode;
     this.speciesCode = data.speciesCode;
     this.attributes = Attributes.unpack(data.attributes);
