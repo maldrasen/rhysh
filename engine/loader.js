@@ -13,6 +13,7 @@ global.Loader = (function() {
 
   const GameModules = [
     'characters',
+    'characterBuilder',
     'dungeon',
     'dungeonBuilder',
     'game',

@@ -1,6 +1,4 @@
 
-// === Directions ===
-
 global.AttributeNames = {
   str: 'Strength',
   dex: 'Dexterity',
@@ -9,6 +7,13 @@ global.AttributeNames = {
   wis: 'Wisdom',
   cha: 'Charisma',
 };
+
+global.STR = 'str';
+global.DEX = 'dex';
+global.CON = 'con';
+global.INT = 'int';
+global.WIS = 'wis';
+global.CHA = 'cha';
 
 global.N = "N";
 global.S = "S";
