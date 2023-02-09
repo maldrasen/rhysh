@@ -67,6 +67,8 @@ global.GameState = (function() {
       partyLocation: partyLocation,
     });
 
+    CharacterLibrary.saveAll();
+
     Sector.save();
   }
 
@@ -91,6 +93,7 @@ global.GameState = (function() {
 
       Dungeon.loadZone(currentZone);
 
+      await CharacterLibrary.loadMainCharacter();
       await Sector.load();
 
       render();

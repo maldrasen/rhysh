@@ -4,6 +4,7 @@ window.NewGame = (function() {
   let selectedSex;
   let selectedSpecies;
   let attributeControl;
+  let attributes;
   let randomNames;
 
   function init() {
@@ -170,6 +171,7 @@ window.NewGame = (function() {
 
     attributeControl = new AttributeControl();
     attributeControl.setAttributes(baseAttributes);
+    attributes = baseAttributes;
 
     X.fill('.attributes-container',attributeControl.getElement());
 
@@ -250,7 +252,6 @@ window.NewGame = (function() {
     });
   }
 
-
   function validateForm() {
     let beginButton = X.first('#newGame .begin-button');
 
@@ -278,7 +279,8 @@ window.NewGame = (function() {
       sex: selectedSex,
       firstName: X.first('input#firstName').value,
       lastName: X.first('input#lastName').value,
-    }
+      attributes: attributes,
+    };
 
     ClientCommands.send('game.start', parameters).then(() => {
       MainContent.clear();

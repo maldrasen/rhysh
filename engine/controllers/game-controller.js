@@ -32,6 +32,8 @@ global.GameController = (function() {
       GameState.setStageName("Dungeon");
       GameState.render();
       GameState.saveGame();
+
+      CharacterBuilder.buildMainCharacter(parameters);
     });
 
     ipcMain.handle("game.continue", (payload, parameters) => {

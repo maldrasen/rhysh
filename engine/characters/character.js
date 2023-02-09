@@ -11,7 +11,6 @@ global.Character = class Character {
   getLastName()  { return this.lastName; }
   getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }
 
-
   setSex(sex) { this.sex = sex; }
   getSex(sex) { return this.sex; }
 
@@ -28,6 +27,10 @@ global.Character = class Character {
 
   // === Persistance ===========================================================
 
+  save() {
+    CharacterLibrary.saveCharacter(this);
+  }
+
   pack() {
     return {
       code: this.code,
@@ -41,13 +44,14 @@ global.Character = class Character {
   }
 
   static unpack(data) {
-    this.code = data.code;
-    this.firstName = data.firstName;
-    this.lastName = data.lastName;
-    this.sex = data.sex;
-    this.archetypeCode = data.archetypeCode;
-    this.speciesCode = data.speciesCode;
-    this.attributes = Attributes.unpack(data.attributes);
+    let character = new Character(data.code);
+    character.firstName = data.firstName;
+    character.lastName = data.lastName;
+    character.sex = data.sex;
+    character.archetypeCode = data.archetypeCode;
+    character.speciesCode = data.speciesCode;
+    character.attributes = Attributes.unpack(data.attributes);
+    return character;
   }
 
 }
