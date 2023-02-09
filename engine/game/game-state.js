@@ -36,19 +36,34 @@ global.GameState = (function() {
     fs.mkdir(worldPath, { recursive:true }, error => {
       if (error) { throw error; }
 
-      Settings.setLastWorld(worldIndex);
       Settings.incWorldCounter();
       Settings.save();
 
       Dungeon.loadZone("Wolgur");
       Dungeon.loadZone("WolgurCleft");
 
-      // Add an event that starts us in town.
-      // For now though we can start on the Wolgur map
-
       saveGame();
       render();
     });
+  }
+
+  // The startGame() function takes place sometime after newGame() is called.
+  // It puts the game into the initial state then takes the character creation
+  // parameters and builds the main character.
+  function startGame(parameters) {
+    console.log("=== Game Start ===");
+    console.log(parameters);
+
+    // TODO: Add the game start event.
+
+    CharacterBuilder.buildMainCharacter(parameters);
+
+    Settings.setLastWorld(worldIndex);
+    Settings.save();
+
+    setStageName("Dungeon");
+    saveGame();
+    render();
   }
 
   // This should only be called from the newGame view when we start a new game,
@@ -107,6 +122,8 @@ global.GameState = (function() {
     dayCount = null;
     partyLocation = null;
     stageName = null;
+
+    CharacterLibrary.clear();
   }
 
   // I'm not sure if setting the stage should trigger the render or that should
@@ -183,6 +200,7 @@ global.GameState = (function() {
 
   return {
     newGame,
+    startGame,
     abortGame,
     saveGame,
     loadGame,

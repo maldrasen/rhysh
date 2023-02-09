@@ -22,18 +22,8 @@ global.GameController = (function() {
       };
     });
 
-    // TODO: Create the player character using the values we get from the new
-    //       game form.
     ipcMain.handle("game.start", (payload, parameters) => {
-
-      console.log("=== Game Start ===");
-      console.log(parameters);
-
-      GameState.setStageName("Dungeon");
-      GameState.render();
-      GameState.saveGame();
-
-      CharacterBuilder.buildMainCharacter(parameters);
+      GameState.startGame(parameters);
     });
 
     ipcMain.handle("game.continue", (payload, parameters) => {

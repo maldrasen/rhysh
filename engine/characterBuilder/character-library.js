@@ -2,6 +2,10 @@ global.CharacterLibrary = (function() {
 
   let characterCache = {};
 
+  function clear() {
+    characterCache = {};
+  }
+
   function isCharacterReady(code) {
     return characterCache[code] != null;
   }
@@ -62,6 +66,7 @@ global.CharacterLibrary = (function() {
   }
 
   return {
+    clear,
     isCharacterReady,
     getCharacter,
     getCachedCharacter,
