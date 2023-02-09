@@ -11,13 +11,15 @@ $fs-h3: 16pt;
 $fs-h4: 12pt;
 $fs-h5: 10pt;
 
-$shadow-frame:         0 5px 10px rgba(0,0,0,0.5);
-$shadow-deep:          0 5px 10px rgba(0,0,0,0.8);
-$shadow-inset:         0 3px 6px rgba(0,0,0,0.4) inset;
-$shadow-inset-button:  0 3px 5px rgba(0,0,0,0.8) inset;
-$shadow-shallow:       0 2px 3px rgba(0,0,0,0.9);
-$shadow-portrait:      0 4px 5px rgba(0,0,0,0.8);
-$shadow-overlay:       0 10px 20px rgba(0,0,0,0.8);
+$shadow-button:        1px 2px 3px rgba(0,0,0,0.5);
+$shadow-frame:         2px 5px 10px rgba(0,0,0,0.5);
+$shadow-deep:          2px 5px 10px rgba(0,0,0,0.8);
+$shadow-inset:         1px 3px 6px rgba(0,0,0,0.4) inset;
+$shadow-inset-button:  1px 3px 5px rgba(0,0,0,0.8) inset;
+$shadow-shallow:       1px 2px 3px rgba(0,0,0,0.9);
+$shadow-portrait:      2px 4px 5px rgba(0,0,0,0.8);
+$shadow-overlay:       5px 10px 20px rgba(0,0,0,0.8);
+
 
 $border-transparent: 1px solid transparent;
 $border-very-light:  1px solid rgba(250,250,250,0.05);
