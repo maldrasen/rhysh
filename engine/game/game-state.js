@@ -17,6 +17,7 @@ global.GameState = (function() {
 
   var stageName;
   var currentZone;
+  var currentEvent;
   var partyLocation;
 
   function newGame() {
@@ -54,13 +55,12 @@ global.GameState = (function() {
     console.log("=== Game Start ===");
     console.log(parameters);
 
-    // TODO: Add the game start event.
-
     CharacterBuilder.buildMainCharacter(parameters);
 
     Settings.setLastWorld(worldIndex);
     Settings.save();
 
+    setCurrentEvent(new Event("game.start",{}));
     setStageName("Dungeon");
     saveGame();
     render();
@@ -125,6 +125,9 @@ global.GameState = (function() {
 
     CharacterLibrary.clear();
   }
+
+  function getCurrentEvent{ return currentEvent; }
+  function setCurrentEvent(event) { currentEvent = event; }
 
   // I'm not sure if setting the stage should trigger the render or that should
   // be done manually. Maybe do it manually for now and see if there are
@@ -206,10 +209,12 @@ global.GameState = (function() {
     loadGame,
     clear,
 
+    setCurrentEvent,
     setCurrentZone,
     setStageName,
     setPartyLocation,
 
+    getCurrentEvent,
     getCurrentZone,
     getCurrentZoneName,
     getStage,

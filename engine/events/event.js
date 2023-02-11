@@ -1,7 +1,8 @@
 global.Event = class Event {
 
-  constructor(code, data) {
+  constructor(code, state) {
     this.code = code;
+    this.state = state;
   }
 
 }

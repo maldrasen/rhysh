@@ -1,9 +1,10 @@
-global.EventLibrary = (function() {
+global.EventTemplate = (function() {
 
   let library = {}
 
-  function add(code, data) {
-    library[code] = new Event(code, data);
+  function build(code, data) {
+    let template = { code:code };
+    library[code] = template;
   }
 
   function lookup(code) {
@@ -12,9 +13,8 @@ global.EventLibrary = (function() {
   }
 
   return {
+    build,
     lookup,
   }
 
 })();
-
-
