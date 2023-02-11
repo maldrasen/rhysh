@@ -20,12 +20,13 @@ global.Loader = (function() {
     'events',
     'game',
     'scrutinizers',
+    'weavers',
   ];
 
   const Preload = [
     'core/messenger.js',
-    'core/weaver.js',
     'scrutinizers/central-scrutinizer.js',
+    'weavers/weaver.js',
   ];
 
   let complete = [];
