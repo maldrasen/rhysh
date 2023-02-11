@@ -13,10 +13,12 @@ global.ViewState = (function() {
     if (gameState.stage.control == "Battle")  { return renderBattle(gameState);  }
   }
 
-  function renderEvent(gameState) {
+  async function renderEvent(gameState) {
+    let renderer = new EventRenderer(gameState.event.code, gameState.event.state);
+
     Messenger.publish("browser.render",{
       showView:"Event",
-      event: EventTemplate.render(gameState.event),
+      event: await renderer.render(),
     });
   }
 
