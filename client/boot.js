@@ -65,10 +65,10 @@
       import("./views/townView/town-view.js"),
 
       // Data
-      import("../data/characters/archetypes/black-knight.js"),
       import("../data/characters/archetypes/chosen.js"),
       import("../data/characters/archetypes/cultist.js"),
       import("../data/characters/archetypes/dominatrix.js"),
+      import("../data/characters/archetypes/knight.js"),
       import("../data/characters/archetypes/mindbender.js"),
       import("../data/characters/archetypes/slaver.js"),
 
