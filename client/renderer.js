@@ -18,6 +18,7 @@ window.Renderer = (function() {
   function showView(viewState) {
     let showFunction = {
       Dungeon:        Dungeon.show,
+      Event:          EventView.show,
       NewGame:        NewGame.show,
       TownBlacksmith: TownView.showBlacksmith,
       TownGuild:      TownView.showGuild,

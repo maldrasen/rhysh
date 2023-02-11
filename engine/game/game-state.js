@@ -74,16 +74,21 @@ global.GameState = (function() {
   }
 
   function saveGame() {
-    Kompressor.write(`${worldPath}/GameState.cum`,{
+
+    let state = {
       timeCount: timeCount,
       dayCount: dayCount,
       stageName: stageName,
       currentZone: currentZone,
       partyLocation: partyLocation,
-    });
+    }
 
+    if (currentEvent) {
+      state.currentEvent = currentEvent.pack();
+    }
+
+    Kompressor.write(`${worldPath}/GameState.cum`,state);
     CharacterLibrary.saveAll();
-
     Sector.save();
   }
 
@@ -106,6 +111,10 @@ global.GameState = (function() {
       currentZone = state.currentZone;
       partyLocation = Vector.from(state.partyLocation);
 
+      if (state.currentEvent) {
+        currentEvent = Event.unpack(state.currentEvent);
+      }
+
       Dungeon.loadZone(currentZone);
 
       await CharacterLibrary.loadMainCharacter();
@@ -126,7 +135,7 @@ global.GameState = (function() {
     CharacterLibrary.clear();
   }
 
-  function getCurrentEvent{ return currentEvent; }
+  function getCurrentEvent() { return currentEvent; }
   function setCurrentEvent(event) { currentEvent = event; }
 
   // I'm not sure if setting the stage should trigger the render or that should
@@ -191,14 +200,20 @@ global.GameState = (function() {
   }
 
   function render() {
-    ViewState.render({
+    let state = {
       timeCount: timeCount,
       dayCount: dayCount,
       stageName: getStageName(),
       stage: getStage(),
       zone: getCurrentZoneName(),
       location: getPartyLocation(),
-    });
+    };
+
+    if (currentEvent) {
+      state.event = currentEvent.pack()
+    }
+
+    ViewState.render(state);
   }
 
   return {

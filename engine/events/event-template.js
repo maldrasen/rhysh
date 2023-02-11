@@ -3,8 +3,7 @@ global.EventTemplate = (function() {
   let library = {}
 
   function build(code, data) {
-    let template = { code:code };
-    library[code] = template;
+    library[code] = { code:code, data:data };
   }
 
   function lookup(code) {

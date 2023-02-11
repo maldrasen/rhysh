@@ -8,6 +8,7 @@ global.Loader = (function() {
 
   const DataDirectories = [
     'characters',
+    'events',
     'names',
   ];
 
