@@ -16,6 +16,7 @@ global.Loader = (function() {
     'characterBuilder',
     'dungeon',
     'dungeonBuilder',
+    'events',
     'game',
     'scrutinizers',
   ];
