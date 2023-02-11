@@ -14,16 +14,9 @@ global.ViewState = (function() {
   }
 
   function renderEvent(gameState) {
-    let template = EventTemplate.lookup(gameState.event.code);
-
-    // TODO: We need to pass the template through the weaver to complete the
-    //       event. Should go through all of the old events too to see what
-    //       else besides the stages we should pass in.
-
     Messenger.publish("browser.render",{
       showView:"Event",
-      state: gameState.event.state,
-      stages: template.data.stages,
+      event: EventTemplate.render(gameState.event),
     });
   }
 
