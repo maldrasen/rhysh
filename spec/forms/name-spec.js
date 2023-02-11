@@ -1,6 +1,5 @@
 describe('Name', function() {
 
-
   it("gets a random demon female name", function() {
     forUpTo(10, () => {
       let first = Name.getRandom({ index:'DemonFemale', sex:'female' });
@@ -84,7 +83,5 @@ describe('Name', function() {
       log(`    Male Kobold Name: ${Name.getRandom({ index:'Kobold', sex:'male' }).name}`);
     });
   });
-
-
 
 });
