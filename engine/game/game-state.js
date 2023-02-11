@@ -89,6 +89,7 @@ global.GameState = (function() {
 
     Kompressor.write(`${worldPath}/GameState.cum`,state);
     CharacterLibrary.saveAll();
+    Flag.save();
     Sector.save();
   }
 
@@ -119,6 +120,7 @@ global.GameState = (function() {
 
       await CharacterLibrary.loadMainCharacter();
       await Sector.load();
+      await Flag.load();
 
       render();
     });
@@ -133,6 +135,7 @@ global.GameState = (function() {
     stageName = null;
 
     CharacterLibrary.clear();
+    Flag.clear();
   }
 
   function getCurrentEvent() { return currentEvent; }

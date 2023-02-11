@@ -1,5 +1,8 @@
 global.CentralScrutinizer = (function() {
-  const _registry = [];
+
+  const registry = [
+    //{pattern, checkFunction}...
+  ]
 
   // The CentralScrutinizer is used to check the validity of an arbritray set
   // of requirements. The requires argument can be a string or an array of
@@ -39,23 +42,13 @@ global.CentralScrutinizer = (function() {
   }
 
   async function meetsRequirement(requirement, context, extra) {
-    for (let i=0; i<_registry.length; i++) {
-      if (requirement.match(_registry[i].pattern)) {
-        return _registry[i].checkFunction(requirement, context, extra)
+    for (let i=0; i<registry.length; i++) {
+      if (requirement.match(registry[i].pattern)) {
+        return registry[i].checkFunction(requirement, context, extra)
       }
     }
 
     throw `Unknown Requirement - ${requirement}`;
-  }
-
-  // Because the CentralScrutinizer is part of the core module it can be used
-  // anywhere in the application. Because it can check against requirements
-  // that are not part of the core package though, scrutinizers must be
-  // registered with the CentralScrutinizer in order to be used. The
-  // appropriate scrutinizer is identified with a regular expression, and
-  // should use a unique prefix to identify itself.
-  function registerScrutinizer(pattern, checkFunction) {
-    _registry.push({ pattern, checkFunction });
   }
 
   // This function is used by any requirement check that needs to compare two
@@ -71,7 +64,6 @@ global.CentralScrutinizer = (function() {
 
   return {
     meetsRequirements,
-    registerScrutinizer,
     checkComparisonOperation
   };
 

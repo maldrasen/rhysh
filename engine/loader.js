@@ -23,10 +23,9 @@ global.Loader = (function() {
     'weavers',
   ];
 
+  // TODO: Node has a built in message system. Use that instead.
   const Preload = [
     'core/messenger.js',
-    'scrutinizers/central-scrutinizer.js',
-    'weavers/weaver.js',
   ];
 
   let complete = [];

@@ -1,9 +1,5 @@
 global.Weaver = (function() {
 
-  const Looms = { actor:[], utility:[], shortcut:[], simple:[] };
-
-  // Register a new loom.
-  //
   // actor      The character module adds most of these looms that have the form
   //            {{X::key}} where X is the actor key in the context. Because this
   //            only matches a pattern to a weaver it's safe to include here in
@@ -13,10 +9,7 @@ global.Weaver = (function() {
   //            function call like string replacement
   //
   // simple     Simple looms have a single key in the form {{key}}
-
-  function registerLoom(type, pattern, replaceFunction) {
-    Looms[type].push({ pattern, replaceFunction });
-  }
+  const Looms = { actor:[], utility:[], shortcut:[], simple:[] };
 
   // The weave function takes a string and recursivly itterates over it,
   // looking for {{ templates }} to replace with actual values. The context
@@ -108,6 +101,6 @@ global.Weaver = (function() {
     return `<span class='weaver-error error'>Error(${message})</span>`;
   }
 
-  return { registerLoom, weave, error };
+  return { weave, error };
 
 })();
