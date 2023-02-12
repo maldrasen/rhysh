@@ -33,9 +33,12 @@ global.EventRenderer = class EventRenderer {
         });
       }));
 
-      return {
-        stages: ArrayHelper.compact(stages)
-      };
+      let rendered = { stages: ArrayHelper.compact(stages) };
+
+      if (this.template.background) { rendered.background = this.template.background; }
+      if (this.template.filter) { rendered.filter = this.template.filter; }
+
+      return rendered
     }
     catch(error) {
       console.error(`Error while rendering event`,this.event);
