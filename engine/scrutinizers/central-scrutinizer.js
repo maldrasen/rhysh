@@ -1,13 +1,9 @@
 global.CentralScrutinizer = (function() {
 
-  const registry = [
-    //{pattern, checkFunction}...
-  ]
-
-  // The CentralScrutinizer is used to check the validity of an arbritray set
-  // of requirements. The requires argument can be a string or an array of
-  // strings. If the context is null a new context will be built by the
-  // Scrutinizer. Requires can have the following forms:
+  // The CentralScrutinizer checks to see if a set of conditions are true. The
+  // requires argument can be a string or an array of strings. If the context
+  // is null a new context will be built by the Scrutinizer. Requires can have
+  // the following forms:
   //
   //   single requirements:    'flag.cock=huge'
   //   and requirements:       ['flag.tits=huge','flag.cock=huge']
@@ -22,10 +18,8 @@ global.CentralScrutinizer = (function() {
   // Specific requirement formats are explained in their respective
   // scrutinizers, though for the most part they're very simple and
   // self-explanitory.
-  async function meetsRequirements(requires, context, extra) {
+  async function meetsRequirements(requires, context, extra={}) {
     if (requires == null || requires.length == 0) { return true; }
-    if (context == null) { context = new Context(); }
-    if (extra == null) { extra = {}; }
 
     let requirements = (typeof requires == "string") ? [requires] : requires;
     return (await Promise.all((requirements).map(async requirement => {
@@ -42,11 +36,10 @@ global.CentralScrutinizer = (function() {
   }
 
   async function meetsRequirement(requirement, context, extra) {
-    for (let i=0; i<registry.length; i++) {
-      if (requirement.match(registry[i].pattern)) {
-        return registry[i].checkFunction(requirement, context, extra)
-      }
-    }
+    if (requirement.match(/^flag/))            { return checkFlag(requirement); }
+    if (requirement.match(/^no-flag/))         { return checkFlagNotExists(requirement); }
+    if (requirement.match(/^state/))           { return checkState(requirement,extra.state); }
+    if (requirement.match(/^player/))          { return await PlayerScrutinizer.check(requirement); }
 
     throw `Unknown Requirement - ${requirement}`;
   }
@@ -62,9 +55,31 @@ global.CentralScrutinizer = (function() {
     return leftValue == rightValue;
   }
 
-  return {
-    meetsRequirements,
-    checkComparisonOperation
-  };
+  // Requirements Like: flag.cock=horse, or flag.dicksSucked>=37
+  function checkFlag(requirement) {
+    let match = requirement.match(/^flag\.([^<>=]+)(<|<=|=|>=|>)([^<>=]+)/);
+    if (match == null) {
+      return checkFlagExists(requirement);
+    }
+
+    let value = Flag.lookup(match[1]);
+    return (value == null) ? false : checkComparisonOperation(value, match[2], match[3]);
+  }
+
+  function checkFlagExists(requirement) {
+    return Flag.lookup(requirement.match(/^flag\.(.+)/)[1]) != null;
+  }
+
+  function checkFlagNotExists(requirement) {
+    return Flag.lookup(requirement.match(/^no-flag\.(.+)/)[1]) == null;
+  }
+
+  // Requirements Like: state.sex=filthy, or state.litersOfCum>=37
+  function checkState(requirement,state) {
+    let match = requirement.match(/^state\.([^<>=]+)(<|<=|=|>=|>)([^<>=]+)/);
+    return checkComparisonOperation(state[match[1]], match[2], match[3]);
+  }
+
+  return { meetsRequirements, checkComparisonOperation };
 
 })();

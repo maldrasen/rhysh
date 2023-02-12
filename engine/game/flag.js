@@ -18,7 +18,6 @@ global.Flag = (function() {
     return {...flags};
   }
 
-
   function set(code, value) {
     if (flagValidations[code]) { validate(flagValidations[code], code, value); }
     flags[code] = value;
