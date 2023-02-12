@@ -1,0 +1,19 @@
+#eventView {
+
+  #normalLayout {
+    .text-container {
+      position: absolute;
+      bottom:20px;
+      left: calc(10% - 11px);
+      width: 80%;
+      height: 200px;
+      z-index: $z-event-text;
+    }
+
+    .event-text {
+      padding: 30px;
+      font-size: $fs-bigger;
+    }
+  }
+
+}

@@ -11,13 +11,18 @@ window.BackgroundImage = (function() {
     X.first('#backgroundImage').setAttribute("style",`background-image:url('../assets/backgrounds/${code}.jpg')`);
   }
 
+  function setFilter(filter) {
+    console.log("TODO: Background Filters",filter);
+  }
+
   function removeBackground() {
     X.first('#backgroundImage').removeAttribute("style");
   }
 
   return {
-    setBackground: setBackground,
-    removeBackground: removeBackground,
+    setBackground,
+    setFilter,
+    removeBackground,
   }
 
 })();
