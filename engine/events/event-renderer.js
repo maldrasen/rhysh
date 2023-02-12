@@ -64,16 +64,21 @@ global.EventRenderer = class EventRenderer {
   //   pages:[]
   //
   async renderNormalStage(stage) {
-
     let pages = await Promise.all(stage.pages.map(page => {
       return new Promise(resolve => {
-        this.scrutinizer.meetsRequirements(page.requires).then(async valid => {
-          resolve(valid ? await this.renderPage(page, stage) : null);
+        this.scrutinizer.meetsRequirements(page.requires).then(valid => {
+          resolve(valid ? this.renderPage(page, stage) : null);
         });
       });
-    }))
+    }));
 
-    return { pages: ArrayHelper.compact(pages) };
+    let rendered = { pages: ArrayHelper.compact(pages) }
+
+    if (stage.background) { rendered.background = stage.background; }
+    if (stage.filter)     { rendered.filter = stage.filter; }
+    if (stage.when)       { rendered.when = stage.when; }
+
+    return rendered;
   }
 
   // Page object may have
@@ -82,8 +87,19 @@ global.EventRenderer = class EventRenderer {
   //   filter: filter object
   //   text:template string
   //
-  async renderPage(page, stage) {
-    return page;
+  // TODO: Need to implement these speaker objects. The most basic
+  //       implementation of this is that the speaker would just change the
+  //       color of the text within quotes. Eventually I'd lile to include
+  //       character portraits. No emmotions or reactions or anything like that
+  //       will be possible though as all the portraits are AI generated.
+  //
+  renderPage(page, stage) {
+    let rendered = { text:Weaver.weave(page.text, this.context) }
+
+    if (page.background) { rendered.background = page.background; }
+    if (page.filter)     { rendered.filter = page.filter; }
+
+    return rendered;
   }
 
   // A staple in visual novels, a selection stage shows a single page with
