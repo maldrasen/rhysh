@@ -14,7 +14,7 @@ global.ViewState = (function() {
   }
 
   async function renderEvent(gameState) {
-    let renderer = new EventRenderer(gameState.event.code, gameState.event.state);
+     let renderer = new EventRenderer(gameState.event.code, gameState.event.state);
 
     Messenger.publish("browser.render",{
       showView:"Event",

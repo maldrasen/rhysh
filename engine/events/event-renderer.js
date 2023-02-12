@@ -3,11 +3,14 @@ global.EventRenderer = class EventRenderer {
   constructor(code, state) {
     this.template = EventTemplate.lookup(code);
     this.state = state;
-    this.stages = [];
   }
 
   async createContext() {
     this.context = await WeaverContext.forEvent(this.template, this.state);
+
+    this.scrutinizer = new Scrutinizer();
+    this.scrutinizer.setContext(this.context);
+    this.scrutinizer.setState(this.state);
   }
 
   // Event event template may have
@@ -22,24 +25,29 @@ global.EventRenderer = class EventRenderer {
     try {
       await this.createContext();
 
-      this.template.stages.forEach(stage => {
-        this.stages.push(this.renderStage(stage));
-      });
+      let stages = await Promise.all(this.template.stages.map(stage => {
+        return new Promise(resolve => {
+          this.scrutinizer.meetsRequirements(stage.requires).then(async valid => {
+            resolve(valid ? await this.renderStage(stage) : null);
+          });
+        });
+      }));
 
       return {
-        stages: this.stages
+        stages: ArrayHelper.compact(stages)
       };
-    } catch(error) {
+    }
+    catch(error) {
       console.error(`Error while rendering event`,this.event);
       throw error;
     }
   }
 
   // Determine what kind of stage to render.
-  renderStage(stage) {
+  async renderStage(stage) {
     if (stage.showView) { return stage.showView; }
-    if (stage.selectionStage) { return this.renderSelectionStage(stage); }
-    return this.renderNormalStage(stage);
+    if (stage.selectionStage) { return await this.renderSelectionStage(stage); }
+    return await this.renderNormalStage(stage);
   }
 
   // Stage object may have
@@ -55,15 +63,17 @@ global.EventRenderer = class EventRenderer {
   //   filter: filter object
   //   pages:[]
   //
-  renderNormalStage(stage) {
-    console.log(" - Stage:",stage)
+  async renderNormalStage(stage) {
 
-    let pages = [];
-    stage.pages.forEach(page => {
-      pages.push(this.renderPage(page, stage));
-    })
+    let pages = await Promise.all(stage.pages.map(page => {
+      return new Promise(resolve => {
+        this.scrutinizer.meetsRequirements(page.requires).then(async valid => {
+          resolve(valid ? await this.renderPage(page, stage) : null);
+        });
+      });
+    }))
 
-    return { pages:pages };
+    return { pages: ArrayHelper.compact(pages) };
   }
 
   // Page object may have
@@ -72,8 +82,7 @@ global.EventRenderer = class EventRenderer {
   //   filter: filter object
   //   text:template string
   //
-  renderPage(page, stage) {
-    console.log("    - Page:",page)
+  async renderPage(page, stage) {
     return page;
   }
 
@@ -91,7 +100,7 @@ global.EventRenderer = class EventRenderer {
   //      { text:'Fuck {{him}}',     value:'torment',  requires:'player.has-cock'},
   //    ]
   //
-  renderSelectionStage(stage) {
+  async renderSelectionStage(stage) {
     throw `TODO: Selection Stage`;
   }
 }

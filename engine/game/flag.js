@@ -48,6 +48,7 @@ global.Flag = (function() {
     return new Promise(resolve => {
       Kompressor.read(getFilepath()).then(data => {
         flags = data;
+        resolve();
       });
     });
   }

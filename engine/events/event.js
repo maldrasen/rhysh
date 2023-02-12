@@ -1,5 +1,12 @@
 global.Event = class Event {
 
+  // The event object represents a queued event. I'm not sure even about the
+  // event queue at the moment, but I'm anticipating that this will be
+  // nessessary. When events are queued they may need to remember some
+  // internal state that will be needed once the event is rendered. On the
+  // other hand I don't have any events like this, so I'm just guessing about
+  // what I'll need given what the other version of this game had.
+
   // State scan be null or an arbritrary data object. The state cannot hold
   // instances of classes though as they wouldn't be properly serialized.
   constructor(code, state) {
