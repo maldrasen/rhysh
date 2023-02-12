@@ -48,8 +48,4 @@ EventTemplate.build('game.start',{
     ]
   }],
 
-  onFinish: async choices => {
-    console.log("[game.start] On Finish");
-  },
-
 });

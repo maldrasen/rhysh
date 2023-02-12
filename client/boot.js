@@ -85,6 +85,7 @@
 
   function initAll() {
     Dungeon.init();
+    EventView.init();
     MainContent.init();
     MainMenu.init();
     MapCanvas.init();

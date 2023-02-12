@@ -12,13 +12,6 @@ global.EventTemplate = (function() {
     return library[code];
   }
 
-  // When an event is finished we need to call this complete method with
-  // whatever the end state of the event was. This needs to call the onFinish()
-  // function of the event if there is one.
-  function complete(state) {
-    throw `TODO: Complete Event`
-  }
-
   return {
     build,
     lookup,

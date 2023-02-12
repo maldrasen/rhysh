@@ -37,6 +37,11 @@ global.GameController = (function() {
     ipcMain.handle("game.show-options", () => {
       console.log("TODO: Show Options")
     });
+
+    ipcMain.handle("game.end-event", (payload, state) => {
+      GameState.endEvent(state);
+    });
+
   }
 
   return { init };

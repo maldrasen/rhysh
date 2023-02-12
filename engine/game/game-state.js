@@ -193,6 +193,43 @@ global.GameState = (function() {
   function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
   function getPartyLocation() { return partyLocation; }
 
+  async function endEvent(endState) {
+    let code = currentEvent.code;
+    let template = EventTemplate.lookup(code);
+    if (template.onFinish) {
+      template.onFinish(endState);
+    }
+
+    // Not sure how this will actually be used yet, but I know some events
+    // should be repeatable, but not by default. { repeat:true } is the
+    // simplist implementation and in this case we just don't set the flag that
+    // indicates the event has been done. We can also give it a requirement of
+    // some sort, something like { repeat:'flag.conditional-flag'} or anything
+    // else that the scrutinizer could parse, baring in mind it has access to
+    // the end event state as well.
+    let canRepeat = (template.repeat == true);
+
+    if (typeof template.repeat == 'string') {
+      let scrutinizer = new Scrutinizer();
+      scrutinizer.setState(endState);
+      canRepeat = await scrutinizer.meetsRequirements(template.repeat);
+    }
+
+    // If an event can repeat we should keep track of the number of times it's
+    // been seen. This would let us do something like play an event 10 times
+    // then change it somehow.
+    if (canRepeat) {
+      let flag = `[EventCount].${code}`;
+      let count = Flag.get(flag) || 0;
+      Flag.set(flag, count + 1);
+    } else {
+      Flag.set(`[EventComplete].${code}`,true);
+    }
+
+    currentEvent = null;
+    render();
+  }
+
   // TODO: Right now we're only keeping track of the time. Eventually the
   //       passage of time will trigger different events and conditions and
   //       whatnot.
@@ -241,6 +278,8 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getPartyLocation,
+
+    endEvent,
 
     advanceTime,
 

@@ -14,7 +14,7 @@ global.EventRenderer = class EventRenderer {
   }
 
   // Event event template may have
-  //   repeat:
+  //   repeat: null, true, or requirement value
   //   requires: string or array of requirements
   //   actors: { X:query }
   //   background: code
@@ -33,7 +33,10 @@ global.EventRenderer = class EventRenderer {
         });
       }));
 
-      let rendered = { stages: ArrayHelper.compact(stages) };
+      let rendered = {
+        state: this.state,
+        stages: ArrayHelper.compact(stages),
+      };
 
       if (this.template.background) { rendered.background = this.template.background; }
       if (this.template.filter) { rendered.filter = this.template.filter; }
