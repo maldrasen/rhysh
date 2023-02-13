@@ -54,12 +54,21 @@ window.LoadGame = (function() {
   function deleteGame(event) {
     let gameElement = event.target.closest('.game');
     let worldIndex = gameElement.getAttribute('data-world-index');
+    let confirmationElement = buildConfirmationElement(gameElement);
 
-    // ConfirmationDialog.show(``)
+    Confirmation.show({
+      element: confirmationElement,
+      onConfirm: () => {
+        ClientCommands.send('game.delete', worldIndex);
+        gameElement.remove();
+      }
+    });
+  }
 
-    console.log("Delete Game:",worldIndex)
-    ClientCommands.send('game.delete', worldIndex);
-    gameElement.remove();
+  function buildConfirmationElement(gameElement) {
+    let element = X.createElement(`<div class='delete-game-confirmation'><div class='question'>Delete this game?</div></div>`);
+        element.appendChild(gameElement.querySelector('.top-row').cloneNode(true));
+    return element;
   }
 
   return {

@@ -44,6 +44,7 @@
 
       // Elements
       import('./elements/background-image.js'),
+      import('./elements/confirmation.js'),
       import('./elements/scrolling-panel.js'),
 
       // Models
@@ -86,6 +87,7 @@
   }
 
   function initAll() {
+    Confirmation.init();
     Dungeon.init();
     EventView.init();
     LoadGame.init();

@@ -1,0 +1,64 @@
+
+#confirmationDialog {
+
+  .confirm-window {
+    position: absolute;
+    width: 600px;
+    height: 200px;
+    top: 200px;
+    left: calc((100% - 600px)/2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: $bg-frame;
+    border: $border-normal;
+    border-bottom: none;
+    box-shadow: $shadow-frame;
+    z-index: $z-confirmation-window;
+  }
+
+  .confirm-buttons {
+    position: absolute;
+    width: 580px;
+    top: 400px;
+    left: calc((100% - 600px)/2);
+
+    padding: 10px;
+    text-align: center;
+
+    background-color: $bg-dark;
+    border: $border-normal;
+    box-shadow: $shadow-frame;
+    z-index: $z-confirmation-footer;
+
+    .button-big { width: 10em; }
+    .no-button { margin-right: 20px; }
+  }
+
+  .cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20,15,10,0.666);
+    z-index: $z-confirmation-cover;
+  }
+
+  .confirm-text {
+    color: $fg-strong;
+    font-size: $fs-bigger;
+  }
+
+  .delete-game-confirmation {
+    .question { color: $fg-button-danger; }
+    .details { font-size: $fs-big; }
+    .name {
+      color: $fg-strong;
+      font-size: $fs-bigger;
+    }
+  }
+
+}

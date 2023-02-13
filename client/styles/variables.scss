@@ -28,6 +28,8 @@ $border-heavy:       2px solid rgba(250,250,250,0.3);
 
 $bg-root:            rgb(30,30,30);
 $bg-frame:           rgba(0,0,0,0.666);
+$bg-dark:            rgba(0,0,0,0.8);
+$bg-very-dark:       rgba(0,0,0,0.9);
 
 $fg-body:            rgb(180,170,160);
 $fg-strong:          rgb(240,230,220);
@@ -84,3 +86,7 @@ $z-map-controls: 5100;
 $z-overlay: 9000;
 $z-overlay-footer: 9001;
 $z-main-cover: 10000;
+
+$z-confirmation-cover: 12000;
+$z-confirmation-window: 12010;
+$z-confirmation-footer: 12011;
