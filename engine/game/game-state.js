@@ -375,6 +375,7 @@ global.GameState = (function() {
     newGame,
     startGame,
     abortGame,
+    deleteGame,
     saveGame,
     loadGame,
     clear,

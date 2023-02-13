@@ -9,7 +9,6 @@ X.body = function() { return document.getElementsByTagName('body')[0]; }
 X.each = function(query, callback) { X(query).forEach(callback); }
 X.first = function(query) { return X(query)[0]; }
 
-
 // === Create and Modify Elements -=============================================
 
 // Either remove all elements that match the query string. There's no need for
@@ -40,7 +39,7 @@ X.copyElement = function(selector) {
 
 X.onClick = function(selector, callback) {
   window.addEventListener('click', event => {
-    if (event.target.matches(".disabled") == false && event.target.matches(selector)) {
+    if (event.target.matches(".disabled") == false && event.target.closest(selector)) {
       callback(event);
     }
   });
@@ -48,7 +47,7 @@ X.onClick = function(selector, callback) {
 
 X.onInput = function(selector, callback) {
   window.addEventListener('keydown', event => {
-    if (event.target.matches(".disabled") == false && event.target.matches(selector)) {
+    if (event.target.matches(".disabled") == false && event.target.closest(selector)) {
       callback(event);
     }
   });

@@ -34,6 +34,14 @@ global.GameController = (function() {
       return await GameState.getValidWorlds();
     });
 
+    ipcMain.handle("game.load", (payload, worldIndex) => {
+      GameState.loadGame(worldIndex);
+    });
+
+    ipcMain.handle("game.delete", (payload, worldIndex) => {
+      GameState.deleteGame(worldIndex);
+    });
+
     ipcMain.handle("game.show-options", () => {
       console.log("TODO: Show Options")
     });

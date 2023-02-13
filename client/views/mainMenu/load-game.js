@@ -2,6 +2,8 @@ window.LoadGame = (function() {
 
   function init() {
     X.onClick('#loadGame .back-to-main-button', showMainMenu);
+    X.onClick('#loadGame .game', loadGame);
+    X.onClick('#loadGame .game .delete-game', deleteGame);
   }
 
   function showMainMenu() {
@@ -40,6 +42,24 @@ window.LoadGame = (function() {
 
   function addText(template, selector, text) {
     template.querySelectorAll(selector)[0].appendChild(document.createTextNode(text));
+  }
+
+  function loadGame(event) {
+    if (event.target.matches('.delete-game')) { return false; }
+
+    MainContent.clear();
+    ClientCommands.send('game.load', event.target.closest('.game').getAttribute('data-world-index'));
+  }
+
+  function deleteGame(event) {
+    let gameElement = event.target.closest('.game');
+    let worldIndex = gameElement.getAttribute('data-world-index');
+
+    // ConfirmationDialog.show(``)
+
+    console.log("Delete Game:",worldIndex)
+    ClientCommands.send('game.delete', worldIndex);
+    gameElement.remove();
   }
 
   return {
