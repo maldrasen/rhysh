@@ -10,7 +10,7 @@ window.MainMenu = (function() {
   }
 
   function setContext(context) {
-    lastWorld = context.lastWorld;
+    lastWorld = context.lastValidGame;
   }
 
   function showLoadGame() {
@@ -36,16 +36,17 @@ window.MainMenu = (function() {
 
   function show() {
     MainContent.show({ path:"client/views/mainMenu/main-menu.html", classname:'main-menu', background:'main-menu' }).then(() => {
-      enableContinue();
+      enableLoadButtons();
       MainContent.hideCover({ fadeTime:1000 });
     });
   }
 
-  function enableContinue() {
+  function enableLoadButtons() {
     let continueButton = X.first('#mainMenu .continue-button');
 
     if (lastWorld) {
-      continueButton.setAttribute('href',`${continueButton.getAttribute('href')},${lastWorld}`);
+      continueButton.setAttribute('href',`#game.continue,${lastWorld.worldIndex}`);
+      X.removeClass('#mainMenu .load-button','disabled');
       X.removeClass('#mainMenu .continue-button','disabled');
     }
   }

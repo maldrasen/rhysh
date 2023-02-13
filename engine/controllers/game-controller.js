@@ -31,7 +31,7 @@ global.GameController = (function() {
     });
 
     ipcMain.handle("game.show-load", async () => {
-      return GameState.getValidWorlds();
+      return await GameState.getValidWorlds();
     });
 
     ipcMain.handle("game.show-options", () => {

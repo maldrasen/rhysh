@@ -76,6 +76,7 @@ global.GameState = (function() {
   function saveGame() {
 
     let state = {
+      version: VERSION,
       timeCount: timeCount,
       dayCount: dayCount,
       stageName: stageName,
@@ -94,7 +95,7 @@ global.GameState = (function() {
   }
 
   function deleteGame(index) {
-    let path = `${DATA}/worlds/world-${index}`;
+    let path = `${DATA}/worlds/${index}`;
     fs.rm(path, { recursive: true, force: true }, error => {
       console.log(`Deleted Game: ${path}`);
     });
@@ -154,7 +155,7 @@ global.GameState = (function() {
 
   function setWorldIndex(index) {
     worldIndex = index;
-    worldPath = `${DATA}/worlds/world-${worldIndex}`;
+    worldPath = `${DATA}/worlds/${worldIndex}`;
   }
 
   // Whenever the party moves from one zone into another we update the party
@@ -195,48 +196,43 @@ global.GameState = (function() {
 
   // === Load Game =============================================================
 
+  async function getLastValidGame() {
+    if (areThereWorlds() == false) { return null; }
+
+    let validWorlds = await getValidWorlds();
+
+    return (validWorlds.length > 0) ? validWorlds[0] : null;
+  }
+
   // A world is valid if it has a player object which will happen when the new
   // form has been completed.
   function getValidWorlds() {
     return new Promise(async resolve => {
       let validWorlds = [];
 
-      fs.readdirSync(`${DATA}/worlds`).forEach(worldDirectory => {
-        if (isWorldValid(`${DATA}/worlds/${worldDirectory}`)) {
-          validWorlds.push(`${DATA}/worlds/${worldDirectory}`);
+      fs.readdirSync(`${DATA}/worlds`).forEach(worldIndex => {
+        if (isWorldValid(`${DATA}/worlds/${worldIndex}`)) {
+          validWorlds.push(worldIndex);
         }
       });
 
-      let gameStates = await Promise.all(validWorlds.map(async worldPath => {
-        return createGameData({
-          path: worldPath,
-          date: new Date(fs.statSync(`${worldPath}/GameState.cum`).mtimeMs),
-          gameState: await Kompressor.read(`${worldPath}/GameState.cum`),
-          playerState: await Kompressor.read(`${worldPath}/Character-Main.cum`),
+      let gameStates = await Promise.all(validWorlds.map(async worldIndex => {
+        let path = `${DATA}/worlds/${worldIndex}`
+
+        return compileGameData({
+          worldIndex: worldIndex,
+          path: path,
+          date: new Date(fs.statSync(`${path}/GameState.cum`).mtimeMs),
+          gameState: await Kompressor.read(`${path}/GameState.cum`),
+          playerState: await Kompressor.read(`${path}/Character-Main.cum`),
         });
       }));
 
       gameStates = ArrayHelper.compact(gameStates);
-      gameStates.sort((a,b) => { return a.date - b.date });
+      gameStates.sort((a,b) => { return b.date - a.date });
 
       resolve(gameStates);
     });
-  }
-
-  // While function looks like a simple getter function it also cleans up
-  // invalid world directories if they're encountered. These invalid worlds are
-  // created when a player starts the new game process, but doesn't finish it,
-  // leaving a half finished world directory with no main character.
-  function isWorldValid(path) {
-    try {
-      fs.accessSync(`${path}/Character-Main.cum`);
-      return true;
-    }
-    catch(e) {
-      console.log(`Cleaning Invalid World: ${path}`)
-      fs.rmSync(path,{ recursive:true });
-      return false;
-    }
   }
 
   // The game data is the data that is displayed in each row of the load game
@@ -246,16 +242,26 @@ global.GameState = (function() {
   // TODO: dayCount and timeCount should be formatted as actual in game date
   //       and time.
   //
-  function createGameData(state) {
+  function compileGameData(state) {
+
+    // Games saved under previous versions don't work by default. I might
+    // update this in the future to allow for certain version numbers to be
+    // loadable, but for now we can always require the current version.
+    if (state.gameState.version != VERSION) {
+      return console.log(`${state.path} has an invalid version (${state.gameState.version})`);
+    }
+
     try {
       return {
-        path: state.path,
         date: state.date,
+        path: state.path,
+        worldIndex: state.worldIndex,
         firstName: state.playerState.firstName,
         firstLast: state.playerState.lastName,
         archetype: Archetype.lookup(state.playerState.archetypeCode).name,
         species: Species.lookup(state.playerState.speciesCode).name,
         sex: state.playerState.sex,
+        level: state.playerState.level,
         location: state.gameState.currentZone,
         dayCount: state.gameState.dayCount,
         timeCount: state.gameState.timeCount,
@@ -267,6 +273,35 @@ global.GameState = (function() {
       console.error("Game State:",state.gameState);
       console.error(error)
     }
+  }
+
+  // Just need to check to see that the worlds directory has been created. A
+  // try/catch is a shitty way to handle a boolean, but it's how NodeJS handles
+  // checking to see if a file exists.
+  function areThereWorlds() {
+    try {
+      fs.accessSync(`${DATA}/worlds`);
+    }
+    catch(error) {
+      return false;
+    }
+    return true;
+  }
+
+  // While this function looks like a simple getter function it also cleans up
+  // invalid world directories if they're encountered. These invalid worlds are
+  // created when a player starts the new game process, but doesn't finish it,
+  // leaving a half finished world directory with no main character.
+  function isWorldValid(path) {
+    try {
+      fs.accessSync(`${path}/Character-Main.cum`);
+    }
+    catch(e) {
+      console.log(`Cleaning Invalid World: ${path}`)
+      fs.rmSync(path,{ recursive:true });
+      return false;
+    }
+    return true;
   }
 
   // ===========================================================================
@@ -356,6 +391,8 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getPartyLocation,
+
+    getLastValidGame,
     getValidWorlds,
 
     endEvent,

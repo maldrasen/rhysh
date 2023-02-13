@@ -2,6 +2,7 @@ const { app } = require('electron')
 
 global.ROOT = require('path').normalize(`${__dirname}`).replace(/\\/g,"/");
 global.DATA = app.getPath("userData")
+global.VERSION = "0.1";
 
 // We first boot Rhysh by loading all of the JavaScript objects into memory. My style of doing things is odd by modern
 // standards I know. I really just prefer to put all the "classes" into the global scope that way they can be accessed

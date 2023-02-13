@@ -4,7 +4,7 @@ global.RootController = (function() {
     ipcMain.handle("client.ready", async () => {
       Browser.send('server.ready', {
         environment: Environment,
-        lastWorld: Settings.getLastWorld(),
+        lastValidGame: await GameState.getLastValidGame(),
       });
 
       Messenger.publish('server.ready');
