@@ -32,6 +32,10 @@ X.createElement = function(string) {
   return element.children[0];
 }
 
+X.copyElement = function(selector) {
+  return X.first(selector).cloneNode(true);
+}
+
 // === Events ==================================================================
 
 X.onClick = function(selector, callback) {

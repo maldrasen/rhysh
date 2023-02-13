@@ -25,21 +25,38 @@
 </div>
 
 <div id='loadGame' class='hide'>
-  <div class='overlay'>
+  <div class='overlay narrow'>
     <div class='scrolling-panel track-parent'>
-      <div class='scrolling-panel-content'>
+      <div class='game-list scrolling-panel-content'>
       </div>
     </div>
   </div>
 
-  <div class='overlay-footer button-row'>
+  <div class='overlay-footer narrow button-row'>
     <a href='#' class='button back-to-main-button'>Back</a>
-    <a href='#' class='button load-button disabled'>Load</a>
   </div>
 
   <div class='game-template' class='hide'>
     <div class='game'>
-      Game to load...
+      <div class='top-row'>
+        <span class='name'>
+          <span class='first'></span>
+          <span class='last'></span>
+        </span>
+        <span class='details'>
+          (Level <span class='level'></span>
+          <span class='sex'></span>
+          <span class='species'></span>
+          <span class='archetype'></span>)
+        </span>
+      </div>
+      <dl class='extra'>
+        <dt>Date</dt><dd class='date'></dd>
+        <dt>Location</dt><dd class='location'></dd>
+      </dl>
+      <div class='buttons'>
+        <a href='#' class='delete-game button button-small button-danger'>Delete</a>
+      </div>
     </div>
   </div>
 </div>

@@ -257,7 +257,7 @@ global.GameState = (function() {
         path: state.path,
         worldIndex: state.worldIndex,
         firstName: state.playerState.firstName,
-        firstLast: state.playerState.lastName,
+        lastName: state.playerState.lastName,
         archetype: Archetype.lookup(state.playerState.archetypeCode).name,
         species: Species.lookup(state.playerState.speciesCode).name,
         sex: state.playerState.sex,

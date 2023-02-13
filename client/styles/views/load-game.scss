@@ -1,0 +1,41 @@
+#loadGame {
+
+  .game {
+    margin: 10px;
+    border: $border-light;
+    box-shadow: $shadow-shallow;
+    background-color: rgba(0,0,0,0.75);
+
+    .top-row {
+      margin: 5px;
+      border-bottom: $border-light;
+
+      .name {
+        color: $fg-strong;
+        font-size: $fs-bigger;
+      }
+      .details {
+        font-size: $fs-big;
+      }
+    }
+
+    .buttons {
+      float: right;
+      position: relative;
+      top: -35px;
+      padding: 5px;
+    }
+
+    .extra {
+      margin: 5px;
+      dt { width: 6em; }
+      dd { color: $fg-weak; }
+    }
+  }
+
+  .game:hover {
+    cursor: pointer;
+    border: $border-normal;
+    background-color: rgb(0,0,0);
+  }
+}

@@ -40,6 +40,7 @@
   left: 50px;
   height: calc(100% - 150px);
   width: calc(100% - 100px);
+  min-width: 800px;
   background-color: rgba(0,0,0,0.70);
   border: $border-normal;
   border-bottom: $border-light;
@@ -51,11 +52,18 @@
   background-color: rgba(0,0,0,0.50);
 }
 
+.overlay.narrow {
+  left: 200px;
+  min-width: 400px;
+  width: calc(100% - 400px);
+}
+
 .overlay-footer {
   position: absolute;
   bottom: 55px;
   left: 50px;
   width: calc(100% - 110px);
+  min-width: 790px;
   height: 32px;
 
   padding: 5px;
@@ -71,6 +79,12 @@
 
 .overlay-footer.button-row {
   text-align: right;
+}
+
+.overlay-footer.narrow {
+  left: 200px;
+  min-width: 390px;
+  width: calc(100% - 410px);
 }
 
 
