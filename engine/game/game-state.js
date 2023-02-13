@@ -193,6 +193,84 @@ global.GameState = (function() {
   function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
   function getPartyLocation() { return partyLocation; }
 
+  // === Load Game =============================================================
+
+  // A world is valid if it has a player object which will happen when the new
+  // form has been completed.
+  function getValidWorlds() {
+    return new Promise(async resolve => {
+      let validWorlds = [];
+
+      fs.readdirSync(`${DATA}/worlds`).forEach(worldDirectory => {
+        if (isWorldValid(`${DATA}/worlds/${worldDirectory}`)) {
+          validWorlds.push(`${DATA}/worlds/${worldDirectory}`);
+        }
+      });
+
+      let gameStates = await Promise.all(validWorlds.map(async worldPath => {
+        return createGameData({
+          path: worldPath,
+          date: new Date(fs.statSync(`${worldPath}/GameState.cum`).mtimeMs),
+          gameState: await Kompressor.read(`${worldPath}/GameState.cum`),
+          playerState: await Kompressor.read(`${worldPath}/Character-Main.cum`),
+        });
+      }));
+
+      gameStates = ArrayHelper.compact(gameStates);
+      gameStates.sort((a,b) => { return a.date - b.date });
+
+      resolve(gameStates);
+    });
+  }
+
+  // While function looks like a simple getter function it also cleans up
+  // invalid world directories if they're encountered. These invalid worlds are
+  // created when a player starts the new game process, but doesn't finish it,
+  // leaving a half finished world directory with no main character.
+  function isWorldValid(path) {
+    try {
+      fs.accessSync(`${path}/Character-Main.cum`);
+      return true;
+    }
+    catch(e) {
+      console.log(`Cleaning Invalid World: ${path}`)
+      fs.rmSync(path,{ recursive:true });
+      return false;
+    }
+  }
+
+  // The game data is the data that is displayed in each row of the load game
+  // overlay, and includes information about the main character as well as the
+  // current world state.
+  //
+  // TODO: dayCount and timeCount should be formatted as actual in game date
+  //       and time.
+  //
+  function createGameData(state) {
+    try {
+      return {
+        path: state.path,
+        date: state.date,
+        firstName: state.playerState.firstName,
+        firstLast: state.playerState.lastName,
+        archetype: Archetype.lookup(state.playerState.archetypeCode).name,
+        species: Species.lookup(state.playerState.speciesCode).name,
+        sex: state.playerState.sex,
+        location: state.gameState.currentZone,
+        dayCount: state.gameState.dayCount,
+        timeCount: state.gameState.timeCount,
+      }
+    }
+    catch (error) {
+      console.error(`=== Error Creating Game Data for ${state.path} ===`)
+      console.error("Player State:",state.playerState);
+      console.error("Game State:",state.gameState);
+      console.error(error)
+    }
+  }
+
+  // ===========================================================================
+
   async function endEvent(endState) {
     let code = currentEvent.code;
     let template = EventTemplate.lookup(code);
@@ -278,6 +356,7 @@ global.GameState = (function() {
     getStageName,
     getWorldPath,
     getPartyLocation,
+    getValidWorlds,
 
     endEvent,
 

@@ -20,7 +20,6 @@ $shadow-shallow:       1px 2px 3px rgba(0,0,0,0.9);
 $shadow-portrait:      2px 4px 5px rgba(0,0,0,0.8);
 $shadow-overlay:       5px 10px 20px rgba(0,0,0,0.8);
 
-
 $border-transparent: 1px solid transparent;
 $border-very-light:  1px solid rgba(250,250,250,0.05);
 $border-light:       1px solid rgba(250,250,250,0.1);
@@ -39,7 +38,7 @@ $fg-link:            rgb(220,80,50);
 $fg-link-hover:      rgb(250,100,60);
 $fg-link-active:     rgb(255,110,70);
 
-// Buttons
+// === Buttons ===
 $bg-button:           rgba(0,0,0,0.666);
 $fg-button-default:   rgb(200, 200, 200);
 $fg-button-primary:   rgb(150, 150, 250);
@@ -48,7 +47,7 @@ $fg-button-danger:    rgb(250, 100, 100);
 $fg-button-warning:   rgb(153, 112, 77);
 $fg-button-success:   rgb(127, 201, 127);
 
-// Other
+// === Other ===
 $fg-bonus: $fg-strong;
 $fg-penalty: $fg-weak;
 
@@ -63,7 +62,19 @@ $fg-radio-button-on: rgb(250,250,250);
 $bg-radio-button-on: rgba(100,50,0,0.05);
 $glow-radio-button-on:  0 0 3px rgb(200,100,50);
 
-// Z-Indices
+// === Scrolling Panel ===
+$bg-scrolling-panel-track: rgba(0,0,0,0.2);
+$bg-scrolling-panel-thumb: rgb(50,50,50);
+$bg-scrolling-panel-thumb-hover: rgb(70,60,50);
+
+$border-scrolling-panel-thumb-top: 1px solid rgba(250,250,250,0.1);
+$border-scrolling-panel-thumb-bottom: 1px solid rgba(0,0,0,0.5);
+
+$shadow-scrolling-panel-track: 2px 2px 4px rgb(0,0,0) inset;
+$shadow-scrolling-panel-thumb: -2px -2px 5px rgba(0,0,0,0.4) inset,
+                               2px 2px 5px rgba(250,250,250,0.2) inset;
+
+// === Z-Indices ===
 $z-background: 0;
 $z-root: 100;
 $z-event-text: 1000;

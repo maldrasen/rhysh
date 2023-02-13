@@ -44,6 +44,7 @@
 
       // Elements
       import('./elements/background-image.js'),
+      import('./elements/scrolling-panel.js'),
 
       // Models
       import('./models/tile-entry.js'),
@@ -56,6 +57,7 @@
       // Views
       import("./views/dungeon/dungeon.js"),
       import("./views/event/event-view.js"),
+      import("./views/mainMenu/load-game.js"),
       import("./views/mainMenu/main-menu.js"),
       import("./views/mainMenu/new-game.js"),
       import("./views/mapView/map-view.js"),
@@ -86,12 +88,14 @@
   function initAll() {
     Dungeon.init();
     EventView.init();
+    LoadGame.init();
     MainContent.init();
     MainMenu.init();
     MapCanvas.init();
     NewGame.init();
     TileGraphics.init();
     Renderer.init();
+    ScrollingPanel.init();
   }
 
   function ready(context) {

@@ -1,0 +1,40 @@
+
+.scrolling-panel-parent {
+  overflow: hidden;
+}
+.scrolling-panel-frame {
+  box-shadow: $shadow-frame;
+}
+.scrolling-panel {
+  display: flex;
+  overflow: hidden;
+  min-height: 100px;
+}
+.scrolling-panel-track {
+  width: 10px;
+  background-color: $bg-scrolling-panel-track;
+  cursor: pointer;
+  box-shadow: $shadow-scrolling-panel-track;
+}
+.scrolling-panel-track.off {
+  display: none;
+}
+.scrolling-panel-thumbwheel {
+  position: relative;
+  top: 0;
+  height: 100px;
+  width: 10px;
+  background-color: $bg-scrolling-panel-thumb;
+  border-left: $border-scrolling-panel-thumb-top;
+  border-top: $border-scrolling-panel-thumb-top;
+  border-right: $border-scrolling-panel-thumb-bottom;
+  border-bottom: $border-scrolling-panel-thumb-bottom;
+  box-shadow: $shadow-scrolling-panel-thumb;
+}
+.scrolling-panel-thumbwheel:hover {
+  background-color: $bg-scrolling-panel-thumb-hover;
+}
+.scrolling-panel-content {
+  position: relative;
+  flex-grow: 1;
+}

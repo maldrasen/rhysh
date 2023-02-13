@@ -30,8 +30,8 @@ global.GameController = (function() {
       GameState.loadGame(parameters[0]);
     });
 
-    ipcMain.handle("game.show-load", () => {
-      console.log("TODO: Show Load")
+    ipcMain.handle("game.show-load", async () => {
+      return GameState.getValidWorlds();
     });
 
     ipcMain.handle("game.show-options", () => {

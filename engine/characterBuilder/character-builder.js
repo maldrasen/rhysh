@@ -4,7 +4,7 @@ global.CharacterBuilder = (function() {
     let mainCharacter = new Character("Main");
 
     mainCharacter.setArchetypeCode(options.archetype);
-    mainCharacter.setSpeciesCode(options.archetype);
+    mainCharacter.setSpeciesCode(options.species);
     mainCharacter.setSex(options.sex);
     mainCharacter.setFirstName(options.firstName);
     mainCharacter.setLastName(options.lastName);

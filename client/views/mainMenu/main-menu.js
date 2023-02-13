@@ -14,7 +14,10 @@ window.MainMenu = (function() {
   }
 
   function showLoadGame() {
-    console.log("TODO: Show Load Overlay");
+    X.addClass('#mainMenu','hide');
+    ClientCommands.send('game.show-load').then(gameList => {
+      LoadGame.show(gameList);
+    });
   }
 
   function showOptions() {

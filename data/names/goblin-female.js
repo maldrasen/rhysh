@@ -89,6 +89,7 @@ let names = [
   { name:"Pimple", triggers:['ugly']},
   { name:"Pisshole", aspects:['golden.2']},
   { name:"Pissy", aspects:['golden.2']},
+  { name:"Pocket", aspects:['short','thin']},
   { name:"Pooky" },
   { name:"Pisspot", aspects:['golden.2']},
   { name:"Pussy", aspects:['pussy-slut.3'], triggers:['big-labia']},
