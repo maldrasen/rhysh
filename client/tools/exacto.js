@@ -1,6 +1,7 @@
 
-// X (or Exacto) is a super tiny replacement for jQuery, just a quick reimplementation of everything I would actually
-// use from that library.
+// X (or Exacto) is a super tiny replacement for jQuery, just a quick
+// reimplementation of everything I would actually use from that library.
+
 window.X = function(query) {
   return document.querySelectorAll(query)
 }
@@ -85,11 +86,13 @@ X.onArrowDown = function(when, callback)  { X.onCodeDown(40, when, callback); }
 X.onArrowLeft = function(when, callback)  { X.onCodeDown(37, when, callback); }
 X.onArrowRight = function(when, callback) { X.onCodeDown(39, when, callback); }
 
-// === Classes =========================================================================================================
+// === Classes =================================================================
 
-// These class manipulation function can all take either an element or a query selector. With hasClass() the function
-// really only makes sense for a single element so it only considers the first element with the selector, indended for
-// use with element IDs.
+// These class manipulation function can all take either an element or a query
+// selector. With hasClass() the function really only makes sense for a single
+// element so it only considers the first element with the selector, indended
+// for use with element IDs.
+
 X.hasClass = function(arg, classname) {
   return (typeof arg == "string" ? X.first(arg) : arg).classList.contains(classname);
 }
@@ -114,4 +117,11 @@ X.classesExcept = function(element, classList) {
     if (classList.indexOf(classname) == -1) { list.push(classname); }
   });
   return list;
+}
+
+// === Style ===================================================================
+
+// Who the fuck would name their function getBoundingClientRect() anyway?
+X.getPosition = function(element) {
+  return element.getBoundingClientRect();
 }

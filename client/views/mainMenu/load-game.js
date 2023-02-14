@@ -18,6 +18,8 @@ window.LoadGame = (function() {
     });
 
     X.removeClass('#loadGame','hide');
+
+    ScrollingPanel.resize('#loadGame');
   }
 
   function addGameItem(gameData) {

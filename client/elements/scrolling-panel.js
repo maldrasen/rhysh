@@ -7,261 +7,332 @@
 //     <div class='scrolling-panel-content'>
 //
 window.ScrollingPanel = (function() {
-  const stepDistance = 100;
+  const stepDistance = 50;
+  let activeGrab = null;
 
+  // Keycodes for scrolling panel movement
+  //   33 - Page Up
+  //   34 - Page Down
+  //   35 - End
+  //   36 - Home
+  //   38 - Up Arrow
+  //   40 - Down Arrow
+  //
   function init() {
-    // $(document).on('click', '.scrolling-panel-track', trackScroll);
-    // $(document).on('mousedown', '.scrolling-panel-thumbwheel', startDrag);
 
-    // // 33 - Page Up
-    // // 34 - Page Down
-    // // 35 - End
-    // // 36 - Home
-    // // 38 - Up Arrow
-    // // 40 - Down Arrow
-    // $(document).on('keydown', '.scrolling-panel', function(e) {
-    //   if (e.target && e.target.nodeName == 'TEXTAREA') { return; }
+    window.addEventListener('mousedown', event => {
+      if (event.target.matches('.scrolling-panel-track')) { trackClicked(event); }
+    });
 
-    //   var panel = $(Elements.elementAtMousePosition()).closest('.scrolling-panel');
+    window.addEventListener('mousedown', event => {
+      if (event.target.matches('.scrolling-panel-thumbwheel')) { startDrag(event); }
+    });
 
-    //   if (panel.length > 0 && [33,34,35,36,38,40].indexOf(e.keyCode) >= 0) {
-    //     e.preventDefault();
-    //     e.stopPropagation();
+    window.addEventListener('keydown', event => {
+      visibleScrollPanels().forEach(scrollingPanel => {
+        if ([33,34,35,36,38,40].indexOf(event.keyCode) >= 0) {
+          event.preventDefault();
+          event.stopPropagation();
 
-    //     if (e.keyCode == 33) { stepUp(panel, stepDistance); }
-    //     if (e.keyCode == 34) { stepDown(panel, stepDistance); }
-    //     if (e.keyCode == 35) { scrollToBottom(panel); }
-    //     if (e.keyCode == 36) { scrollToTop(panel); }
-    //     if (e.keyCode == 38) { stepUp(panel, stepDistance/10); }
-    //     if (e.keyCode == 40) { stepDown(panel, stepDistance/10); }
-    //   }
-    // });
+          if (event.keyCode == 33) { stepUp(scrollingPanel, stepDistance); }
+          if (event.keyCode == 34) { stepDown(scrollingPanel, stepDistance); }
+          if (event.keyCode == 35) { scrollToBottom(scrollingPanel); }
+          if (event.keyCode == 36) { scrollToTop(scrollingPanel); }
+          if (event.keyCode == 38) { stepUp(scrollingPanel, stepDistance/5); }
+          if (event.keyCode == 40) { stepDown(scrollingPanel, stepDistance/5); }
+        }
+      });
+    });
 
-    // // Trigger Resize when window is resized. (Container height may change.)
-    // $(window).on('resize', function(e) {
-    //   $.each($('.scrolling-panel'), function() {
-    //     resize($(this));
-    //   });
-    // });
+    // Trigger Resize when window is resized. (Container height may change.)
+    window.addEventListener('resize', resizeAll);
   }
 
-  // // Take an element and place it into a scrolling panel, then return the
-  // // scrolling panel. This function doesn't call build() yet because the
-  // // wrapped element may not be within it's own parent yet.
-  // function wrapFixed(element) {
-  //   return $(`<div class='scrolling-panel track-parent'>`).append($(`<div class='scrolling-panel-content'>`).append(element));
-  // }
+  function visibleScrollPanels() {
+    let panels = [];
+    X.each('.scrolling-panel', panel => {
+      if (panel.offsetWidth > 0 && panel.offsetHeight > 0) {
+        panels.push(panel);
+      }
+    });
+    return panels;
+  }
 
-  // function build(scrollingPanel) {
-  //   var contentPanel = scrollingPanel.find('.scrolling-panel-content');
-  //   if (contentPanel.length == 0) {
-  //     throw "Scrolling panel must contain a .scrolling-panel-content";
-  //   }
+  // Build the scrolling panel. This only needs to be called once for each
+  // panel. The argument can either be a query selector to the element or the
+  // scrolling panel element itself.
+  function build(arg) {
+    let result = findScrollingPanel(arg);
+    let scrollingPanel = result.scrollingPanel;
+    let contentPanel = result.contentPanel;
 
-  //   // If this scrolling panel has already been built, ignore this.
-  //   if (scrollingPanel.find('.scrolling-panel-track').length > 0) { return; }
+    // Only build scrolling panels once.
+    if (scrollingPanel.querySelector('.scrolling-panel-track')) { return; }
 
-  //   // If this panel should track its parent for its height, and there is no ancestor with the
-  //   // scrolling-panel-parent class, then assume the immediate parent is the height source.
-  //   if (scrollingPanel.hasClass('track-parent')) {
-  //     if (scrollingPanel.closest('.scrolling-panel-parent').length == 0) {
-  //       scrollingPanel.parent().addClass('scrolling-panel-parent');
-  //     }
-  //   }
+    // If this panel should track its parent for its height, and there is no
+    // ancestor with the scrolling-panel-parent class, then assume the
+    // immediate parent is the height source.
+    if (X.hasClass(scrollingPanel,'track-parent')) {
+      if (scrollingPanel.closest('.scrolling-panel-parent') == null) {
+        X.addClass(scrollingPanel.parentElement,'scrolling-panel-parent');
+      }
+    }
 
-  //   scrollingPanel.on('mousewheel', function(e) {
-  //     if (! Elements.isScrolling) {
-  //       e.preventDefault();
-  //       e.stopPropagation();
-  //       (e.originalEvent && e.originalEvent.deltaY > 0) ?
-  //         stepDown(scrollingPanel, scrollingPanel.data('step-extent')):
-  //         stepUp(scrollingPanel, scrollingPanel.data('step-extent'));
-  //     }
-  //   });
+    scrollingPanel.addEventListener('wheel', event => {
+      event.preventDefault();
+      event.stopPropagation();
 
-  //   var thumbwheel = $('<div>', { class:'scrolling-panel-thumbwheel' });
-  //   var track = $('<div>', { class:'scrolling-panel-track' }).append(thumbwheel);
-  //   scrollingPanel.append(track).attr('data-scroll-position',0).attr('data-thumb-position',0);
+      (event.deltaY > 0) ?
+        stepDown(scrollingPanel, stepDistance):
+        stepUp(scrollingPanel, stepDistance);
+    });
 
-  //   resize(scrollingPanel);
-  // }
+    let track = X.createElement(`
+      <div class='scrolling-panel-track'>
+        <div class='scrolling-panel-thumbwheel'></div>
+      </div>
+    `);
 
-  // function resize(scrollingPanel) {
-  //   if (scrollingPanel.height() == 0) { return; }
+    scrollingPanel.appendChild(track);
+    scrollingPanel.setAttribute('data-scroll-position',0);
+    scrollingPanel.setAttribute('data-thumb-position',0);
 
-  //   var contentPanel = scrollingPanel.find('.scrolling-panel-content');
-  //   var track = scrollingPanel.find('.scrolling-panel-track');
-  //   var thumbwheel = scrollingPanel.find('.scrolling-panel-thumbwheel');
+    resize(scrollingPanel);
+  }
 
-  //   var contentHeight = contentPanel[0].scrollHeight;
-  //   var visibleHeight = getVisibleHeight(scrollingPanel);
+  // Find the scrolling panel element given either an element or a query
+  // selector to the element or an element that has a scrolling panel as a
+  // decendent.
+  function findScrollingPanel(arg) {
+    let scrollingPanel = arg;
 
-  //   if (visibleHeight >= contentHeight) {
-  //     setThumbPosition(scrollingPanel, 0);
-  //     return track.addClass('off');
-  //   }
+    if (typeof arg == 'string') {
+      scrollingPanel = document.querySelector(`${arg} .scrolling-panel`) ||
+                       document.querySelector(arg);
+    }
 
-  //   track.removeClass('off');
+    if (scrollingPanel == null || X.hasClass(scrollingPanel,'scrolling-panel') == false) {
+      throw `Cannot find .scrolling-panel within ${arg}`;
+    }
 
-  //   var thumbHeight = (visibleHeight / contentHeight) * visibleHeight;
-  //   if (thumbHeight < 50) {
-  //     thumbHeight = 50;
-  //   }
+    let contentPanel = scrollingPanel.querySelector('.scrolling-panel-content');
+    if (contentPanel == null) {
+      throw "Scrolling panel must contain a .scrolling-panel-content";
+    }
 
-  //   var thumbExtent = visibleHeight - thumbHeight;
-  //   var thumbPosition = scrollingPanel.data('scroll-position') * thumbExtent;
-  //   var stepExtent = (stepDistance / contentHeight) * visibleHeight;
+    return { scrollingPanel, contentPanel };
+  }
 
-  //   setThumbPosition(scrollingPanel, thumbPosition);
-  //   scrollingPanel.data('thumb-extent', thumbExtent);
-  //   scrollingPanel.data('step-extent', stepExtent);
+  function resize(arg) {
+    let result = findScrollingPanel(arg);
+    let scrollingPanel = result.scrollingPanel;
+    let contentPanel = result.contentPanel;
 
-  //   thumbwheel.css({
-  //     height: thumbHeight
-  //   });
-  // }
+    if (scrollingPanel.clientHeight == 0) { return; }
 
-  // function resizeAll() {
-  //   $.each($('.scrolling-panel'), function(i, panel) { resize($(panel)); });
-  // }
+    let track = scrollingPanel.querySelector('.scrolling-panel-track');
+    let thumbwheel = scrollingPanel.querySelector('.scrolling-panel-thumbwheel');
 
-  // // If the contents of the scrolling panel are likely to change call observe() to automatically call resize()
-  // // when the content panel is resized.
-  // function observe(scrollingPanel) {
-  //   var content = scrollingPanel.find('.scrolling-panel-content')[0];
+    let contentHeight = contentPanel.scrollHeight;
+    let visibleHeight = getVisibleHeight(scrollingPanel);
 
-  //   var observer = new MutationObserver(function(mutations) {
-  //     resize(scrollingPanel);
-  //   });
+    if (visibleHeight >= contentHeight) {
+      setThumbPosition(scrollingPanel, 0);
+      X.addClass(track,'off');
+      return
+    }
 
-  //   observer.observe(content, {
-  //     childList: true,
-  //     subtree: true,
-  //     attributes: false,
-  //     characterData: false
-  //   });
-  // }
+    X.removeClass(track,'off');
 
-  // function setThumbPosition(scrollingPanel, position) {
-  //   scrollingPanel.data('thumb-position', position);
-  //   scrollingPanel.find('.scrolling-panel-thumbwheel').css({ top:position });
-  //   positionView(scrollingPanel);
-  // }
+    let thumbHeight = (visibleHeight / contentHeight) * visibleHeight;
+    if (thumbHeight < 50) {
+      thumbHeight = 50;
+    }
 
-  // // Read the thumb-position and set view offset
-  // function positionView(scrollingPanel) {
-  //   var content = scrollingPanel.find('.scrolling-panel-content');
-  //   var thumbExtent = scrollingPanel.data('thumb-extent');
-  //   var thumbPosition = scrollingPanel.data('thumb-position') || 0;
-  //   var scrollPosition = 1 - ((thumbExtent - thumbPosition) / thumbExtent);
-  //   var contentOffset = 0;
+    let thumbExtent = visibleHeight - thumbHeight;
+    let thumbPosition = scrollingPanel.getAttribute('data-scroll-position') * thumbExtent;
+    let stepExtent = (stepDistance / contentHeight) * visibleHeight;
 
-  //   if (scrollPosition > 1) {
-  //     scrollPosition = 1;
-  //   }
+    setThumbPosition(scrollingPanel, thumbPosition);
+    setThumbExtent(scrollingPanel, thumbExtent);
 
-  //   scrollingPanel.data('scroll-position', scrollPosition);
+    thumbwheel.style['height'] = `${thumbHeight}px`;
+  }
 
-  //   if (scrollPosition > 0) {
-  //     var contentHeight = content[0].scrollHeight;
-  //     var visibleHeight = getVisibleHeight(scrollingPanel);
-  //     contentOffset = (contentHeight - visibleHeight) * -scrollPosition
-  //   }
+  function resizeAll() {
+    X.each('.scrolling-panel', scrollingPanel => resize(scrollingPanel));
+  }
 
-  //   content.css({ top:contentOffset });
-  // }
+  // If the contents of the scrolling panel are likely to change call observe()
+  // to automatically call resize() when the content panel is resized.
+  function observe(scrollingPanel) {
+    var content = scrollingPanel.querySelector('.scrolling-panel-content');
 
-  // function stepDown(scrollingPanel, step) {
-  //   if (isActive(scrollingPanel) == false) { return false; }
+    var observer = new MutationObserver(function(mutations) {
+      resize(scrollingPanel);
+    });
 
-  //   var extent = scrollingPanel.data('thumb-extent');
-  //   var position = (scrollingPanel.data('thumb-position') || 0) + step;
-  //   if (position > extent) {
-  //     position = extent;
-  //   }
-  //   setThumbPosition(scrollingPanel, position);
-  // }
+    observer.observe(content, {
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false
+    });
+  }
 
-  // function stepUp(scrollingPanel, step) {
-  //   if (isActive(scrollingPanel) == false) { return false; }
+  function getThumbExtent(scrollingPanel) {
+    return parseInt(scrollingPanel.getAttribute('data-thumb-extent') || 1);
+  }
 
-  //   var position = (scrollingPanel.data('thumb-position') || 0) - step;
-  //   if (position < 0) {
-  //     position = 0;
-  //   }
-  //   setThumbPosition(scrollingPanel, position);
-  // }
+  function getThumbPosition(scrollingPanel) {
+    return parseInt(scrollingPanel.getAttribute('data-thumb-position') || 0);
+  }
 
-  // function scrollToTop(scrollingPanel) {
-  //   setThumbPosition(scrollingPanel, 0);
-  // }
+  function setThumbExtent(scrollingPanel,extent) {
+    scrollingPanel.setAttribute('data-thumb-extent', extent);
+  }
 
-  // function scrollToBottom(scrollingPanel) {
-  //   if (isActive(scrollingPanel)) {
-  //     setThumbPosition(scrollingPanel, scrollingPanel.data('thumb-extent'));
-  //   }
-  // }
+  function setThumbPosition(scrollingPanel, position) {
+    if (typeof position == 'string') {
+      position = parseInt(position);
+    }
 
-  // function trackScroll(e) {
-  //   var scrollingPanel = $(this).closest('.scrolling-panel');
-  //   let thumb = scrollingPanel.find('.scrolling-panel-thumbwheel');
+    scrollingPanel.setAttribute('data-thumb-position', position);
+    scrollingPanel.querySelector('.scrolling-panel-thumbwheel').style['top'] = `${position}px`;
 
-  //   var clickAt = e.pageY;
-  //   var thumbPosition = thumb.offset().top;
-  //   var thumbHeight = thumb.height();
+    positionView(scrollingPanel);
+  }
 
-  //   if (clickAt < thumbPosition) {
-  //     stepUp(scrollingPanel, thumbHeight);
-  //   }
-  //   if (clickAt > (thumbPosition + thumbHeight)) {
-  //     stepDown(scrollingPanel, thumbHeight);
-  //   }
-  // }
+  // Read the thumb-position and set view offset
+  function positionView(scrollingPanel) {
+    let content = scrollingPanel.querySelector('.scrolling-panel-content');
+    let thumbExtent = getThumbExtent(scrollingPanel);
+    let thumbPosition = getThumbPosition(scrollingPanel);
+    let scrollPosition = 1 - ((thumbExtent - thumbPosition) / thumbExtent);
+    let contentOffset = 0;
 
-  // function startDrag(e) {
-  //   var scrollingPanel = $(this).closest('.scrolling-panel');
-  //   scrollingPanel.data('grab', e.pageY - $(this).offset().top + $(document).scrollTop());
+    if (scrollPosition > 1) {
+      scrollPosition = 1;
+    }
 
-  //   $(document).on('mousemove', 'html > body', function(e) { moveThumb(e, scrollingPanel); });
-  //   $(document).on('mouseup', 'html > body', stopDrag);
-  //   $('body').on('mouseleave', stopDrag);
-  // }
+    scrollingPanel.setAttribute('data-scroll-position', scrollPosition);
 
-  // function stopDrag(e) {
-  //   $(document).off('mousemove','html > body');
-  //   $(document).off('mouseup','html > body');
-  //   $('body').off('mouseleave');
-  // }
+    if (scrollPosition > 0) {
+      let contentHeight = content.scrollHeight;
+      let visibleHeight = getVisibleHeight(scrollingPanel);
+      contentOffset = (contentHeight - visibleHeight) * -scrollPosition
+    }
 
-  // function moveThumb(e, scrollingPanel) {
-  //   var top = e.pageY - scrollingPanel.data('grab') - scrollingPanel.offset().top + $(document).scrollTop();
-  //   var limit = scrollingPanel.data('thumb-extent');
+    content.style['top'] = `${contentOffset}px`;
+  }
 
-  //   if (top < 0) { top = 0; }
-  //   if (top > limit) { top = limit; }
-  //   setThumbPosition(scrollingPanel, top);
-  //   Elements.clearSelection();
-  // }
+  function stepDown(scrollingPanel, step) {
+    if (isActive(scrollingPanel) == false) { return false; }
 
-  // function getVisibleHeight(scrollingPanel) {
-  //   return scrollingPanel.hasClass('track-parent') ?
-  //     scrollingPanel.closest('.scrolling-panel-parent').height():
-  //     scrollingPanel.height();
-  // }
+    let extent = getThumbExtent(scrollingPanel);
+    let position = getThumbPosition(scrollingPanel) + step;
+    if (position > extent) {
+      position = extent;
+    }
 
-  // function isActive(scrollingPanel) {
-  //   return scrollingPanel.find('.scrolling-panel-track').hasClass('off') == false;
-  // }
+    setThumbPosition(scrollingPanel, position);
+  }
+
+  function stepUp(scrollingPanel, step) {
+    if (isActive(scrollingPanel) == false) { return false; }
+
+    var position = getThumbPosition(scrollingPanel) - step;
+    if (position < 0) {
+      position = 0;
+    }
+
+    setThumbPosition(scrollingPanel, position);
+  }
+
+  function scrollToTop(scrollingPanel) {
+    if (isActive(scrollingPanel)) {
+      setThumbPosition(scrollingPanel, 0);
+    }
+  }
+
+  function scrollToBottom(scrollingPanel) {
+    if (isActive(scrollingPanel)) {
+      setThumbPosition(scrollingPanel, getThumbExtent(scrollingPanel));
+    }
+  }
+
+  function trackClicked(event) {
+    let scrollingPanel = event.target.closest('.scrolling-panel');
+    let thumb = scrollingPanel.querySelector('.scrolling-panel-thumbwheel');
+
+    let clickAt = event.pageY;
+    let thumbPosition = X.getPosition(thumb).top;
+    let thumbHeight = thumb.clientHeight;
+
+    if (clickAt < thumbPosition) {
+      stepUp(scrollingPanel, thumbHeight);
+    }
+
+    if (clickAt > (thumbPosition + thumbHeight)) {
+      stepDown(scrollingPanel, thumbHeight);
+    }
+  }
+
+  function startDrag(event) {
+    let body = X.first('body');
+    let scrollingPanel = event.target.closest('.scrolling-panel');
+    let scrollTop = body.scrollTop;
+
+    activeGrab = {
+      scrollingPanel: scrollingPanel,
+      position: (event.pageY - X.getPosition(event.target).top + scrollTop)
+    };
+
+    body.addEventListener('mousemove', moveThumb);
+    body.addEventListener('mouseup', stopDrag);
+    body.addEventListener('mouseleave', stopDrag);
+  }
+
+  function stopDrag(event) {
+    let body = X.first('body');
+
+    body.removeEventListener('mousemove', moveThumb);
+    body.removeEventListener('mouseup', stopDrag);
+    body.removeEventListener('mouseleave', stopDrag);
+
+    activeGrab = null;
+  }
+
+  function moveThumb(event) {
+    let panelTop = X.getPosition(activeGrab.scrollingPanel).top;
+    let scrollTop = X.first('body').scrollTop;
+    let top = event.pageY - activeGrab.position - panelTop + scrollTop;
+    let limit = getThumbExtent(activeGrab.scrollingPanel);
+
+    if (top < 0) { top = 0; }
+    if (top > limit) { top = limit; }
+
+    setThumbPosition(activeGrab.scrollingPanel, top);
+  }
+
+  function getVisibleHeight(scrollingPanel) {
+    return X.hasClass(scrollingPanel,'track-parent') ?
+      scrollingPanel.closest('.scrolling-panel-parent').clientHeight:
+      scrollingPanel.clientHeight;
+  }
+
+  function isActive(scrollingPanel) {
+    return X.hasClass(scrollingPanel.querySelector('.scrolling-panel-track'), 'off') == false
+  }
 
   return {
     init,
-    // build,
-    // resize,
-    // resizeAll,
-    // observe,
-    // scrollToTop,
-    // scrollToBottom,
-    // wrapFixed,
+    build,
+    resize,
+    resizeAll,
+    observe,
+    scrollToTop,
+    scrollToBottom,
   };
 
 })();

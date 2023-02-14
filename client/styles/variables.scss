@@ -66,15 +66,15 @@ $glow-radio-button-on:  0 0 3px rgb(200,100,50);
 
 // === Scrolling Panel ===
 $bg-scrolling-panel-track: rgba(0,0,0,0.2);
-$bg-scrolling-panel-thumb: rgb(50,50,50);
-$bg-scrolling-panel-thumb-hover: rgb(70,60,50);
+$bg-scrolling-panel-thumb: rgb(20,10,0);
+$bg-scrolling-panel-thumb-hover: rgb(40,20,0);
 
-$border-scrolling-panel-thumb-top: 1px solid rgba(250,250,250,0.1);
+$border-scrolling-panel-thumb-top: 1px solid rgba(250,100,100,0.1);
 $border-scrolling-panel-thumb-bottom: 1px solid rgba(0,0,0,0.5);
 
 $shadow-scrolling-panel-track: 2px 2px 4px rgb(0,0,0) inset;
 $shadow-scrolling-panel-thumb: -2px -2px 5px rgba(0,0,0,0.4) inset,
-                               2px 2px 5px rgba(250,250,250,0.2) inset;
+                               2px 2px 5px rgba(250,100,100,0.2) inset;
 
 // === Z-Indices ===
 $z-background: 0;

@@ -38,6 +38,7 @@ window.MainMenu = (function() {
     MainContent.show({ path:"client/views/mainMenu/main-menu.html", classname:'main-menu', background:'main-menu' }).then(() => {
       enableLoadButtons();
       MainContent.hideCover({ fadeTime:1000 });
+      ScrollingPanel.build('#loadGame');
     });
   }
 
