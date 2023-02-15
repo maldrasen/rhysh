@@ -1,0 +1,21 @@
+
+#tooltipFrame {
+  position: fixed;
+
+  min-height: 30px;
+  min-width: 100px;
+  max-width: 300px;
+
+  box-sizing: border-box;
+  background-color: rgba(0,0,0,0.9);
+  border: $border-normal;
+  border-radius: 5px;
+  box-shadow: $shadow-frame;
+  z-index: $z-tooltip;
+
+  .basic-tooltip-content {
+    padding: 0 5px;
+    text-align: center;
+    line-height: 30px;
+  }
+}

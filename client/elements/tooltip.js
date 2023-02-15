@@ -31,19 +31,23 @@ window.Tooltip = (function() {
       position: (options.position || 'bottom'),
       delay: (options.delay || 500),
     };
+
+    if (options.withDefinitionList) {
+      tooltipLibrary[code].withDefinitionList = options.withDefinitionList;
+    }
   }
 
   // Tooltips can be added to an element with the add function or if an element
   // has the tooltip-parent class and the tooltip code it should just work.
   function add(element, code) {
     X.addClass(element,'tooltip-parent');
-    element.setAttribute('title',options.code);
+    element.setAttribute('id',options.code);
   }
 
   // Set a timer that will open the tooltip if the mouse is still over the
   // tooltip element by the time the timer runs out.
   function startOpen(event) {
-    currentTooltip = event.target.getAttribute('title');
+    currentTooltip = event.target.getAttribute('id');
 
     if (currentTooltip == null || tooltipLibrary[currentTooltip] == null) {
       throw `Cannot find tooltip with code ${currentTooltip}`;
@@ -55,31 +59,45 @@ window.Tooltip = (function() {
 
   }
 
-  function open(tooltip) {
-    if (tooltip.getAttribute('title') == currentTooltip) {
-      console.log("Open:",tooltip,currentTooltip);
+  function open(parent) {
+    if (parent.getAttribute('id') == currentTooltip) {
 
-//     let offset = parent.offset();
-//     let content = parent.data('tooltip-content');
-//     let position = parent.data('tooltip-position') || 'bottom';
+      let tooltip = tooltipLibrary[currentTooltip];
+      let frame = X.first('#tooltipFrame');
+      let offset = X.getPosition(parent);
 
-//     if (typeof content == 'string') {
-//       content = $('<div>',{ class:'basic-tooltip-content' }).append(content);
-//     }
+      // Tooltip strings are wrapped in a basic content div.
+      if (typeof tooltip.content == 'string') {
+        let content = X.createElement(`<div class='basic-tooltip-content'></div>`);
+        content.innerHTML = tooltip.content;
+        frame.appendChild(content);
+      }
 
-//     let frame = $('#tooltipFrame').
-//       empty().
-//       attr('style','').
-//       append(content).
-//       removeClass('hide');
+      // We can assume other content can be appended as is.
+      if (typeof tooltip.content != 'string') {
+        frame.appendChild(tooltip.content);
+      }
 
-//     if (position == 'bottom') {
-//       frame.css({
-//         top: offset.top + parent.height() + 5,
-//         left: offset.left
-//       });
-//     }
+      // Defination are included after other content types.
+      if (tooltip.withDefinitionList) {
+        let list = X.createElement('<dl></dl>');
 
+        ObjectHelper.each(tooltip.withDefinitionList, (key, value) => {
+          list.appendChild(X.createElement(`<dt>${key}</dt>`));
+          list.appendChild(X.createElement(`<dd>${value}</dd>`));
+        });
+
+        frame.appendChild(list);
+      }
+
+      // Finally position and display the tooltip.
+      if (tooltip.position == 'bottom') {
+        frame.style['top'] = `${offset.top + offset.height}px`;
+        frame.style['left'] = `${offset.left}px`;
+      }
+
+      X.addClass(frame,tooltip.classname);
+      X.removeClass(frame,'hide');
     }
   }
 
@@ -90,6 +108,8 @@ window.Tooltip = (function() {
   function checkClose(event) {
     let release = true;
 
+
+    console.log("Check close...")
 //     each($(':hover'), e => {
 //       if ($(e).hasClass('tooltip-parent')) { release = false; }
 //     });
@@ -99,9 +119,12 @@ window.Tooltip = (function() {
   }
 
   function close() {
-    console.log("Close");
     currentTooltip = null;
-//     $('#tooltipFrame').attr('style','').empty().addClass('hide');
+
+    let frame = X.first('#tooltipFrame');
+        frame.removeAttribute('style');
+        frame.setAttribute('class','hide')
+        frame.innerHTML = '';
   }
 
   return { init, register, add, close }
