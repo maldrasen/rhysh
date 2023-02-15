@@ -46,6 +46,7 @@
       import('./elements/background-image.js'),
       import('./elements/confirmation.js'),
       import('./elements/scrolling-panel.js'),
+      import('./elements/tooltip.js'),
 
       // Models
       import('./models/tile-entry.js'),
@@ -83,6 +84,8 @@
       import("../data/characters/species/orc.js"),
       import("../data/characters/species/satyr.js"),
 
+      // Extras
+      import("./extras/character-tooltips.js"),
     ]);
   }
 
@@ -96,6 +99,7 @@
     MapCanvas.init();
     NewGame.init();
     TileGraphics.init();
+    Tooltip.init();
     Renderer.init();
     ScrollingPanel.init();
   }
