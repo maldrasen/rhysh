@@ -62,9 +62,14 @@ window.Tooltip = (function() {
   function open(parent) {
     if (parent.getAttribute('id') == currentTooltip) {
 
+console.log("Open:",parent)
+
       let tooltip = tooltipLibrary[currentTooltip];
       let frame = X.first('#tooltipFrame');
       let offset = X.getPosition(parent);
+
+      // Ensure the tooltip is empty.
+      frame.innerHTML = '';
 
       // Tooltip strings are wrapped in a basic content div.
       if (typeof tooltip.content == 'string') {
