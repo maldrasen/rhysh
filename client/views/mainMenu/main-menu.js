@@ -3,14 +3,28 @@ window.MainMenu = (function() {
   let lastWorld;
 
   function init() {
-    X.onClick('#mainMenu a.load-game', showLoadGame);
-    X.onClick('#mainMenu a.show-options', showOptions);
+    X.onClick('#mainMenu a.new-button', showNewGame);
+    X.onClick('#mainMenu a.continue-button', continueGame);
+    X.onClick('#mainMenu a.load-button', showLoadGame);
+    X.onClick('#mainMenu a.options-button', OptionsOverlay.show);
     X.onClick('#mainMenu a.preview-features', previewFeatures);
     X.onClick('#mainMenu a.preview-zone', previewZone);
+
+    OptionsOverlay.build();
   }
 
   function setContext(context) {
     lastWorld = context.lastValidGame;
+  }
+
+  function showNewGame() {
+    MainContent.clear();
+    ClientCommands.send('game.new');
+  }
+
+  function continueGame() {
+    MainContent.clear();
+    ClientCommands.send('game.load', lastWorld.worldIndex);
   }
 
   function showLoadGame() {
@@ -18,10 +32,6 @@ window.MainMenu = (function() {
     ClientCommands.send('game.show-load').then(gameList => {
       LoadGame.show(gameList);
     });
-  }
-
-  function showOptions() {
-    console.log("TODO: Show Options Overlay");
   }
 
   function previewFeatures() {
@@ -46,7 +56,6 @@ window.MainMenu = (function() {
     let continueButton = X.first('#mainMenu .continue-button');
 
     if (lastWorld) {
-      continueButton.setAttribute('href',`#game.continue,${lastWorld.worldIndex}`);
       X.removeClass('#mainMenu .load-button','disabled');
       X.removeClass('#mainMenu .continue-button','disabled');
     }
@@ -55,7 +64,6 @@ window.MainMenu = (function() {
   return {
     name: "MainMenu",
     setContext: setContext,
-    showOptions: showOptions,
     init: init,
     show: show,
   };

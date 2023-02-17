@@ -11,7 +11,7 @@ window.EscapeMenu = (function() {
     X.onCodeDown(F9, canLoad, quickLoad);
 
     X.onClick('#escapeMenu .button', hideMenu);
-    X.onClick('#escapeMenu .options-button', MainMenu.showOptions);
+    X.onClick('#escapeMenu .options-button', OptionsOverlay.show);
     X.onClick('#escapeMenu .save-button', quickSave);
     X.onClick('#escapeMenu .quit-button', confirmQuit);
   }

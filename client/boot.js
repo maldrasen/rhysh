@@ -65,6 +65,7 @@
       import("./views/mainMenu/load-game.js"),
       import("./views/mainMenu/main-menu.js"),
       import("./views/mainMenu/new-game.js"),
+      import("./views/mainMenu/options-overlay.js"),
       import("./views/mapView/map-view.js"),
       import("./views/mapView/map-canvas.js"),
       import("./views/mapView/tile-graphics.js"),
@@ -103,6 +104,7 @@
     MainMenu.init();
     MapCanvas.init();
     NewGame.init();
+    OptionsOverlay.init();
     TileGraphics.init();
     Tooltip.init();
     Renderer.init();
