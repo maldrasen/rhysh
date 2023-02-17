@@ -36,7 +36,7 @@ window.EscapeMenu = (function() {
 
   function confirmQuit() {
     Confirmation.show({
-      text: `Quit to main menu? <br> Unsaved progress will be lost.`,
+      text: `Quit to Main Menu? <br> Unsaved progress will be lost.`,
       onConfirm: () => {
         ClientCommands.send('game.quit');
         MainMenu.show();
