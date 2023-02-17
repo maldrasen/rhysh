@@ -55,6 +55,7 @@ window.MainMenu = (function() {
   return {
     name: "MainMenu",
     setContext: setContext,
+    showOptions: showOptions,
     init: init,
     show: show,
   };

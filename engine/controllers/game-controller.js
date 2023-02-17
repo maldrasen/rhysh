@@ -39,8 +39,8 @@ global.GameController = (function() {
       return await GameState.getValidWorlds();
     });
 
-    ipcMain.handle("game.save", (payload, worldIndex) => {
-      console.log("TODO: Save");
+    ipcMain.handle("game.save", async (payload, worldIndex) => {
+      return await GameState.saveGame();
     });
 
     ipcMain.handle("game.load", (payload, worldIndex) => {
@@ -52,7 +52,7 @@ global.GameController = (function() {
     });
 
     ipcMain.handle("game.show-options", () => {
-      console.log("TODO: Show Options")
+      console.log("TODO: Show Options");
     });
 
     ipcMain.handle("game.end-event", (payload, state) => {

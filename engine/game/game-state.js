@@ -92,6 +92,8 @@ global.GameState = (function() {
     CharacterLibrary.saveAll();
     Flag.save();
     Sector.save();
+
+    return "success";
   }
 
   function deleteGame(index) {

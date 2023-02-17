@@ -43,6 +43,7 @@
       import('./components/main-content.js'),
 
       // Elements
+      import('./elements/alert.js'),
       import('./elements/background-image.js'),
       import('./elements/confirmation.js'),
       import('./elements/scrolling-panel.js'),

@@ -1,0 +1,83 @@
+
+#centerAlerts {
+  display: flex;
+  position: fixed;
+  bottom: 60vh;
+  width: 100%;
+  justify-content: center;
+  z-index: $z-alerts;
+}
+
+#sideAlerts {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: $z-alerts;
+}
+
+#eventAlerts {
+  display: flex;
+  position: fixed;
+  bottom: 177px;
+  width: 100%;
+  justify-content: center;
+  z-index: $z-alerts;
+}
+
+@mixin alert-frame {
+  font-size: $fs-big;
+  text-align: center;
+  background-color: rgba(0,0,0,0.8);
+  border: $border-normal;
+  box-shadow: $shadow-frame;
+  transition: margin-bottom 1s, opacity 1s, transform 1s;
+  transition-timing-function: ease-in;
+
+  &.fade {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+
+  & .title {
+    border-bottom: $border-light;
+    font-size: $fs-bigger;
+    color: $fg-strong;
+    font-family: roboto-medium;
+  }
+}
+
+.alert.center {
+  @include alert-frame;
+  margin-right: 10px;
+  padding: 10px 20px;
+}
+
+// TODO: If and when we include special event alerts we'll need to adjust the
+//       position of this frame.
+.alert.event {
+  @include alert-frame;
+  margin-right: 5px;
+  padding: 5px 10px;
+
+  &.fade { margin-bottom: 45px; }
+}
+
+.alert.side {
+  @include alert-frame;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+
+  &.fade { margin-bottom: 45px; }
+}
+
+.alert.success { color: $fg-button-success; }
+.alert.warning { color: $fg-button-warning; }
+.alert.danger  { color: $fg-button-danger;  }
+
+// Definitely old, but may include something like it.
+// .alert.loyal    { color: $fg-loyalty;  }
+// .alert.fear     { color: $fg-fear;     }
+// .alert.physical { color: $fg-physical; }
+// .alert.personal { color: $fg-personal; }
+// .alert.mental   { color: $fg-mental;   }
+// .alert.magical  { color: $fg-magical;  }
