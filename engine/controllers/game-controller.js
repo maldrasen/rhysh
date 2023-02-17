@@ -1,6 +1,11 @@
 global.GameController = (function() {
 
   function init() {
+
+    ipcMain.handle("game.quit", () => {
+      GameState.clear();
+    });
+
     ipcMain.handle("game.new", () => {
       GameState.newGame();
     });
@@ -32,6 +37,10 @@ global.GameController = (function() {
 
     ipcMain.handle("game.show-load", async () => {
       return await GameState.getValidWorlds();
+    });
+
+    ipcMain.handle("game.save", (payload, worldIndex) => {
+      console.log("TODO: Save");
     });
 
     ipcMain.handle("game.load", (payload, worldIndex) => {

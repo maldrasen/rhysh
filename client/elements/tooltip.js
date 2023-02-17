@@ -62,8 +62,6 @@ window.Tooltip = (function() {
   function open(parent) {
     if (parent.getAttribute('id') == currentTooltip) {
 
-console.log("Open:",parent)
-
       let tooltip = tooltipLibrary[currentTooltip];
       let frame = X.first('#tooltipFrame');
       let offset = X.getPosition(parent);
@@ -113,14 +111,11 @@ console.log("Open:",parent)
   function checkClose(event) {
     let release = true;
 
-
-    console.log("Check close...")
-//     each($(':hover'), e => {
-//       if ($(e).hasClass('tooltip-parent')) { release = false; }
-//     });
+    X.each(':hover', element => {
+      if (element.getAttribute('id') == currentTooltip) { release = false; }
+    });
 
     if (release) { close(); }
-
   }
 
   function close() {

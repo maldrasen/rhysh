@@ -1,19 +1,11 @@
 
 #mapControls {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  @include full-screen;
   z-index: $z-map-controls;
 }
 
 #mapCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  @include full-screen;
   background-color: rgb(0,0,0);
   z-index: $z-map-canvas;
 }

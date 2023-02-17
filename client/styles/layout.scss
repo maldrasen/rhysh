@@ -1,20 +1,20 @@
 
-.background-image {
-  position: fixed;
+@mixin full-screen {
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.background-image {
+  @include full-screen;
   background-position: center;
   background-size: cover;
 }
 
 .root-element {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  @include full-screen;
   z-index: $z-root;
 }
 
@@ -87,7 +87,6 @@
   width: calc(100% - 410px);
 }
 
-
 // Flex Container Classes
 .flex { display:flex;  }
 .flex-center { justify-content: center; } // Align Horizontally
@@ -96,4 +95,3 @@
 
 // Flex Item Classes
 .flex-grow { flex-grow:1; }
-

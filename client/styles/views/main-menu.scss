@@ -12,3 +12,31 @@
     }
   }
 }
+
+#escapeCover {
+  @include full-screen;
+  z-index: $z-escape-cover;
+  background-color: rgba(20,15,10,0.666);
+}
+
+#escapeMenu {
+  position: absolute;
+  width: 230px;
+  height: 200px;
+  top: 200px;
+  left: calc((100% - 230px)/2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $bg-frame;
+  border: $border-normal;
+  box-shadow: $shadow-frame;
+  z-index: $z-escape-menu;
+
+  .button {
+    margin: 5px;
+    width: 150px;
+  }
+}
