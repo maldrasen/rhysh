@@ -5,7 +5,7 @@ global.Settings = (function() {
   let currentSettings = {
     lastWorld: null,
     worldCounter: 1,
-    zoom: 10,
+    zoom: 5,
   };
 
   // If the settings file exists we load it into the current settings. If it doesn't exist we save a file with the
@@ -19,7 +19,6 @@ global.Settings = (function() {
   function set(key, value) { currentSettings[key] = value; }
 
   function setAll(options) {
-    console.log("Setting Options:",options)
     set('zoom',options.zoom);
   }
 

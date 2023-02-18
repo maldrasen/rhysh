@@ -1,9 +1,15 @@
 window.OptionsOverlay = (function() {
 
   const ZoomMapping = {
-    1:0.17,  2:0.23,  3:0.28,  4:0.32,  5:0.41,
-    6:0.50,  7:0.59,  8:0.69,  9:0.85,  10:1.00,
-    11:1.20, 12:1.40, 13:1.70, 14:2.20, 15:2.50,
+    1: 0.50,
+    2: 0.59,
+    3: 0.69,
+    4: 0.85,
+    5: 1.00,
+    6: 1.20,
+    7: 1.40,
+    8: 1.70,
+    9: 2.20,
   };
 
   let options = {};
@@ -21,7 +27,7 @@ window.OptionsOverlay = (function() {
         id: 'zoomSlider',
         parent: X.first('#optionsOverlay .zoom-container'),
         min: 1,
-        max: 15,
+        max: 9,
       });
       zoomSlider.build();
 
