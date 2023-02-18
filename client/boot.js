@@ -47,6 +47,7 @@
       import('./elements/background-image.js'),
       import('./elements/confirmation.js'),
       import('./elements/scrolling-panel.js'),
+      import('./elements/slider.js'),
       import('./elements/tooltip.js'),
 
       // Models

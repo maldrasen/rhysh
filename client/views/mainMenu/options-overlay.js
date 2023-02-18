@@ -17,7 +17,13 @@ window.OptionsOverlay = (function() {
   function build() {
     Template.load('#optionsOverlay','client/views/mainMenu/options-overlay.html').then(loaded => {
 
-
+      zoomSlider = new Slider({
+        id: 'zoomSlider',
+        parent: X.first('#optionsOverlay .zoom-container'),
+        min: 1,
+        max: 15,
+      });
+      zoomSlider.build();
 
     });
   }
@@ -26,7 +32,7 @@ window.OptionsOverlay = (function() {
     let overlay = X.first('#optionsOverlay');
     let mainMenu = X.first('#mainMenu');
 
-    X.first('#zoomInput').setAttribute('value',options.zoom);
+    zoomSlider.setValue(options.zoom);
 
     if (mainMenu) {
       X.addClass(mainMenu,'hide');

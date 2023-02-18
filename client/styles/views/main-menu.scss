@@ -45,4 +45,20 @@
   .overlay {
     padding: 20px;
   }
+
+  h3 {
+    margin-bottom: 10px;
+    color: $fg-weak;
+    border-bottom: $border-light;
+  }
+
+  dt {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+  }
+  dd {
+    height: 30px;
+    line-height: 30px;
+  }
 }
