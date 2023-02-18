@@ -61,7 +61,6 @@
       // Views
       import("./views/dungeon/dungeon.js"),
       import("./views/event/event-view.js"),
-      import("./views/mainMenu/configuration-menu.js"),
       import("./views/mainMenu/escape-menu.js"),
       import("./views/mainMenu/load-game.js"),
       import("./views/mainMenu/main-menu.js"),
@@ -95,7 +94,6 @@
   }
 
   function initAll() {
-    ConfigurationMenu.init();
     Confirmation.init();
     Dungeon.init();
     EscapeMenu.init();

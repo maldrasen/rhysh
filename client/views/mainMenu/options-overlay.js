@@ -16,6 +16,7 @@ window.OptionsOverlay = (function() {
   let zoomSlider;
 
   function init() {
+    X.onCodeDown(27, isOpen, close);
     X.onClick('#optionsOverlay a.close-button', close);
     X.onClick('#optionsOverlay a.save-button', save);
   }
@@ -50,6 +51,10 @@ window.OptionsOverlay = (function() {
   function close() {
     X.addClass('#optionsOverlay','hide');
     X.removeClass('#mainMenu','hide');
+  }
+
+  function isOpen() {
+    return X.hasClass('#optionsOverlay','hide') == false;
   }
 
   function save() {

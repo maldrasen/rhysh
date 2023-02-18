@@ -17,7 +17,8 @@ window.EscapeMenu = (function() {
   }
 
   function canSave() {
-    if (X.hasClass("#escapeMenu",'hide') == false) { return true; }
+    if (X.hasClass('#optionsOverlay','hide') == false) { return false; }
+    if (X.hasClass('#escapeMenu','hide') == false) { return true; }
     if (X.hasClass('#mapCanvas','hide') == false) { return true; }
 
     let content = X.first("#mainContent > div");
