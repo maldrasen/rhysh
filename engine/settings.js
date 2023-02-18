@@ -5,6 +5,7 @@ global.Settings = (function() {
   let currentSettings = {
     lastWorld: null,
     worldCounter: 1,
+    zoom: 10,
   };
 
   // If the settings file exists we load it into the current settings. If it doesn't exist we save a file with the
@@ -15,6 +16,14 @@ global.Settings = (function() {
     });
   }
 
+  function set(key, value) { currentSettings[key] = value; }
+
+  function setAll(options) {
+    console.log("Setting Options:",options)
+    set('zoom',options.zoom);
+  }
+
+  function getAll() { return {...currentSettings}; }
   function getLastWorld() { return currentSettings.lastWorld; }
   function getWorldCounter() { return currentSettings.worldCounter; }
   function setLastWorld(world) { currentSettings.lastWorld = world; }
@@ -35,6 +44,8 @@ global.Settings = (function() {
 
   return {
     init,
+    set,
+    getAll,
     getLastWorld,
     getWorldCounter,
     setLastWorld,

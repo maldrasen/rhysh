@@ -121,6 +121,7 @@
 
     MainMenu.setContext(context);
     MainContent.setStage(MainMenu);
+    OptionsOverlay.setZoom(context.settings.zoom);
   }
 
 })();

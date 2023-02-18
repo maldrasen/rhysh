@@ -4,6 +4,7 @@ global.RootController = (function() {
     ipcMain.handle("client.ready", async () => {
       Browser.send('server.ready', {
         environment: Environment,
+        settings: Settings.getAll(),
         lastValidGame: await GameState.getLastValidGame(),
       });
 
@@ -12,6 +13,12 @@ global.RootController = (function() {
 
     ipcMain.handle("client.loadTemplate", async (payload, path) => {
       return Template.load(path);
+    });
+
+    ipcMain.handle("options.save", async (payload, options) => {
+      Settings.setAll(options);
+      Settings.save();
+      return "success";
     });
   }
 
