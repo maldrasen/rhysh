@@ -134,10 +134,14 @@ global.GameState = (function() {
   async function clear() {
     worldIndex = null;
     worldPath = null;
+
     timeCount = null;
     dayCount = null;
-    partyLocation = null;
+
     stageName = null;
+    currentZone = null;
+    currentEvent = null;
+    partyLocation = null;
 
     CharacterLibrary.clear();
     Flag.clear();

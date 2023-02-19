@@ -17,7 +17,6 @@ global.EventQueue = (function() {
   var eventQueue = [];
 
   function clear() {
-    currentEvent = null;
     eventQueue = [];
   }
 
