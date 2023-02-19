@@ -55,6 +55,10 @@ window.EscapeMenu = (function() {
     X.addClass('#escapeMenu','hide');
   }
 
+  function isOpen() {
+    return X.hasClass('#escapeMenu','hide') == false;
+  }
+
   function confirmQuit() {
     Confirmation.show({
       text: `Quit to Main Menu? <br> Unsaved progress will be lost.`,
@@ -85,6 +89,7 @@ window.EscapeMenu = (function() {
 
   return {
     init,
+    isOpen,
   };
 
 })();

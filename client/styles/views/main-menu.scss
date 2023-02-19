@@ -54,7 +54,7 @@
   }
 
   dt {
-    width: 100px;
+    width: 150px;
     height: 30px;
     line-height: 30px;
     font-size: $fs-big;
@@ -62,5 +62,9 @@
   dd {
     height: 30px;
     line-height: 30px;
+  }
+
+  #fontSizeSlider .slider-label {
+    width: calc(100% + 120px);
   }
 }

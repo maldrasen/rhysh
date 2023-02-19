@@ -6,6 +6,7 @@ window.MapView = (function() {
 
   function initPreviewControls() {
     let when = (e) => { return true; }
+
     X.onKeyDown('w', when, e => { MapCanvas.moveTo('N'); });
     X.onKeyDown('s', when, e => { MapCanvas.moveTo('S'); });
     X.onKeyDown('d', when, e => { MapCanvas.moveTo('E'); });

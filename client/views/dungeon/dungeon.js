@@ -9,6 +9,8 @@ window.Dungeon = (function() {
   function init() {
 
     const when = (e) => {
+      if (EscapeMenu.isOpen()) { return false; }
+      if (OptionsOverlay.isOpen()) { return false; }
       return active && MapCanvas.visible();
     }
 
