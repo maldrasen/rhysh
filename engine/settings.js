@@ -44,6 +44,7 @@ global.Settings = (function() {
   return {
     init,
     set,
+    setAll,
     getAll,
     getLastWorld,
     getWorldCounter,

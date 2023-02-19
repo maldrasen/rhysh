@@ -40,9 +40,7 @@ window.Slider = class Slider {
   getTrack() { return this.element.querySelector('.slider-track'); }
   getHandle() { return this.element.querySelector('.slider-handle'); }
   getLabel() { return this.element.querySelector('.slider-label'); }
-
-  stepUp() { this.setValue(this.value + this.step); }
-  stepDown() { this.setValue(this.value - this.step); }
+  getValue() { return this.value; }
 
   setValue(value) {
     let oldValue = this.value;
@@ -61,6 +59,9 @@ window.Slider = class Slider {
       this.onChange({ slider:this, value:this.value, oldValue:oldValue });
     }
   }
+
+  stepUp() { this.setValue(this.value + this.step); }
+  stepDown() { this.setValue(this.value - this.step); }
 
   positionHandle() {
     let percent = (this.value-this.min) / (this.max - this.min) * 100;

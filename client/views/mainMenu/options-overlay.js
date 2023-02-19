@@ -26,15 +26,11 @@ window.OptionsOverlay = (function() {
 
       fontSizeSlider = new Slider({
         id: 'fontSizeSlider',
-        parent: X.first('#optionsOverlay .font-size-container'),
+        parent: X.first('#fontSizeContainer'),
         min: 1,
         max: 9,
-        formatter: value => {
-          return `${FontSizes[value]} point`
-        },
-        onChange: event => {
-          console.log("Font Size Changed:",event.value);
-        },
+        formatter: value => { return `${FontSizes[value]} point` },
+        onChange: event => { updateFontSize(event.value); },
       });
       fontSizeSlider.build();
 
@@ -46,16 +42,20 @@ window.OptionsOverlay = (function() {
   }
 
   function show() {
-    let overlay = X.first('#optionsOverlay');
     let mainMenu = X.first('#mainMenu');
 
     fontSizeSlider.setValue(options.fontSize);
+    updateFontSize(options.fontSize)
 
     if (mainMenu) {
       X.addClass(mainMenu,'hide');
     }
 
-    X.removeClass(overlay,'hide');
+    X.removeClass('#optionsOverlay','hide');
+  }
+
+  function updateFontSize(value) {
+    X.first('#fontSizeExample').setAttribute('class',`font-size-${value}`);
   }
 
   function close() {
@@ -68,7 +68,13 @@ window.OptionsOverlay = (function() {
   }
 
   function save() {
+    options.fontSize = fontSizeSlider.getValue();
 
+    ClientCommands.send('options.save',options).then(status => {
+      console.log("Status:",status);
+    })
+
+    close();
   }
 
   return {
