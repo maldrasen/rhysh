@@ -12,7 +12,6 @@ window.OptionsOverlay = (function() {
     9: 24,
   };
 
-  let options;
   let fontSizeSlider;
 
   function init() {
@@ -37,15 +36,11 @@ window.OptionsOverlay = (function() {
     });
   }
 
-  function setOptions(data) {
-    options = data;
-  }
-
   function show() {
     let mainMenu = X.first('#mainMenu');
 
-    fontSizeSlider.setValue(options.fontSize);
-    updateFontSize(options.fontSize)
+    fontSizeSlider.setValue(Options.fontSize);
+    updateFontSize(Options.fontSize)
 
     if (mainMenu) {
       X.addClass(mainMenu,'hide');
@@ -56,6 +51,10 @@ window.OptionsOverlay = (function() {
 
   function updateFontSize(value) {
     X.first('#fontSizeExample').setAttribute('class',`font-size-${value}`);
+
+    if (EventView.isOpen()) {
+      X.first("#eventView").setAttribute('class',`font-size-${value}`);
+    }
   }
 
   function close() {
@@ -68,11 +67,17 @@ window.OptionsOverlay = (function() {
   }
 
   function save() {
-    options.fontSize = fontSizeSlider.getValue();
+    Options.fontSize = fontSizeSlider.getValue();
 
-    ClientCommands.send('options.save',options).then(status => {
-      console.log("Status:",status);
-    })
+    ClientCommands.send('options.save',Options).then(status => {
+      if (status == 'success') {
+        new Alert({
+          message: 'Options Saved',
+          position: 'side',
+          classname: 'save-game-alert success'
+        }).display();
+      }
+    });
 
     close();
   }
@@ -81,7 +86,6 @@ window.OptionsOverlay = (function() {
     init,
     build,
     show,
-    setOptions,
     isOpen,
   };
 

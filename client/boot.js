@@ -108,10 +108,12 @@
     Tooltip.init();
     Renderer.init();
     ScrollingPanel.init();
+    Slider.init();
   }
 
   function ready(context) {
     window.Environment = context.environment;
+    window.Options = context.settings;
 
     console.log(`Rhysh started in ${Environment.name} mode.`)
 
@@ -120,7 +122,6 @@
 
     MainMenu.setContext(context);
     MainContent.setStage(MainMenu);
-    OptionsOverlay.setOptions(context.settings);
   }
 
 })();

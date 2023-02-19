@@ -18,6 +18,10 @@ window.EventView = (function() {
     });
   }
 
+  function isOpen() {
+    return X.first('#eventView') != null;
+  }
+
   function currentStage() {
     return eventData.stages[stageCounter];
   }
@@ -30,6 +34,8 @@ window.EventView = (function() {
 
   function showEvent() {
     stageCounter = 0;
+
+    X.first("#eventView").setAttribute('class',`font-size-${Options.fontSize}`);
 
     if (eventData.background) { BackgroundImage.setBackground(eventData.background); }
     if (eventData.filter) { BackgroundImage.setFilter(eventData.filter); }
@@ -114,6 +120,7 @@ window.EventView = (function() {
   return {
     init,
     show,
+    isOpen,
   }
 
 })();

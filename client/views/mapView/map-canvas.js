@@ -40,11 +40,13 @@ window.MapCanvas = (function() {
   function clear() {
     hide();
 
-    application.stage.removeChild(tileField);
-    application.stage.removeChild(partyGlyph);
+    if (application && application.stage) {
+      application.stage.removeChild(tileField);
+      application.stage.removeChild(partyGlyph);
+    }
 
-    partyGlyph.destroy({ children:true });
-    tileField.destroy({ children:true });
+    if (partyGlyph) { partyGlyph.destroy({ children:true }); }
+    if (tileField) { tileField.destroy({ children:true }); }
 
     partyGlyph = null;
     tileField = null;
