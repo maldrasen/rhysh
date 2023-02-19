@@ -41,6 +41,8 @@ window.Slider = class Slider {
   getHandle() { return this.element.querySelector('.slider-handle'); }
   getLabel() { return this.element.querySelector('.slider-label'); }
   getValue() { return this.value; }
+  getMax() { return this.max; }
+  getMin() { return this.min; }
 
   setValue(value) {
     let oldValue = this.value;
@@ -73,7 +75,54 @@ window.Slider = class Slider {
   }
 
   startDrag(event) {
-    console.log("Start Drag");
+    let body = X.first('body');
+    let stepSize = X.getPosition(this.getTrack()).width / (this.max - this.min);
+
+    body.addEventListener('mousemove', moveHandle);
+    body.addEventListener('mouseup', stopDrag);
+    body.addEventListener('mouseleave', stopDrag);
+
+    activeDrag = {
+      slider: this,
+      startPosition: event.pageX,
+      startValue: this.value,
+      stepSize: stepSize,
+    };
+  }
+}
+
+// The removeEventListener() functions don't work well if the listener function
+// is a member of an instance of a class.
+
+let activeDrag;
+
+function stopDrag(event) {
+  let body = X.first('body');
+
+  body.removeEventListener('mousemove', moveHandle);
+  body.removeEventListener('mouseup', stopDrag);
+  body.removeEventListener('mouseleave', stopDrag);
+
+  activeDrag = null;
+}
+
+function moveHandle(event) {
+  let value = activeDrag.startValue;
+  let dragDelta = event.pageX - activeDrag.startPosition;
+  let min = activeDrag.slider.getMin();
+  let max = activeDrag.slider.getMax();
+
+  if (dragDelta < 0) {
+    value = activeDrag.startValue - Math.round(-dragDelta / activeDrag.stepSize)
+  }
+  if (dragDelta > 0) {
+    value = activeDrag.startValue + Math.round(dragDelta / activeDrag.stepSize);
   }
 
+  if (value > max) { value = max; }
+  if (value < min) { value = min; }
+
+  if (value != activeDrag.slider.getValue()) {
+    activeDrag.slider.setValue(value);
+  }
 }
