@@ -1,25 +1,21 @@
 global.Gnosis = (function() {
   const GnosisDictionary = {};
 
-  function register(code, options) {
-    GnosisDictionary[code] = build(code, options);
+  function register(code, data) {
+    GnosisDictionary[code] = build(code, data);
   }
 
-  function build(code, options) {
-    return {
-      code: code,
-      name: options.name,
-    };
+  function build(code, data) {
+    return { code, ...data };
   }
 
   function lookup(code) {
-    let gnosis = GnosisDictionary[code];
-    if (gnosis == null) { throw `Unknown Gnosis (${code})` }
-    return gnosis;
+    if (GnosisDictionary[code] == null) { throw `Unknown Gnosis (${code})` }
+    return GnosisDictionary[code];
   }
 
   function all() {
-    return GnosisDictionary;
+    return { ...GnosisDictionary };
   }
 
   return {

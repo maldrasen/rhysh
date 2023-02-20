@@ -1,28 +1,21 @@
 global.Archetype = (function() {
   const ArchetypeDictionary = {};
 
-  function register(code, options) {
-    ArchetypeDictionary[code] = build(code, options);
+  function register(code, data) {
+    ArchetypeDictionary[code] = build(code, data);
   }
 
-  function build(code, options) {
-    return {
-      code:             code,
-      name:             options.name,
-      availableSexes:   options.availableSexes,
-      availableSpecies: options.availableSpecies,
-      attributeBonus:   options.attributeBonus,
-    };
+  function build(code, data) {
+    return { code, ...data };
   }
 
   function lookup(code) {
-    let archetype = ArchetypeDictionary[code];
-    if (archetype == null) { throw `Unknown Archetype (${code})` }
-    return archetype;
+    if (ArchetypeDictionary[code] == null) { throw `Unknown Archetype (${code})` }
+    return ArchetypeDictionary[code];
   }
 
   function all() {
-    return ArchetypeDictionary;
+    return { ...ArchetypeDictionary };
   }
 
   return {

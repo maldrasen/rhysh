@@ -1,16 +1,21 @@
 global.AbilityTemplate = (function() {
+  const AbilityDictionary = {};
 
-  let library = {}
+  function register(code, data) {
+    AbilityDictionary[code] = build(code, data);
+  }
 
-  function build(code, data) { library[code] = data; }
+  function build(code, data) {
+    return { code, ...data };
+  }
 
   function lookup(code) {
-    if (library[code] == null) { throw `Unknown Ability [${code}]`; }
-    return library[code];
+    if (AbilityDictionary[code] == null) { throw `Unknown Ability (${code})` }
+    return AbilityDictionary[code];
   }
 
   return {
-    build,
+    register,
     lookup,
   }
 

@@ -1,26 +1,21 @@
 global.Species = (function() {
   const SpeciesDictionary = {};
 
-  function register(code, options) {
-    SpeciesDictionary[code] = build(code, options);
+  function register(code, data) {
+    SpeciesDictionary[code] = build(code, data);
   }
 
-  function build(code, options) {
-    return {
-      code: code,
-      name: options.name,
-      basePlayerAttributes: options.basePlayerAttributes,
-    };
+  function build(code, data) {
+    return { code, ...data };
   }
 
   function lookup(code) {
-    let species = SpeciesDictionary[code];
-    if (species == null) { throw `Unknown Species (${code})` }
-    return species;
+    if (SpeciesDictionary[code] == null) { throw `Unknown Species (${code})` }
+    return SpeciesDictionary[code];
   }
 
   function all() {
-    return SpeciesDictionary;
+    return { ...SpeciesDictionary };
   }
 
   return {
