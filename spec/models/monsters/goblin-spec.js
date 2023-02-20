@@ -1,4 +1,4 @@
-describe.only('Goblin', function() {
+describe('Goblin', function() {
 
   it("Builds a goblin", function() {
     let gobbo = new Monster.Goblin({});
