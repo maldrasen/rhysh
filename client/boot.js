@@ -30,13 +30,13 @@
       import('./renderer.js'),
 
       // Engine
-      import('../engine/characters/archetype.js'),
-      import('../engine/characters/species.js'),
-      import('../engine/classes/vector.js'),
       import('../engine/helpers/array-helper.js'),
       import('../engine/helpers/object-helper.js'),
       import('../engine/helpers/random-helper.js'),
       import('../engine/helpers/rhysh-helper.js'),
+      import('../engine/models/dungeon/vector.js'),
+      import('../engine/templates/archetype.js'),
+      import('../engine/templates/species.js'),
 
       // Components
       import('./components/attribute-control.js'),

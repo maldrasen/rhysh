@@ -1,5 +1,7 @@
 global.Dungeon = (function() {
 
+  // TODO: This should really be called ZoneLibrary.
+
   let zoneCache = {};
 
   // === Zone Management =======================================================

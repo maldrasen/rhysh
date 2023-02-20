@@ -21,9 +21,9 @@ global.GameController = (function() {
     // TODO: Orc and Dragon name should probably come from different indices.
     ipcMain.handle("game.get-random-names", () => {
       return {
-        male: Name.getFullRandom('Male','Elf'),
-        futa: Name.getFullRandom('Futa','Elf'),
-        female: Name.getFullRandom('Female','Elf'),
+        male: NameBuilder.getFullRandom('Male','Elf'),
+        futa: NameBuilder.getFullRandom('Futa','Elf'),
+        female: NameBuilder.getFullRandom('Female','Elf'),
       };
     });
 

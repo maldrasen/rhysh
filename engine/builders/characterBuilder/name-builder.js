@@ -1,4 +1,4 @@
-global.Name = (function() {
+global.NameBuilder = (function() {
 
   const NameRestrictions = ['male','female','not-male','not-female','has-cock','has-pussy','has-tits','has-scales'];
 
@@ -15,7 +15,7 @@ global.Name = (function() {
     Kobold: [],
   }
 
-  function add(data, index) {
+  function addName(data, index) {
     try {
       if (data.restriction) { Validate.isIn(data.restriction, NameRestrictions); }
     } catch(error) {
@@ -88,6 +88,6 @@ global.Name = (function() {
     return true;
   }
 
-  return { add, getRandom, getFullRandom };
+  return { addName, getRandom, getFullRandom };
 
 })();

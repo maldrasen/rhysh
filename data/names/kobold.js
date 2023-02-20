@@ -314,5 +314,5 @@ let names = [
 ];
 
 names.forEach(name => {
-  Name.add(name, 'Kobold');
+  NameBuilder.addName(name, 'Kobold');
 });

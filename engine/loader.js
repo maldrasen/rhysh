@@ -1,7 +1,6 @@
 global.Loader = (function() {
 
   const CoreModules = [
-    'classes',
     'core',
     'helpers',
   ];
@@ -13,22 +12,21 @@ global.Loader = (function() {
   ];
 
   const GameModules = [
-    'characters',
-    'characterBuilder',
-    'dungeon',
-    'dungeonBuilder',
-    'events',
+    'builders',
     'game',
-    'monsters',
+    'models',
+    'renderers',
     'scrutinizers',
+    'templates',
     'weavers',
   ];
 
   // Superclasses in load order.
   const Preload = [
     'core/messenger.js',
-    'characters/character.js',
-    'monsters/monster.js',
+    'models/characters/character.js',
+    'models/dungeon/vector.js',
+    'models/monsters/monster.js',
   ];
 
   let complete = [];
