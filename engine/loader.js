@@ -19,13 +19,16 @@ global.Loader = (function() {
     'dungeonBuilder',
     'events',
     'game',
+    'monsters',
     'scrutinizers',
     'weavers',
   ];
 
-  // TODO: Node has a built in message system. Use that instead.
+  // Superclasses in load order.
   const Preload = [
     'core/messenger.js',
+    'characters/character.js',
+    'monsters/monster.js',
   ];
 
   let complete = [];

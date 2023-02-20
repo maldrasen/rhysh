@@ -11,6 +11,16 @@ global.Random = {
     return Random.upTo(rand)+plus;
   },
 
+  // Simulate rolling dice. Options:
+  //   { x:(dice count), d:(dice faces), p:(plus or minus) }
+  rollDice(options) {
+    let total = options.p || 0;
+    for (let x = 0; x<(options.x || 1); x++) {
+      total += Random.roll(options.d || 6) + 1;
+    }
+    return total;
+  },
+
   // Rolls between the new numbers inclusive, meaning min or max value could be
   // chosen.
   between(min, max) {
