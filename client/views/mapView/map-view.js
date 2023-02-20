@@ -21,6 +21,10 @@ window.MapView = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
+  function isOpen() {
+    return X.hasClass('#mapCanvas','hide') == false;
+  }
+
   function showDungeon(options) {
     showMap({
       location: Vector.from(options.location),
@@ -60,6 +64,7 @@ window.MapView = (function() {
 
   return {
     name: "MapView",
+    isOpen: isOpen,
     showDungeon: showDungeon,
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,

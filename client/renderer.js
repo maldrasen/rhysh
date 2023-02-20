@@ -17,6 +17,7 @@ window.Renderer = (function() {
 
   function showView(viewState) {
     let showFunction = {
+      Battle:         BattleView.show,
       Dungeon:        Dungeon.show,
       Event:          EventView.show,
       NewGame:        NewGame.show,

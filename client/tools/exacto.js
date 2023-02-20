@@ -62,6 +62,7 @@ X.onKeyDown = function(key, when, callback) {
 
 X.onCodeDown = function(code, when, callback) {
   window.addEventListener('keydown', event => {
+    // console.log("Code:",event.keyCode);
     if (event.keyCode == code && when(event)) { callback(event); }
   });
 }

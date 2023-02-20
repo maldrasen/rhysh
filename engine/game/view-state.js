@@ -14,16 +14,18 @@ global.ViewState = (function() {
   }
 
   async function renderEvent(gameState) {
-     let renderer = new EventRenderer(gameState.event.code, gameState.event.state);
+    let renderer = new EventRenderer(gameState.event.code, gameState.event.state);
 
     Messenger.publish("browser.render",{
-      showView:"Event",
+      showView: "Event",
       event: await renderer.render(),
     });
   }
 
   function renderBattle(gameState) {
-    console.log("TODO: Render Battle")
+    Messenger.publish("browser.render",{
+      showView: "Battle",
+    });
   }
 
   function renderDungeon(gameState) {

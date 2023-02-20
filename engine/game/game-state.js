@@ -16,8 +16,9 @@ global.GameState = (function() {
   var dayCount;
 
   var stageName;
-  var currentZone;
+  var currentBattle;
   var currentEvent;
+  var currentZone;
   var partyLocation;
 
   function newGame() {
@@ -134,11 +135,11 @@ global.GameState = (function() {
   async function clear() {
     worldIndex = null;
     worldPath = null;
-
     timeCount = null;
     dayCount = null;
 
     stageName = null;
+    currentBattle = null;
     currentZone = null;
     currentEvent = null;
     partyLocation = null;
@@ -196,6 +197,7 @@ global.GameState = (function() {
   function getStage() { return GameState.Stages[stageName]; }
   function getStageName() { return stageName; }
   function getWorldPath() { return worldPath; }
+  function getCurrentBattle() { return currentBattle; }
   function getCurrentZoneName() { return currentZone; }
   function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
   function getPartyLocation() { return partyLocation; }
@@ -360,6 +362,14 @@ global.GameState = (function() {
     }
   }
 
+  function triggerBattle(options = {}) {
+    console.log("\n=== Trigger Battle ===");
+    console.log("Options:",options);
+
+    setStageName("Battle");
+    render();
+  }
+
   function render() {
     let state = {
       timeCount: timeCount,
@@ -405,6 +415,8 @@ global.GameState = (function() {
     endEvent,
 
     advanceTime,
+
+    triggerBattle,
 
     render,
   };
