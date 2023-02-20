@@ -10,7 +10,18 @@ Monster.Goblin = class Goblin extends Monster {
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
 
-    this.addAttack();
+    this.addAbility(Ability.weaponSlash({
+      name: 'scimitar',
+      toHit: 4,
+      damage: { d:6, p:2 }
+    }));
+
+    this.addAbility(Ability.weaponWildSlash({
+      name: 'scimitar',
+      toHit: 0,
+      damage: { d:6, p:6 },
+      cooldown: 3,
+    }))
   }
 
 }

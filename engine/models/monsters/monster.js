@@ -4,7 +4,7 @@ global.Monster = class Monster {
   #attributes
   #essence
   #hitPoints
-  #attacks = [];
+  #abilities = [];
 
   constructor(options) {
   }
@@ -26,6 +26,7 @@ global.Monster = class Monster {
   setHitPoints(points) { this.#hitPoints = points; }
   getHitPoints() { return this.#hitPoints; }
 
-  addAttack(attack) { this.#attacks.push(attack); }
+  addAbility(ability) { this.#abilities.push(ability); }
+  getAbilities() { return this.#abilities; }
 
 }
