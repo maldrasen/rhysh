@@ -1,3 +1,21 @@
+
+const GoblinArmorMap = {
+  head:  { none:7, leather:2,  hide:1 },
+  chest: { none:3, leather:5,  hide:2 },
+  legs:  { none:2, leather:20, hide:2, cloth:4 },
+  hands: { none:9, leather:1,  },
+  feet:  { none:2, leather:6,  hide:2 },
+}
+
+const GoblinWeaponMap = {
+  'club': 2,
+  'club-shield': 1,
+  'scimitar': 5,
+  'scimitar-shield': 2,
+  'spear': 3,
+  'two-daggers': 2,
+};
+
 Monster.Goblin = class Goblin extends Monster {
 
   constructor(options = {}) {
@@ -10,15 +28,13 @@ Monster.Goblin = class Goblin extends Monster {
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
 
+    this.setNormalSlots();
+    this.setRandomArmor(GoblinArmorMap);
+    this.setRandomWeapon(GoblinWeaponMap);
+  }
 
 
-
-    let roll = Random.roll(100);
-
-    if (between(roll,0,10)) {
-
-    }
-
+}
 
 
     // this.addAbility(Ability.weaponSlash({
@@ -33,9 +49,7 @@ Monster.Goblin = class Goblin extends Monster {
     //   damage: { d:6, p:6 },
     //   cooldown: 3,
     // }))
-  }
 
-}
 
 // TODO:
 //   Goblins should have a hide and sneak attack skill. The monster manual

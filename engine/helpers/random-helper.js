@@ -49,7 +49,7 @@ global.Random = {
   fromFrequencyMap(map) {
     let index = 0;
     let keys = Object.keys(map);
-    let random = Random.upTo(ObjectUtility.values(map).reduce(function(a,v) { return a+v; }));
+    let random = Random.upTo(ObjectHelper.values(map).reduce(function(a,v) { return a+v; }));
 
     for (let i=0; i<keys.length; i++) {
       index += map[keys[i]];

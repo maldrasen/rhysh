@@ -26,8 +26,6 @@ global.Loader = (function() {
     'core/messenger.js',
     'models/characters/character.js',
     'models/dungeon/vector.js',
-    'models/items/item.js',
-    'models/items/equipment.js',
     'models/monsters/monster.js',
   ];
 
