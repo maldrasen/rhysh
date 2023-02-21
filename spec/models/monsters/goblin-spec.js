@@ -11,9 +11,6 @@ describe.only('Goblin', function() {
     expect(gobbo.getEssence()).to.equal(50);
     expect(chestArmor).to.be.lessThan(17);
     expect(chestArmor).to.be.greaterThan(12);
-
-    console.log("Main",gobbo.getMainHand())
-    console.log("Off",gobbo.getOffHand())
   });
 
 });
