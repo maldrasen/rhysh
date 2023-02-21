@@ -41,3 +41,8 @@ global.forUpTo = function(count, callback) {
 global.forRange = function(min, max, callback) {
   for (let i=min; i<max; i++) { callback(i); }
 }
+
+// Returns true if the value is betweem min and max (inclusive)
+global.between = function(value, min, max) {
+  return (value >= min) && (value <= max);
+}

@@ -1,16 +1,21 @@
 global.Monster = class Monster {
 
-  #armorClass
+  #abilities = [];
   #attributes
   #essence
   #hitPoints
-  #abilities = [];
+  #naturalArmorClass
+
+  // Pseudo Equipment
+  #mainHand
+  #offHand
+  #armor
 
   constructor(options) {
   }
 
-  setArmorClass(ac) { this.#armorClass = ac; }
-  getArmorClass() { return this.#armorClass; }
+  setNaturalArmorClass(ac) { this.#naturalArmorClass = ac; }
+  getNaturalArmorClass() { return this.#naturalArmorClass; }
 
   setAttributes(attributes) { this.#attributes = attributes; }
   getAttributes() { return this.#attributes; }
@@ -28,5 +33,30 @@ global.Monster = class Monster {
 
   addAbility(ability) { this.#abilities.push(ability); }
   getAbilities() { return this.#abilities; }
+
+  // This is probably feature creep, but I think some monsters will have a
+  // slimmed down version of equipment that adds some variety to the
+  // encounters. While this is mostly noticible with the weapons, we might as
+  // well allow adjustments to the armor too.
+
+  setMainHand(code) { this.#mainHand = code; }
+  getMainHand() { return this.#mainHand; }
+
+  setOffHand(code) { this.#offHand = code; }
+  getOffHand() { return this.#offHand; }
+
+  //
+  setArmorMaterial(slot, code) { this.#armor = code; }
+  getArmorMaterial(slot) { return this.#armor; }
+
+  getArmorClass(slot) {
+
+
+
+    // let armor = Armor.lookup(this.getArmor());
+    // return this.getAttributes.dexModifier() +
+  }
+
+
 
 }

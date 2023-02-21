@@ -3,25 +3,36 @@ Monster.Goblin = class Goblin extends Monster {
   constructor(options = {}) {
     super(options);
 
-    this.setArmorClass(15);
+    this.setNaturalArmorClass(11);
     this.setEssence(50);
     this.setHitPoints(Random.rollDice({ x:1, d:6, p:6 }));
     this.setAttributes(new Attributes({
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
 
-    this.addAbility(Ability.weaponSlash({
-      name: 'scimitar',
-      toHit: 4,
-      damage: { d:6, p:2 }
-    }));
 
-    this.addAbility(Ability.weaponWildSlash({
-      name: 'scimitar',
-      toHit: 0,
-      damage: { d:6, p:6 },
-      cooldown: 3,
-    }))
+
+
+    let roll = Random.roll(100);
+
+    if (between(roll,0,10)) {
+
+    }
+
+
+
+    // this.addAbility(Ability.weaponSlash({
+    //   name: 'scimitar',
+    //   toHit: 4,
+    //   damage: { d:6, p:2 }
+    // }));
+
+    // this.addAbility(Ability.weaponWildSlash({
+    //   name: 'scimitar',
+    //   toHit: 0,
+    //   damage: { d:6, p:6 },
+    //   cooldown: 3,
+    // }))
   }
 
 }
