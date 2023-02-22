@@ -366,6 +366,7 @@ global.GameState = (function() {
     console.log("\n=== Trigger Battle ===");
     console.log("Options:",options);
 
+    currentBattle = new BattleState(options);
     setStageName("Battle");
     render();
   }
@@ -380,9 +381,8 @@ global.GameState = (function() {
       location: getPartyLocation(),
     };
 
-    if (currentEvent) {
-      state.event = currentEvent.pack()
-    }
+    if (currentEvent) { state.event = currentEvent.pack(); }
+    if (currentBattle) { state.battle = currentBattle.pack(); }
 
     ViewState.render(state);
   }

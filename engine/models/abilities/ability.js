@@ -1,3 +1,0 @@
-global.Ability = class Ability {
-
-}
