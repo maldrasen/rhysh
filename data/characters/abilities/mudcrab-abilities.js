@@ -5,9 +5,8 @@
 // like the black knight could even have invulnurable armor that can't be exposed by normal means.
 
 Ability.register('crab-claw', {
-  type: 'melee',
-  range: 'close',
-  attackStories: [
+  type: 'attack',
+  stories: [
     { text:`The Mudcrab pinches {{T::firstName's}} {{target-slot-name}} with its claw.` },
     { when:['target-is-head'], bonusDamage:2,
       text: `The Mudcrab slashes {{T::firstName}} across the face with its claw.` },
@@ -24,9 +23,8 @@ Ability.register('crab-grab-legs', {
   type: 'grapple',
   selfSetState: 'holding-legs',
   targetAddStatus: 'bound-legs',
-  range: 'close',
   cooldown: 5,
-  attackStories: [
+  stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} legs tightly in its claws.` }
   ],
 });
@@ -35,9 +33,8 @@ Ability.register('crab-grab-arms', {
   type: 'grapple',
   selfSetState: 'holding-arms',
   targetAddStatus: 'bound-arms',
-  range: 'close',
   cooldown: 5,
-  attackStories: [
+  stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} wrists tightly in its claws.` }
   ],
 });
@@ -45,7 +42,7 @@ Ability.register('crab-grab-arms', {
 Ability.register('crab-leg-crush', {
   type: 'hold',
   requires: ['self-holding-legs'],
-  attackStories: [
+  stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} ankles, crushing them painfully in its claws.` }
   ],
 });
@@ -53,7 +50,7 @@ Ability.register('crab-leg-crush', {
 Ability.register('crab-arm-crush', {
   type: 'hold',
   requires: ['self-holding-arms'],
-  attackStories: [
+  stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} wrists, crushing them painfully in its claws.` }
   ],
 });

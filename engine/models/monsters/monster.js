@@ -1,3 +1,19 @@
+
+const ValidStates = [
+  'normal',
+
+  // Prone and stunned are functionally the same, the monster cannot take
+  // action this round though the state is cleared afterwards.
+  'prone',
+  'stunned',
+
+  // Holding is a grappling state indicating that the monster is holding onto
+  // a character's body or body part and con only take further holding 'actions'
+  'holding-arms',
+  'holding-body',
+  'holding-legs',
+]
+
 global.Monster = class Monster {
 
   #abilities = [];
@@ -10,6 +26,10 @@ global.Monster = class Monster {
   #mainHand
   #offHand
   #armor = {};
+
+  #state = 'normal';
+  #statusEffects = {};
+  #cooldowns = {};
 
   constructor(options) {}
 
@@ -30,8 +50,69 @@ global.Monster = class Monster {
   getHitPoints() { return this.#hitPoints; }
   setHitPoints(points) { this.#hitPoints = points; }
 
+  // === State and Status ======================================================
+  // State and status are functionally similar. The difference is that the
+  // monster can only be in one state at a time but can have multiple status
+  // effects. Blind is a status effect, grappling is a state.
+
+  getState() { return this.#state; }
+
+  setState(state) {
+    if (ArrayHelper.contains(ValidStates,state) == false) { throw `Invalid Monster state: ${state}`; }
+    this.#state = state;
+  }
+
+  getStatusEffects() { return { ...this.#statusEffects }; }
+  hasStatusEffect() { return this.$statusEffects[code] != null; }
+  setStatusEffect(code, duration) { this.#statusEffects[code] = duration; }
+  removeStatusEffect(code) { delete this.#statusEffects[code]; }
+
+  // === Abilities =============================================================
+
   getAbilities() { return this.#abilities; }
-  addAbility(ability) { this.#abilities.push(ability); }
+
+  // Hmm, before this can be done we need to set the actor in the context, but
+  // before I can do that I need actors in the battle state.
+  getAvailableAbilities() {
+    let available = [];
+    let context = new WeaverContext();
+    return available;
+  }
+
+  hasAbilities() { return this.#abilities.length > 0; }
+
+  getRandomAbility() {
+    return Random.from(this.getAvailableAbilities());
+  }
+
+  // This should be called every time an ability is used, first to validate
+  // that an ability can be used. This function also sets the ability cooldown
+  // if the ability has a cooldown.
+  useAbility(code) {
+    let available = this.getAvailableAbilities();
+    let template = Ability.lookup(code);
+    let ability;
+
+    for (let i=0; i<available.length; i++) {
+      if (available[i].code == code) { ability = available[i]; }
+    }
+
+    if (ability == null) {
+      throw `Cannot use Ability(${code})`;
+    }
+
+    if (template.cooldown) {
+      this.#cooldowns[code] = template.cooldown;
+    }
+  }
+
+  // We call lookup on the ability just to make sure that it exists.
+  addAbility(ability) {
+    Ability.lookup(ability.code);
+    this.#abilities.push(ability);
+  }
+
+  // === Weapons and Armor =====================================================
 
   getSlots() { return this.#slots; }
   setSlots(slots) { this.#slots = slots; }
@@ -82,5 +163,6 @@ global.Monster = class Monster {
 
     return this.getNaturalArmorClass() + dexBonus + (armor.ac||0) + shieldBonus;
   }
+
 
 }

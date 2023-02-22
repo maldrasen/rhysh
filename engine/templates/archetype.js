@@ -2,11 +2,7 @@ global.Archetype = (function() {
   const ArchetypeDictionary = {};
 
   function register(code, data) {
-    ArchetypeDictionary[code] = build(code, data);
-  }
-
-  function build(code, data) {
-    return { code, ...data };
+    ArchetypeDictionary[code] = { code, ...data };
   }
 
   function lookup(code) {

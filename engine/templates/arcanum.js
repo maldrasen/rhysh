@@ -2,11 +2,7 @@ global.Arcanum = (function() {
   const ArcanumDictionary = {};
 
   function register(code, data) {
-    ArcanumDictionary[code] = build(code, data);
-  }
-
-  function build(code, data) {
-    return { code, ...data };
+    ArcanumDictionary[code] = { code, ...data };
   }
 
   function lookup(code) {

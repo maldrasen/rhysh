@@ -2,11 +2,7 @@ global.Gnosis = (function() {
   const GnosisDictionary = {};
 
   function register(code, data) {
-    GnosisDictionary[code] = build(code, data);
-  }
-
-  function build(code, data) {
-    return { code, ...data };
+    GnosisDictionary[code] = { code, ...data };
   }
 
   function lookup(code) {

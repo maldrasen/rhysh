@@ -2,15 +2,11 @@ global.Weapon = (function() {
   const WeaponDictionary = {};
 
   function register(code, data) {
-    WeaponDictionary[code] = build(code, data);
+    WeaponDictionary[code] = { code, ...data };
   }
 
   function update(code, key, value) {
     WeaponDictionary[code][key] = value;
-  }
-
-  function build(code, data) {
-    return { code, ...data };
   }
 
   function lookup(code) {

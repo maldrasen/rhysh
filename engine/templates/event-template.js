@@ -2,11 +2,7 @@ global.EventTemplate = (function() {
   const EventDictionary = {}
 
   function register(code, data) {
-    EventDictionary[code] = build(code, data);
-  }
-
-  function build(code, data) {
-    return { code, ...data };
+    EventDictionary[code] = { code, ...data };
   }
 
   function lookup(code) {

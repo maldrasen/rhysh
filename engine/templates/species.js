@@ -2,11 +2,7 @@ global.Species = (function() {
   const SpeciesDictionary = {};
 
   function register(code, data) {
-    SpeciesDictionary[code] = build(code, data);
-  }
-
-  function build(code, data) {
-    return { code, ...data };
+    SpeciesDictionary[code] = { code, ...data };
   }
 
   function lookup(code) {
