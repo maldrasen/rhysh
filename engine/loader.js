@@ -9,6 +9,7 @@ global.Loader = (function() {
     'characters',
     'events',
     'names',
+    'weapons',
   ];
 
   const GameModules = [
