@@ -12,7 +12,7 @@ global.MonsterBuilder = class MonsterBuilder {
   //       monsters. That might be a bit far out still, for now we can just
   //       generate goblins or mudcrabs.
   generate() {
-    (Random.roll(6) < 4) ? tempMudcrabs() : tempGoblins();
+    (Random.roll(6) < 4) ? this.tempMudcrabs() : this.tempGoblins();
   }
 
   tempMudcrabs() {

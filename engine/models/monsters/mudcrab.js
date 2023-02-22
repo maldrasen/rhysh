@@ -3,9 +3,11 @@ Monster.Mudcrab = class Mudcrab extends Monster {
   constructor() {
     super({});
 
-    this.setNaturalArmorClass(12);
+    this.setName("Mudcrab");
+    this.setBaseArmorClass(12);
+    this.setBaseHit(0);
     this.setEssence(50);
-    this.setHitPoints(Random.rollDice({ x:1, d:6, p:2 }));
+    this.setMaxHitPoints(Random.rollDice({ x:1, d:6, p:2 }));
     this.setAttributes(new Attributes({
       str:12, dex:10, con:14, int:4, wis:4, cha:4
     }));

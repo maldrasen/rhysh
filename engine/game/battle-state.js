@@ -17,7 +17,19 @@ global.BattleState = class BattleState {
   // for display in the battle UI.
 
   pack() {
+    let state = {
+      ranks: {},
+    };
 
+    ObjectHelper.each(this.#ranks, (index, monsters) => {
+      state.ranks[index] = this.#ranks[index].map(monster => {
+        return monster.pack();
+      });
+    });
+
+    console.log("PACKED:",state);
+
+    return state;
   }
 
 }

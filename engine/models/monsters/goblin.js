@@ -21,9 +21,11 @@ Monster.Goblin = class Goblin extends Monster {
   constructor(options = {}) {
     super(options);
 
-    this.setNaturalArmorClass(11);
+    this.setName("Goblin");
+    this.setBaseArmorClass(11);
+    this.setBaseHit(2);
     this.setEssence(50);
-    this.setHitPoints(Random.rollDice({ x:1, d:6, p:6 }));
+    this.setMaxHitPoints(Random.rollDice({ x:1, d:6, p:6 }));
     this.setAttributes(new Attributes({
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
@@ -31,8 +33,8 @@ Monster.Goblin = class Goblin extends Monster {
     this.setNormalSlots();
     this.setRandomArmor(GoblinArmorMap);
     this.setRandomWeapon(GoblinWeaponMap);
+    this.addAbility({ code:'bad-idea', damage:{ d:8, p:4 }});
   }
-
 
 }
 

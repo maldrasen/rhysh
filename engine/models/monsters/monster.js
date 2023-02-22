@@ -1,10 +1,13 @@
 global.Monster = class Monster {
 
+  #name
   #abilities = [];
   #attributes
   #essence
-  #hitPoints
-  #naturalArmorClass
+  #maxHitPoints
+  #currentHitPoints
+  #baseArmorClass
+  #baseHit
 
   #slots
   #mainHand
@@ -17,8 +20,14 @@ global.Monster = class Monster {
 
   constructor(options) {}
 
-  getNaturalArmorClass() { return this.#naturalArmorClass; }
-  setNaturalArmorClass(ac) { this.#naturalArmorClass = ac; }
+  getName() { return this.#name; }
+  setName(name) { this.#name = name; }
+
+  getBaseArmorClass() { return this.#baseArmorClass; }
+  setBaseArmorClass(armorClass) { this.#baseArmorClass = armorClass; }
+
+  getBaseHit() { return this.#baseHit; }
+  setBaseHit(hit) { this.#baseHit = hit; }
 
   getAttributes() { return this.#attributes; }
   setAttributes(attributes) { this.#attributes = attributes; }
@@ -31,8 +40,19 @@ global.Monster = class Monster {
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
 
-  getHitPoints() { return this.#hitPoints; }
-  setHitPoints(points) { this.#hitPoints = points; }
+  getMaxHitPoints() { return this.#maxHitPoints; }
+  setMaxHitPoints(points) {
+    this.#maxHitPoints = points;
+    this.#currentHitPoints = points;
+  }
+
+  getCurrentHitPoints() { return this.#currentHitPoints; }
+  setCurrentHitPoints(points) { this.#currentHitPoints = points; }
+
+  // Health is a percentage of current and max health.
+  getHealth() {
+    return Math.ceil(100 * this.getCurrentHitPoints() / this.getMaxHitPoints());
+  }
 
   // === State and Status ======================================================
   // State and status are functionally similar. The difference is that the
@@ -148,8 +168,21 @@ global.Monster = class Monster {
 
     if (armor.maxDex && dexBonus > armor.maxDex) { dexBonus = armor.maxDex; }
 
-    return this.getNaturalArmorClass() + dexBonus + (armor.ac||0) + shieldBonus;
+    return this.getBaseArmorClass() + dexBonus + (armor.ac||0) + shieldBonus;
   }
 
+  // === Packing ===============================================================
+
+  // Monsters are usually thrown away after a battle and because we never save
+  // during a battle the monsters are never persisted. We still need a pack()
+  // function to get the monster data up to the client to view in the battle UI.
+  pack() {
+    return {
+      name: this.getName(),
+      health: this.getHealth(),
+      condition: this.getCondition(),
+      statuses: this.getStatuses(),
+    };
+  }
 
 }

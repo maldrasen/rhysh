@@ -23,8 +23,9 @@ global.ViewState = (function() {
   }
 
   function renderBattle(gameState) {
-    Messenger.publish("browser.render",{
+    Messenger.publish("browser.render", {
       showView: "Battle",
+      battle: gameState.battle,
     });
   }
 
