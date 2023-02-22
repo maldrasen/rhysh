@@ -11,8 +11,8 @@ global.Monster = class Monster {
   #offHand
   #armor = {};
 
-  #state = 'normal';
-  #statusEffects = {};
+  #condition = 'normal';
+  #statuses = {};
   #cooldowns = {};
 
   constructor(options) {}
@@ -39,17 +39,16 @@ global.Monster = class Monster {
   // monster can only be in one state at a time but can have multiple status
   // effects. Blind is a status effect, grappling is a state.
 
-  getState() { return this.#state; }
-
-  setState(state) {
-    CharacterState.lookup(state);
-    this.#state = state;
+  getCondition() { return this.#condition; }
+  setCondition(condition) {
+    Condition.lookup(condition);
+    this.#condition = condition;
   }
 
-  getStatusEffects() { return { ...this.#statusEffects }; }
-  hasStatusEffect() { return this.$statusEffects[code] != null; }
-  setStatusEffect(code, duration) { this.#statusEffects[code] = duration; }
-  removeStatusEffect(code) { delete this.#statusEffects[code]; }
+  getStatuses() { return { ...this.#statuses }; }
+  hasStatus() { return this.statuses[code] != null; }
+  setStatus(code, duration) { this.#statuses[code] = duration; }
+  removeStatus(code) { delete this.#statuses[code]; }
 
   // === Abilities =============================================================
 

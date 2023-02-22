@@ -21,6 +21,8 @@ global.Ability = (function() {
     return  ArrayHelper.contains(['attack','grapple','coup-de-grace'], type);
   }
 
+  // === Validations ===========================================================
+
   function validate(code) {
     try {
       let ability = lookup(code);
@@ -30,7 +32,7 @@ global.Ability = (function() {
       validateStories(ability);
 
       if (ability.range) { validateRange(ability); }
-      if (ability.setState) { validateSetState(ability); }
+      if (ability.setCondition) { validateSetCondition(ability); }
       if (ability.addStatus) { validateAddStatus(ability); }
     } catch(error) {
       console.error(`Ability(${code}) is invalid: `,error);
@@ -46,7 +48,7 @@ global.Ability = (function() {
         'range',
         'cooldown',
         'requires',
-        'setState',
+        'setCondition',
         'addStatus',
         'stories',
         'storyTeller'
@@ -62,22 +64,23 @@ global.Ability = (function() {
     Validate.isIn(ability.range, ['close','extended','long']);
   }
 
-  function validateSetState(ability) {
-      // if (ability.setState.self) { CharacterState.lookup(ability.setState.self) }
-      // if (ability.setState.target) { CharacterState.lookup(ability.setState.target) }
-      // CharacterState.lookup()
-
+  // Validate both the condition and the condition target (on value).
+  function validateSetCondition(ability) {
+    Condition.lookup(ability.setCondition.condition);
+    Validate.isIn(ability.setCondition.on, ['self','target'])
   }
 
+  // Validate both the status and the status target (on value).
   function validateAddStatus(ability) {
-// :target TargetStatus',
-//         'addStatus: AllOponentStatus',
-//         'addStatus: SelfStatus',
-//         'addStatus: SingleAllyStatus',
-//         'addStatus: RankStatus',
-//         'addStatus: AllAllyStatus',
-
-      // StatusEffect.lookup()
+    Status.lookup(ability.addStatus.status);
+    Validate.isIn(ability.setCondition.on, [
+      'all-ally',
+      'all-enemy',
+      'ally',
+      'rank',
+      'self',
+      'target',
+    ]);
   }
 
   function validateStories(ability) {

@@ -8,13 +8,4 @@ describe('Mudcrab', function() {
     expect(crab.getSlots().claws).to.equal(1);
   });
 
-  it("Has available abilities", function() {
-    let crab = new Monster.Mudcrab();
-    let available = crab.getAvailableAbilities();
-  });
-
-  it.only("Has grapple states", function() {
-    let crab = new Monster.Mudcrab();
-  });
-
 });

@@ -1,4 +1,4 @@
-global.StatusEffect = (function() {
+global.Status = (function() {
 
   // TODO: Just a guess on how status will work. I know the bound status will
   //       prevent some abilities, but not all of them. So we need a way to

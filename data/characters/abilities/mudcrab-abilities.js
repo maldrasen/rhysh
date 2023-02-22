@@ -22,8 +22,8 @@ Ability.register('crab-claw', {
 Ability.register('crab-grab-legs', {
   type: 'grapple',
   cooldown: 5,
-  setState: { self:'holding-legs' },
-  addStatus: { target:'bound-legs' },
+  setCondition: { on:'self', condition:'holding-legs' },
+  addStatus: { on:'target', status:'bound-legs' },
   stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} legs tightly in its claws.` }
   ],
@@ -32,8 +32,8 @@ Ability.register('crab-grab-legs', {
 Ability.register('crab-grab-arms', {
   type: 'grapple',
   cooldown: 5,
-  setState: { self:'holding-arms' },
-  addStatus: { target:'bound-arms' },
+  setCondition: { on:'self', condition:'holding-arms' },
+  addStatus: { on:'target', status:'bound-arms' },
   stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} wrists tightly in its claws.` }
   ],
