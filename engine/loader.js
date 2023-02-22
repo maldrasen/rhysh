@@ -7,9 +7,9 @@ global.Loader = (function() {
 
   const DataDirectories = [
     'characters',
+    'equipment',
     'events',
     'names',
-    'weapons',
   ];
 
   const GameModules = [
