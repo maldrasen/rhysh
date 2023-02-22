@@ -21,9 +21,9 @@ Ability.register('crab-claw', {
 
 Ability.register('crab-grab-legs', {
   type: 'grapple',
-  selfSetState: 'holding-legs',
-  targetAddStatus: 'bound-legs',
   cooldown: 5,
+  setState: { self:'holding-legs' },
+  addStatus: { target:'bound-legs' },
   stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} legs tightly in its claws.` }
   ],
@@ -31,9 +31,9 @@ Ability.register('crab-grab-legs', {
 
 Ability.register('crab-grab-arms', {
   type: 'grapple',
-  selfSetState: 'holding-arms',
-  targetAddStatus: 'bound-arms',
   cooldown: 5,
+  setState: { self:'holding-arms' },
+  addStatus: { target:'bound-arms' },
   stories: [
     { text:`The Mudcrab lunges for {{T::firstName}}, grabbing both of {{T::his}} wrists tightly in its claws.` }
   ],
@@ -41,7 +41,7 @@ Ability.register('crab-grab-arms', {
 
 Ability.register('crab-leg-crush', {
   type: 'hold',
-  requires: ['self-holding-legs'],
+  requires: ['state:self(holding-legs)'],
   stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} ankles, crushing them painfully in its claws.` }
   ],
@@ -49,7 +49,7 @@ Ability.register('crab-leg-crush', {
 
 Ability.register('crab-arm-crush', {
   type: 'hold',
-  requires: ['self-holding-arms'],
+  requires: ['state:self(holding-arms)'],
   stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} wrists, crushing them painfully in its claws.` }
   ],
@@ -57,7 +57,7 @@ Ability.register('crab-arm-crush', {
 
 Ability.register('crab-brutalize', {
   type: 'coup-de-grace',
-  requires: ['other-holding-arms','other-holding-legs'],
+  requires: ['status:target(bound-arms)','status:target(bound-legs)'],
   storyTeller: 'MudcrabBrutalizer',
 });
 

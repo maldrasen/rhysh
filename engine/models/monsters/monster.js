@@ -1,19 +1,3 @@
-
-const ValidStates = [
-  'normal',
-
-  // Prone and stunned are functionally the same, the monster cannot take
-  // action this round though the state is cleared afterwards.
-  'prone',
-  'stunned',
-
-  // Holding is a grappling state indicating that the monster is holding onto
-  // a character's body or body part and con only take further holding 'actions'
-  'holding-arms',
-  'holding-body',
-  'holding-legs',
-]
-
 global.Monster = class Monster {
 
   #abilities = [];
@@ -58,7 +42,7 @@ global.Monster = class Monster {
   getState() { return this.#state; }
 
   setState(state) {
-    if (ArrayHelper.contains(ValidStates,state) == false) { throw `Invalid Monster state: ${state}`; }
+    CharacterState.lookup(state);
     this.#state = state;
   }
 
@@ -99,6 +83,10 @@ global.Monster = class Monster {
 
     if (ability == null) {
       throw `Cannot use Ability(${code})`;
+    }
+
+    if (template.selfSetState) {
+      this.setState(template.selfSetState);
     }
 
     if (template.cooldown) {

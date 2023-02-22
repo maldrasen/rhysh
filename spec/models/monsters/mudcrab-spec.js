@@ -13,8 +13,7 @@ describe('Mudcrab', function() {
     let available = crab.getAvailableAbilities();
   });
 
-
-  it("Has grapple states", function() {
+  it.only("Has grapple states", function() {
     let crab = new Monster.Mudcrab();
   });
 
