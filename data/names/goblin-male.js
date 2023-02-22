@@ -48,6 +48,7 @@ let names = [
   { name:"Drippy" },
   { name:"Drunk", },
   { name:"Drunken", },
+  { name:"Emergency" },
   { name:"Expert", triggers:['smart']},
   { name:"Fapping", aspects:['masterbator']},
   { name:"Fat", triggers:['ugly','thicc']},

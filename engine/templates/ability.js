@@ -87,6 +87,21 @@ global.Ability = (function() {
     let both = ability.stories == null && ability.storyTeller == null;
     let none = ability.stories != null && ability.storyTeller != null;
     if (both || none) { throw `Ability should have either a story teller or a list of stories.`; }
+
+    (ability.stories||[]).forEach(story => validateStory(story));
+  }
+
+  // Stories are going to be a common structure. May need to move this function
+  // into a separate story validator. The ability stories may have a slightly
+  // different structure though with the attacks, hits, and misses and such.
+  function validateStory(story) {
+    const validKeys = ['when','chance','bonusDamage','attempt','hit','miss','text'];
+
+    Object.keys(story).forEach(key => {
+      if (ArrayHelper.contains(validKeys,key) == false) {
+        throw `Invalid Story Key: ${key}`
+      }
+    });
   }
 
   return {

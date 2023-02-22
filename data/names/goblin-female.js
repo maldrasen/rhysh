@@ -40,6 +40,7 @@ let names = [
   { name:"Drippy" },
   { name:"Drunk" },
   { name:"Drunken" },
+  { name:"Emergency" },
   { name:"Expert", triggers:['smart']},
   { name:"Fanny" },
   { name:"Fidget" },

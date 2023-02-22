@@ -72,6 +72,7 @@ let names = [
   { name:"Doomfucker", aspects:['violent']},
   { name:"Doomhammer", aspects:['violent']},
   { name:"Doomshitter", aspects:['violent','revolting']},
+  { name:"Emergency" },
   { name:"Fatcock", triggers:['big-cock'], restriction:'has-cock'},
   { name:"Fatcocks", triggers:['big-cock','multi-cock'], restriction:'has-cock'},
   { name:"Flavored" },
