@@ -5,6 +5,7 @@ ArchetypeDictionary.register('cultist', {
   availableSpecies: ['elf','nymph','dragonkind','satyr'],
   attributeBonus: { wis:3, cha:2 },
   hitGrowth: 'slow',
+  hitDice:   6,
 
   armorType:  'light',
   weaponType: 'mage',

@@ -13,10 +13,22 @@ global.CharacterBuilder = (function() {
     mainCharacter.setEquipment(new Equipment());
     mainCharacter.save();
 
+    setCondition(mainCharacter);
     addAbilities(mainCharacter);
     addSkills(mainCharacter);
 
     return mainCharacter;
+  }
+
+  function setCondition(character) {
+    let condition = new Condition();
+
+    condition.setMaxHitPoints(
+      character.getSpecies().baseHitPoints +
+      Random.roll(character.getArchetype().hitDice) + 1 +
+      character.getAttributes().conModifier());
+
+    character.setCondition(condition)
   }
 
   function addAbilities(character) {

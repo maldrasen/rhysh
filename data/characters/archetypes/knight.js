@@ -5,6 +5,7 @@ ArchetypeDictionary.register('knight', {
   availableSpecies: ['elf','orc','minotaur'],
   attributeBonus: { str:3, con:2 },
   hitGrowth: 'fast',
+  hitDice:   10,
 
   armorType:  'heavy',
   weaponType: 'all',
