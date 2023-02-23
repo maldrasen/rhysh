@@ -60,15 +60,18 @@ global.Monster = class Monster {
   // effects. Blind is a status effect, grappling is a state.
 
   getCondition() { return this.#condition; }
-  setCondition(condition) {
-    Condition.lookup(condition);
-    this.#condition = condition;
+  setCondition(code) {
+    ConditionDictionary.lookup(code);
+    this.#condition = code;
   }
 
   getStatuses() { return { ...this.#statuses }; }
   hasStatus() { return this.statuses[code] != null; }
-  setStatus(code, duration) { this.#statuses[code] = duration; }
   removeStatus(code) { delete this.#statuses[code]; }
+  setStatus(code, duration) {
+    StatusDictionary.lookup(code);
+    this.#statuses[code] = duration;
+  }
 
   // === Abilities =============================================================
 

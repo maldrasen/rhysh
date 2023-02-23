@@ -4,4 +4,5 @@ ArchetypeDictionary.register('chosen', {
   availableSexes: ['male','futa'],
   availableSpecies: ['elf','orc','minotaur','dragonkind','lupin','satyr'],
   attributeBonus: { str:1, con:2, wis:1, cha:1 },
+  hitGrowth: 'medium',
 });

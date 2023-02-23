@@ -60,7 +60,7 @@ window.NewGame = (function() {
 
   function selectArchetype(name) {
     let button = X.first(`.archetypes a.${name}`);
-    let archetype = Archetype.lookup(name);
+    let archetype = ArchetypeDictionary.lookup(name);
 
     X.removeClass('.archetype-step .archetypes .selected','selected');
     X.addClass(button,'selected');
@@ -125,14 +125,14 @@ window.NewGame = (function() {
 
     X.each('.species-step .sexes a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSexes, name)) {
+      if (false == ArrayHelper.contains(ArchetypeDictionary.lookup(selectedArchetype).availableSexes, name)) {
         X.addClass(button,'hide');
       }
     });
 
     X.each('.species-step .species a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSpecies, name)) {
+      if (false == ArrayHelper.contains(ArchetypeDictionary.lookup(selectedArchetype).availableSpecies, name)) {
         X.addClass(button,'hide');
       }
     });
@@ -148,8 +148,8 @@ window.NewGame = (function() {
     hideAll();
 
     let baseAttributes = {};
-    let attributeBase = Species.lookup(selectedSpecies).basePlayerAttributes;
-    let attributeBonus = Archetype.lookup(selectedArchetype).attributeBonus;
+    let attributeBase = SpeciesDictionary.lookup(selectedSpecies).basePlayerAttributes;
+    let attributeBonus = ArchetypeDictionary.lookup(selectedArchetype).attributeBonus;
     let firstNameInput = X.first('input#firstName');
     let lastNameInput = X.first('input#lastName');
 
@@ -179,7 +179,7 @@ window.NewGame = (function() {
   }
 
   function updateSpeciesImages() {
-    let availableSpecies = Archetype.lookup(selectedArchetype).availableSpecies;
+    let availableSpecies = ArchetypeDictionary.lookup(selectedArchetype).availableSpecies;
 
     X.each('.species-step .species a', button => {
       X.removeClass(button, 'male');
@@ -231,7 +231,7 @@ window.NewGame = (function() {
   }
 
   function updateSummary() {
-    let archetype = Archetype.lookup(selectedArchetype);
+    let archetype = ArchetypeDictionary.lookup(selectedArchetype);
     let attributeList = X.first('.summary .attribute-list');
 
     X.empty(attributeList);

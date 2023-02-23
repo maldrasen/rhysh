@@ -35,8 +35,8 @@
       import('../engine/helpers/random-helper.js'),
       import('../engine/helpers/rhysh-helper.js'),
       import('../engine/models/dungeon/vector.js'),
-      import('../engine/templates/archetype.js'),
-      import('../engine/templates/species.js'),
+      import('../engine/dictionaries/archetype-dictionary.js'),
+      import('../engine/dictionaries/species-dictionary.js'),
 
       // Components
       import('./components/attribute-control.js'),

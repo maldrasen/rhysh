@@ -1,9 +1,11 @@
 global.Character = class Character {
 
   #code;
-  #level = 1;
+  #level = 0;
   #experience = 0;
   #attributes;
+  #maxHitPoints;
+  #currentHitPoints;
 
   #firstName;
   #lastName;
@@ -12,32 +14,14 @@ global.Character = class Character {
   #archetypeCode;
   #speciesCode;
 
-  // The gnosis and arcanum need to be explored.
-
-  #skills
-  #gnosis
-  #arcanum
-  #abilities
-  #equipment
-
-  #maxHitPoints
-  #currentHitPoints
+  #skillList = [];
+  #gnosisList = [];
+  #arcanumList = [];
+  #abilityList = [];
+  #equipment;
 
   #condition = 'normal';
   #statuses = {};
-  #cooldowns = {};
-
-  // #baseArmorClass // base comes from species.
-  // #baseHit // base comes from archetype.
-
-
-
-
-
-
-
-
-
 
   // The character code is part of the filename where the character is saved
   // and how the character is referenced in the CharacterLibrary.
@@ -49,29 +33,70 @@ global.Character = class Character {
   }
 
   getCode() { return this.#code; }
+  getLevel() { return this.#level; }
+  getExperience() { return this.#experience; }
 
-  setFirstName(name) { this.#firstName = name; }
-  setLastName(name) { this.#lastName = name; }
+  getAttributes() { return this.#attributes; }
+  setAttributes(attributesObject) { this.#attributes = attributesObject; }
+
+  // === TODO ===
+  // The max hit points should only be set when the character is first created
+  // by the character builder and only updated when the character levels or
+  // something unusual happens. Setting the hitpoints to a negative should set
+  // the character condition to unconcious or dead. This brings up an important
+  // point though. Conditions have priorities. A dead condition should not
+  // accidently be overridden by a lesser condition. Sometimes a condition can
+  // be though. If a character is healed from being unconcious they need to
+  // move from unconcious to being prone. So... condition needs to be a whole
+  // state machine thing.
+  getCurrentHitPoints() { return this.#currentHitPoints; }
+  setCurrentHitPoints(points) { this.#currentHitPoints = points; }
+  getMaxHitPoints() { return this.#maxHitPoints; }
+  setMaxHitPoints(points) { this.#maxHitPoints = points; }
+
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
   getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }
+  setFirstName(name) { this.#firstName = name; }
+  setLastName(name) { this.#lastName = name; }
 
-  setSex(sex) { this.#sex = sex; }
   getSex(sex) { return this.#sex; }
+  setSex(sex) { this.#sex = sex; }
 
-  setArchetypeCode(code) { this.#archetypeCode = code; }
   getArchetypeCode() { return this.#archetypeCode; }
   getArchetype() { return Archetype.lookup(this.#archetypeCode); }
+  setArchetypeCode(code) { this.#archetypeCode = code; }
 
-  setSpeciesCode(code) { this.#speciesCode = code; }
   getSpeciesCode() { return this.#speciesCode; }
   getSpecies() { return Species.lookup(this.#speciesCode); }
+  setSpeciesCode(code) { this.#speciesCode = code; }
 
-  setAttributes(attributesObject) { this.#attributes = attributesObject; }
-  getAttributes() { return this.#attributes; }
+  // #skillList
+  // #gnosisList
+  // #arcanumList
+  // #abilityList
+  // #equipment
 
-  getLevel() { return this.#level; }
-  getExperience() { return this.#experience; }
+  // #condition = 'normal';
+  // #statuses = {};
+
+
+
+  // === Calculated Values =====================================================
+
+  getBaseArmorClass() {
+    return this.getSpecies().baseArmorClass;
+  }
+
+  getBaseHit() {
+    let factor = {
+      slow:   3.0,
+      medium: 1.5,
+      fast:   1.0,
+    }[this.getArchetype().hitGrowth];
+
+    return Math.ceil(this.getLevel() / factor);
+  }
 
   // === Experience ============================================================
 
@@ -102,18 +127,15 @@ global.Character = class Character {
   }
 
   // === New Attributes ===
-  // #skills
-  // #gnosis
-  // #arcanum
-  // #abilities
+  // #skillList
+  // #gnosisList
+  // #arcanumList
+  // #abilityList
   // #equipment
-
-  // #maxHitPoints
-  // #currentHitPoints
 
   // #condition = 'normal';
   // #statuses = {};
-  // #cooldowns = {};
+  // #cooldowns = {}; // Are cooldowns part of Abilities? Probably for characters yes.
 
   pack() {
     return {
@@ -121,6 +143,8 @@ global.Character = class Character {
       level: this.#level,
       experience: this.#experience,
       attributes: this.#attributes.pack(),
+      maxHitPoints: this.#maxHitPoints,
+      currentHitPoints: this.#currentHitPoints,
 
       firstName: this.#firstName,
       lastName: this.#lastName,
@@ -128,15 +152,21 @@ global.Character = class Character {
 
       archetypeCode: this.#archetypeCode,
       speciesCode: this.#speciesCode,
-
     }
   }
+
+
+
+
+
 
   static unpack(data) {
     let character = new Character(data.code);
     character.#level = data.level;
     character.#experience = data.experience;
     character.#attributes = Attributes.unpack(data.attributes);
+    character.#maxHitPoints = data.maxHitPoints;
+    character.#currentHitPoints = data.currentHitPoints;
 
     character.#firstName = data.firstName;
     character.#lastName = data.lastName;
@@ -144,7 +174,6 @@ global.Character = class Character {
 
     character.#archetypeCode = data.archetypeCode;
     character.#speciesCode = data.speciesCode;
-
 
     return character;
   }

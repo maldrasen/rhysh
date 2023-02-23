@@ -4,4 +4,5 @@ ArchetypeDictionary.register('knight', {
   availableSexes: ['male'],
   availableSpecies: ['elf','orc','minotaur'],
   attributeBonus: { str:3, con:2 },
+  hitGrowth: 'fast',
 });
