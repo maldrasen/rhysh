@@ -1,4 +1,4 @@
-global.ArmorMaterial = (function() {
+global.MaterialDictionary = (function() {
 
   const materials = {
     cloth:   { name:'Cloth',   ac:1, weight:'light'  },
@@ -10,6 +10,7 @@ global.ArmorMaterial = (function() {
   };
 
   function lookup(code) {
+    if (materials[code] == null) { throw `Unknown Material: ${code}` }
     return { code, ...materials[code] };
   }
 

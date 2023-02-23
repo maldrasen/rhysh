@@ -40,23 +40,23 @@ const LongRangeWeapons = {
 
 ObjectHelper.each(CloseRangeWeapons, (code, data) => {
   data.range = 'close';
-  Weapon.register(code, data);
+  WeaponDictionary.register(code, data);
 });
 
 ObjectHelper.each(ExtendedRangeWeapons, (code, data) => {
   data.range = 'extended';
-  Weapon.register(code, data);
+  WeaponDictionary.register(code, data);
 });
 
 ObjectHelper.each(LongRangeWeapons, (code, data) => {
   data.range = 'long';
-  Weapon.register(code, data);
+  WeaponDictionary.register(code, data);
 });
 
 ['dagger','dirk','longbow','rapier','shortbow','shortsword'].forEach(code => {
-  Weapon.update(code,'attribute','dex');
+  WeaponDictionary.update(code,'attribute','dex');
 });
 
 ['arbalest','crossbow','handbow'].forEach(code => {
-  Weapon.update(code,'attribute','none');
+  WeaponDictionary.update(code,'attribute','none');
 });

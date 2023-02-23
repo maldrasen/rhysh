@@ -1,3 +1,3 @@
-Arcanum.register('blasphemy', {
+ArcanumDictionary.register('blasphemy', {
   name: 'Arcanum of Blasphemy',
 });

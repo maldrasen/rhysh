@@ -14,11 +14,11 @@ global.Loader = (function() {
 
   const GameModules = [
     'builders',
+    'dictionaries',
     'game',
     'models',
     'renderers',
     'scrutinizers',
-    'templates',
     'weavers',
   ];
 

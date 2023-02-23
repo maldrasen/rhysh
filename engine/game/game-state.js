@@ -316,7 +316,7 @@ global.GameState = (function() {
 
   async function endEvent(endState) {
     let code = currentEvent.code;
-    let template = EventTemplate.lookup(code);
+    let template = EventDictionary.lookup(code);
     if (template.onFinish) {
       template.onFinish(endState);
     }

@@ -1,6 +1,6 @@
-global.Condition = (function() {
+global.ConditionDictionary = (function() {
 
-  const ConditionDictionary = {
+  const conditions = {
     'normal': { effect:'none' },
 
     // Prone and stunned are functionally the same, the monster cannot take
@@ -15,9 +15,9 @@ global.Condition = (function() {
     'holding-legs': { effect:'hold' },
   }
 
-  function lookup(state) {
-    if (ConditionDictionary[state] == null) { throw `Unknown Condition: ${state}` }
-    return ConditionDictionary[state];
+  function lookup(code) {
+    if (conditions[code] == null) { throw `Unknown Condition: ${code}` }
+    return conditions[code];
   }
 
   return { lookup };

@@ -38,21 +38,6 @@ Monster.Goblin = class Goblin extends Monster {
 
 }
 
-
-    // this.addAbility(Ability.weaponSlash({
-    //   name: 'scimitar',
-    //   toHit: 4,
-    //   damage: { d:6, p:2 }
-    // }));
-
-    // this.addAbility(Ability.weaponWildSlash({
-    //   name: 'scimitar',
-    //   toHit: 0,
-    //   damage: { d:6, p:6 },
-    //   cooldown: 3,
-    // }))
-
-
 // TODO:
 //   Goblins should have a hide and sneak attack skill. The monster manual
 //   gives them a +6 stealth skill.

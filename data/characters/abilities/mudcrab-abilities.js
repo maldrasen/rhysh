@@ -4,7 +4,7 @@
 // important, like the nymphs's inability to wear clothing, or the dominitrix's impractical armor requirement. Classes
 // like the black knight could even have invulnurable armor that can't be exposed by normal means.
 
-Ability.register('crab-claw', {
+AbilityDictionary.register('crab-claw', {
   type: 'attack',
   stories: [
     { attempt: `The Mudcrab attacks {{T::firstName}} with it's claws `,
@@ -36,7 +36,7 @@ Ability.register('crab-claw', {
   ],
 });
 
-Ability.register('crab-grab-legs', {
+AbilityDictionary.register('crab-grab-legs', {
   type: 'grapple',
   cooldown: 5,
   setCondition: { on:'self', condition:'holding-legs' },
@@ -48,7 +48,7 @@ Ability.register('crab-grab-legs', {
   ],
 });
 
-Ability.register('crab-grab-arms', {
+AbilityDictionary.register('crab-grab-arms', {
   type: 'grapple',
   cooldown: 5,
   setCondition: { on:'self', condition:'holding-arms' },
@@ -60,7 +60,7 @@ Ability.register('crab-grab-arms', {
   ],
 });
 
-Ability.register('crab-leg-crush', {
+AbilityDictionary.register('crab-leg-crush', {
   type: 'hold',
   requires: ['state:self(holding-legs)'],
   stories: [
@@ -68,7 +68,7 @@ Ability.register('crab-leg-crush', {
   ],
 });
 
-Ability.register('crab-arm-crush', {
+AbilityDictionary.register('crab-arm-crush', {
   type: 'hold',
   requires: ['state:self(holding-arms)'],
   stories: [
@@ -76,7 +76,7 @@ Ability.register('crab-arm-crush', {
   ],
 });
 
-Ability.register('crab-brutalize', {
+AbilityDictionary.register('crab-brutalize', {
   type: 'coup-de-grace',
   requires: ['status:target(bound-arms)','status:target(bound-legs)'],
   storyTeller: 'MudcrabBrutalizer',

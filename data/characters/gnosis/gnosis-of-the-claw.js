@@ -1,3 +1,3 @@
-Gnosis.register('claw', {
+GnosisDictionary.register('claw', {
   name: 'Gnosis of the Claw',
 });

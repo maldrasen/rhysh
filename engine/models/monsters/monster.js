@@ -93,7 +93,7 @@ global.Monster = class Monster {
   // if the ability has a cooldown.
   useAbility(code) {
     let available = this.getAvailableAbilities();
-    let template = Ability.lookup(code);
+    let template = AbilityDictionary.lookup(code);
     let ability;
 
     for (let i=0; i<available.length; i++) {
@@ -115,7 +115,7 @@ global.Monster = class Monster {
 
   // We call lookup on the ability just to make sure that it exists.
   addAbility(ability) {
-    Ability.lookup(ability.code);
+    AbilityDictionary.lookup(ability.code);
     this.#abilities.push(ability);
   }
 
@@ -162,13 +162,20 @@ global.Monster = class Monster {
   }
 
   getArmorClass(slot) {
-    let armor = ArmorMaterial.lookup(this.getArmorMaterial(slot));
     let dexBonus = this.getAttributes().dexModifier();
     let shieldBonus = this.getOffHand() == 'shield' ? 1 : 0;
+    let material = this.getArmorMaterial(slot)
+    let armorBonus = 0;
 
-    if (armor.maxDex && dexBonus > armor.maxDex) { dexBonus = armor.maxDex; }
+    if (material) {
+      let armor =  MaterialDictionary.lookup(material);
+      if (armor.maxDex && dexBonus > armor.maxDex) {
+        dexBonus = armor.maxDex;
+      }
+      armorBonus = armor.ac || 0;
+    }
 
-    return this.getBaseArmorClass() + dexBonus + (armor.ac||0) + shieldBonus;
+    return this.getBaseArmorClass() + dexBonus + armorBonus + shieldBonus;
   }
 
   // === Packing ===============================================================

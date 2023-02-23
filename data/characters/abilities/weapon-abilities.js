@@ -1,8 +1,8 @@
 
 // TODO: Ability designed to destroy clothing. Should have a negative damage bonus.
-// Ability.register('sunder-armor', {});
+// AbilityDictionary.register('sunder-armor', {});
 
-Ability.register('bad-idea', {
+AbilityDictionary.register('bad-idea', {
   type: 'attack',
   cooldown: 5,
   setCondition: { on:'self', condition:'prone' },

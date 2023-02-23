@@ -1,3 +1,3 @@
-Gnosis.register('carnage', {
+GnosisDictionary.register('carnage', {
   name: 'Gnosis of Carnage',
 });

@@ -1,3 +1,3 @@
-Arcanum.register('moon', {
+ArcanumDictionary.register('moon', {
   name: 'Arcanum of the Moon',
 });

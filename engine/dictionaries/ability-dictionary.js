@@ -1,17 +1,15 @@
-global.Ability = (function() {
-  const AbilityDictionary = {};
+global.AbilityDictionary = (function() {
+  const dictionary = {};
 
   function register(code, data) {
     if (data.range == null && shouldHaveRangeSet(data.type)) { data.range = 'close'; }
-
-    AbilityDictionary[code] = { code, ...data };
-
+    dictionary[code] = { code, ...data };
     validate(code);
   }
 
   function lookup(code) {
-    if (AbilityDictionary[code] == null) { throw `Unknown Ability (${code})` }
-    return AbilityDictionary[code];
+    if (dictionary[code] == null) { throw `Unknown Ability (${code})` }
+    return dictionary[code];
   }
 
   // Ability types that use the attack range. We keep track of these because if
@@ -66,13 +64,13 @@ global.Ability = (function() {
 
   // Validate both the condition and the condition target (on value).
   function validateSetCondition(ability) {
-    Condition.lookup(ability.setCondition.condition);
+    ConditionDictionary.lookup(ability.setCondition.condition);
     Validate.isIn(ability.setCondition.on, ['self','target'])
   }
 
   // Validate both the status and the status target (on value).
   function validateAddStatus(ability) {
-    Status.lookup(ability.addStatus.status);
+    StatusDictionary.lookup(ability.addStatus.status);
     Validate.isIn(ability.setCondition.on, [
       'all-ally',
       'all-enemy',

@@ -1,7 +1,7 @@
 global.EventRenderer = class EventRenderer {
 
   constructor(code, state) {
-    this.template = EventTemplate.lookup(code);
+    this.template = EventDictionary.lookup(code);
     this.state = state;
   }
 

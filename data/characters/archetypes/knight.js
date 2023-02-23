@@ -1,4 +1,4 @@
-Archetype.register('knight', {
+ArchetypeDictionary.register('knight', {
   name:"Black Knight",
 
   availableSexes: ['male'],

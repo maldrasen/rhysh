@@ -1,3 +1,3 @@
-Arcanum.register('suffering', {
+ArcanumDictionary.register('suffering', {
   name: 'Arcanum of Suffering',
 });

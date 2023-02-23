@@ -1,4 +1,4 @@
-EventTemplate.register('game.start',{
+EventDictionary.register('game.start',{
 
   stages:[{
     requires:'player.archetype=chosen',

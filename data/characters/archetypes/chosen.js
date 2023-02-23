@@ -1,4 +1,4 @@
-Archetype.register('chosen', {
+ArchetypeDictionary.register('chosen', {
   name:"Chosen",
 
   availableSexes: ['male','futa'],

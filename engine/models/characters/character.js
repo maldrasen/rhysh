@@ -12,6 +12,33 @@ global.Character = class Character {
   #archetypeCode;
   #speciesCode;
 
+  // The gnosis and arcanum need to be explored.
+
+  #skills
+  #gnosis
+  #arcanum
+  #abilities
+  #equipment
+
+  #maxHitPoints
+  #currentHitPoints
+
+  #condition = 'normal';
+  #statuses = {};
+  #cooldowns = {};
+
+  // #baseArmorClass // base comes from species.
+  // #baseHit // base comes from archetype.
+
+
+
+
+
+
+
+
+
+
   // The character code is part of the filename where the character is saved
   // and how the character is referenced in the CharacterLibrary.
   constructor(code, options={}) {
@@ -74,30 +101,51 @@ global.Character = class Character {
     CharacterLibrary.saveCharacter(this);
   }
 
+  // === New Attributes ===
+  // #skills
+  // #gnosis
+  // #arcanum
+  // #abilities
+  // #equipment
+
+  // #maxHitPoints
+  // #currentHitPoints
+
+  // #condition = 'normal';
+  // #statuses = {};
+  // #cooldowns = {};
+
   pack() {
     return {
       code: this.#code,
+      level: this.#level,
+      experience: this.#experience,
+      attributes: this.#attributes.pack(),
+
       firstName: this.#firstName,
       lastName: this.#lastName,
       sex: this.#sex,
+
       archetypeCode: this.#archetypeCode,
       speciesCode: this.#speciesCode,
-      attributes: this.#attributes.pack(),
-      experience: this.#experience,
-      level: this.#level,
+
     }
   }
 
   static unpack(data) {
     let character = new Character(data.code);
+    character.#level = data.level;
+    character.#experience = data.experience;
+    character.#attributes = Attributes.unpack(data.attributes);
+
     character.#firstName = data.firstName;
     character.#lastName = data.lastName;
     character.#sex = data.sex;
+
     character.#archetypeCode = data.archetypeCode;
     character.#speciesCode = data.speciesCode;
-    character.#attributes = Attributes.unpack(data.attributes);
-    character.#experience = data.experience;
-    character.#level = data.level;
+
+
     return character;
   }
 
