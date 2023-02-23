@@ -1,9 +1,17 @@
 global.Equipment = class Equipment {
 
-  // Separate equipment class or naw?
-  // #slots
-  // #mainHand
-  // #offHand
-  // #armor = {};
+  constructor() {}
+
+  // === Persistance ===========================================================
+
+  pack() {
+    return {
+    }
+  }
+
+  static unpack(data) {
+    let equipment = new Equipment();
+    return equipment;
+  }
 
 }

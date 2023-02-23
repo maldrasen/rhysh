@@ -9,6 +9,8 @@ global.CharacterBuilder = (function() {
     mainCharacter.setFirstName(options.firstName);
     mainCharacter.setLastName(options.lastName);
     mainCharacter.setAttributes(new Attributes(options.attributes));
+    mainCharacter.setCondition(new Condition());
+    mainCharacter.setEquipment(new Equipment());
     mainCharacter.save();
 
     return mainCharacter;

@@ -35,6 +35,12 @@ global.Character = class Character {
   getAttributes() { return this.#attributes; }
   setAttributes(attributesObject) { this.#attributes = attributesObject; }
 
+  getCondition() { return this.#condition; }
+  setCondition(conditionObject) { this.#condition = conditionObject; }
+
+  getEquipment() { return this.#equipment; }
+  setEquipment(equipmentObject) { this.#equipment = equipmentObject; }
+
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
   getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }
@@ -45,21 +51,17 @@ global.Character = class Character {
   setSex(sex) { this.#sex = sex; }
 
   getArchetypeCode() { return this.#archetypeCode; }
-  getArchetype() { return Archetype.lookup(this.#archetypeCode); }
+  getArchetype() { return ArchetypeDictionary.lookup(this.#archetypeCode); }
   setArchetypeCode(code) { this.#archetypeCode = code; }
 
   getSpeciesCode() { return this.#speciesCode; }
-  getSpecies() { return Species.lookup(this.#speciesCode); }
+  getSpecies() { return SpeciesDictionary.lookup(this.#speciesCode); }
   setSpeciesCode(code) { this.#speciesCode = code; }
 
   // #skillList
   // #gnosisList
   // #arcanumList
   // #abilityList
-  // #equipment
-
-
-
 
   // === Calculated Values =====================================================
 
@@ -110,7 +112,6 @@ global.Character = class Character {
   // #gnosisList
   // #arcanumList
   // #abilityList
-  // #equipment
 
   // #cooldowns = {}; // Are cooldowns part of Abilities? Probably for characters yes.
 
@@ -121,6 +122,7 @@ global.Character = class Character {
       experience: this.#experience,
       attributes: this.#attributes.pack(),
       condition: this.#condition.pack(),
+      equipment: this.#equipment.pack(),
 
       firstName: this.#firstName,
       lastName: this.#lastName,
@@ -136,7 +138,8 @@ global.Character = class Character {
     character.#level = data.level;
     character.#experience = data.experience;
     character.#attributes = Attributes.unpack(data.attributes);
-    character.#condition = Attributes.unpack(data.condition);
+    character.#condition = Condition.unpack(data.condition);
+    character.#equipment = Equipment.unpack(data.equipment);
 
     character.#firstName = data.firstName;
     character.#lastName = data.lastName;

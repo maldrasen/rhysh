@@ -31,11 +31,10 @@ global.CharacterLibrary = (function() {
   // ever need to wait for a character to save. Accessing a character
   // immeadietly after it's saved just pulls it from the cache.
   function saveCharacter(character) {
-    console.log(`Saving Character: ${character.getCode()} (${character.getFullName()})`);
-
     characterCache[character.getCode()] = character;
 
     if (GameState.getWorldPath()) {
+      console.log(`Saving Character: ${character.getCode()} (${character.getFullName()})`);
       Kompressor.write(getFilepath(character.getCode()), character.pack());
     }
   }
