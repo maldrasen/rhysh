@@ -5,4 +5,10 @@ ArchetypeDictionary.register('mindbender', {
   availableSpecies: ['elf','nymph','dragonkind','satyr'],
   attributeBonus: { int:3, cha:2 },
   hitGrowth: 'slow',
+
+  armorType:  'light',
+  weaponType: 'mage',
+  abilities:  ['aura-devotion-greater'],
+  arcanum:    ['force','domination'],
+
 });

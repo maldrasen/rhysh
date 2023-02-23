@@ -5,4 +5,12 @@ ArchetypeDictionary.register('knight', {
   availableSpecies: ['elf','orc','minotaur'],
   attributeBonus: { str:3, con:2 },
   hitGrowth: 'fast',
+
+  armorType:  'heavy',
+  weaponType: 'all',
+  abilities:  ['aura-fear'],
+  gnosis:     ['carnage','umbral-knight'],
+
 });
+
+
