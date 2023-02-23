@@ -4,8 +4,7 @@ global.Character = class Character {
   #level = 0;
   #experience = 0;
   #attributes;
-  #maxHitPoints;
-  #currentHitPoints;
+  #condition;
 
   #firstName;
   #lastName;
@@ -19,9 +18,6 @@ global.Character = class Character {
   #arcanumList = [];
   #abilityList = [];
   #equipment;
-
-  #condition = 'normal';
-  #statuses = {};
 
   // The character code is part of the filename where the character is saved
   // and how the character is referenced in the CharacterLibrary.
@@ -38,21 +34,6 @@ global.Character = class Character {
 
   getAttributes() { return this.#attributes; }
   setAttributes(attributesObject) { this.#attributes = attributesObject; }
-
-  // === TODO ===
-  // The max hit points should only be set when the character is first created
-  // by the character builder and only updated when the character levels or
-  // something unusual happens. Setting the hitpoints to a negative should set
-  // the character condition to unconcious or dead. This brings up an important
-  // point though. Conditions have priorities. A dead condition should not
-  // accidently be overridden by a lesser condition. Sometimes a condition can
-  // be though. If a character is healed from being unconcious they need to
-  // move from unconcious to being prone. So... condition needs to be a whole
-  // state machine thing.
-  getCurrentHitPoints() { return this.#currentHitPoints; }
-  setCurrentHitPoints(points) { this.#currentHitPoints = points; }
-  getMaxHitPoints() { return this.#maxHitPoints; }
-  setMaxHitPoints(points) { this.#maxHitPoints = points; }
 
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
@@ -77,8 +58,6 @@ global.Character = class Character {
   // #abilityList
   // #equipment
 
-  // #condition = 'normal';
-  // #statuses = {};
 
 
 
@@ -133,8 +112,6 @@ global.Character = class Character {
   // #abilityList
   // #equipment
 
-  // #condition = 'normal';
-  // #statuses = {};
   // #cooldowns = {}; // Are cooldowns part of Abilities? Probably for characters yes.
 
   pack() {
@@ -143,8 +120,7 @@ global.Character = class Character {
       level: this.#level,
       experience: this.#experience,
       attributes: this.#attributes.pack(),
-      maxHitPoints: this.#maxHitPoints,
-      currentHitPoints: this.#currentHitPoints,
+      condition: this.#condition.pack(),
 
       firstName: this.#firstName,
       lastName: this.#lastName,
@@ -155,18 +131,12 @@ global.Character = class Character {
     }
   }
 
-
-
-
-
-
   static unpack(data) {
     let character = new Character(data.code);
     character.#level = data.level;
     character.#experience = data.experience;
     character.#attributes = Attributes.unpack(data.attributes);
-    character.#maxHitPoints = data.maxHitPoints;
-    character.#currentHitPoints = data.currentHitPoints;
+    character.#condition = Attributes.unpack(data.condition);
 
     character.#firstName = data.firstName;
     character.#lastName = data.lastName;

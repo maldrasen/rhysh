@@ -1,24 +1,24 @@
 global.Monster = class Monster {
 
-  #name
+  #name;
   #abilities = [];
-  #attributes
-  #essence
-  #maxHitPoints
-  #currentHitPoints
-  #baseArmorClass
-  #baseHit
+  #attributes;
+  #condition;
 
-  #slots
-  #mainHand
-  #offHand
+  #essence;
+  #baseArmorClass;
+  #baseHit;
+
+  #slots;
+  #mainHand;
+  #offHand;
   #armor = {};
 
-  #condition = 'normal';
-  #statuses = {};
   #cooldowns = {};
 
-  constructor(options) {}
+  constructor(options) {
+    this.#condition = new Condition();
+  }
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
@@ -32,6 +32,9 @@ global.Monster = class Monster {
   getAttributes() { return this.#attributes; }
   setAttributes(attributes) { this.#attributes = attributes; }
 
+  getCondition() { return this.#condition; }
+  setMaxHitPoints(points) { this.#condition.setMaxHitPoints(points); }
+
   // Essence is the base amount of experience a player earns for killing a
   // monster. I'm calling this something other than experience because if a
   // monster is turned into a companion than experience will have a different
@@ -39,39 +42,6 @@ global.Monster = class Monster {
   // Monsters' essense.
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
-
-  getMaxHitPoints() { return this.#maxHitPoints; }
-  setMaxHitPoints(points) {
-    this.#maxHitPoints = points;
-    this.#currentHitPoints = points;
-  }
-
-  getCurrentHitPoints() { return this.#currentHitPoints; }
-  setCurrentHitPoints(points) { this.#currentHitPoints = points; }
-
-  // Health is a percentage of current and max health.
-  getHealth() {
-    return Math.ceil(100 * this.getCurrentHitPoints() / this.getMaxHitPoints());
-  }
-
-  // === State and Status ======================================================
-  // State and status are functionally similar. The difference is that the
-  // monster can only be in one state at a time but can have multiple status
-  // effects. Blind is a status effect, grappling is a state.
-
-  getCondition() { return this.#condition; }
-  setCondition(code) {
-    ConditionDictionary.lookup(code);
-    this.#condition = code;
-  }
-
-  getStatuses() { return { ...this.#statuses }; }
-  hasStatus() { return this.statuses[code] != null; }
-  removeStatus(code) { delete this.#statuses[code]; }
-  setStatus(code, duration) {
-    StatusDictionary.lookup(code);
-    this.#statuses[code] = duration;
-  }
 
   // === Abilities =============================================================
 
@@ -189,9 +159,9 @@ global.Monster = class Monster {
   pack() {
     return {
       name: this.getName(),
-      health: this.getHealth(),
-      condition: this.getCondition(),
-      statuses: this.getStatuses(),
+      health: this.#condition.getHealth(),
+      condition: this.#condition.getCondition(),
+      statuses: this.#condition.getStatuses(),
     };
   }
 
