@@ -10,4 +10,14 @@ ArchetypeDictionary.register('slaver', {
   weaponType: 'all',
   gnosis:     ['carnage','spider'],
 
+  startingSkills: {
+    acrobatics:   1,
+    bondage:      1,
+    stealth:      2,
+    mechanics:    1,
+    perception:   1,
+    appraisial:   1,
+    seduction:    1,
+  },
+
 });

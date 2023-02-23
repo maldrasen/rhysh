@@ -6,6 +6,8 @@ global.Archetype = class Archetype {
     this.#code = code;
   }
 
+  getCode() { return this.#code; }
+
   // === Persistance ===========================================================
 
   pack() {

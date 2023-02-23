@@ -8,8 +8,15 @@ ArchetypeDictionary.register('dominatrix', {
 
   armorType:  'medium',
   weaponType: 'all',
-  abilities:  ['aura-devotion'],
   arcanum:    ['domination'],
   gnosis:     ['carnage'],
+  powers:     ['aura-devotion'],
+
+  startingSkills: {
+    bondage:      2,
+    wizardry:     1,
+    intimidation: 1,
+    seduction:    2,
+  },
 
 });

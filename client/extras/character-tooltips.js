@@ -31,6 +31,10 @@
     content: "TODO: arcanum-moon",
   });
 
+  Tooltip.register('arcanum-rushing-waters',{
+    content: "TODO: arcanum-rushing-waters",
+  });
+
   Tooltip.register('arcanum-suffering',{
     content: "TODO: arcanum-suffering",
   });
@@ -38,7 +42,6 @@
   // === Gnosis Descriptions ===================================================
   // No point in adding details to these until I have more of the associated
   // skills figured out.
-
 
   Tooltip.register('gnosis-carnage',{
     content: "TODO: gnosis-carnage",

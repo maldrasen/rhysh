@@ -1,4 +1,4 @@
-describe('CharacterBuilder', function() {
+describe.only('CharacterBuilder', function() {
 
   it('builds a main character', function() {
     let main = CharacterBuilder.buildMainCharacter({
@@ -12,6 +12,13 @@ describe('CharacterBuilder', function() {
 
     expect(main.getArchetype().code).to.equal('chosen');
     expect(main.getSpecies().code).to.equal('elf');
+    expect(main.getSkill('intimidation').getLevel()).to.equal(2);
+
+    console.log("=== Pack ===")
+    console.log(main.pack());
+
   });
+
+
 
 });

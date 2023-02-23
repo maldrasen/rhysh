@@ -13,10 +13,10 @@ global.Character = class Character {
   #archetypeCode;
   #speciesCode;
 
-  #skillList = [];
-  #gnosisList = [];
-  #arcanumList = [];
-  #abilityList = [];
+  #arcanumMap = {};
+  #gnosisMap = {};
+  #powerMap = {};
+  #skillMap = {};
   #equipment;
 
   // The character code is part of the filename where the character is saved
@@ -58,10 +58,25 @@ global.Character = class Character {
   getSpecies() { return SpeciesDictionary.lookup(this.#speciesCode); }
   setSpeciesCode(code) { this.#speciesCode = code; }
 
-  // #skillList
-  // #gnosisList
-  // #arcanumList
-  // #abilityList
+  getArcanumMap() { return this.#arcanumMap; }
+  getArcanum(code) { return this.#arcanumMap[code]; }
+  hasArcanum(code) { return this.#arcanumMap[code] != null; }
+  addArcanum(arcanum) { this.#arcanumMap[arcanum.getCode()] = arcanum; }
+
+  getGnosisMap() { return this.#gnosisMap; }
+  getGnosis(code) { return this.#gnosisMap[code]; }
+  hasGnosis(code) { return this.#gnosisMap[code] != null; }
+  addGnosis(gnosis) { this.#gnosisMap[gnosis.getCode()] = gnosis; }
+
+  getPowerMap() { return this.#powerMap; }
+  getPower(code) { return this.#powerMap[code]; }
+  hasPower(code) { return this.#powerMap[code] != null; }
+  addPower(power) { this.#powerMap[power.getCode()] = power; }
+
+  getSkillMap() { return this.#skillMap; }
+  getSkill(code) { return this.#skillMap[code]; }
+  hasSkill(code) { return this.#skillMap[code] != null; }
+  addSkill(skill) { this.#skillMap[skill.getCode()] = skill; }
 
   // === Calculated Values =====================================================
 
@@ -108,15 +123,13 @@ global.Character = class Character {
   }
 
   // === New Attributes ===
-  // #skillList
-  // #gnosisList
-  // #arcanumList
-  // #abilityList
-
-  // #cooldowns = {}; // Are cooldowns part of Abilities? Probably for characters yes.
+  // #arcanumMap = {};
+  // #gnosisMap = {};
+  // #powerMap = {};
+  // #skillMap = {};
 
   pack() {
-    return {
+    let data = {
       code: this.#code,
       level: this.#level,
       experience: this.#experience,
@@ -130,7 +143,32 @@ global.Character = class Character {
 
       archetypeCode: this.#archetypeCode,
       speciesCode: this.#speciesCode,
+
+      arcanumMap: {},
+      gnosisMap: {},
+      powerMap: {},
+      skillMap: {},
     }
+
+    ObjectHelper.each(this.#arcanumMap, (code, arcanum) => {
+      data.arcanumMap[code] = arcanum.pack();
+    });
+
+    ObjectHelper.each(this.#gnosisMap, (code, gnosis) => {
+      data.gnosisMap[code] = gnosis.pack();
+    });
+
+    ObjectHelper.each(this.#powerMap, (code, power) => {
+      data.powerMap[code] = power.pack();
+    });
+
+    ObjectHelper.each(this.#skillMap, (code, skill) => {
+      data.skillMap[code] = skill.pack();
+    });
+
+    console.log("Packed:",data);
+
+    return data;
   }
 
   static unpack(data) {
@@ -147,6 +185,22 @@ global.Character = class Character {
 
     character.#archetypeCode = data.archetypeCode;
     character.#speciesCode = data.speciesCode;
+
+    ObjectHelper.each(data.arcanumMap, (code, arcanumData) => {
+      character.addArcanum(Arcanum.unpack(arcanumData));
+    });
+
+    ObjectHelper.each(data.gnosisMap, (code, gnosisData) => {
+      character.addGnosis(Gnosis.unpack(gnosisData));
+    });
+
+    ObjectHelper.each(data.powerMap, (code, powerData) => {
+      character.addPower(Power.unpack(powerData));
+    });
+
+    ObjectHelper.each(data.skillMap, (code, skillData) => {
+      character.addSkill(Skill.unpack(skillData));
+    });
 
     return character;
   }

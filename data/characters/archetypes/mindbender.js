@@ -8,7 +8,14 @@ ArchetypeDictionary.register('mindbender', {
 
   armorType:  'light',
   weaponType: 'mage',
-  abilities:  ['aura-devotion-greater'],
   arcanum:    ['force','domination'],
+  powers:     ['aura-devotion-greater'],
+
+  startingSkills: {
+    history:      1,
+    wizardry:     2,
+    seduction:    2,
+    persuasion:   1,
+  },
 
 });

@@ -11,9 +11,9 @@ global.StatusDictionary = (function() {
     'bound-body': { prevent:'use-of-body' },
   }
 
-  function lookup(status) {
-    if (statuses[status] == null) { throw `Unknown Status: ${state}` }
-    return statuses[status];
+  function lookup(code) {
+    if (statuses[code] == null) { throw `Unknown Status: ${code}` }
+    return statuses[code];
   }
 
   return { lookup };

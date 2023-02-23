@@ -8,8 +8,14 @@ ArchetypeDictionary.register('cultist', {
 
   armorType:  'light',
   weaponType: 'mage',
-  abilities:  ['aura-corruption'],
   arcanum:    ['delight','suffering'],
+  powers:     ['aura-corruption'],
+
+  startingSkills: {
+    wizardry:     2,
+    religion:     2,
+    persuasion:   2,
+  },
 
   // Sacrificial Rites?
 

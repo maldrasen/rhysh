@@ -8,8 +8,15 @@ ArchetypeDictionary.register('chosen', {
 
   armorType:  'medium',
   weaponType: 'all',
-  abilities:  ['aura-corruption-hideous'],
   arcanum:    ['blasphemy'],
   gnosis:     ['carnage'],
+  powers:     ['aura-corruption-hideous'],
+
+  startingSkills: {
+    athletics:    1,
+    wizardry:     2,
+    religion:     1,
+    intimidation: 2,
+  },
 
 });

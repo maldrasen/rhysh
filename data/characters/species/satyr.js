@@ -3,8 +3,8 @@ SpeciesDictionary.register('satyr', {
   basePlayerAttributes: { str:12, dex:10, con:10, int:8,  wis:8,  cha:12 },
   baseArmorClass: 10,
 
-  abilities:  ['aura-lust'],
-  arcanum:    ['deep-wood'],
+  arcanum: ['deep-wood'],
+  powers:  ['aura-lust'],
 
 });
 

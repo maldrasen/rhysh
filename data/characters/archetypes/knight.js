@@ -8,8 +8,14 @@ ArchetypeDictionary.register('knight', {
 
   armorType:  'heavy',
   weaponType: 'all',
-  abilities:  ['aura-fear'],
   gnosis:     ['carnage','umbral-knight'],
+  powers:     ['aura-fear'],
+
+  startingSkills: {
+    athletics:    2,
+    history:      1,
+    intimidation: 3,
+  },
 
 });
 
