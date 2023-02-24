@@ -1,4 +1,4 @@
-describe.only('CharacterBuilder', function() {
+describe('CharacterBuilder', function() {
 
   it('builds a main character', function() {
     let main = CharacterBuilder.buildMainCharacter({
@@ -10,15 +10,13 @@ describe.only('CharacterBuilder', function() {
       attributes: { str:12, dex:15, con:14, int:11, wis:12, cha:17 },
     });
 
+    expect(main.getFullName()).to.equal('Jada Fire');
     expect(main.getArchetype().code).to.equal('chosen');
     expect(main.getSpecies().code).to.equal('elf');
     expect(main.getSkill('intimidation').getLevel()).to.equal(2);
 
-    console.log("=== Pack ===")
-    console.log(main.pack());
-
+    // console.log("=== Pack ===")
+    // console.log(main.pack());
   });
-
-
 
 });

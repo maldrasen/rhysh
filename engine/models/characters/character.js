@@ -166,8 +166,6 @@ global.Character = class Character {
       data.skillMap[code] = skill.pack();
     });
 
-    console.log("Packed:",data);
-
     return data;
   }
 

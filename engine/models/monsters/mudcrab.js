@@ -1,9 +1,9 @@
 Monster.Mudcrab = class Mudcrab extends Monster {
-
   constructor() {
     super({});
 
-    this.setName("Mudcrab");
+    this.setName('Mudcrab');
+    this.setSizeClass('small');
     this.setBaseArmorClass(12);
     this.setBaseHit(0);
     this.setEssence(50);
@@ -20,5 +20,4 @@ Monster.Mudcrab = class Mudcrab extends Monster {
     this.addAbility({ code:'crab-arm-crush', damage:{ d:4, p:4 }});
     this.addAbility({ code:'crab-brutalize', damage:{ d:8, p:4 }});
   }
-
 }

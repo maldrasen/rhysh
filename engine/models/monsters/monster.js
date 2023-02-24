@@ -1,6 +1,7 @@
 global.Monster = class Monster {
 
   #name;
+  #sizeClass;
   #abilities = [];
   #attributes;
   #condition;
@@ -22,6 +23,12 @@ global.Monster = class Monster {
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
+
+  getSizeClass() { return this.#sizeClass; }
+  setSizeClass(size) {
+    if (SizeClass[size] == null) { throw `Invalid Size Class: ${size}`; }
+    this.#sizeClass = size;
+  }
 
   getBaseArmorClass() { return this.#baseArmorClass; }
   setBaseArmorClass(armorClass) { this.#baseArmorClass = armorClass; }

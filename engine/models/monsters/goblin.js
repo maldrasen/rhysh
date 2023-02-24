@@ -17,11 +17,11 @@ const GoblinWeaponMap = {
 };
 
 Monster.Goblin = class Goblin extends Monster {
-
   constructor(options = {}) {
     super(options);
 
-    this.setName("Goblin");
+    this.setName('Goblin');
+    this.setSizeClass('small');
     this.setBaseArmorClass(11);
     this.setBaseHit(2);
     this.setEssence(50);
@@ -35,7 +35,6 @@ Monster.Goblin = class Goblin extends Monster {
     this.setRandomWeapon(GoblinWeaponMap);
     this.addAbility({ code:'bad-idea', damage:{ d:8, p:4 }});
   }
-
 }
 
 // TODO:
