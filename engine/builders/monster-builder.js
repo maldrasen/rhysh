@@ -16,26 +16,25 @@ global.MonsterBuilder = class MonsterBuilder {
   }
 
   tempMudcrabs() {
-    let crabs = []
-    let count = Random.roll(4) + 2;
+    let crabs = [];
+    let count = Random.roll(2) + 4;
 
-    for (let i=0; i<count; i++) {
+    forUpTo(count, i => {
       crabs.push(new Monster.Mudcrab({}));
-    }
+    });
 
-    this.#battleState.setRank(1,crabs);
+    this.#battleState.addSquad(1,crabs);
   }
 
   tempGoblins() {
-    let gobbos = []
-    let count = Random.roll(2) + 2;
+    let gobbos = [];
+    let count = Random.roll(2) + 3;
 
     for (let i=0; i<count; i++) {
       gobbos.push(new Monster.Goblin({}));
     }
 
-    this.#battleState.setRank(1,gobbos);
+    this.#battleState.addSquad(1,gobbos);
   }
-
 
 }

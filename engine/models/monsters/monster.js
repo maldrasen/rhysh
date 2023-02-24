@@ -1,5 +1,6 @@
 global.Monster = class Monster {
 
+  #id;
   #name;
   #sizeClass;
   #abilities = [];
@@ -20,6 +21,12 @@ global.Monster = class Monster {
   constructor(options) {
     this.#condition = new Condition();
   }
+
+  // The monster ID will probably only be used by the battle state. This is how
+  // we keep of which monster is which during a battle, but I don't think
+  // there's any other use for it as they're only unique for that battle.
+  getID() { return this.#id; }
+  setID(id) { this.#id = id; }
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
@@ -165,6 +172,7 @@ global.Monster = class Monster {
   // function to get the monster data up to the client to view in the battle UI.
   pack() {
     return {
+      id: this.getID(),
       name: this.getName(),
       health: this.#condition.getHealth(),
       condition: this.#condition.getCondition(),
