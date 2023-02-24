@@ -34,7 +34,7 @@ global.GameRenderer = (function() {
   }
 
   function renderDungeon() {
-    Dungeon.getZone(GameState.getCurrentZoneName(), zone => {
+    ZoneLibrary.getZone(GameState.getCurrentZoneName(), zone => {
       Messenger.publish("browser.render", {
         showView: "Dungeon",
         zone: zone.forClient(),

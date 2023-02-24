@@ -4,7 +4,7 @@ global.DungeonController = (function() {
 
     // Options format: { zone:"ZoneName" }
     ipcMain.handle("dungeon.is-zone-ready", async (payload, options) => {
-      return Dungeon.isZoneReady(options.zone);
+      return ZoneLibrary.isZoneReady(options.zone);
     });
 
     // Options format: { direction:"N" }

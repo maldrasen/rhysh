@@ -1,6 +1,4 @@
-global.Dungeon = (function() {
-
-  // TODO: This should really be called ZoneLibrary.
+global.ZoneLibrary = (function() {
 
   let zoneCache = {};
 

@@ -71,7 +71,7 @@ global.Zone = class Zone {
   static previewZone() {
     let options = Environment.debugOptions.zonePreview;
 
-    Dungeon.getZone(options.zone, zone => {
+    ZoneLibrary.getZone(options.zone, zone => {
       let origin = zone.zoneData.origins[options.origin];
       let location = { x:origin.x, y:origin.y, z:origin.z };
 

@@ -1,5 +1,9 @@
 global.GameState = (function() {
 
+  // TODO: Game State is getting stupid long. We should break this into
+  //       multiple classes. Perhaps saving and loading could be done someplace
+  //       else, and managing the current state should be done here.
+
   // New Game Constants
   const StartLocation = new Vector(61,59,102);
   const StartStage = "NewGame";
@@ -37,8 +41,8 @@ global.GameState = (function() {
       Settings.incWorldCounter();
       Settings.save();
 
-      Dungeon.loadZone("Wolgur");
-      Dungeon.loadZone("WolgurCleft");
+      ZoneLibrary.loadZone("Wolgur");
+      ZoneLibrary.loadZone("WolgurCleft");
 
       saveGame();
       GameRenderer.render();
@@ -118,7 +122,7 @@ global.GameState = (function() {
         currentEvent = Event.unpack(state.currentEvent);
       }
 
-      Dungeon.loadZone(currentZone);
+      ZoneLibrary.loadZone(currentZone);
 
       await CharacterLibrary.loadMainCharacter();
       await Sector.load();
@@ -168,7 +172,7 @@ global.GameState = (function() {
   // least be a "Default" value)
   function setCurrentZone(zoneName) {
     return new Promise(resolve => {
-      Dungeon.getZone(zoneName, async (zone) => {
+      ZoneLibrary.getZone(zoneName, async (zone) => {
 
         let previousZone = currentZone;
         let zoneData = await zone.getZoneData();
@@ -195,7 +199,7 @@ global.GameState = (function() {
   function getWorldPath() { return worldPath; }
   function getCurrentBattle() { return currentBattle; }
   function getCurrentZoneName() { return currentZone; }
-  function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
+  function getCurrentZone() { return ZoneLibrary.getCachedZone(currentZone); }
   function getTimeCount() { return timeCount; }
   function getDayCount() { return dayCount; }
   function getPartyLocation() { return partyLocation; }
