@@ -8,14 +8,6 @@ global.AttributeNames = {
   cha: 'Charisma',
 };
 
-global.SizeClass = {
-  tiny:   { maxSquadSize:16 },
-  small:  { maxSquadSize:10 },
-  medium: { maxSquadSize:7  },
-  large:  { maxSquadSize:3  },
-  huge:   { maxSquadSize:1  },
-}
-
 global.STR = 'str';
 global.DEX = 'dex';
 global.CON = 'con';
@@ -29,3 +21,11 @@ global.E = "E";
 global.W = "W";
 global.U = "U";
 global.D = "D";
+
+global.SizeClass = {
+  tiny:   { maxSquadSize:16 },
+  small:  { maxSquadSize:10 },
+  medium: { maxSquadSize:7  },
+  large:  { maxSquadSize:3  },
+  huge:   { maxSquadSize:1  },
+}
