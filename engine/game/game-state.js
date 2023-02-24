@@ -5,10 +5,6 @@ global.GameState = (function() {
   const StartStage = "NewGame";
   const StartZone = "Wolgur";
 
-  // Time - Each tick is 10 seconds
-  //        We'll eventually want to put this into a calander class.
-  const DayLength = 24*60*60*6;
-
   var worldIndex;
   var worldPath;
 
@@ -26,8 +22,8 @@ global.GameState = (function() {
 
     setWorldIndex(Settings.getWorldCounter());
 
-    timeCount = 0;
-    dayCount = 0;
+    timeCount = 14 * RhyshCalendar.TicksPerHour; // 2pm
+    dayCount = 69; // Day of the Blushing Wolf
 
     stageName = StartStage;
     currentZone = StartZone;
@@ -356,7 +352,7 @@ global.GameState = (function() {
   //       whatnot.
   function advanceTime(ticks) {
     timeCount += ticks;
-    if (timeCount >= DayLength) {
+    if (timeCount >= RhyshCalendar.DayLength) {
       dayCount += 1;
       timeCount = 0;
     }

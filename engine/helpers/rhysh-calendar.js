@@ -57,9 +57,33 @@ global.RhyshCalendar = (function() {
     return `Day of the ${lesser} ${greater}`;
   }
 
+  function getTimeOfDay(timeCount) {
+    hour = Math.floor(timeCount / RhyshCalendar.TicksPerHour) % 24;
+
+    if (hour == 0) { return 'Midnight'; }
+    if (hour < 4) { return 'Late Night'; }
+    if (hour == 4) { return 'The Witching Hour'; }
+    if (hour < 7) { return 'Before Dawn'; }
+    if (hour == 7) { return 'Dawn'; }
+    if (hour < 12) { return 'Morning'; }
+    if (hour == 12) { return 'Noon'; }
+    if (hour < 18) { return 'Afternoon'; }
+    if (hour == 18) { return 'Sunset'; }
+    if (hour < 21) { return 'Evening'; }
+
+    return 'Night';
+  }
+
   return {
     getSeason,
     getDayName,
+    getTimeOfDay,
   }
 
 })();
+
+// Length of a day in ticks - Each tick is 10 seconds.
+
+RhyshCalendar.TicksPerHour = 60*60*6
+RhyshCalendar.DayLength = 24 * RhyshCalendar.TicksPerHour;
+RhyshCalendar.YearLength = 365
