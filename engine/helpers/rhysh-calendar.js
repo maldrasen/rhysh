@@ -82,8 +82,7 @@ global.RhyshCalendar = (function() {
 
 })();
 
-// Length of a day in ticks - Each tick is 10 seconds.
-
+// Each tick is 10 seconds.
 RhyshCalendar.TicksPerHour = 60*60*6
 RhyshCalendar.DayLength = 24 * RhyshCalendar.TicksPerHour;
 RhyshCalendar.YearLength = 365

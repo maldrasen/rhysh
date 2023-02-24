@@ -1,5 +1,8 @@
 global.Event = class Event {
 
+  #code;
+  #state;
+
   // The event object represents a queued event. I'm not sure even about the
   // event queue at the moment, but I'm anticipating that this will be
   // nessessary. When events are queued they may need to remember some
@@ -10,16 +13,19 @@ global.Event = class Event {
   // State scan be null or an arbritrary data object. The state cannot hold
   // instances of classes though as they wouldn't be properly serialized.
   constructor(code, state) {
-    this.code = code;
-    this.state = state;
+    this.#code = code;
+    this.#state = state;
   }
+
+  getCode() { return this.#code; }
+  getState() { return this.#state; }
 
   // === Persistance ===========================================================
 
   pack() {
     return {
-      code: this.code,
-      state: this.state,
+      code: this.#code,
+      state: this.#state,
     }
   }
 

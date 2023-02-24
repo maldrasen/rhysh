@@ -1,16 +1,23 @@
 global.EventRenderer = class EventRenderer {
 
-  constructor(code, state) {
-    this.template = EventDictionary.lookup(code);
-    this.state = state;
+  #code
+  #state
+  #template
+  #context
+  #scrutinizer
+
+  constructor(event) {
+    this.#code = event.getCode();
+    this.#state = event.getState();
+    this.#template = EventDictionary.lookup(this.#code);
   }
 
   async createContext() {
-    this.context = await WeaverContext.forEvent(this.template, this.state);
+    this.#context = await WeaverContext.forEvent(this.#template, this.#state);
 
-    this.scrutinizer = new Scrutinizer();
-    this.scrutinizer.setContext(this.context);
-    this.scrutinizer.setState(this.state);
+    this.#scrutinizer = new Scrutinizer();
+    this.#scrutinizer.setContext(this.#context);
+    this.#scrutinizer.setState(this.#state);
   }
 
   // Event event template may have
@@ -25,26 +32,26 @@ global.EventRenderer = class EventRenderer {
     try {
       await this.createContext();
 
-      let stages = await Promise.all(this.template.stages.map(stage => {
+      let stages = await Promise.all(this.#template.stages.map(stage => {
         return new Promise(resolve => {
-          this.scrutinizer.meetsRequirements(stage.requires).then(async valid => {
+          this.#scrutinizer.meetsRequirements(stage.requires).then(async valid => {
             resolve(valid ? await this.renderStage(stage) : null);
           });
         });
       }));
 
       let rendered = {
-        state: this.state,
+        state: this.#state,
         stages: ArrayHelper.compact(stages),
       };
 
-      if (this.template.background) { rendered.background = this.template.background; }
-      if (this.template.filter) { rendered.filter = this.template.filter; }
+      if (this.#template.background) { rendered.background = this.#template.background; }
+      if (this.#template.filter) { rendered.filter = this.#template.filter; }
 
       return rendered
     }
     catch(error) {
-      console.error(`Error while rendering event`,this.event);
+      console.error(`Error while rendering event`,this.#code);
       throw error;
     }
   }
@@ -72,7 +79,7 @@ global.EventRenderer = class EventRenderer {
   async renderNormalStage(stage) {
     let pages = await Promise.all(stage.pages.map(page => {
       return new Promise(resolve => {
-        this.scrutinizer.meetsRequirements(page.requires).then(valid => {
+        this.#scrutinizer.meetsRequirements(page.requires).then(valid => {
           resolve(valid ? this.renderPage(page, stage) : null);
         });
       });
@@ -100,7 +107,7 @@ global.EventRenderer = class EventRenderer {
   //       will be possible though as all the portraits are AI generated.
   //
   renderPage(page, stage) {
-    let rendered = { text:Weaver.weave(page.text, this.context) }
+    let rendered = { text:Weaver.weave(page.text, this.#context) };
 
     if (page.background) { rendered.background = page.background; }
     if (page.filter)     { rendered.filter = page.filter; }

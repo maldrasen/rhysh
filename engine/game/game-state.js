@@ -41,7 +41,7 @@ global.GameState = (function() {
       Dungeon.loadZone("WolgurCleft");
 
       saveGame();
-      render();
+      GameRenderer.render();
     });
   }
 
@@ -60,7 +60,7 @@ global.GameState = (function() {
     setCurrentEvent(new Event("game.start",{}));
     setStageName("Dungeon");
     saveGame();
-    render();
+    GameRenderer.render();
   }
 
   // This should only be called from the newGame view when we start a new game,
@@ -124,7 +124,7 @@ global.GameState = (function() {
       await Sector.load();
       await Flag.load();
 
-      render();
+      GameRenderer.render();
     });
   }
 
@@ -196,6 +196,8 @@ global.GameState = (function() {
   function getCurrentBattle() { return currentBattle; }
   function getCurrentZoneName() { return currentZone; }
   function getCurrentZone() { return Dungeon.getCachedZone(currentZone); }
+  function getTimeCount() { return timeCount; }
+  function getDayCount() { return dayCount; }
   function getPartyLocation() { return partyLocation; }
 
   // === Load Game =============================================================
@@ -311,7 +313,7 @@ global.GameState = (function() {
   // ===========================================================================
 
   async function endEvent(endState) {
-    let code = currentEvent.code;
+    let code = currentEvent.getCode();
     let template = EventDictionary.lookup(code);
     if (template.onFinish) {
       template.onFinish(endState);
@@ -344,7 +346,8 @@ global.GameState = (function() {
     }
 
     currentEvent = null;
-    render();
+
+    GameRenderer.render();
   }
 
   // TODO: Right now we're only keeping track of the time. Eventually the
@@ -364,23 +367,8 @@ global.GameState = (function() {
 
     currentBattle = new BattleState(options);
     setStageName("Battle");
-    render();
-  }
 
-  function render() {
-    let state = {
-      timeCount: timeCount,
-      dayCount: dayCount,
-      stageName: getStageName(),
-      stage: getStage(),
-      zone: getCurrentZoneName(),
-      location: getPartyLocation(),
-    };
-
-    if (currentEvent) { state.event = currentEvent.pack(); }
-    if (currentBattle) { state.battle = currentBattle.pack(); }
-
-    ViewState.render(state);
+    GameRenderer.render();
   }
 
   return {
@@ -397,9 +385,12 @@ global.GameState = (function() {
     setStageName,
     setPartyLocation,
 
+    getCurrentBattle,
     getCurrentEvent,
     getCurrentZone,
     getCurrentZoneName,
+    getTimeCount,
+    getDayCount,
     getStage,
     getStageName,
     getWorldPath,
@@ -413,8 +404,6 @@ global.GameState = (function() {
     advanceTime,
 
     triggerBattle,
-
-    render,
   };
 
 })();

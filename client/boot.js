@@ -30,6 +30,7 @@
       import('./renderer.js'),
 
       // Engine
+      import('../engine/constants.js'),
       import('../engine/helpers/array-helper.js'),
       import('../engine/helpers/object-helper.js'),
       import('../engine/helpers/random-helper.js'),
