@@ -53,8 +53,6 @@ window.MainMenu = (function() {
   }
 
   function enableLoadButtons() {
-    let continueButton = X.first('#mainMenu .continue-button');
-
     if (lastWorld) {
       X.removeClass('#mainMenu .load-button','disabled');
       X.removeClass('#mainMenu .continue-button','disabled');
@@ -66,6 +64,7 @@ window.MainMenu = (function() {
     setContext: setContext,
     init: init,
     show: show,
+    enableLoadButtons: enableLoadButtons,
   };
 
 })();

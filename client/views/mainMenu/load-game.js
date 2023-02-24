@@ -63,8 +63,18 @@ window.LoadGame = (function() {
       onConfirm: () => {
         ClientCommands.send('game.delete', worldIndex);
         gameElement.remove();
+        resetIfEmpty();
       }
     });
+  }
+
+  function resetIfEmpty() {
+    if (X.first('#loadGame .scrolling-panel .game') != null) { return; }
+
+    X.addClass('#mainMenu .continue-button','disabled');
+    X.addClass('#mainMenu .load-button','disabled');
+
+    showMainMenu();
   }
 
   function buildConfirmationElement(gameElement) {

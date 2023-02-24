@@ -287,15 +287,6 @@ window.NewGame = (function() {
     });
   }
 
-  // Overlay element had style="opacity:0;"
-  // background-color: rgba(0, 8, 16, 0.8);
-  // Boat Start
-  // MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-2' }).then(() => {
-  //   MainContent.hideCover({ fadeTime:2000 });
-  //   fadeIn();
-  //   testWolgur();
-  // });
-
   function testWolgur() {
     setTimeout(function() {
       ClientCommands.send("dungeon.is-zone-ready",{ zone:"Wolgur" }).then(response => {

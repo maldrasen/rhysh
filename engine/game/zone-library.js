@@ -4,6 +4,10 @@ global.ZoneLibrary = (function() {
 
   // === Zone Management =======================================================
 
+  function clear() {
+    zoneCache = {};
+  }
+
   // A zone is ready if it has already been put into the cache.
   function isZoneReady(name) {
     return zoneCache[name] != null;
@@ -33,7 +37,7 @@ global.ZoneLibrary = (function() {
     });
   }
 
-  return { isZoneReady, getCachedZone, getZone, loadZone };
+  return { clear, isZoneReady, getCachedZone, getZone, loadZone };
 
 })();
 

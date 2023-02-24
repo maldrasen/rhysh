@@ -5,7 +5,7 @@ global.RootController = (function() {
       Browser.send('server.ready', {
         environment: Environment,
         settings: Settings.getAll(),
-        lastValidGame: await GameState.getLastValidGame(),
+        lastValidGame: await GameData.getLastValidGame(),
       });
 
       Messenger.publish('server.ready');
