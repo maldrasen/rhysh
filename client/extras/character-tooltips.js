@@ -198,7 +198,7 @@
 
   Tooltip.register('minotaur-horsecock',{
     content: `Below the waist a minotaur is more horse than cow, and even the
-      'small' ones have massive horse cocks. While a huge dick is a matter of
+      'small' ones have massive cocks. While having a huge dick is a matter of
       pride for the minotaurs, it also prevents them from wearing some armor.`,
   });
 

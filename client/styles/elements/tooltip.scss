@@ -1,4 +1,9 @@
 
+.tooltip-parent {
+  display: inline-block;
+  box-shadow: 0px 1px 0px rgb(100 80 60);
+}
+
 #tooltipFrame {
   position: fixed;
 
