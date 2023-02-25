@@ -1,3 +1,3 @@
 ArcanumDictionary.register('delight', {
-  name: 'Arcanum of Delight',
+  name: 'Arcanum (OF) Delight',
 });

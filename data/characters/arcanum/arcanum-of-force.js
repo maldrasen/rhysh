@@ -1,3 +1,3 @@
 ArcanumDictionary.register('force', {
-  name: 'Arcanum of Force',
+  name: 'Arcanum (OF) Force',
 });

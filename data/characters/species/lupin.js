@@ -4,7 +4,7 @@ SpeciesDictionary.register('lupin', {
   baseArmorClass: 12,
   baseHitPoints: 16,
 
-  arcanum: ['moon'],
+  arcanum: ['dreams'],
   gnosis:  ['strife','claw'],
   powers:  ['regeneration'],
 

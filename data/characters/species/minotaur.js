@@ -4,7 +4,7 @@ SpeciesDictionary.register('minotaur', {
   baseArmorClass: 11,
   baseHitPoints: 24,
 
-  gnosis: ['strife','horn'],
+  gnosis: ['strife','hooves'],
   powers: ['fortitude'],
 
 });

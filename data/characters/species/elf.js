@@ -4,7 +4,7 @@ SpeciesDictionary.register('elf', {
   baseArmorClass: 10,
   baseHitPoints: 10,
 
-  arcanum: ['moon'],
+  arcanum: ['dreams'],
   gnosis:  ['strife'],
 
 });

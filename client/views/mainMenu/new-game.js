@@ -244,8 +244,8 @@ window.NewGame = (function() {
       attributeList.appendChild(X.createElement(`<li>${string}</li>`));
     }
 
-    addSummaryItem('The player character is an exemplar of their species with higher than average attributes.');
-    addSummaryItem(`<div class='small-margin-top'>A ${archetype.name} receives the following attribute bonuses:</div>`);
+    addSummaryItem(`The player character is an exemplar of their species with higher than average attributes.
+      Additionally a ${archetype.name} receives the following attribute bonuses:`);
 
     ObjectHelper.each(archetype.attributeBonus, attr => {
       addSummaryItem(`<span class='sub bonus'>${AttributeNames[attr]} +${archetype.attributeBonus[attr]}</span>`);

@@ -13,6 +13,10 @@ ArchetypeDictionary.register('chosen', {
   gnosis:     ['carnage'],
   powers:     ['aura-corruption-hideous'],
 
+  startingEquipment: {
+    inventory: [],
+  },
+
   startingSkills: {
     athletics:    1,
     wizardry:     2,

@@ -9,7 +9,7 @@ ArchetypeDictionary.register('slaver', {
 
   armorType:  'medium',
   weaponType: 'all',
-  gnosis:     ['carnage','spider'],
+  gnosis:     ['carnage','venom'],
 
   startingSkills: {
     acrobatics:   1,

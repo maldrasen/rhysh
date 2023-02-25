@@ -1,3 +1,3 @@
 ArcanumDictionary.register('domination', {
-  name: 'Arcanum of Domination',
+  name: 'Arcanum (OF) Domination',
 });

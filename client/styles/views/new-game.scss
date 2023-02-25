@@ -155,18 +155,22 @@
       border: $border-light;
       box-shadow: $shadow-deep;
 
-      .archetype-list { margin-top: 10px; }
-      .species-list { margin-top: 10px; }
-
-      li {
-        line-height: 20px;
-      }
-
       .sub {
         margin-left: 20px;
         font-size: $fs-body;
       }
 
+      .attribute-list li {
+        line-height: 1.3;
+      }
+
+      .archetype-list, .species-list {
+        margin-top: 10px;
+        .sub {
+          line-height: 30px;
+          height: 22px;
+        }
+      }
     }
   }
 

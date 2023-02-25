@@ -7,16 +7,16 @@
     content: "TODO: arcanum-blasphemy",
   });
 
-  Tooltip.register('arcanum-deep-wood',{
-    content: "TODO: arcanum-deep-wood",
-  });
-
   Tooltip.register('arcanum-delight',{
     content: "TODO: arcanum-delight",
   });
 
   Tooltip.register('arcanum-domination',{
     content: "TODO: arcanum-domination",
+  });
+
+  Tooltip.register('arcanum-dreams',{
+    content: "TODO: arcanum-dreams",
   });
 
   Tooltip.register('arcanum-flame',{
@@ -27,16 +27,16 @@
     content: "TODO: arcanum-force",
   });
 
-  Tooltip.register('arcanum-moon',{
-    content: "TODO: arcanum-moon",
-  });
-
   Tooltip.register('arcanum-rushing-waters',{
     content: "TODO: arcanum-rushing-waters",
   });
 
   Tooltip.register('arcanum-suffering',{
     content: "TODO: arcanum-suffering",
+  });
+
+  Tooltip.register('arcanum-thorns',{
+    content: "TODO: arcanum-thorns",
   });
 
   // === Gnosis Descriptions ===================================================
@@ -47,28 +47,28 @@
     content: "TODO: gnosis-carnage",
   });
 
-  Tooltip.register('gnosis-claw',{
-    content: "TODO: gnosis-claw",
+  Tooltip.register('gnosis-claws',{
+    content: "TODO: gnosis-claws",
   });
 
-  Tooltip.register('gnosis-horn',{
-    content: "TODO: gnosis-horn",
+  Tooltip.register('gnosis-hooves',{
+    content: "TODO: gnosis-hooves",
   });
 
   Tooltip.register('gnosis-rage',{
     content: "TODO: gnosis-rage (Improve an orc's bloodrage)",
   });
 
-  Tooltip.register('gnosis-spider',{
-    content: "TODO: gnosis-spider",
-  });
-
   Tooltip.register('gnosis-strife',{
     content: "TODO: gnosis-strife",
   });
 
-  Tooltip.register('gnosis-umbral-knight',{
-    content: "TODO: gnosis-umbral-knight",
+  Tooltip.register('gnosis-subjugation',{
+    content: "TODO: gnosis-subjugation",
+  });
+
+  Tooltip.register('gnosis-venom',{
+    content: "TODO: gnosis-venom",
   });
 
   // === Aura Descriptions =====================================================

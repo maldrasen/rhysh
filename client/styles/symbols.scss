@@ -1,0 +1,20 @@
+
+// Size and color for normal body text.
+span.of {
+  display: inline-block;
+  position: relative;
+
+  top: 4px;
+  left: 1px;
+  height: 18px;
+  width: 12px;
+
+  background-image: url('../assets/fonts/of-body.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+span.of.strong      { background-image: url('../assets/fonts/of-strong.svg'); }
+span.of.very-strong { background-image: url('../assets/fonts/of-very-strong.svg'); }
+span.of.weak        { background-image: url('../assets/fonts/of-weak.svg'); }
+span.of.very-weak   { background-image: url('../assets/fonts/of-very-weak.svg'); }

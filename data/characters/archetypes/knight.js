@@ -9,7 +9,7 @@ ArchetypeDictionary.register('knight', {
 
   armorType:  'heavy',
   weaponType: 'all',
-  gnosis:     ['carnage','umbral-knight'],
+  gnosis:     ['carnage','subjugation'],
   powers:     ['aura-fear'],
 
   startingSkills: {

@@ -1,3 +1,3 @@
 ArcanumDictionary.register('rushing-waters', {
-  name: 'Arcanum of the Rushing Waters',
+  name: 'Arcanum (OF) Rushing Waters',
 });
