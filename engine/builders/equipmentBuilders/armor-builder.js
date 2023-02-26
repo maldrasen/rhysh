@@ -31,13 +31,13 @@ EquipmentBuilder.ArmorBuilder = (function() {
     { name:'Bustier',     materials:['cloth'],                                  tags:['not-male','lewd']},
     { name:'Cassock',     materials:['cloth']},
     { name:'Coat',        materials:['cloth','leather']},
-    { name:'Corset',      materials:['leather'],                                tags:['not-male','lewd']},
+    { name:'Corset',      materials:['leather','hide'],                         tags:['not-male','lewd']},
     { name:'Cuirass',     materials:['plate']},
     { name:'Doublet',     materials:['cloth','leather']},
     { name:'Gambeson',    materials:['cloth']},
     { name:'Gown',        materials:['cloth'],                                  tags:['not-male']},
     { name:'Habergeon',   materials:['chain','scale']},
-    { name:'Harness',     materials:['leather'],                                tags:['lewd']},
+    { name:'Harness',     materials:['leather','hide'],                         tags:['lewd']},
     { name:'Hauberk',     materials:['chain','scale']},
     { name:'Jacket',      materials:['cloth','leather']},
     { name:'Jerkin',      materials:['cloth','leather']},
@@ -95,6 +95,17 @@ EquipmentBuilder.ArmorBuilder = (function() {
     options.material = materialValue(options.material);
     options.materialName = Random.from(MaterialNames[options.material]);
 
+
+    // If we're building armor for a character, and that charactor cannot wear
+    // armor in the specified slot (or at all) the armor builder simply returns
+    // null.
+    if (options.for) {
+      let species = options.for.getSpeciesCode();
+      if (species == 'nymph') { return null; }
+      if (species == 'dragonkind') { return null; }
+      if (species == 'satyr' && options.type == 'legs') { return null; }
+    }
+
     let pieceList = {
       head:  HeadPieces,
       chest: ChestPieces,
@@ -104,6 +115,13 @@ EquipmentBuilder.ArmorBuilder = (function() {
     }[options.type];
 
     let piece = pieceForMaterial(pieceList, options);
+
+    if (piece == null) {
+      console.error('=== Error ===')
+      console.error('Cannot Build Armor With Options:',options);
+      console.error('Selected Material:',material);
+      return null;
+    }
 
     let armor = new Armor(options.type, options.material);
     armor.setName(`${options.materialName} ${piece.name}`);
@@ -139,6 +157,7 @@ EquipmentBuilder.ArmorBuilder = (function() {
       sex = options.for.getSex();
     }
 
+    // Some armor cannot be worn by men or women.
     if (sex == 'male') { refuteTags.push('not-male'); }
     if (sex == 'female') { refuteTags.push('not-female'); }
 

@@ -15,6 +15,7 @@ global.CharacterBuilder = (function() {
     setCondition(mainCharacter);
     addAbilities(mainCharacter);
     addSkills(mainCharacter);
+    addStartingEquipment(mainCharacter);
 
     return mainCharacter;
   }
@@ -53,6 +54,16 @@ global.CharacterBuilder = (function() {
           skill.setLevel(character.getArchetype().startingSkills[code]||0);
 
       character.addSkill(skill);
+    });
+  }
+
+  function addStartingEquipment(character) {
+    ObjectHelper.each(character.getArchetype().startingEquipment, (slot, options) => {
+      let equipment = EquipmentBuilder.build({ ...options, for:character });
+      if (equipment) {
+        Inventory.add(equipment);
+        equipment.setEquippedBy(character,slot);
+      }
     });
   }
 

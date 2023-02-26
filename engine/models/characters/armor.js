@@ -5,10 +5,12 @@ global.Armor = class Armor {
   #material;
   #name;
   #tags;
+  #equippedBy;
 
   constructor(slot, material) {
     this.#slot = slot;
     this.#material = material;
+    this.#equippedBy = null;
   }
 
   getID() { return this.#id; }
@@ -30,15 +32,32 @@ global.Armor = class Armor {
   addTag(tag) { this.#tags.push(tag); }
   setTags(tags) { this.#tags = tags; }
 
+  // === Equipment =============================================================
+
+  getEquippedBy() { return { ...this.#equippedBy }; }
+
+  setEquippedBy(character, slot) {
+    if (character.canEquip(this) == false) {
+      throw `Character(${character.getCode()}) cannot equip Item(${id})`;
+    }
+
+    if (slot == null) {
+      throw `Determine slot from type`
+    }
+
+    this.#equippedBy = { code:character.getCode(), slot:slot };
+  }
+
   // === Persistance ===========================================================
 
   pack() {
     return {
-      id:       this.#id,
-      slot:     this.#slot,
-      material: this.#material,
-      name:     this.#name,
-      tags:     this.#tags,
+      id:         this.#id,
+      slot:       this.#slot,
+      material:   this.#material,
+      name:       this.#name,
+      tags:       this.#tags,
+      equippedBy: this.#equippedBy,
     }
   }
 
@@ -47,6 +66,7 @@ global.Armor = class Armor {
         armor.#id = data.id;
         armor.#name = data.name;
         armor.#tags = data.tags;
+        armor.#equippedBy = data.equippedBy;
     return armor;
   }
 

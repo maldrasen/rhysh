@@ -112,6 +112,13 @@ global.Character = class Character {
     //       members or monsters.
   }
 
+  // === Equipment =============================================================
+
+  // TODO: Make sure characters can equip items.
+  canEquip(equipment) {
+    return true;
+  }
+
   // === Persistance ===========================================================
 
   save() {

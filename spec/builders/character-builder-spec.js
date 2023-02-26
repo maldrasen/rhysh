@@ -14,9 +14,12 @@ describe('CharacterBuilder', function() {
     expect(main.getArchetype().code).to.equal('chosen');
     expect(main.getSpecies().code).to.equal('elf');
     expect(main.getSkill('intimidation').getLevel()).to.equal(2);
+  });
 
-    // console.log("=== Pack ===")
-    // console.log(main.pack());
+  it.only('sets their starting equipment', function() {
+    let main = SpecHelper.randomMainCharacter({ archetype:'knight' });
+    let equipped = Inventory.getEquippedBy(main);
+    expect(equipped['head'].getMaterial()).to.equal('plate');
   });
 
 });
