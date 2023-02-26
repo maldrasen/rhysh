@@ -30,14 +30,41 @@ describe('EquipmentBuilder', function() {
     expect(armor.getMaterial()).to.equal('leather');
   });
 
-  it.only("builds lewd leg armor for a minotaur", function() {
+  it("builds leg armor", function() {
+    let character = SpecHelper.randomMainCharacter({ archetype:'mindbender', sex:'futa', species:'elf' });
+    let armor = EquipmentBuilder.build({ rarity:'normal', type:'legs', material:'cloth', for:character });
+    expect(armor.getMaterial()).to.equal('cloth');
+  });
+
+  it("builds roomy leg armor for a minotaur", function() {
     let character = SpecHelper.randomMainCharacter({ archetype:'knight', sex:'male', species:'minotaur' });
     let armor = EquipmentBuilder.build({ rarity:'normal', type:'legs', material:'plate', for:character });
-
-    console.log("Built:",armor.pack());
-
-    expect(ArrayHelper.contains(armor.getTags(),'lewd')).to.be.true;
+    expect(ArrayHelper.contains(armor.getTags(),'roomy')).to.be.true;
     expect(armor.getMaterial()).to.equal('plate');
+  });
+
+  it("builds lewd leg armor for a dominatrix", function() {
+    let character = SpecHelper.randomMainCharacter({ archetype:'dominatrix', sex:'female', species:'orc' });
+    let armor = EquipmentBuilder.build({ rarity:'normal', type:'legs', material:['leather','hide'], for:character });
+    expect(ArrayHelper.contains(armor.getTags(),'lewd')).to.be.true;
+  });
+
+  it("builds head armor", function() {
+    let character = SpecHelper.randomMainCharacter({ archetype:'knight', sex:'male', species:'orc' });
+    let armor = EquipmentBuilder.build({ rarity:'normal', type:'head', material:'plate', for:character });
+    expect(armor.getMaterial()).to.equal('plate');
+  });
+
+  it("builds hand armor", function() {
+    let character = SpecHelper.randomMainCharacter({ archetype:'cultist', sex:'male', species:'elf' });
+    let armor = EquipmentBuilder.build({ rarity:'normal', type:'hands', material:'cloth', for:character });
+    expect(armor.getMaterial()).to.equal('cloth');
+  });
+
+  it("builds foot armor", function() {
+    let character = SpecHelper.randomMainCharacter({ archetype:'slaver', sex:'futa', species:'satyr' });
+    let armor = EquipmentBuilder.build({ rarity:'normal', type:'feet', material:'leather', for:character });
+    expect(armor.getMaterial()).to.equal('leather');
   });
 
 });

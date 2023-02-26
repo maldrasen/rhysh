@@ -9,7 +9,20 @@ EquipmentBuilder.ArmorBuilder = (function() {
     plate:   ['Blackened Steel','Engraved Steel','Platemail','Polished Steel','Steel'],
   };
 
-  const HeadPieces = [];
+  const HeadPieces = [
+    { name:'Armet',      materials:['plate']},
+    { name:'Barbute',    materials:['plate']},
+    { name:'Bascinet',   materials:['plate']},
+    { name:'Burgonet',   materials:['plate']},
+    { name:'Coif',       materials:['chain','scale']},
+    { name:'Cowl',       materials:['cloth','leather','hide']},
+    { name:'Great Helm', materials:['plate']},
+    { name:'Heaume',     materials:['plate']},
+    { name:'Helm',       materials:['plate']},
+    { name:'Hood',       materials:['cloth','leather','hide']},
+    { name:'Sallet',     materials:['plate']},
+    { name:'Tricorn',    materials:['leather']},
+  ];
 
   const ChestPieces = [
     { name:'Armor',       materials:['chain','scale','plate']},
@@ -58,9 +71,21 @@ EquipmentBuilder.ArmorBuilder = (function() {
     { name:'Trousers',   materials:['cloth','leather','hide','chain']},
   ];
 
-  const HandPieces = [];
-  const FootPieces = [];
+  const HandPieces = [
+    { name:'Bracers',    materials:['scale','plate']},
+    { name:'Gauntlets',  materials:['plate']},
+    { name:'Gloves',     materials:['cloth','leather','hide','chain']},
+    { name:'Vambrances', materials:['leather','hide','chain','scale','plate']},
+  ];
 
+  const FootPieces = [
+    { name:'Boots', materials:['leather','hide','chain','scale']},
+    { name:'Buskins', materials:['leather','hide']},
+    { name:'Greatboots', materials:['leather','hide','chain','scale','plate']},
+    { name:'Sabatons', materials:['plate']},
+    { name:'Slippers', materials:['cloth']},
+    { name:'Sollerets', materials:['plate']},
+  ];
 
   // Just building normal rarity stuff for now. The rare armors will have more
   // interesting options and include magical affixes. Armor names will probably
@@ -165,3 +190,55 @@ EquipmentBuilder.ArmorBuilder = (function() {
   return { build };
 
 })();
+
+// TODO: Non Basic Head Armor
+//   Cap (Faerie)
+//   Hat (Feathered)
+//   Crown
+//   Diadem
+//   Coxcomb
+//   Horns
+//   Veil (female)
+//   Tiara (female)
+//   Masks (Goat Mask, Horse's Head, etc.)
+//   Blindfold
+//   "Eye of"
+//   "Gaze"
+//   Bit Gag
+//   Ball Gag
+//   Ring Gag
+//   Muzzle
+
+// TODO: Non basic chest armor
+//   "Draped Finery"
+//   Restraints
+//   Breast Bindings
+//   Ropes
+//   Carapace
+//   Gownless Evening Strap
+//   Raiment
+
+// TODO: Non Basic Legs Armor
+//   Knickers (female)
+//   Merkin
+//   Panties (female)
+//   Cratchless Panties (female)
+//   Cock Cage (male)
+//   Bitches Britches (female)
+
+// TODO: Non Basic Hand Armor
+//   Fists
+//   Stranglers, Crushers, Grips, Fisters
+//   Manacles, Shackles, Cuffs
+//   Claws, Paws
+//   Spellfingers
+//   Touch of, Grasp of
+
+// TODO: Non Basic Foot Armor
+//   Glass Slippers
+//   Pumps, Stilettos (female)
+//   Hooves
+//   Stompers, Kickers, Punters, Striders, etc
+
+
+
