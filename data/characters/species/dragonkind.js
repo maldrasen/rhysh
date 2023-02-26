@@ -5,7 +5,7 @@ SpeciesDictionary.register('dragonkind', {
   baseHitPoints: 20,
 
   arcanum: ['flame'],
-  gnosis:  ['claw'],
+  gnosis:  ['scales'],
   powers:  ['fire-breath'],
 
   experienceFactor: 0.8,

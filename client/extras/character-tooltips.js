@@ -59,6 +59,10 @@
     content: "TODO: gnosis-rage (Improve an orc's bloodrage)",
   });
 
+  Tooltip.register('gnosis-scales',{
+    content: "TODO: gnosis-scales",
+  });
+
   Tooltip.register('gnosis-strife',{
     content: "TODO: gnosis-strife",
   });
