@@ -155,7 +155,7 @@ global.Monster = class Monster {
     let armorBonus = 0;
 
     if (material) {
-      let armor =  MaterialDictionary.lookup(material);
+      let armor =  ArmorDictionary.lookup(material);
       if (armor.maxDex && dexBonus > armor.maxDex) {
         dexBonus = armor.maxDex;
       }

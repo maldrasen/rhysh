@@ -1,4 +1,4 @@
-global.MaterialDictionary = (function() {
+global.ArmorDictionary = (function() {
 
 // Special Armors:
 //   Glass Armor

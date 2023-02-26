@@ -17,7 +17,6 @@ global.Character = class Character {
   #gnosisMap = {};
   #powerMap = {};
   #skillMap = {};
-  #equipment;
 
   // The character code is part of the filename where the character is saved
   // and how the character is referenced in the CharacterLibrary.
@@ -37,9 +36,6 @@ global.Character = class Character {
 
   getCondition() { return this.#condition; }
   setCondition(conditionObject) { this.#condition = conditionObject; }
-
-  getEquipment() { return this.#equipment; }
-  setEquipment(equipmentObject) { this.#equipment = equipmentObject; }
 
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
@@ -135,7 +131,6 @@ global.Character = class Character {
       experience: this.#experience,
       attributes: this.#attributes.pack(),
       condition: this.#condition.pack(),
-      equipment: this.#equipment.pack(),
 
       firstName: this.#firstName,
       lastName: this.#lastName,
@@ -175,7 +170,6 @@ global.Character = class Character {
     character.#experience = data.experience;
     character.#attributes = Attributes.unpack(data.attributes);
     character.#condition = Condition.unpack(data.condition);
-    character.#equipment = Equipment.unpack(data.equipment);
 
     character.#firstName = data.firstName;
     character.#lastName = data.lastName;

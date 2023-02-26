@@ -28,4 +28,35 @@ global.SpecHelper = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
+  randomMainCharacter(options = {}) {
+    let archetypeList = ['chosen','cultist','dominatrix','knight','mindbender','slaver'];
+    let sexList = ['male','female','futa'];
+
+    if (options.archetype == null) {
+      if (options.species != null) { throw `An appropriate archetype must be selected when given a species.` }
+      if (options.sex != null) { throw `An appropriate archetype must be selected when given a sex.` }
+    }
+
+    let archetypeCode = (options.archetype) ? options.archetype : Random.from(archetypeList);
+    let archetype = ArchetypeDictionary.lookup(archetypeCode);
+    let speciesCode = (options.species) ? options.species : Random.from(archetype.availableSpecies);
+    let species = SpeciesDictionary.lookup(speciesCode);
+    let sex = (options.sex) ? options.sex : Random.from(archetype.availableSexes);
+
+    // Make sure the sex works for the species too, not just the archetype.
+    if (speciesCode == 'nymph' && sex == 'male') { sex = 'futa'; }
+    if (speciesCode == 'minotaur' && sex != 'male') { sex = 'male'; }
+
+    let name = NameBuilder.getFullRandom(sex,'elf')
+
+    return CharacterBuilder.buildMainCharacter({
+      archetype: archetypeCode,
+      species: speciesCode,
+      sex: sex,
+      firstName: name.first.name,
+      lastName: name.last.name,
+      attributes: species.basePlayerAttributes,
+    });
+  },
+
 };

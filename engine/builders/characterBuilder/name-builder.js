@@ -57,6 +57,9 @@ global.NameBuilder = (function() {
   // Get a full random name given a gender and a species. Arguments should be
   // capitalized so that we can easilly make an index name from them.
   function getFullRandom(gender, species) {
+    gender = TextHelper.titlecase(gender);
+    species = TextHelper.titlecase(species);
+
     let sex = (gender == "Futa") ? "Female" : gender;
 
     if (species == 'Kobold') {
