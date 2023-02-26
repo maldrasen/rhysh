@@ -12,6 +12,15 @@ ArchetypeDictionary.register('mindbender', {
   arcanum:    ['force','domination'],
   powers:     ['aura-devotion-greater'],
 
+  startingEquipment: {
+    mainHand:  { rarity:'normal', type:'mageWeapon', hands:1 },
+    chest:     { rarity:'normal', type:'chest',  material:['cloth']},
+    legs:      { rarity:'normal', type:'legs',   material:['cloth']},
+    hands:     { rarity:'normal', type:'hands',  material:['cloth']},
+    feet:      { rarity:'normal', type:'feet',   material:['cloth']},
+    inventory: [],
+  },
+
   startingSkills: {
     history:      1,
     wizardry:     2,

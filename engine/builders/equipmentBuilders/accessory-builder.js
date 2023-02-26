@@ -1,29 +1,28 @@
+EquipmentBuilder.AccessoryBuilder = (function() {
 
-// Just ideas for now:
-//
-// Neck Slot:
-//   Amulet of X
-//   Ankh of X
-// Back Slot:
-//   Cloaks
+  function build(options) {
 
+  }
+
+  return { build };
+
+})();
+
+// One mouth or gag item can be worn at a time.
 // Rings
 //   Narya Ring of Fire
 //   Nenya, Ring of Water, Ring of Adamant
 //   Vilya, Ring of Air, Ring of Firmament
 
-// - Slot [Head, Chest, Legs, Hands, Feet] or [Ring, Neck, Collar, Mouth, Blindfold, Belt, Ear, Nipple, Labia, Pussy, Ass, Cock]
+// - Slot [Head, Chest, Legs, Hands, Feet] or [Ring, Neck, Ear, Nipple, Labia, Pussy, Ass, Cock]
 //   - Ring (Unlimited)
-//   - Neck (Three amulets, necklaces, or medallions)
-//   - Collar (One collar)
-//   - Mouth (One gag)
-//   - Blindfold (One Blindfold)
-//   - Belt (Three belts)
+//   - Neck (Three amulets, necklaces, or medallions) or One Collar
 //   - Ear (Unlimited earrings)
+//   - Nipple (two or three nipple piercings?)
 //   - Labia (Unlimited pussy piercings)
 //   - Pussy (Up to vaginal capacity)
 //   - Ass (Up to anal capacity)
-//   - Cock (Unlimited dick piercings or cock rings)
+//   - Cock (Unlimited dick piercings or cock rings) "Gates of Hell Penis Plug"
 // - Armor Class (how much armor does it add)
 // - Armor Weight [Light, Medium, Heavy]
 // - Special Effects (Does it grant stat bonuses, more mana, extra powers?)
@@ -32,3 +31,7 @@
 // - Can be worn by a Nymph?
 // - Can be worn by a Satyr?
 // - Can be worn by a Dominatrix?
+
+// Back Slot:
+//   Cloak
+//   Mantle

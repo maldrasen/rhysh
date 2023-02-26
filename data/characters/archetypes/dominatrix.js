@@ -13,6 +13,15 @@ ArchetypeDictionary.register('dominatrix', {
   gnosis:     ['carnage'],
   powers:     ['aura-devotion'],
 
+  startingEquipment: {
+    mainHand:  { type:'weapon', code:'whip' },
+    chest:     { rarity:'normal', type:'chest',  material:['leather','hide']},
+    legs:      { rarity:'normal', type:'legs',   material:['leather','hide']},
+    hands:     { rarity:'normal', type:'hands',  material:['leather','hide']},
+    feet:      { rarity:'normal', type:'feet',   material:['leather','hide']},
+    inventory: [],
+  },
+
   startingSkills: {
     bondage:      2,
     wizardry:     1,

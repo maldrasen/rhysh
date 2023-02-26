@@ -12,6 +12,15 @@ ArchetypeDictionary.register('cultist', {
   arcanum:    ['delight','suffering'],
   powers:     ['aura-corruption'],
 
+  startingEquipment: {
+    mainHand:  { rarity:'normal', type:'mageWeapon', hands:2 },
+    chest:     { rarity:'normal', type:'chest',  material:['cloth']},
+    legs:      { rarity:'normal', type:'legs',   material:['cloth']},
+    hands:     { rarity:'normal', type:'hands',  material:['cloth']},
+    feet:      { rarity:'normal', type:'feet',   material:['cloth']},
+    inventory: [],
+  },
+
   startingSkills: {
     wizardry:     2,
     religion:     2,

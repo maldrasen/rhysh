@@ -25,6 +25,7 @@ global.Loader = (function() {
   // Superclasses in load order.
   const Preload = [
     'constants.js',
+    'builders/equipmentBuilders/equipment-builder.js',
     'core/messenger.js',
     'models/characters/character.js',
     'models/dungeon/vector.js',
