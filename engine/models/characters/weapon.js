@@ -11,6 +11,11 @@ global.Weapon = class Weapon {
   }
 
   getBase() { return this.#base; }
+  getWeaponBase() { return WeaponDictionary.lookup(this.#base); }
+  getDamage() { return this.getWeaponBase().damage; }
+  getHands() { return this.getWeaponBase().hands; }
+  getModes() { return this.getWeaponBase().modes; }
+  rollDamage() { return Random.rollDice(this.getDamage()) }
 
   getID() { return this.#id; }
   setID(id) { this.#id = id; }
