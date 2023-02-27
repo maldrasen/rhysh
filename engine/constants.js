@@ -29,3 +29,16 @@ global.SizeClass = {
   large:  { maxSquadSize:3  },
   huge:   { maxSquadSize:1  },
 }
+
+global.AccessorySlots = {
+  ass:     {},
+  back:    {},
+  cock:    {},
+  ear:     {},
+  labia:   {},
+  neck:    {},
+  nipple:  {},
+  offHand: {},
+  pussy:   {},
+  ring:    {},
+}

@@ -21,6 +21,7 @@ describe('CharacterBuilder', function() {
     let equipped = Inventory.getEquippedBy(main);
     expect(equipped['head'].getMaterial()).to.equal('plate');
     expect(equipped['mainHand'].getBase()).to.equal('longsword');
+    expect(equipped['offHand'].getEffects().armorClass).to.equal(2);
   });
 
 });

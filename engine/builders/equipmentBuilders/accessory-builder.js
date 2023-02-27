@@ -1,7 +1,18 @@
 EquipmentBuilder.AccessoryBuilder = (function() {
 
+  // TODO: Implement the other accessory types.
   function build(options) {
+    if (options.type == 'shield') { return buildShield(options); }
+  }
 
+  // TODO: This currently only builds a normal shield, of which there is only
+  //       one type. This will need to be expanded to also create magic
+  //       shields.
+  function buildShield(options) {
+    let shield = new Accessory();
+    shield.addEffect('armorClass',2);
+    shield.setName('Heater Shield');
+    return shield;
   }
 
   return { build };
@@ -26,11 +37,6 @@ EquipmentBuilder.AccessoryBuilder = (function() {
 // - Armor Class (how much armor does it add)
 // - Armor Weight [Light, Medium, Heavy]
 // - Special Effects (Does it grant stat bonuses, more mana, extra powers?)
-
-// - Can be work by a Dragonkind?
-// - Can be worn by a Nymph?
-// - Can be worn by a Satyr?
-// - Can be worn by a Dominatrix?
 
 // Back Slot:
 //   Cloak

@@ -1,22 +1,24 @@
-global.Weapon = class Weapon {
+global.Accessory = class Accessory {
 
   #id;
-  #base;
   #name;
+  #effects;
   #equippedBy;
 
-  constructor(base) {
-    this.#base = base;
-    this.#name = WeaponDictionary.lookup(base).name;
+  constructor() {
+    this.#effects = {};
   }
-
-  getBase() { return this.#base; }
 
   getID() { return this.#id; }
   setID(id) { this.#id = id; }
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
+
+  getEffects() { return { ...this.#effects }; }
+  addEffect(code,value) {
+    this.#effects[code] = value;
+  }
 
   // === Equipment =============================================================
 
@@ -26,8 +28,8 @@ global.Weapon = class Weapon {
     if (slot == null) {
       throw `Determine slot from type?`
     }
-    if (['mainHand','offHand'].indexOf(slot) < 0) {
-      throw `Weapons can only be equipped in the main or off hand.`;
+    if (Object.keys(AccessorySlots).indexOf(slot) < 0) {
+      throw `Unrecognized accessory slot: ${slot}`;
     }
     if (character.canEquip(this) == false) {
       throw `Character(${character.getCode()}) cannot equip Item(${id})`;
@@ -40,19 +42,20 @@ global.Weapon = class Weapon {
 
   pack() {
     return {
-      base:       this.#base,
       id:         this.#id,
       name:       this.#name,
+      effects:    this.#effects,
       equippedBy: this.#equippedBy,
     }
   }
 
   static unpack(data) {
-    let weapon = new Weapon(data.base);
-        weapon.#id = data.id;
-        weapon.#name = data.name;
-        weapon.#equippedBy = data.equippedBy;
-    return weapon;
+    let accessory = new Accessory();
+        accessory.#id = data.id;
+        accessory.#name = data.name;
+        accessory.#effects = data.effects;
+        accessory.#equippedBy = data.equippedBy;
+    return accessory;
   }
 
 }
