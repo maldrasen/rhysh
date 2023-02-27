@@ -18,7 +18,6 @@ ArchetypeDictionary.register('mindbender', {
     legs:      { rarity:'normal', type:'legs',   material:['cloth']},
     hands:     { rarity:'normal', type:'hands',  material:['cloth']},
     feet:      { rarity:'normal', type:'feet',   material:['cloth']},
-    inventory: [],
   },
 
   startingSkills: {

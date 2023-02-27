@@ -60,6 +60,9 @@ global.CharacterBuilder = (function() {
   function addStartingEquipment(character) {
     ObjectHelper.each(character.getArchetype().startingEquipment, (slot, options) => {
       let equipment = EquipmentBuilder.build({ ...options, for:character });
+
+      // Equipment may be null if the species cannot use the archetype's
+      // default equipment.
       if (equipment) {
         Inventory.add(equipment);
         equipment.setEquippedBy(character,slot);

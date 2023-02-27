@@ -19,7 +19,6 @@ ArchetypeDictionary.register('dominatrix', {
     legs:      { rarity:'normal', type:'legs',   material:['leather','hide']},
     hands:     { rarity:'normal', type:'hands',  material:['leather','hide']},
     feet:      { rarity:'normal', type:'feet',   material:['leather','hide']},
-    inventory: [],
   },
 
   startingSkills: {

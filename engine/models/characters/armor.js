@@ -37,12 +37,14 @@ global.Armor = class Armor {
   getEquippedBy() { return { ...this.#equippedBy }; }
 
   setEquippedBy(character, slot) {
+    if (slot == null) {
+      throw `Determine slot from type?`
+    }
+    if (['head','chest','legs','hands','feet'].indexOf(slot) < 0) {
+      throw `Weapons can only be equipped in the main or off hand.`;
+    }
     if (character.canEquip(this) == false) {
       throw `Character(${character.getCode()}) cannot equip Item(${id})`;
-    }
-
-    if (slot == null) {
-      throw `Determine slot from type`
     }
 
     this.#equippedBy = { code:character.getCode(), slot:slot };

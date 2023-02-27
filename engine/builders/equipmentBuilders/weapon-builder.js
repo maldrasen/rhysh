@@ -1,13 +1,21 @@
 EquipmentBuilder.WeaponBuilder = (function() {
 
   function build(options) {
+    let base = options.code || pickBase(options);
+    let weapon = new Weapon(base);
+    return weapon;
+  }
 
+  function pickBase(options) {
+    return 'dagger';
   }
 
   return { build };
 
 })();
 
+// TODO: Magic and unique weapons.
+//
 // Unique weapons should be based off an existing weapon and given unique
 // enchantments. Magic weapons should be done in a similar way. We have a
 // simple base weapon and add an enchatment to it... which is really just two
