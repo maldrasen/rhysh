@@ -62,12 +62,24 @@ global.CharacterBuilder = (function() {
       let equipment = EquipmentBuilder.build({ ...options, for:character });
 
       // Equipment may be null if the species cannot use the archetype's
-      // default equipment.
+      // default equipment. Twin weapons are probably only used in character
+      // creation like this because I wanted the chosen to start with two one
+      // handed weapons of the same type.
       if (equipment) {
+        if (slot == 'twin') { return addTwinWeapons(character, equipment); }
+
         Inventory.add(equipment);
         equipment.setEquippedBy(character,slot);
       }
     });
+  }
+
+  function addTwinWeapons(character, mainHand) {
+    let offHand = new Weapon(mainHand.getBase());
+    Inventory.add(mainHand);
+    Inventory.add(offHand);
+    mainHand.setEquippedBy(character,'mainHand');
+    offHand.setEquippedBy(character,'offHand');
   }
 
   return {

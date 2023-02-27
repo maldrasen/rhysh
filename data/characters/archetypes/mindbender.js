@@ -13,7 +13,7 @@ ArchetypeDictionary.register('mindbender', {
   powers:     ['aura-devotion-greater'],
 
   startingEquipment: {
-    mainHand:  { rarity:'normal', type:'mageWeapon', hands:1 },
+    mainHand:  { rarity:'normal', type:'mageWeapon', hands:'1' },
     chest:     { rarity:'normal', type:'chest',  material:['cloth']},
     legs:      { rarity:'normal', type:'legs',   material:['cloth']},
     hands:     { rarity:'normal', type:'hands',  material:['cloth']},

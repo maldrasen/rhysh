@@ -1,6 +1,6 @@
 describe('CharacterBuilder', function() {
 
-  it('builds a main character', function() {
+  it('builds a chosen main character', function() {
     let main = CharacterBuilder.buildMainCharacter({
       archetype: 'chosen',
       species: 'elf',
@@ -10,10 +10,15 @@ describe('CharacterBuilder', function() {
       attributes: { str:12, dex:15, con:14, int:11, wis:12, cha:17 },
     });
 
+    let equipped = Inventory.getEquippedBy(main);
+    let mainHand = equipped['mainHand'];
+    let offHand = equipped['offHand'];
+
     expect(main.getFullName()).to.equal('Jada Fire');
     expect(main.getArchetype().code).to.equal('chosen');
     expect(main.getSpecies().code).to.equal('elf');
     expect(main.getSkill('intimidation').getLevel()).to.equal(2);
+    expect(mainHand.getBase()).to.equal(offHand.getBase());
   });
 
   it('sets their starting equipment', function() {

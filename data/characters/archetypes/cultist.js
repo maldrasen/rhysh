@@ -13,7 +13,7 @@ ArchetypeDictionary.register('cultist', {
   powers:     ['aura-corruption'],
 
   startingEquipment: {
-    mainHand:  { rarity:'normal', type:'mageWeapon', hands:2 },
+    mainHand:  { rarity:'normal', type:'mageWeapon', hands:'2' },
     chest:     { rarity:'normal', type:'chest',  material:['cloth']},
     legs:      { rarity:'normal', type:'legs',   material:['cloth']},
     hands:     { rarity:'normal', type:'hands',  material:['cloth']},

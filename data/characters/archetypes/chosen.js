@@ -14,12 +14,11 @@ ArchetypeDictionary.register('chosen', {
   powers:     ['aura-corruption-hideous'],
 
   startingEquipment: {
-    mainHand:  { rarity:'normal', type:'weapon', hands:1 },
-    offHand:   { rarity:'normal', type:'weapon', hands:1 },
-    chest:     { rarity:'normal', type:'chest',  material:['leather','hide']},
-    legs:      { rarity:'normal', type:'legs',   material:['leather','hide']},
-    hands:     { rarity:'normal', type:'hands',  material:['leather','hide']},
-    feet:      { rarity:'normal', type:'feet',   material:['leather','hide']},
+    twin:  { rarity:'normal', type:'weapon', hands:'1' },
+    chest: { rarity:'normal', type:'chest',  material:['leather','hide']},
+    legs:  { rarity:'normal', type:'legs',   material:['leather','hide']},
+    hands: { rarity:'normal', type:'hands',  material:['leather','hide']},
+    feet:  { rarity:'normal', type:'feet',   material:['leather','hide']},
   },
 
   startingSkills: {
