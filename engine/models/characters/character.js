@@ -204,4 +204,22 @@ global.Character = class Character {
     return character;
   }
 
+  packForBattle() {
+    let packed = {
+      code: this.#code,
+      condition: this.#condition.pack(),
+      firstName: this.#firstName,
+      lastName: this.#lastName,
+    };
+
+    let equipped = Inventory.getEquippedBy(this);
+    let mainHand = equipped['mainHand'];
+    let offHand = equipped['offHand'];
+
+    if (mainHand) { packed.mainHand = mainHand.packForBattle(); }
+    if (offHand) { packed.offHand = offHand.packForBattle(); }
+
+    return packed;
+  }
+
 }

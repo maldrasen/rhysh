@@ -50,28 +50,48 @@ global.BattleState = class BattleState {
   // companions, and all the monsters, only including the information needed
   // for display in the battle UI.
 
+  // TODO: We also need to pack some location data into the battle as well.
+  //       Enough to show a battle background.
+
   pack() {
-    return {
-      monsterSquads: this.packSquads(),
+    let state = {
+      party: this.packParty(),
+      monsters: this.packMonsters(),
     };
+
+    console.log('=== Battle State ===');
+    console.log('Main:',state.party.main);
+    console.log('Monsters',state.monsters['1'].monsters);
+
+    return state;
   }
 
-  packSquads() {
-    let squads = {};
+  packParty() {
+    let party = {};
+
+    ObjectHelper.each(CharacterLibrary.getParty(), (key, character) => {
+      party[key] = character ? character.packForBattle() : null;
+    });
+
+    return party;
+  }
+
+  packMonsters() {
+    let monsterSquads = {};
 
     ObjectHelper.each(this.#squads, (id, squad) => {
       let monsters = squad.monsters.map(monster => {
         return monster.pack();
       })
 
-      squads[id] = {
+      monsterSquads[id] = {
         id: squad.id,
         rank: squad.rank,
         monsters: monsters,
       };
     });
 
-    return squads;
+    return monsterSquads;
   }
 
 }

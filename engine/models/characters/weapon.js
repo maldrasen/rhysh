@@ -61,4 +61,11 @@ global.Weapon = class Weapon {
     return weapon;
   }
 
+  packForBattle() {
+    return {
+      name: this.getName(),
+      modes: this.getModes(),
+    };
+  }
+
 }
