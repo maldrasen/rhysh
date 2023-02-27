@@ -14,14 +14,14 @@ global.EventQueue = (function() {
   // entirely. Something worth thinking about before I blindly copy paste this
   // from the previous version though.
 
-  var eventQueue = [];
+  var $eventQueue = [];
 
   function clear() {
-    eventQueue = [];
+    $eventQueue = [];
   }
 
   function addEvent(event) {
-    eventQueue.push(event);
+    $eventQueue.push(event);
   }
 
   function save() {

@@ -31,6 +31,7 @@ global.GameData = (function() {
 
     Kompressor.write(`${GameState.getWorldPath()}/GameState.cum`,state);
     CharacterLibrary.saveAll();
+    Inventory.save();
     Flag.save();
     Sector.save();
 
@@ -62,8 +63,9 @@ global.GameData = (function() {
     ZoneLibrary.loadZone(GameState.getCurrentZoneName());
 
     await CharacterLibrary.loadMainCharacter();
-    await Sector.load();
+    await Inventory.load();
     await Flag.load();
+    await Sector.load();
 
     GameRenderer.render();
   }

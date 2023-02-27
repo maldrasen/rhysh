@@ -54,6 +54,7 @@ global.Armor = class Armor {
 
   pack() {
     return {
+      classname:  'Armor',
       id:         this.#id,
       slot:       this.#slot,
       material:   this.#material,
@@ -64,7 +65,7 @@ global.Armor = class Armor {
   }
 
   static unpack(data) {
-    let armor = new armor(data.slot, data.material);
+    let armor = new Armor(data.slot, data.material);
         armor.#id = data.id;
         armor.#name = data.name;
         armor.#tags = data.tags;

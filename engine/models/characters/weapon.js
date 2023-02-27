@@ -45,6 +45,7 @@ global.Weapon = class Weapon {
 
   pack() {
     return {
+      classname:  'Weapon',
       base:       this.#base,
       id:         this.#id,
       name:       this.#name,

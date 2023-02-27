@@ -1,11 +1,16 @@
 global.Sector = (function() {
 
   // TODO: The couter and the dictionary will need to be persisted.
-  let sectorCounter = 1;
-  let sectorDictionary = {};
+  let $sectorCounter = 1;
+  let $sectorDictionary = {};
+
+  function clear() {
+    $sectorCounter = 1;
+    $sectorDictionary = {};
+  }
 
   function lookup(sector_id) {
-    return sectorDictionary[sector_id];
+    return $sectorDictionary[sector_id];
   }
 
   // When starting a new sector we want to make sure that the sector goes into the dictionary, but the creator of the
@@ -23,32 +28,33 @@ global.Sector = (function() {
   //     room      - Standard dungeon room
   //
   function defineNextSector(options) {
-    let sector_id = sectorCounter + 1;
+    let sector_id = $sectorCounter + 1;
 
-    if (sectorDictionary[sector_id]) {
-      throw `Error: Sector ${sector_id} has already been defined as ${sectorDictionary[sector_id]}`;
+    if ($sectorDictionary[sector_id]) {
+      throw `Error: Sector ${sector_id} has already been defined as ${$sectorDictionary[sector_id]}`;
     }
 
-    sectorDictionary[sector_id] = options;
-    sectorCounter += 1;
+    $sectorDictionary[sector_id] = options;
+    $sectorCounter += 1;
 
     return sector_id
   }
 
   function save() {
     Kompressor.write(`${GameState.getWorldPath()}/Sector.cum`,{
-      sectorCounter: sectorCounter,
-      sectorDictionary: sectorDictionary,
+      sectorCounter: $sectorCounter,
+      sectorDictionary: $sectorDictionary,
     });
   }
 
   async function load() {
     let state = await Kompressor.read(`${GameState.getWorldPath()}/Sector.cum`);
-    sectorCounter = state.sectorCounter;
-    sectorDictionary = state.sectorDictionary;
+    $sectorCounter = state.sectorCounter;
+    $sectorDictionary = state.sectorDictionary;
   }
 
   return {
+    clear,
     lookup,
     defineNextSector,
     save,

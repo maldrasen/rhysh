@@ -42,6 +42,7 @@ global.Accessory = class Accessory {
 
   pack() {
     return {
+      classname:  'Accessory',
       id:         this.#id,
       name:       this.#name,
       effects:    this.#effects,

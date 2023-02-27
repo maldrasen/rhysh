@@ -33,9 +33,11 @@ global.GameState = (function() {
     $currentZone = null;
     $partyLocation = null;
 
-    ZoneLibrary.clear();
     CharacterLibrary.clear();
     Flag.clear();
+    Inventory.clear();
+    Sector.clear();
+    ZoneLibrary.clear();
   }
 
   function getWorldIndex() { return $worldIndex; }

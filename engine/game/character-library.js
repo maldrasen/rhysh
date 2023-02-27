@@ -1,37 +1,37 @@
 global.CharacterLibrary = (function() {
 
-  let characterCache = {};
+  let $characterCache = {};
 
   function clear() {
-    characterCache = {};
+    $characterCache = {};
   }
 
   function isCharacterReady(code) {
-    return characterCache[code] != null;
+    return $characterCache[code] != null;
   }
 
   // Getting a character will load it from disk the first time.
   function getCharacter(code, callback) {
     return isCharacterReady(code) ?
-      callback(characterCache[code]) :
+      callback($characterCache[code]) :
       loadCharacter(code).then(character => callback(character));
   }
 
   // If we know a character is cached we can get them without a callback.
   function getCachedCharacter(code) {
-    return characterCache[code];
+    return $characterCache[code];
   }
 
   // The main character should always be cached.
   function getMainCharacter() {
-    return characterCache['Main'];
+    return $characterCache['Main'];
   }
 
   // Save this character and add them to the character cache. I don't think we
   // ever need to wait for a character to save. Accessing a character
   // immeadietly after it's saved just pulls it from the cache.
   function saveCharacter(character) {
-    characterCache[character.getCode()] = character;
+    $characterCache[character.getCode()] = character;
 
     if (GameState.getWorldPath()) {
       console.log(`Saving Character: ${character.getCode()} (${character.getFullName()})`);
@@ -40,8 +40,8 @@ global.CharacterLibrary = (function() {
   }
 
   function saveAll() {
-    ObjectHelper.each(characterCache, code => {
-      saveCharacter(characterCache[code]);
+    ObjectHelper.each($characterCache, code => {
+      saveCharacter($characterCache[code]);
     });
   }
 
@@ -49,7 +49,7 @@ global.CharacterLibrary = (function() {
     return new Promise(resolve => {
       Kompressor.read(getFilepath(code)).then(data => {
         let character = Character.unpack(data);
-        characterCache[code] = character;
+        $characterCache[code] = character;
         console.log(`Loading Character: ${code} (${character.getFullName()})`);
         resolve(character);
       });

@@ -1,26 +1,26 @@
 global.Flag = (function() {
 
-  var flags = {};
-  var flagDefaults = {};
-  var flagValidations = {};
+  var $flags = {};
+  var $flagDefaults = {};
+  var $flagValidations = {};
 
   function clear() {
-    flags = {}
+    $flags = {}
   }
 
   // Need to test against undefined because a flag can be set to null. One of
   // the few times there's a difference between the two.
   function get(code) {
-    return (flags[code] === undefined) ? flagDefaults[code] : flags[code];
+    return ($flags[code] === undefined) ? $flagDefaults[code] : $flags[code];
   }
 
   function getAll() {
-    return {...flags};
+    return {...$flags};
   }
 
   function set(code, value) {
-    if (flagValidations[code]) { validate(flagValidations[code], code, value); }
-    flags[code] = value;
+    if ($flagValidations[code]) { validate($flagValidations[code], code, value); }
+    $flags[code] = value;
   }
 
   function setAll(flags) {
@@ -40,14 +40,14 @@ global.Flag = (function() {
 
   function save() {
     if (GameState.getWorldPath()) {
-      Kompressor.write(getFilepath(), flags);
+      Kompressor.write(getFilepath(), $flags);
     }
   }
 
   async function load() {
     return new Promise(resolve => {
       Kompressor.read(getFilepath()).then(data => {
-        flags = data;
+        $flags = data;
         resolve();
       });
     });

@@ -43,13 +43,36 @@ global.Inventory = (function() {
 
   // === Persistance ===========================================================
 
-  function pack() {}
+  function pack() {
+    let inventory = {};
 
-  function unpack() {}
+    ObjectHelper.each($currentInventory, (id, item) => {
+      inventory[id] = item.pack();
+    })
 
-  function save() {}
+    return {
+      index: $currentIndex,
+      inventory: inventory,
+    };
+  }
 
-  function load() {}
+  function unpack(data) {
+    ObjectHelper.each(data.inventory, (id, itemData) => {
+      if (itemData.classname == 'Armor') { $currentInventory[id] = Armor.unpack(itemData); }
+      if (itemData.classname == 'Weapon') { $currentInventory[id] = Weapon.unpack(itemData); }
+      if (itemData.classname == 'Accessory') { $currentInventory[id] = Accessory.unpack(itemData); }
+    });
+
+    $currentIndex = data.index;
+  }
+
+  function save() {
+    Kompressor.write(`${GameState.getWorldPath()}/Inventory.cum`,pack());
+  }
+
+  async function load() {
+    unpack(await Kompressor.read(`${GameState.getWorldPath()}/Inventory.cum`))
+  }
 
   return {
     clear,
@@ -57,6 +80,8 @@ global.Inventory = (function() {
     lookup,
     add,
     getEquippedBy,
+    save,
+    load,
   };
 
 })()
