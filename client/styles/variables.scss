@@ -19,6 +19,7 @@ $shadow-inset-button:  1px 3px 5px rgba(0,0,0,0.8) inset;
 $shadow-shallow:       1px 2px 3px rgba(0,0,0,0.9);
 $shadow-portrait:      2px 4px 5px rgba(0,0,0,0.8);
 $shadow-overlay:       5px 10px 20px rgba(0,0,0,0.8);
+$shadow-dark:          2px 5px 10px rgba(0,0,0,0.8), 5px 10px 20px rgba(0,0,0,0.8);
 
 $border-transparent: 1px solid transparent;
 $border-very-light:  1px solid rgba(250,250,250,0.05);
@@ -79,6 +80,9 @@ $shadow-scrolling-panel-thumb: -2px -2px 5px rgba(0,0,0,0.4) inset,
 // === Z-Indices ===
 $z-background: 0;
 $z-root: 100;
+$z-battlefield: 500;
+$z-battle-controls: 510;
+$z-battle-monsters: 520;
 $z-event-text: 1000;
 $z-event-clicker: 1500;
 $z-map-canvas: 5000;

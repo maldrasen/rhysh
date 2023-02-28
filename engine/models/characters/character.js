@@ -206,12 +206,20 @@ global.Character = class Character {
 
   // TODO: We also need to include a list of spells and abilities.
   packForBattle() {
+    let abilityList = [];
+    let spellList = [];
+
     let packed = {
       code: this.#code,
       condition: this.#condition.pack(),
-      firstName: this.#firstName,
-      lastName: this.#lastName,
+      fullName: this.getFullName(),
+      abilityList: abilityList,
+      spellList: spellList,
     };
+
+    if (this.#code == 'Main') {
+      packed.orders = this.packOrders();
+    }
 
     let equipped = Inventory.getEquippedBy(this);
     let mainHand = equipped['mainHand'];
@@ -221,6 +229,14 @@ global.Character = class Character {
     if (offHand) { packed.offHand = offHand.packForBattle(); }
 
     return packed;
+  }
+
+  // TODO: A main character can issue orders to his followers. This is their
+  //       action and takes their entire turn, but should buff the rest of the
+  //       party somehow. Running is also an order that only the main character
+  //       can give, so it's bundled in with the rest of the orders.
+  packOrders() {
+    return [{ name:"Retreat", code:'retreat' }];
   }
 
 }

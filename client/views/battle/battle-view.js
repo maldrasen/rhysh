@@ -1,5 +1,7 @@
 window.BattleView = (function() {
 
+  var $battleState;
+
   function init() {
     X.onCodeDown(123, () => {
       return Environment.debug && MapView.isOpen() && !isOpen()
@@ -7,8 +9,12 @@ window.BattleView = (function() {
   }
 
   function show(state) {
+    $battleState = state.battle;
+
     MainContent.show({ path:"client/views/battle/battle-view.html", classname:'battle' }).then(() => {
       BackgroundImage.setBackground(state.background);
+      showCharacterOrders('main');
+      updateMonsterList();
       playBattleStartEffect();
     });
   }
@@ -20,6 +26,53 @@ window.BattleView = (function() {
   function debugBattleStart() {
     MapCanvas.hide();
     ClientCommands.send('battle.debug-start');
+  }
+
+  function showCharacterOrders(code) {
+    let character = $battleState.party[code];
+
+    X.removeClass('#characterOrders','hide');
+    X.addClass('#characterOrders .orders-button','hide');
+    X.addClass('#characterOrders .back-button','hide');
+    X.first('#characterOrders .character-name').innerHTML = character.fullName;
+
+    X.addClass('#characterOrders .attack-button','disabled');
+    X.addClass('#characterOrders .abilities-button','disabled');
+    X.addClass('#characterOrders .spells-button','disabled');
+
+    if (code == 'main') {
+      X.removeClass('#characterOrders .orders-button','hide');
+    }
+    if (code != 'main') {
+      X.removeClass('#characterOrders .back-button','hide');
+    }
+    if (character.mainHand) {
+      X.removeClass('#characterOrders .attack-button','disabled');
+    }
+    if (character.abilityList.length > 0) {
+      X.removeClass('#characterOrders .attack-button','disabled');
+    }
+    if (character.spellList.length > 0) {
+      X.removeClass('#characterOrders .attack-button','disabled');
+    }
+
+    console.log(character);
+  }
+
+  function updateMonsterList() {
+    forUpTo(5, i => {
+      let rank = i+1;
+      let element = X.first(`#monsterList .rank-${rank}`);
+      let squad = $battleState.monsters[rank];
+
+      X.empty(element);
+      X.addClass(element,'empty');
+
+      if (squad) {
+        X.removeClass(element,'empty');
+        element.innerHTML = `<span class='count'>${squad.monsters.length}</span> ${squad.name}`;
+      }
+    });
   }
 
   function playBattleStartEffect() {

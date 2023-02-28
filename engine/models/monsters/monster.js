@@ -177,6 +177,7 @@ global.Monster = class Monster {
       health: this.#condition.getHealth(),
       condition: this.#condition.getCondition(),
       statuses: this.#condition.getStatuses(),
+      size: this.getSizeClass(),
     };
   }
 

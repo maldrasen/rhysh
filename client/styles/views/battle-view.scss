@@ -1,4 +1,74 @@
 
+
+#battlefield {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: calc(100% - 260px);
+  z-index: $z-battlefield
+}
+
+#controlPanel {
+  position: absolute;
+
+  width: 600px;
+  left: calc(50% - 312px);
+  bottom: 200px;
+
+  padding: 10px;
+  border: $border-normal;
+  background-color: $bg-dark;
+  box-shadow: $shadow-dark;
+  z-index: $z-battle-controls;
+
+  ul.actions {
+    display: flex;
+  }
+
+  .status-row {
+    font-size: $fs-bigger;
+    border-bottom: $border-normal;
+    margin-bottom: 10px;
+  }
+}
+
+#monsterList {
+  position: absolute;
+
+  height: 200px;
+  width: 300px;
+  top: 100px;
+  left: calc(50% - 162px);
+
+  padding: 10px;
+  border: $border-normal;
+  background-color: $bg-dark;
+  box-shadow: $shadow-dark;
+  z-index: $z-battle-monsters;
+
+  li {
+    box-sizing: border-box;
+    height: 32px;
+    line-height: 32px;
+    font-size: $fs-bigger;
+    margin-bottom: 10px;
+    padding: 0px 5px;
+    background-color: $bg-dark;
+    border: $border-normal;
+    border-radius: 4px;
+    box-shadow: $shadow-frame;
+  }
+  li:last-child { margin:0; }
+  li.empty { opacity:0.25; }
+
+  .count {
+    float: right;
+    font-family: 'aleo';
+    color: $fg-weak;
+  }
+}
+
 #fightText {
   position: absolute;
   top: 50%;
@@ -27,3 +97,4 @@
   transition: 1s ease-out;
   filter: contrast(1) grayscale(0) brightness(1);
 }
+

@@ -32,7 +32,7 @@ global.BattleState = class BattleState {
   // Add a squad of monsters to the battle. The battle state needs to make a
   // squad, assign it an id, and assign each monster a unique id for the
   // battle.
-  addSquad(rank, monsters) {
+  addSquad(rank, monsters, name) {
     if (rank < 1 || rank > 5) { throw `Rank is an integer between 1 and 5, not ${rank}`; }
 
     monsters.forEach(monster => {
@@ -42,6 +42,7 @@ global.BattleState = class BattleState {
 
     let squad = {
       id: (this.#squadCounter++),
+      name: name,
       rank: rank,
       monsters: monsters,
     }
@@ -103,6 +104,7 @@ global.BattleState = class BattleState {
 
       monsterSquads[id] = {
         id: squad.id,
+        name: squad.name,
         rank: squad.rank,
         monsters: monsters,
       };

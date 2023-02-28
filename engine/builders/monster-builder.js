@@ -23,7 +23,7 @@ global.MonsterBuilder = class MonsterBuilder {
       crabs.push(new Monster.Mudcrab({}));
     });
 
-    this.#battleState.addSquad(1,crabs);
+    this.#battleState.addSquad(1,crabs,"Mudcrabs");
   }
 
   tempGoblins() {
@@ -34,7 +34,7 @@ global.MonsterBuilder = class MonsterBuilder {
       gobbos.push(new Monster.Goblin({}));
     }
 
-    this.#battleState.addSquad(1,gobbos);
+    this.#battleState.addSquad(1,gobbos,"Goblins");
   }
 
 }

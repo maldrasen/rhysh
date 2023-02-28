@@ -1,17 +1,33 @@
 <div id='battleView'>
 
   <div id='fightText'></div>
-  <div id='monsterArea'></div>
+  <div id='battlefield'></div>
+
+  <ul id='monsterList'>
+    <li class='rank-1 empty'></li>
+    <li class='rank-2 empty'></li>
+    <li class='rank-3 empty'></li>
+    <li class='rank-4 empty'></li>
+    <li class='rank-5 empty'></li>
+  </ul>
 
   <div id='controlPanel'>
     <div id='characterOrders' class='hide'>
-      <a href='#' class='button fight-button'>Attack</a>
-      <a href='#' class='button abilities-button'>Abilities</a>
-      <a href='#' class='button spells-button'>Spells</a>
-      <a href='#' class='button items-button'>Items</a>
-      <a href='#' class='button run-button'>Run Away</a>
-      <a href='#' class='button back-button hide'>Back</a>
+      <div class='status-row'>
+        <span class='character-name'></span>
+      </div>
+
+      <ul class='actions'>
+        <li class='margin-right'><a href='#' class='button attack-button'>Attack</a></li>
+        <li class='margin-right'><a href='#' class='button abilities-button'>Abilities</a></li>
+        <li class='margin-right'><a href='#' class='button spells-button'>Spells</a></li>
+        <li class='margin-right'><a href='#' class='button items-button'>Use</a></li>
+        <li><a href='#' class='button orders-button'>Orders</a></li>
+        <li><a href='#' class='button back-button'>Back</a></li>
+      </ul>
     </div>
+
+    <div id='attackOptions' class='hide'></div>
 
     <div id='partyOrders' class='hide'>
       <a href='#' class='button button-primary start-round-button'>Start Round</a>
