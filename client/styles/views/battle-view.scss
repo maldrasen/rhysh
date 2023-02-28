@@ -12,8 +12,7 @@
 #controlPanel {
   position: absolute;
 
-  width: 600px;
-  left: calc(50% - 312px);
+  left: 50px;
   bottom: 200px;
 
   padding: 10px;
@@ -36,10 +35,10 @@
 #monsterList {
   position: absolute;
 
+  right: 50px;
+  bottom: 200px;
   height: 200px;
   width: 300px;
-  top: 100px;
-  left: calc(50% - 162px);
 
   padding: 10px;
   border: $border-normal;
@@ -81,7 +80,7 @@
   text-shadow: 10px 10px 10px #000;
   font-family: 'aleo-bold';
   opacity: 1;
-  z-index: 100;
+  z-index: $z-alerts;
 }
 
 #fightText.fade-out {

@@ -1,0 +1,70 @@
+
+#statusPanel {
+  position: absolute;
+  display: flex;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 30px;
+  line-height: 30px;
+
+  border-bottom: $border-light;
+  background-color: rgba(0,0,0,0.7);
+  box-shadow: 0 5px 8px rgb(0,0,0) inset;
+  z-index: $z-party-panel;
+}
+
+#partyPanel {
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  justify-content: center;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  // min-width: 1280px;
+
+  border-top: $border-light;
+  background-color: rgba(0,0,0,0.5);
+  box-shadow: 0 5px 10px rgb(0,0,0) inset;
+  z-index: $z-party-panel;
+
+  .character-frame {
+    border: $border-light;
+    background-color: rgb(0,0,0);
+    margin: 0 2px;
+  }
+
+  .companion {
+    height: 160px;
+    width: 120px;
+    min-width: 120px;
+  }
+
+  .main-character {
+    height: 200px;
+    width: 150px;
+    min-width: 150px;
+  }
+
+  .off { opacity:0; }
+
+  .side-panel {
+    position: absolute;
+    box-sizing: border-box;
+    width: 180px;
+    height: 100px;
+    bottom: 10px;
+    box-shadow: 2px 5px 5px rgba(0,0,0,0.5) inset;
+    background-color: rgba(0,0,0,0.5);
+    border: $border-very-light;
+  }
+  .side-panel.left-side { left:0; }
+  .side-panel.right-side { right:0; }
+
+}
+
+
