@@ -29,6 +29,7 @@ global.GameRenderer = (function() {
   function renderBattle() {
     Messenger.publish("browser.render", {
       showView: "Battle",
+      background: ImageDictionary.pickBattleBackground(),
       battle: GameState.getCurrentBattle().pack(),
     });
   }

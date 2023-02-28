@@ -1,0 +1,29 @@
+
+#fightText {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  color: red;
+  text-align: center;
+  font-size: 15vw;
+  text-shadow: 10px 10px 10px #000;
+  font-family: 'aleo-bold';
+  opacity: 1;
+  z-index: 100;
+}
+
+#fightText.fade-out {
+  opacity: 0;
+  transition: 1.3s ease-out;
+}
+
+#backgroundImage.battle-start {
+  filter: contrast(5) grayscale(1) brightness(5);
+}
+
+#backgroundImage.battle-start.battle-effect {
+  transition: 1s ease-out;
+  filter: contrast(1) grayscale(0) brightness(1);
+}

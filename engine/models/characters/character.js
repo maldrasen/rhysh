@@ -204,6 +204,7 @@ global.Character = class Character {
     return character;
   }
 
+  // TODO: We also need to include a list of spells and abilities.
   packForBattle() {
     let packed = {
       code: this.#code,

@@ -1,16 +1,30 @@
 global.BattleState = class BattleState {
 
+  #roundCounter;
   #monsterCounter;
   #squadCounter;
 
   #monsters;
   #squads;
 
+  #initiativeOrder;
+  #initiativeIndex;
+
+  #orders;
+  #resultList;
+
   constructor(options) {
+    this.#roundCounter = 0;
     this.#monsterCounter = 1;
     this.#squadCounter = 1;
     this.#monsters = {};
     this.#squads = {};
+
+    this.#orders = {};
+    this.#resultList = [];
+
+    this.#initiativeOrder = [];
+    this.#initiativeIndex = 0;
 
     new MonsterBuilder(this).generate();
   }
@@ -35,6 +49,12 @@ global.BattleState = class BattleState {
     this.#squads[squad.id] = squad;
   }
 
+  // === Combat Rounds =========================================================
+
+  startNextRound() {
+    console.log("=== Start Next Round ===");
+  }
+
   // TODO: Swapping Ranks. Like Wizardry, it's possible for monster squads to
   //       move closer or further away. Monsters will try to retreat if they've
   //       been wounded or if enough of them have bad conditions. Monsters in
@@ -49,9 +69,6 @@ global.BattleState = class BattleState {
   // completely packed. This includes a partial packing of the player,
   // companions, and all the monsters, only including the information needed
   // for display in the battle UI.
-
-  // TODO: We also need to pack some location data into the battle as well.
-  //       Enough to show a battle background.
 
   pack() {
     let state = {
@@ -82,7 +99,7 @@ global.BattleState = class BattleState {
     ObjectHelper.each(this.#squads, (id, squad) => {
       let monsters = squad.monsters.map(monster => {
         return monster.pack();
-      })
+      });
 
       monsterSquads[id] = {
         id: squad.id,
