@@ -18,7 +18,7 @@ window.Tooltip = (function() {
   //
   //    code*       Required for toolip lookup.
   //    content*    String or HTML element to display.
-  //    position    Only bottom for now.
+  //    position    ['top','bottom']
   //    delay       Time in ms to delay opening. 500ms by default.
   //
   // TODO: Could also add the ability to register different tool tiptypes,
@@ -27,7 +27,7 @@ window.Tooltip = (function() {
   function register(code, options) {
     tooltipLibrary[code] = {
       content: options.content,
-      classname: options.classname,
+      classname: options.classname || 'default-tooltip',
       position: (options.position || 'bottom'),
       delay: (options.delay || 500),
     };
@@ -41,7 +41,7 @@ window.Tooltip = (function() {
   // has the tooltip-parent class and the tooltip code it should just work.
   function add(element, code) {
     X.addClass(element,'tooltip-parent');
-    element.setAttribute('id',options.code);
+    element.setAttribute('id',code);
   }
 
   // Set a timer that will open the tooltip if the mouse is still over the
@@ -71,7 +71,7 @@ window.Tooltip = (function() {
 
       // Tooltip strings are wrapped in a basic content div.
       if (typeof tooltip.content == 'string') {
-        let content = X.createElement(`<div class='basic-tooltip-content'></div>`);
+        let content = X.createElement(`<div></div>`);
         content.innerHTML = tooltip.content;
         frame.appendChild(content);
       }
@@ -96,6 +96,10 @@ window.Tooltip = (function() {
       // Finally position and display the tooltip.
       if (tooltip.position == 'bottom') {
         frame.style['top'] = `${offset.top + offset.height}px`;
+        frame.style['left'] = `${offset.left}px`;
+      }
+      if (tooltip.position == 'top') {
+        frame.style['bottom'] = `${offset.height}px`;
         frame.style['left'] = `${offset.left}px`;
       }
 

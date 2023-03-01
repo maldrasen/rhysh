@@ -25,35 +25,88 @@
   right: 0;
   bottom: 0;
   height: 120px;
-  // min-width: 1280px;
 
   border-top: $border-light;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.8);
   box-shadow: 0 5px 10px rgb(0,0,0) inset;
   z-index: $z-party-panel;
 
   .character-frame {
     border: $border-light;
-    background-color: rgb(0,0,0);
     margin: 0 2px;
+    cursor: pointer;
 
-    background-size: contain;
-    box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
+    .name {
+      position: relative;
+      top: 3px;
+      left: 6px;
+      height: 0;
+      font-size: $fs-big;
+      text-shadow: 0 0 2px black,
+                   0 0 4px black,
+                   0 0 8px black;
+    }
   }
 
-  .companion {
+  .portrait {
+    background-size: contain;
+    background-color: rgb(250,100,0);
+    box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
+    background-image: url('../assets/portraits/mist-background.jpg');
+  }
+
+  .companion .portrait {
     height: 160px;
     width: 120px;
-    min-width: 120px;
   }
 
-  .main-character {
+  .main-character .portrait {
     height: 200px;
     width: 150px;
-    min-width: 150px;
   }
 
-  .off { opacity:0; }
+  .status {
+    display: block;
+    height: 23px;
+    background-color: black;
+    border-top: $border-light;
+  }
+
+  .status-bar {
+    $bar-height: 7px;
+
+    height: $bar-height;
+    width: calc(100% - 6px);
+    margin: 3px;
+
+    box-shadow: 2px 4px 4px rgb(250 250 250 / 7%) inset,
+               -2px -4px 4px black inset;
+
+    .back {
+      position: relative;
+      top: -$bar-height;
+      height: $bar-height;
+      z-index: 5;
+    }
+    .bar {
+      position: relative;
+      top: 0;
+      height: $bar-height;
+      z-index: 10;
+      transition: 500ms ease-out;
+    }
+  }
+
+  .health-bar {
+    .bar { background-color: rgba(250,70,0,0.5); }
+    .back { background-color: rgba(250,70,0,0.1); }
+  }
+  .mana-bar {
+    .bar { background-color: rgba(60,170,250,0.5); }
+    .back { background-color: rgba(60,170,250,0.1); }
+  }
+
+  .off { height:0; }
 
   .side-panel {
     position: absolute;
@@ -67,7 +120,4 @@
   }
   .side-panel.left-side { left:0; }
   .side-panel.right-side { right:0; }
-
 }
-
-

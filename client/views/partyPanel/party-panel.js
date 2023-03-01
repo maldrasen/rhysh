@@ -2,6 +2,22 @@ window.PartyPanel = (function () {
 
   let $currentStatus;
 
+  function init() {
+    X.each('#partyPanel .character-frame', frame => {
+      frame.innerHTML = `
+        <div class='portrait'>
+          <div class='name'></div>
+          <div class='condition'></div>
+          <div class='statusEffects'></div>
+        </div>
+        <div id='${`PartyPanel_Status_${frame.id}`}' class='status tooltip-parent'>
+          <div class='health-bar status-bar'><div class='bar'></div><div class='back'></div></div>
+          <div class='mana-bar status-bar'><div class='bar'></div><div class='back'></div></div>
+        </div>
+      `;
+    });
+  }
+
   function show(status) {
     X.removeClass('#statusPanel','hide')
     X.removeClass('#partyPanel','hide')
@@ -16,21 +32,31 @@ window.PartyPanel = (function () {
   function update(status) {
     $currentStatus = status;
 
-    console.log("Show",$currentStatus);
+    console.log("Update Status: ",$currentStatus);
 
     updateCharacter('main');
-
   }
 
   function updateCharacter(position) {
     let element = X.first('#partyPanel #main');
     let status = $currentStatus.party.main;
-    // TODO: Change element and status if companion.
 
-    element.style['background-image'] = `url('../assets/portraits/${status.portrait}.jpg')`;
+    let hpCurrent = status.condition.currentHitPoints;
+    let hpMax = status.condition.maxHitPoints;
+    let hitPercent = Math.ceil(100 * (hpCurrent / hpMax));
+
+    element.querySelector('.portrait').style['background-image'] = `url('../assets/portraits/${status.portrait}.jpg')`;
+    element.querySelector('.health-bar .bar').style['width'] = `${hitPercent}%`;
+    element.querySelector('.name').innerHTML = status.firstName;
+
+    Tooltip.register(`PartyPanel_Status_${element.id}`, {
+      content: `Health(${hpCurrent}/${hpMax}) Mana(TODO)`,
+      position: 'top',
+    });
   }
 
   return {
+    init,
     show,
     hide,
     update,

@@ -107,6 +107,7 @@
     MapCanvas.init();
     NewGame.init();
     OptionsOverlay.init();
+    PartyPanel.init();
     Renderer.init();
     ScrollingPanel.init();
     Slider.init();

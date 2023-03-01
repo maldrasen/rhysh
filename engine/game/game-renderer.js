@@ -47,17 +47,21 @@ global.GameRenderer = (function() {
   }
 
   function getStatus() {
+    let main = CharacterLibrary.getMainCharacter();
     let timeCount = GameState.getTimeCount();
     let dayCount = GameState.getDayCount();
+    let party = {};
+
+    if (main) {
+      party.main = main.packForStatus();
+    }
 
     return {
       timeCount: timeCount,
       timeOfDay: RhyshCalendar.getTimeOfDay(timeCount),
       dayCount: dayCount,
       dayName: RhyshCalendar.getDayName(dayCount),
-      party: {
-        main: CharacterLibrary.getMainCharacter().packForStatus(),
-      }
+      party: party,
     };
   }
 

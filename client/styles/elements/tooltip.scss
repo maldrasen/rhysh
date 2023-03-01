@@ -4,6 +4,11 @@
   box-shadow: 0px 1px 0px rgb(100 80 60);
 }
 
+.default-tooltip {
+  line-height: 1.3;
+  padding: 5px 8px;
+}
+
 #tooltipFrame {
   position: fixed;
 
@@ -18,13 +23,8 @@
   box-shadow: $shadow-frame;
   z-index: $z-tooltip;
 
-  .basic-tooltip-content {
-    padding: 5px 10px;
-    line-height: 18px;
-  }
-
   dl {
-    margin: 0 10px 10px;
+    margin: 5px;
     dt {
       width: auto;
       margin-left: 10px;

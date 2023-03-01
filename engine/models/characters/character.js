@@ -240,11 +240,17 @@ global.Character = class Character {
   }
 
   // TODO: Need to select portrait at character creation. Should also allow
-  //       people to change portrait and name at any time.
+  //       people to change portrait and name at any time. For now we're just
+  //       getting a random elf portrait.
   packForStatus() {
+
+    let sex = Random.from(['m','f']);
+    let index = Random.roll((sex == 'm') ? 23 : 54) + 1;
+    let image = `elf-${sex}-${(index < 10) ? '0'+index : index}`;
+
     return {
       code: this.#code,
-      portrait: 'elf-m-16',
+      portrait: image,
       firstName: this.#firstName,
       condition: this.#condition.pack(),
     };
