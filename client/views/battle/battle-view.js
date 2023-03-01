@@ -11,6 +11,7 @@ window.BattleView = (function() {
   function show(state) {
     $battleState = state.battle;
 
+    PartyPanel.show(state.status);
     MainContent.show({ path:"client/views/battle/battle-view.html", classname:'battle' }).then(() => {
       BackgroundImage.setBackground(state.background);
       showCharacterOrders('main');

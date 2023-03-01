@@ -71,6 +71,7 @@
       import('./views/mapView/map-canvas.js'),
       import('./views/mapView/map-view.js'),
       import('./views/mapView/tile-graphics.js'),
+      import('./views/partyPanel/party-panel.js'),
       import('./views/pauseMenu/pause-menu.js'),
       import('./views/townView/town-view.js'),
 

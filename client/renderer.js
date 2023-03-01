@@ -16,6 +16,8 @@ window.Renderer = (function() {
   }
 
   function showView(viewState) {
+    PartyPanel.hide();
+
     let showFunction = {
       Battle:         BattleView.show,
       Dungeon:        Dungeon.show,

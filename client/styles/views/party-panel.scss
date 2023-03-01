@@ -36,6 +36,9 @@
     border: $border-light;
     background-color: rgb(0,0,0);
     margin: 0 2px;
+
+    background-size: contain;
+    box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
   }
 
   .companion {

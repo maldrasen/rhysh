@@ -26,13 +26,15 @@ window.Dungeon = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
-  function show(options) {
+  function show(state) {
     active = true;
 
     MainContent.clear();
+    PartyPanel.show(state.status);
+
     MapView.showDungeon({
-      location: options.location,
-      tileSource: options.zone.tileSource,
+      location: state.location,
+      tileSource: state.zone.tileSource,
     });
   }
 

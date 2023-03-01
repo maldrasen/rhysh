@@ -29,6 +29,7 @@ global.GameRenderer = (function() {
   function renderBattle() {
     Messenger.publish("browser.render", {
       showView: "Battle",
+      status: getStatus(),
       background: ImageDictionary.pickBattleBackground(),
       battle: GameState.getCurrentBattle().pack(),
     });
@@ -38,9 +39,9 @@ global.GameRenderer = (function() {
     ZoneLibrary.getZone(GameState.getCurrentZoneName(), zone => {
       Messenger.publish("browser.render", {
         showView: "Dungeon",
+        status: getStatus(),
         zone: zone.forClient(),
         location: GameState.getPartyLocation(),
-        status: getStatus(),
       });
     });
   }
@@ -54,6 +55,9 @@ global.GameRenderer = (function() {
       timeOfDay: RhyshCalendar.getTimeOfDay(timeCount),
       dayCount: dayCount,
       dayName: RhyshCalendar.getDayName(dayCount),
+      party: {
+        main: CharacterLibrary.getMainCharacter().packForStatus(),
+      }
     };
   }
 

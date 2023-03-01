@@ -239,4 +239,15 @@ global.Character = class Character {
     return [{ name:"Retreat", code:'retreat' }];
   }
 
+  // TODO: Need to select portrait at character creation. Should also allow
+  //       people to change portrait and name at any time.
+  packForStatus() {
+    return {
+      code: this.#code,
+      portrait: 'elf-m-16',
+      firstName: this.#firstName,
+      condition: this.#condition.pack(),
+    };
+  }
+
 }
