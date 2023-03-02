@@ -118,7 +118,7 @@ global.GameState = (function() {
   // === Location and Zone ===
 
   function getCurrentZoneName() { return $currentZone; }
-  function getCurrentZone() { return ZoneLibrary.getCachedZone($currentZone); }
+  function getCurrentZone() { return $currentZone ? ZoneLibrary.getCachedZone($currentZone) : null; }
 
   // Whenever the party moves from one zone into another we update the party
   // location to the point where they enter the zone from. The new point is

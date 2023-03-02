@@ -34,6 +34,13 @@ window.PartyPanel = (function () {
 
     console.log("Update Status: ",$currentStatus);
 
+    X.first('#statusPanel .right').innerHTML = `
+      <span class='day'>${$currentStatus.dayName},</span>
+      <span class='time'>${$currentStatus.timeOfDay}</span>`;
+
+    X.first('#statusPanel .left').innerHTML = `
+      <span class='location'>${$currentStatus.location}</span>`;
+
     updateCharacter('main');
   }
 

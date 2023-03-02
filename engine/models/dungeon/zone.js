@@ -1,32 +1,43 @@
 global.Zone = class Zone {
 
+  #name;
+  #tileSource;
+  #zoneData;
+
   constructor(name) {
-    this.name = name;
+    this.#name = name;
   }
 
   forClient() {
     return {
-      name: this.name,
-      tileSource: this.tileSource.forClient(),
+      name: this.getName(),
+      displayName: this.getDisplayName(),
+      tileSource: this.#tileSource.forClient(),
     }
   }
+
+  getName() { return this.#name; }
+  getDisplayName() { return this.#zoneData.displayName; }
+  getTileSource() { return this.#tileSource; }
+  getZoneData() { return this.#zoneData; }
 
   // === Persistance ===================================================================================================
 
   pack() {
     return {
-      name: this.name,
-      tileSource: this.tileSource,
+      name: this.#name,
+      tileSource: this.#tileSource,
     };
   }
 
   // Name is already set, so really the tile source is the only thing that needs to be set.
   unpack(data) {
-    this.tileSource = TileSource.unpack(data.tileSource);
+    this.#tileSource = TileSource.unpack(data.tileSource);
   }
 
   load() {
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
+      await this.getZoneData();
       fs.access(this.filepath(), fs.constants.F_OK, notThere => {
         notThere ? this.createZone(resolve) : this.loadZone(resolve);
       });
@@ -37,8 +48,8 @@ global.Zone = class Zone {
     const zoneLoader = new ZoneLoader(this);
     const properties = await zoneLoader.createZoneFromTemplate();
 
-    this.tileSource = properties.tileSource;
-    this.zoneData = properties.zoneData;
+    this.#tileSource = properties.tileSource;
+    this.#zoneData = properties.zoneData;
 
     // We can create a zone without saving it in a world.
     if (GameState.getWorldPath()) {
@@ -49,9 +60,9 @@ global.Zone = class Zone {
   }
 
   async getZoneData() {
-    if (this.zoneData != null) { return this.zoneData }
-    this.zoneData = await DungeonBuilder.loadZoneData(this.name);
-    return this.zoneData;
+    if (this.#zoneData != null) { return this.#zoneData }
+    this.#zoneData = await DungeonBuilder.loadZoneData(this.#name);
+    return this.#zoneData;
   }
 
   // We know the zone file exists so load and unpack the JSON.
@@ -63,7 +74,7 @@ global.Zone = class Zone {
   }
 
   filepath() {
-    return `${GameState.getWorldPath()}/${this.name}.cum`;
+    return `${GameState.getWorldPath()}/${this.#name}.cum`;
   }
 
   // === Preview ===============================================================

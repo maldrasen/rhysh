@@ -37,7 +37,7 @@ EventDictionary.register('game.start',{
       { text:`Start as Slaver` },
     ]
   },{
-    background:'town',
+    background:'battle-town-1',
     pages: [
       { text:`Walk about town` }
     ]

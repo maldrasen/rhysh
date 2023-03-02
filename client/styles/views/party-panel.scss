@@ -2,17 +2,22 @@
 #statusPanel {
   position: absolute;
   display: flex;
+  justify-content: space-between;
 
   left: 0;
   top: 0;
   right: 0;
   height: 30px;
   line-height: 30px;
+  padding: 0 10px;
 
   border-bottom: $border-light;
   background-color: rgba(0,0,0,0.7);
   box-shadow: 0 5px 8px rgb(0,0,0) inset;
   z-index: $z-party-panel;
+
+  .day { color: $fg-weak ;}
+  .location { color: $fg-strong; }
 }
 
 #partyPanel {
@@ -50,7 +55,6 @@
 
   .portrait {
     background-size: contain;
-    background-color: rgb(250,100,0);
     box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
     background-image: url('../assets/portraits/mist-background.jpg');
   }

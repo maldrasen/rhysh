@@ -2,7 +2,7 @@ global.ZoneLoader = class ZoneLoader {
 
   constructor(zone) {
     this.zone = zone;
-    this.zoneName = zone.name;
+    this.zoneName = zone.getName();
     this.freeTiles = {};
     this.supplementaryData = {};
   }
