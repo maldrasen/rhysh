@@ -9,6 +9,8 @@ window.MainMenu = (function() {
     X.onClick('#mainMenu a.options-button', OptionsOverlay.show);
     X.onClick('#mainMenu a.preview-features', previewFeatures);
     X.onClick('#mainMenu a.preview-zone', previewZone);
+    X.onClick('#mainMenu a.warning-button', showWarnings);
+    X.onClick('#contentWarnings a.close-button', hideWarnings);
 
     OptionsOverlay.build();
   }
@@ -50,6 +52,16 @@ window.MainMenu = (function() {
       MainContent.hideCover({ fadeTime:1000 });
       ScrollingPanel.build('#loadGame');
     });
+  }
+
+  function showWarnings() {
+    X.addClass('#baseMenu','hide');
+    X.removeClass('#contentWarnings','hide');
+  }
+
+  function hideWarnings() {
+    X.removeClass('#baseMenu','hide');
+    X.addClass('#contentWarnings','hide');
   }
 
   function enableLoadButtons() {

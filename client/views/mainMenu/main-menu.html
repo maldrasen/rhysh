@@ -1,7 +1,7 @@
 
 <div id="mainMenu" class="root-element">
 
-  <div class="center-area">
+  <div id='baseMenu' class="center-area">
     <div class="base-frame">
       <h1 class="border-bottom margin-bottom">Rhysh</h1>
 
@@ -10,6 +10,7 @@
         <li><a href='#' class='continue-button button button-big disabled'>Continue</a></li>
         <li><a href='#' class='load-button button button-big disabled'>Load Game</a></li>
         <li><a href='#' class='options-button button button-big'>Options</a></li>
+        <li><a href='#' class='warning-button button button-big'>Content Warnings</a></li>
       </ul>
 
       <div class="show-when-dev margin-top">
@@ -22,6 +23,35 @@
 
     </div>
   </div>
+
+  <div id='contentWarnings' class='hide'>
+    <div class='overlay narrow'>
+      <h2 class='margin'>Content Warnings</h2>
+      <dl class='warnings'>
+        <dt>AI Generated Art</dt>
+        <dd>
+          This game makes extensive use of AI generated art. While I understand that people have reasonable ethical
+          objections to the way AI art generators are trained, I view it as a valuable tool. Without it, this game
+          wouldn't have had any graphics, and probably would not have been possible.
+        </dd>
+        <dt>Rape</dt>
+        <dd>
+          I do not condone sexual violence, this game however does feature quite a lot of it. Rhysh is not a porn game.
+          It's an erotic fantasy/horror adventure game that explores many of the darker sides of sexual fantasy. I
+          don't expect that everyone will feel comfortable with the content herein. My purpose in fact is to make the
+          player uncomfortable. To horrify, shock, and disgust.
+        </dd>
+        <dt>NTR</dt>
+        <dd>
+          Management is not responsible for waifus getting raped while exploring the rape dungeon.
+        </dd>
+      </dl>
+    </div>
+    <div class='overlay-footer narrow button-row'>
+      <a href='#' class='button close-button'>Close</a>
+    </div>
+  </div>
+
 </div>
 
 <div id='loadGame' class='hide'>

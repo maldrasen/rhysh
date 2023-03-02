@@ -86,3 +86,27 @@
     background-color: rgba(0,0,0,0.5);
   }
 }
+
+
+#contentWarnings {
+
+  h2 {
+    border-bottom: $border-normal;
+  }
+
+  .warnings {
+    margin: 20px 50px;
+  }
+
+  dt {
+    float: none;
+    font-size: $fs-bigger;
+    color: $fg-strong;
+  }
+
+  dd {
+    margin-bottom: 10px;
+    font-size: $fs-big;
+  }
+
+}
