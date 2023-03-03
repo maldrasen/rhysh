@@ -35,7 +35,6 @@ window.BattleView = (function() {
     X.removeClass('#characterOrders','hide');
     X.addClass('#characterOrders .orders-button','hide');
     X.addClass('#characterOrders .back-button','hide');
-    X.first('#characterOrders .character-name').innerHTML = character.fullName;
 
     X.addClass('#characterOrders .attack-button','disabled');
     X.addClass('#characterOrders .abilities-button','disabled');
@@ -63,7 +62,7 @@ window.BattleView = (function() {
   function updateMonsterList() {
     forUpTo(5, i => {
       let rank = i+1;
-      let listElement = X.first(`#monsterList .rank-${rank}`);
+      let listElement = X.first(`#targetFrame .rank-${rank}`);
       let fieldElement = X.first(`#battlefield .rank-${rank}`);
 
       let squad = $battleState.monsters[rank];

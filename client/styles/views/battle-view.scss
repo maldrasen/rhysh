@@ -52,8 +52,6 @@
     margin: 2px;
   }
 
-
-
   .monster-card {
     border: $border-light;
     background-image: url('../assets/portraits/minotaur-01.jpg');
@@ -65,47 +63,61 @@
 
 #controlPanel {
   position: absolute;
-
-  left: 100px;
-  bottom: 250px;
-  width: 200px;
-
-  padding: 10px;
-  border: $border-normal;
-  background-color: $bg-dark;
-  box-shadow: $shadow-dark;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 400px;
+  max-height: 400px;
+  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
   z-index: $z-battle-controls;
 
-  ul.actions .button {
-    width: 180px;
+  .clip-area {
+    height: 200px;
+    max-height: 200px;
+    overflow: hidden;
   }
 
-  .status-row {
-    font-size: $fs-bigger;
+  .action-tabs {
     border-bottom: $border-normal;
-    margin-bottom: 10px;
+    margin: 10px;
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .sub-menu {
+    display: flex;
+    margin: 10px;
   }
 }
 
-#monsterList {
+#targetFrame {
   position: absolute;
 
-  right: 100px;
-  bottom: 250px;
-  height: 200px;
+  right: 20px;
+  bottom: 240px;
+  height: 220px;
   width: 300px;
+  padding: 5px;
 
-  padding: 10px;
   border: $border-normal;
   background-color: $bg-dark;
   box-shadow: $shadow-dark;
-  z-index: $z-battle-monsters;
+  z-index: $z-battle-target-frame;
+
+  .title {
+    text-align: center;
+    font-size: $fs-bigger;
+    border-bottom: $border-normal;
+    margin-bottom: 9px;
+  }
 
   li {
     box-sizing: border-box;
-    height: 32px;
-    line-height: 32px;
-    font-size: $fs-bigger;
+    height: 28px;
+    line-height: 28px;
+    font-size: $fs-big;
     margin-bottom: 10px;
     padding: 0px 5px;
     background-color: $bg-dark;

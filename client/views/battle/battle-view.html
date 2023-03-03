@@ -10,35 +10,41 @@
     <div class='rank rank-5'></div>
   </div>
 
-  <ul id='monsterList'>
-    <li class='rank-1 empty'></li>
-    <li class='rank-2 empty'></li>
-    <li class='rank-3 empty'></li>
-    <li class='rank-4 empty'></li>
-    <li class='rank-5 empty'></li>
-  </ul>
-
   <div id='controlPanel'>
-    <div id='characterOrders' class='hide'>
-      <div class='status-row'>
-        <span class='character-name'></span>
+    <div class='clip-area'>
+
+      <div id='characterOrders' class='hide'>
+        <div class='action-tabs'>
+          <ul class='actions'>
+            <li class='small-margin-bottom'><a href='#' class='button attack-button'>Attack</a></li>
+            <li class='small-margin-bottom'><a href='#' class='button abilities-button'>Abilities</a></li>
+            <li class='small-margin-bottom'><a href='#' class='button spells-button'>Spells</a></li>
+            <li class='small-margin-bottom'><a href='#' class='button items-button'>Use</a></li>
+            <li><a href='#' class='button orders-button'>Orders</a></li>
+            <li><a href='#' class='button back-button'>Back</a></li>
+          </ul>
+        </div>
       </div>
 
-      <ul class='actions'>
-        <li class='small-margin-bottom'><a href='#' class='button attack-button'>Attack</a></li>
-        <li class='small-margin-bottom'><a href='#' class='button abilities-button'>Abilities</a></li>
-        <li class='small-margin-bottom'><a href='#' class='button spells-button'>Spells</a></li>
-        <li class='small-margin-bottom'><a href='#' class='button items-button'>Use</a></li>
-        <li><a href='#' class='button orders-button'>Orders</a></li>
-        <li><a href='#' class='button back-button'>Back</a></li>
-      </ul>
-    </div>
+      <div id='targetFrame' class='hide'>
+        <div class='title'>Target</div>
+        <ul class='target-list'>
+          <li class='rank-1 empty'></li>
+          <li class='rank-2 empty'></li>
+          <li class='rank-3 empty'></li>
+          <li class='rank-4 empty'></li>
+          <li class='rank-5 empty'></li>
+        </ul>
+      </div>
 
-    <div id='attackOptions' class='hide'></div>
+      <div id='attackOptions' class='sub-menu hide'>
+      </div>
 
-    <div id='partyOrders' class='hide'>
-      <a href='#' class='button button-primary start-round-button'>Start Round</a>
-      <a href='#' class='button back-button'>Back</a>
+      <div id='partyOrders' class='hide'>
+        <a href='#' class='button button-primary start-round-button'>Start Round</a>
+        <a href='#' class='button back-button'>Back</a>
+      </div>
+
     </div>
   </div>
 
