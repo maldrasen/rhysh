@@ -63,17 +63,34 @@ window.BattleView = (function() {
   function updateMonsterList() {
     forUpTo(5, i => {
       let rank = i+1;
-      let element = X.first(`#monsterList .rank-${rank}`);
+      let listElement = X.first(`#monsterList .rank-${rank}`);
+      let fieldElement = X.first(`#battlefield .rank-${rank}`);
+
       let squad = $battleState.monsters[rank];
 
-      X.empty(element);
-      X.addClass(element,'empty');
+      X.empty(listElement);
+      X.empty(fieldElement);
+      X.addClass(listElement,'empty');
 
       if (squad) {
-        X.removeClass(element,'empty');
-        element.innerHTML = `<span class='count'>${squad.monsters.length}</span> ${squad.name}`;
+        X.removeClass(listElement,'empty');
+        listElement.innerHTML = `<span class='count'>${squad.monsters.length}</span> ${squad.name}`;
+
+        squad.monsters.forEach(monster => {
+          fieldElement.appendChild(buildMonsterCard(monster))
+        });
       }
     });
+  }
+
+  function buildMonsterCard(monster) {
+    console.log("Build:",monster)
+
+    let monsterCard = X.createElement(`
+      <div class='monster-card'>
+        <div class='name'>${monster.name}</div>
+      </div>`);
+    return monsterCard;
   }
 
   function playBattleStartEffect() {

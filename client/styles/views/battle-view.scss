@@ -6,7 +6,61 @@
   right: 0;
   top: 0;
   height: calc(100% - 260px);
-  z-index: $z-battlefield
+  z-index: $z-battlefield;
+
+  .rank {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .rank-1 { top: 200px; z-index:50; }
+  .rank-2 { top: 162px; z-index:40; }
+  .rank-3 { top: 124px; z-index:30; }
+  .rank-4 { top: 86px; z-index:20; }
+  .rank-5 { top: 50px; z-index:10; }
+
+  .rank-1 .monster-card {
+    height: 160px;
+    width: 120px;
+    margin: 10px;
+  }
+
+  .rank-2 .monster-card {
+    height: 147px;
+    width: 110px;
+    margin: 8px;
+  }
+
+  .rank-3 .monster-card {
+    height: 133px;
+    width: 100px;
+    margin: 6px;
+  }
+
+  .rank-4 .monster-card {
+    height: 120px;
+    width: 90px;
+    margin: 4px;
+  }
+
+  .rank-5 .monster-card {
+    height: 107px;
+    width: 80px;
+    margin: 2px;
+  }
+
+
+
+  .monster-card {
+    border: $border-light;
+    background-image: url('../assets/portraits/minotaur-01.jpg');
+    background-size: contain;
+    box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
+  }
+
 }
 
 #controlPanel {
@@ -14,6 +68,7 @@
 
   left: 100px;
   bottom: 250px;
+  width: 200px;
 
   padding: 10px;
   border: $border-normal;
@@ -21,8 +76,8 @@
   box-shadow: $shadow-dark;
   z-index: $z-battle-controls;
 
-  ul.actions {
-    display: flex;
+  ul.actions .button {
+    width: 180px;
   }
 
   .status-row {
