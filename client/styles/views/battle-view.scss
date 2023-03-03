@@ -1,5 +1,4 @@
 
-
 #battlefield {
   position: absolute;
   left: 0;
@@ -77,19 +76,17 @@
     overflow: hidden;
   }
 
-  .action-tabs {
-    border-bottom: $border-normal;
-    margin: 10px;
-  }
-
-  .actions {
-    display: flex;
-  }
-
   .sub-menu {
     display: flex;
     margin: 10px;
   }
+}
+
+#actionTabs {
+  border-bottom: $border-normal;
+  margin: 10px;
+  height: 40px;
+  .actions { display: flex; }
 }
 
 #targetFrame {
@@ -164,3 +161,10 @@
   filter: contrast(1) grayscale(0) brightness(1);
 }
 
+#activeCharacterGlow {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  box-shadow: $shadow-glow-frame;
+  z-index: $z-party-glow-frame;
+}

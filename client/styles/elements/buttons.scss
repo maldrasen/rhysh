@@ -53,6 +53,10 @@
   font-size: $fs-tiny;
 }
 
+.button.highlight {
+  box-shadow: $shadow-glow-frame;
+}
+
 // Imortant all the things!
 .disabled {
   cursor: default !important;

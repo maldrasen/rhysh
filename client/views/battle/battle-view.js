@@ -1,11 +1,21 @@
 window.BattleView = (function() {
 
   var $battleState;
+  var $activeCharacterCode;
+  var $activeCharacter;
 
   function init() {
+    X.onClick('#actionTabs .attack-button',selectAttackTab);
+    X.onClick('#actionTabs .abilities-button',selectAbilityTab);
+    X.onClick('#actionTabs .spells-button',selectSpellTab);
+    X.onClick('#actionTabs .items-button',selectItemTab);
+    X.onClick('#actionTabs .orders-button',selectOrderTab);
+
     X.onCodeDown(123, () => {
       return Environment.debug && MapView.isOpen() && !isOpen()
     }, debugBattleStart);
+
+    X.onResize(isOpen, moveActiveCharacterGlow)
   }
 
   function show(state) {
@@ -30,34 +40,86 @@ window.BattleView = (function() {
   }
 
   function showCharacterOrders(code) {
-    let character = $battleState.party[code];
+    $activeCharacterCode = code;
+    $activeCharacter = $battleState.party[$activeCharacterCode];
 
-    X.removeClass('#characterOrders','hide');
-    X.addClass('#characterOrders .orders-button','hide');
-    X.addClass('#characterOrders .back-button','hide');
+    X.addClass('#actionTabs .orders-button','hide');
+    X.addClass('#actionTabs .back-button','hide');
 
-    X.addClass('#characterOrders .attack-button','disabled');
-    X.addClass('#characterOrders .abilities-button','disabled');
-    X.addClass('#characterOrders .spells-button','disabled');
+    X.addClass('#actionTabs .attack-button','disabled');
+    X.addClass('#actionTabs .abilities-button','disabled');
+    X.addClass('#actionTabs .spells-button','disabled');
 
-    if (code == 'main') {
-      X.removeClass('#characterOrders .orders-button','hide');
+    if ($activeCharacterCode == 'main') {
+      X.removeClass('#actionTabs .orders-button','hide');
     }
-    if (code != 'main') {
-      X.removeClass('#characterOrders .back-button','hide');
+    if ($activeCharacterCode != 'main') {
+      X.removeClass('#actionTabs .back-button','hide');
     }
-    if (character.mainHand) {
-      X.removeClass('#characterOrders .attack-button','disabled');
+    if ($activeCharacter.mainHand) {
+      X.removeClass('#actionTabs .attack-button','disabled');
     }
-    if (character.abilityList.length > 0) {
-      X.removeClass('#characterOrders .attack-button','disabled');
+    if ($activeCharacter.abilityList.length > 0) {
+      X.removeClass('#actionTabs .attack-button','disabled');
     }
-    if (character.spellList.length > 0) {
-      X.removeClass('#characterOrders .attack-button','disabled');
+    if ($activeCharacter.spellList.length > 0) {
+      X.removeClass('#actionTabs .attack-button','disabled');
     }
 
-    console.log(character);
+    selectAttackTab();
+    moveActiveCharacterGlow();
   }
+
+  function selectAttackTab() {
+    hideActionTabs();
+    X.addClass('#actionTabs .attack-button','highlight');
+    X.removeClass('#attackOptions','hide');
+  }
+
+  function selectAbilityTab() {
+    hideActionTabs();
+    X.addClass('#actionTabs .abilities-button','highlight');
+    X.removeClass('#abilityOptions','hide');
+  }
+
+  function selectSpellTab() {
+    hideActionTabs();
+    X.addClass('#actionTabs .spells-button','highlight');
+    X.removeClass('#spellOptions','hide');
+  }
+
+  function selectItemTab() {
+    hideActionTabs();
+    X.addClass('#actionTabs .items-button','highlight');
+    X.removeClass('#itemOptions','hide');
+  }
+
+  function selectOrderTab() {
+    hideActionTabs();
+    X.addClass('#actionTabs .orders-button','highlight');
+    X.removeClass('#orderOptions','hide');
+  }
+
+  function hideActionTabs() {
+    X.removeClass('#actionTabs .highlight','highlight');
+    X.addClass('#attackOptions','hide');
+    X.addClass('#abilityOptions','hide');
+    X.addClass('#spellOptions','hide');
+    X.addClass('#itemOptions','hide');
+    X.addClass('#orderOptions','hide');
+  }
+
+  function moveActiveCharacterGlow(code) {
+    let portrait = X.first('#partyPanel .main-character');
+    let position = X.getPosition(portrait);
+    let glow = X.first('#activeCharacterGlow');
+
+    glow.style['top'] = `${position.top}px`;
+    glow.style['left'] = `${position.left}px`;
+    glow.style['height'] = `${position.height}px`;
+    glow.style['width'] = `${position.width}px`;
+  }
+
 
   function updateMonsterList() {
     forUpTo(5, i => {
@@ -83,8 +145,6 @@ window.BattleView = (function() {
   }
 
   function buildMonsterCard(monster) {
-    console.log("Build:",monster)
-
     let monsterCard = X.createElement(`
       <div class='monster-card'>
         <div class='name'>${monster.name}</div>

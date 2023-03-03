@@ -10,20 +10,40 @@
     <div class='rank rank-5'></div>
   </div>
 
+  <div id='activeCharacterGlow'></div>
+
   <div id='controlPanel'>
     <div class='clip-area'>
 
-      <div id='characterOrders' class='hide'>
-        <div class='action-tabs'>
-          <ul class='actions'>
-            <li class='small-margin-bottom'><a href='#' class='button attack-button'>Attack</a></li>
-            <li class='small-margin-bottom'><a href='#' class='button abilities-button'>Abilities</a></li>
-            <li class='small-margin-bottom'><a href='#' class='button spells-button'>Spells</a></li>
-            <li class='small-margin-bottom'><a href='#' class='button items-button'>Use</a></li>
-            <li><a href='#' class='button orders-button'>Orders</a></li>
-            <li><a href='#' class='button back-button'>Back</a></li>
-          </ul>
-        </div>
+      <div id='actionTabs'>
+        <ul class='actions'>
+          <li class='small-margin-right'><a href='#' class='button attack-button'>Attack</a></li>
+          <li class='small-margin-right'><a href='#' class='button abilities-button'>Abilities</a></li>
+          <li class='small-margin-right'><a href='#' class='button spells-button'>Spells</a></li>
+          <li class='small-margin-right'><a href='#' class='button items-button'>Use</a></li>
+          <li><a href='#' class='button orders-button'>Orders</a></li>
+          <li><a href='#' class='button back-button'>Back</a></li>
+        </ul>
+      </div>
+
+      <div id='attackOptions' class='sub-menu hide'>
+        Attack Options
+      </div>
+
+      <div id='abilityOptions' class='sub-menu hide'>
+        Ability Options
+      </div>
+
+      <div id='spellOptions' class='sub-menu hide'>
+        Spell Options
+      </div>
+
+      <div id='itemOptions' class='sub-menu hide'>
+        Item Options
+      </div>
+
+      <div id='orderOptions' class='sub-menu hide'>
+        Order Options
       </div>
 
       <div id='targetFrame' class='hide'>
@@ -35,9 +55,6 @@
           <li class='rank-4 empty'></li>
           <li class='rank-5 empty'></li>
         </ul>
-      </div>
-
-      <div id='attackOptions' class='sub-menu hide'>
       </div>
 
       <div id='partyOrders' class='hide'>

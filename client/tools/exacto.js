@@ -79,6 +79,13 @@ X.onWheelDown = function(when, callback) {
   });
 }
 
+X.onResize = function(when, callback) {
+  window.addEventListener('resize', (event) => {
+    if (when(event)) { callback(event); }
+  });
+}
+
+
 X.onEscape = function(when, callback)     { X.onCodeDown(27, when, callback); }
 X.onPageUp = function(when, callback)     { X.onCodeDown(33, when, callback); }
 X.onPageDown = function(when, callback)   { X.onCodeDown(34, when, callback); }
