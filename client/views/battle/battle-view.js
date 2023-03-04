@@ -13,13 +13,12 @@ window.BattleView = (function() {
 
   function show(state) {
     $battleState = state.battle;
-    $committedActions = {};
 
     PartyPanel.show(state.status);
     MainContent.show({ path:"client/views/battle/battle-view.html", classname:'battle' }).then(() => {
       BackgroundImage.setBackground(state.background);
-      BattleControls.showCharacterOrders('main');
       Battlefield.updateMonsterList();
+      BattleControls.startControlPhase();
       BattleEffects.playBattleStartEffect();
     });
   }
@@ -28,16 +27,18 @@ window.BattleView = (function() {
     return X.first('#battleView') != null;
   }
 
+  function getBattleState() { return $battleState; }
+
   function getActiveCharacterCode() { return $activeCharacterCode; }
   function getActiveCharacter() { return $activeCharacter; }
-  function getBattleState() { return $battleState; }
-  function getCommittedAction(code) { return $committedActions[code]; }
-
   function setActiveCharacterCode(code) {
     $activeCharacterCode = code
     $activeCharacter = $battleState.party[$activeCharacterCode];
   }
 
+  function getCommittedAction(code) { return $committedActions[code]; }
+  function getCommittedActions() { return $committedActions; }
+  function clearCommittedActions() { $committedActions = {}; }
   function commitAction(action) {
     $committedActions[$activeCharacter.code] = action;
   }
@@ -51,11 +52,16 @@ window.BattleView = (function() {
     init,
     show,
     isOpen,
+
+    getBattleState,
+
     getActiveCharacterCode,
     getActiveCharacter,
-    getBattleState,
-    getCommittedAction,
     setActiveCharacterCode,
+
+    getCommittedAction,
+    getCommittedActions,
+    clearCommittedActions,
     commitAction,
   };
 

@@ -15,13 +15,18 @@ window.BattleControls = (function() {
     X.onResize(BattleView.isOpen, moveActiveCharacterGlow)
   }
 
+  function startControlPhase() {
+    BattleView.clearCommittedActions();
+    showCharacterOrders('main');
+  }
+
   function showCharacterOrders(code) {
     BattleView.setActiveCharacterCode(code);
 
     let character = BattleView.getActiveCharacter();
 
+    X.removeClass('#actionTabs','hide');
     X.addClass('#actionTabs .orders-button','hide');
-    X.addClass('#actionTabs .back-button','hide');
 
     X.addClass('#actionTabs .attack-button','disabled');
     X.addClass('#actionTabs .abilities-button','disabled');
@@ -29,9 +34,6 @@ window.BattleControls = (function() {
 
     if (code == 'main') {
       X.removeClass('#actionTabs .orders-button','hide');
-    }
-    if (code != 'main') {
-      X.removeClass('#actionTabs .back-button','hide');
     }
     if (character.mainHand) {
       X.removeClass('#actionTabs .attack-button','disabled');
@@ -164,15 +166,33 @@ window.BattleControls = (function() {
     console.log("TODO: Go to next character.");
   }
 
+  // TODO: Right now, there's only the main character. We'll need to figure out
+  //       how to properly traverse the party object as this uses the actual
+  //       character codes when we actually implement this.
+  function goBack() {
+    showCharacterOrders('main');
+  }
+
   function showConfirm() {
     hideActionTabs();
     X.addClass('#actionTabs','hide');
-    console.log("Show Orders Confirm")
+
+    let confirmed = () => {
+      ClientCommands.send('battle.start-round', {
+        actions: BattleView.getCommittedActions(),
+      });
+    };
+
+    Confirmation.show({
+      text: "Start Round?",
+      onConfirm: confirmed,
+      onCancel: goBack,
+    });
   }
 
   return {
     init,
-    showCharacterOrders,
+    startControlPhase,
   }
 
 })();
