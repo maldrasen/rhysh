@@ -14,10 +14,9 @@ describe('BattleEngine', function() {
 
     let engine = new BattleEngine({ actions:{ Main:{ action:'attack', mainMode:'random', offMode:'random' }}});
     engine.rollForInitiative();
-
-    console.log(engine.getInitiativeOrder());
-
-
+    engine.forInitiativeOrder((segment, initiative) => {
+      console.log(" - ",segment, initiative);
+    });
   });
 
 

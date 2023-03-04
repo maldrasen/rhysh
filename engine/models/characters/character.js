@@ -90,6 +90,10 @@ global.Character = class Character {
     return Math.ceil(this.getLevel() / factor);
   }
 
+  // === Members ===============================================================
+
+  rollForInitiative() { return RollsInitiative.rollFor(this); }
+
   // === Experience ============================================================
 
   gainExperience(points) {

@@ -57,6 +57,10 @@ global.Monster = class Monster {
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
 
+  // === Members ===============================================================
+
+  rollForInitiative() { return RollsInitiative.rollFor(this); }
+
   // === Abilities =============================================================
 
   getAbilities() { return this.#abilities; }

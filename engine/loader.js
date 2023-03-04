@@ -16,6 +16,7 @@ global.Loader = (function() {
     'builders',
     'dictionaries',
     'game',
+    'members',
     'models',
     'renderers',
     'scrutinizers',
