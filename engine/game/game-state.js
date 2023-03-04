@@ -152,6 +152,12 @@ global.GameState = (function() {
 
   function getCurrentBattle() { return $currentBattle; }
 
+  // Setting the current battle like this bypasses setting the stage and
+  // rendering the battle view. It should only be done by the specs during
+  // testing. When the game is running triggerBattle() should be called.
+  function setCurrentBattle(battle) { $currentBattle = battle; }
+
+
   function triggerBattle(options = {}) {
     console.log("\n=== Trigger Battle ===");
     console.log("Options:",options);
@@ -161,6 +167,7 @@ global.GameState = (function() {
 
     GameRenderer.render();
   }
+
 
   return {
     init,
@@ -188,6 +195,7 @@ global.GameState = (function() {
     setPartyLocation,
 
     getCurrentBattle,
+    setCurrentBattle,
     triggerBattle,
   };
 

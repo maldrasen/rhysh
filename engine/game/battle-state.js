@@ -7,12 +7,6 @@ global.BattleState = class BattleState {
   #monsters;
   #squads;
 
-  #initiativeOrder;
-  #initiativeIndex;
-
-  #orders;
-  #resultList;
-
   constructor(options) {
     this.#roundCounter = 0;
     this.#monsterCounter = 1;
@@ -20,14 +14,11 @@ global.BattleState = class BattleState {
     this.#monsters = {};
     this.#squads = {};
 
-    this.#orders = {};
-    this.#resultList = [];
-
-    this.#initiativeOrder = [];
-    this.#initiativeIndex = 0;
-
     new MonsterBuilder(this).generate();
   }
+
+  getMonsters() { return this.#monsters; }
+  getMonster(id) { return this.#monsters[id]; }
 
   // Add a squad of monsters to the battle. The battle state needs to make a
   // squad, assign it an id, and assign each monster a unique id for the
@@ -50,12 +41,18 @@ global.BattleState = class BattleState {
     this.#squads[squad.id] = squad;
   }
 
-  // === Combat Rounds =========================================================
+  // === Combat ================================================================
 
-  startNextRound() {
-    console.log("=== Start Next Round ===");
+  // Other than advancing the round counter, not sure what all needs to be done
+  // at the start of a round.
+  startRound() {
+    this.#roundCounter += 1
   }
 
+  // At the end of every round we need to check all the temporary effects and
+  // remove the ones that expire. There will be battle wide effects, squad
+  // effects and individual character effects, so they all need to be checked.
+  //
   // TODO: Swapping Ranks. Like Wizardry, it's possible for monster squads to
   //       move closer or further away. Monsters will try to retreat if they've
   //       been wounded or if enough of them have bad conditions. Monsters in
@@ -64,6 +61,8 @@ global.BattleState = class BattleState {
   //       We'll need to have a monster AI that will be able to decide what
   //       rank each squad prefers to be in. With 5 ranks possible the ranges
   //       are: [close, extended, long, long, long];
+  //
+  endRound() {}
 
   // === For Client ============================================================
   // Because the battlestate is transferred to the view it needs to be
