@@ -15,14 +15,23 @@ global.BattleEngine = class BattleEngine {
     state.startRound();
 
     this.rollForInitiative();
-
     this.forInitiativeOrder((segment, initiative) => {
-      console.log(segment, initiative);
-    })
+      // console.log("Segment:",segment);
+      if (initiative.type == 'monster') {
+        let monster = state.getMonster(initiative.id);
+        let action = monster.chooseCombatAction();
+        // console.log("  Monster:",initiative.id,monster.getName());
+        // console.log("  Action:",action)
+      }
+      if (initiative.type == 'character') {
+        let character = CharacterLibrary.getCachedCharacter(initiative.id);
+        let action = this.#characterActions[initiative.id];
+        // console.log("  Character:",character.getFullName());
+        // console.log("  Action:",action)
+      }
+    });
 
     state.endRound();
-
-
 
     return this.#battleEvents;
   }

@@ -110,6 +110,11 @@ global.Monster = class Monster {
     this.#abilities.push(ability);
   }
 
+  // Oh dear, looks like we're back to needing to do some stuff here.
+  chooseCombatAction() {
+    return null;
+  }
+
   // === Weapons and Armor =====================================================
 
   getSlots() { return this.#slots; }
