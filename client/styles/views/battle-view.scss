@@ -75,11 +75,6 @@
     max-height: 200px;
     overflow: hidden;
   }
-
-  .sub-menu {
-    display: flex;
-    margin: 10px;
-  }
 }
 
 #actionTabs {
@@ -87,6 +82,45 @@
   margin: 10px;
   height: 40px;
   .actions { display: flex; }
+}
+
+#attackOptions {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 30px;
+
+  .weapon {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px;
+    border: $border-light;
+    background-color: $bg-frame;
+    box-shadow: $shadow-frame;
+  }
+
+  .type {
+    display: inline-block;
+    width: 100px;
+    color: $fg-weak;
+    font-size: $fs-big;
+  }
+
+  .name {
+    font-size: $fs-big;
+    color: $fg-strong;
+  }
+
+  .empty {
+    color: $fg-very-weak;
+  }
+
+  .modes {
+    display: flex;
+    padding-top: 5px;
+    border-top: $border-light;
+
+    a { margin-right:5px; }
+  }
 }
 
 #targetFrame {

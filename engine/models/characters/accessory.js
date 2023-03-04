@@ -59,4 +59,14 @@ global.Accessory = class Accessory {
     return accessory;
   }
 
+  // This will be called for off-hand accessories such as shields. I don't
+  // think any accessories will have actual attack modes, but something like
+  // 'block' should be included for display.
+  packForBattle() {
+    return {
+      name: this.getName(),
+      modes: ['block'],
+    };
+  }
+
 }

@@ -31,13 +31,14 @@
 
       // Engine
       import('../engine/constants.js'),
+      import('../engine/dictionaries/archetype-dictionary.js'),
+      import('../engine/dictionaries/species-dictionary.js'),
       import('../engine/helpers/array-helper.js'),
       import('../engine/helpers/object-helper.js'),
       import('../engine/helpers/random-helper.js'),
       import('../engine/helpers/rhysh-helper.js'),
+      import('../engine/helpers/text-helper.js'),
       import('../engine/models/dungeon/vector.js'),
-      import('../engine/dictionaries/archetype-dictionary.js'),
-      import('../engine/dictionaries/species-dictionary.js'),
 
       // Components
       import('./components/attribute-control.js'),
@@ -60,7 +61,10 @@
       import('./tools/exacto.js'),
 
       // Views
+      import('./views/battle/battle-controls.js'),
+      import('./views/battle/battle-effects.js'),
       import('./views/battle/battle-view.js'),
+      import('./views/battle/battlefield.js'),
       import('./views/dungeon/dungeon.js'),
       import('./views/event/event-view.js'),
       import('./views/mainMenu/escape-menu.js'),
@@ -96,6 +100,7 @@
   }
 
   function initAll() {
+    BattleControls.init();
     BattleView.init();
     Confirmation.init();
     Dungeon.init();
