@@ -49,29 +49,23 @@ window.BattleControls = (function() {
 
   function selectAttackTab() {
     let character = BattleView.getActiveCharacter();
-    let buildModeButton = (hand, mode) => {
-      return X.createElement(`<a href='#${hand}:${mode}' class='button'>${TextHelper.titlecase(mode)}</a>`);
-    }
-
-    hideActionTabs();
-    X.addClass('#actionTabs .attack-button','highlight');
-    X.removeClass('#attackOptions','hide');
-
     let mainHand = character.mainHand;
     let offHand = character.offHand;
-
-    X.first('#attackOptions .main-hand .name').innerHTML = mainHand.name;
-    X.first('#attackOptions .off-hand .name').innerHTML = (offHand ? offHand.name : `<span class='empty'>(Empty)</span>`);
-
     let mainModes = X.first('#attackOptions .main-hand .modes');
     let offModes = X.first('#attackOptions .off-hand .modes');
 
+    hideActionTabs();
     X.empty(mainModes);
+    X.empty(offModes);
+    X.addClass('#actionTabs .attack-button','highlight');
+    X.removeClass('#attackOptions','hide');
+    X.first('#attackOptions .main-hand .name').innerHTML = mainHand.name;
+    X.first('#attackOptions .off-hand .name').innerHTML = (offHand ? offHand.name : `<span class='empty'>(Empty)</span>`);
+
     mainHand.modes.forEach(mode => {
       mainModes.appendChild(buildModeButton('main',mode));
     });
 
-    X.empty(offModes);
     (offHand ? offHand.modes : []).forEach(mode => {
       offModes.appendChild(buildModeButton('off',mode))
     });
@@ -79,11 +73,21 @@ window.BattleControls = (function() {
     let firstMain = mainModes.querySelector(':first-child');
     let firstOff = offModes.querySelector(':first-child');
 
-    X.addClass(firstMain,'highlight');
+    if (firstMain) { X.addClass(firstMain,'highlight'); }
+    if (firstOff)  { X.addClass(firstOff,'highlight'); }
+  }
 
-    if (firstOff) {
-      X.addClass(firstOff,'highlight');
-    }
+  function buildModeButton(hand, mode) {
+    let button = X.createElement(`<a class='button'>${TextHelper.titlecase(mode)}</a>`);
+
+    button.setAttribute('data-hand',hand);
+    button.setAttribute('data-mode',mode);
+    button.addEventListener('click', event => {
+      X.removeClass(event.target.closest('.weapon').querySelector('.highlight'),'highlight');
+      X.addClass(event.target,'highlight');
+    });
+
+    return button;
   }
 
   function selectAbilityTab() {
@@ -131,15 +135,39 @@ window.BattleControls = (function() {
   }
 
   function commitAttack() {
+    let main = X.first('#attackOptions .main-hand .highlight');
+    let off = X.first('#attackOptions .off-hand .highlight');
+    let mainMode = main ? main.getAttribute('data-mode') : null;
+    let offMode = off ? off.getAttribute('data-mode') : null;
+
     BattleView.commitAction({
       action: 'attack',
-      mainMode: '',
-      offMode: '',
+      mainMode: mainMode,
+      offMode: offMode,
     });
   }
 
   function nextCharacter() {
-    console.log("=== Next Character ===");
+    let state = BattleView.getBattleState();
+    let allComplete = true;
+
+    ObjectHelper.each(state.party, (code, character) => {
+      if (character != null && BattleView.getCommittedAction(character.code) == null) {
+        allComplete = false;
+      }
+    });
+
+    if (allComplete) {
+      return showConfirm();
+    }
+
+    console.log("TODO: Go to next character.");
+  }
+
+  function showConfirm() {
+    hideActionTabs();
+    X.addClass('#actionTabs','hide');
+    console.log("Show Orders Confirm")
   }
 
   return {

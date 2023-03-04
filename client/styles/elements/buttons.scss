@@ -36,7 +36,7 @@
 .button-secondary { @include button($fg-button-secondary); }
 
 .button-big {
-  padding: 0 8px;
+  padding: 0 15px;
   line-height: 40px;
   font-size: $fs-big;
 }

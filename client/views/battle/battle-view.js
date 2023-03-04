@@ -28,9 +28,10 @@ window.BattleView = (function() {
     return X.first('#battleView') != null;
   }
 
-  function getBattleState() { return $battleState; }
   function getActiveCharacterCode() { return $activeCharacterCode; }
   function getActiveCharacter() { return $activeCharacter; }
+  function getBattleState() { return $battleState; }
+  function getCommittedAction(code) { return $committedActions[code]; }
 
   function setActiveCharacterCode(code) {
     $activeCharacterCode = code
@@ -50,9 +51,10 @@ window.BattleView = (function() {
     init,
     show,
     isOpen,
-    getBattleState,
     getActiveCharacterCode,
     getActiveCharacter,
+    getBattleState,
+    getCommittedAction,
     setActiveCharacterCode,
     commitAction,
   };
