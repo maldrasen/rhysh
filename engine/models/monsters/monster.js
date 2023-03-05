@@ -16,10 +16,14 @@ global.Monster = class Monster {
   #offHand;
   #armor = {};
 
-  #cooldowns = {};
+  #cooldowns;
+  #threatTable;
+  #target;
 
   constructor(options) {
     this.#condition = new Condition();
+    this.#threatTable = new ThreatTable();
+    this.#cooldowns = {};
   }
 
   // The monster ID will probably only be used by the battle state. This is how
@@ -56,6 +60,9 @@ global.Monster = class Monster {
   // Monsters' essense.
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
+
+  getTarget() { return this.#target; }
+  setTarget(target) { this.#target = target; }
 
   // === Members ===============================================================
 
@@ -110,9 +117,10 @@ global.Monster = class Monster {
     this.#abilities.push(ability);
   }
 
-  // Oh dear, looks like we're back to needing to do some stuff here.
+  // === Combat ================================================================
+
   chooseCombatAction() {
-    return null;
+    MonsterTarget.chooseTarget(this);
   }
 
   // === Weapons and Armor =====================================================

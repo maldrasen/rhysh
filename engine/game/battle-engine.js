@@ -23,6 +23,11 @@ global.BattleEngine = class BattleEngine {
         // console.log("  Monster:",initiative.id,monster.getName());
         // console.log("  Action:",action)
       }
+
+      // TODO: Some actions that characters take will increase threat across
+      //       all monsters. Actions like healing and area of effect spells
+      //       especially.
+      //
       if (initiative.type == 'character') {
         let character = CharacterLibrary.getCachedCharacter(initiative.id);
         let action = this.#characterActions[initiative.id];
