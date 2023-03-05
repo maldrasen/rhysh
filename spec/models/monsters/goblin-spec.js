@@ -17,10 +17,12 @@ describe('Goblin', function() {
   });
 
   it.only('chooses a combat ability', function() {
-    SpecHelper.randomMainCharacter();
-    GameState.setCurrentBattle(new BattleState());
+    let state = new BattleState();
+    let gobbo = state.getMonster('M1');
 
-    let gobbo = new Monster.Goblin({});
+    SpecHelper.randomMainCharacter();
+    GameState.setCurrentBattle(state);
+
     console.log("Action:",gobbo.chooseCombatAction());
 
   });

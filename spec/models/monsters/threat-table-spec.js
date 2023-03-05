@@ -1,4 +1,4 @@
-describe.only('ThreatTable', function() {
+describe('ThreatTable', function() {
 
   it('sets and adds threat', function() {
     let table = new ThreatTable();

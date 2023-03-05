@@ -15,6 +15,7 @@ global.Monster = class Monster {
   #mainHand;
   #offHand;
   #armor = {};
+  #abilityChance = 25;
 
   #cooldowns;
   #threatTable;
@@ -64,21 +65,61 @@ global.Monster = class Monster {
   getTarget() { return this.#target; }
   setTarget(target) { this.#target = target; }
 
+  getAbilityChance() { return this.#abilityChance; }
+  setAbilityChance(chance) { this.#abilityChance = chance; }
+
   // === Members ===============================================================
 
   rollForInitiative() { return RollsInitiative.rollFor(this); }
+
+  // === Combat ================================================================
+
+  chooseCombatAction() {
+    MonsterTarget.chooseTarget(this);
+
+    let abilities = this.getAvailableAbilities();
+  }
 
   // === Abilities =============================================================
 
   getAbilities() { return this.#abilities; }
 
-  // Hmm, before this can be done we need to set the actor in the context, but
-  // before I can do that I need actors in the battle state.
   getAvailableAbilities() {
     let available = [];
-    let context = new WeaverContext();
+    let state = GameState.getCurrentBattle();
+    let range = state.getMonsterRange(this.getID());
+    let scrutinizer = this.#buildScrutinizer();
+
+    console.log("==== Get Abilities ====")
+    console.log("At Range:",range);
+    console.log("Scrutinizer:",scrutinizer);
+
+    this.#abilities.forEach(ability => {
+      let canUse = true;
+      let template = AbilityDictionary.lookup(ability.code);
+      let abilityRange = template.range || 'close';
+
+      console.log("Can Use?",ability);
+      console.log("  Type",template.type);
+      console.log("  Requires",template.requires);
+      console.log("  Range",abilityRange);
+    });
+
     return available;
   }
+
+  #buildScrutinizer() {
+    let context = new WeaverContext();
+        context.set('monster',this);
+        context.set('target',CharacterLibrary.getCachedCharacter(this.#target));
+
+    let scrutinizer = new Scrutinizer()
+        scrutinizer.setContext(context);
+
+    return scrutinizer;
+  }
+
+
 
   hasAbilities() { return this.#abilities.length > 0; }
 
@@ -115,12 +156,6 @@ global.Monster = class Monster {
   addAbility(ability) {
     AbilityDictionary.lookup(ability.code);
     this.#abilities.push(ability);
-  }
-
-  // === Combat ================================================================
-
-  chooseCombatAction() {
-    MonsterTarget.chooseTarget(this);
   }
 
   // === Weapons and Armor =====================================================

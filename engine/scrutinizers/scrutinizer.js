@@ -19,10 +19,11 @@
 
 global.Scrutinizer = class Scrutinizer {
 
-  constructor() {}
+  #context
+  #state
 
-  setContext(context) { this.context = context; }
-  setState(state) { this.state = state; }
+  setContext(context) { this.#context = context; }
+  setState(state) { this.#state = state; }
 
   async meetsRequirements(requires) {
     if (requires == null || requires.length == 0) { return true; }
@@ -84,6 +85,6 @@ global.Scrutinizer = class Scrutinizer {
   // Requirements Like: state.sex=filthy, or state.litersOfCum>=37
   checkState(requirement) {
     let match = requirement.match(/^state\.([^<>=]+)(<|<=|=|>=|>)([^<>=]+)/);
-    return checkComparisonOperation(this.state[match[1]], match[2], match[3]);
+    return checkComparisonOperation(this.#state[match[1]], match[2], match[3]);
   }
 }

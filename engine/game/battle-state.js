@@ -27,7 +27,7 @@ global.BattleState = class BattleState {
     if (rank < 1 || rank > 5) { throw `Rank is an integer between 1 and 5, not ${rank}`; }
 
     monsters.forEach(monster => {
-      monster.setID(this.#monsterCounter++);
+      monster.setID(`M${this.#monsterCounter++}`);
       this.#monsters[monster.getID()] = monster;
     });
 
@@ -39,6 +39,31 @@ global.BattleState = class BattleState {
     }
 
     this.#squads[squad.id] = squad;
+  }
+
+  getMonsterRange(id) {
+    let monsterRange;
+
+    ObjectHelper.each(this.#squads, (key,squad) => {
+      squad.monsters.forEach(monster => {
+        if (monster.getID() == id) {
+          monsterRange = this.getSquadRange(key);
+        }
+      });
+    });
+
+    if (monsterRange == null) {
+      throw `No monster with id(${id}) found in squads.`;
+    }
+
+    return monsterRange;
+  }
+
+  getSquadRange(key) {
+    let squad = this.#squads[key];
+    if (squad.rank == 1) { return 'close'; }
+    if (squad.rank == 2) { return 'extended'; }
+    return 'long';
   }
 
   // === Combat ================================================================
