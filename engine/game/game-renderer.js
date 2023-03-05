@@ -10,12 +10,10 @@ global.GameRenderer = (function() {
     if (stage.control == "Battle")  { return renderBattle();  }
   }
 
-  async function renderEvent(event) {
-    let renderer = new EventRenderer(event);
-
+  function renderEvent(event) {
     Messenger.publish("browser.render",{
       showView: "Event",
-      event: await renderer.render(),
+      event: new EventRenderer(event).render(),
     });
   }
 

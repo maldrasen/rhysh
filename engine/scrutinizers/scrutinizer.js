@@ -22,6 +22,7 @@ global.Scrutinizer = class Scrutinizer {
   #context
   #state
 
+  constructor(context = null) { this.#context = context; }
   setContext(context) { this.#context = context; }
   setState(state) { this.#state = state; }
 

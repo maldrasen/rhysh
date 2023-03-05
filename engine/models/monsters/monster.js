@@ -88,7 +88,11 @@ global.Monster = class Monster {
     let available = [];
     let state = GameState.getCurrentBattle();
     let range = state.getMonsterRange(this.getID());
-    let scrutinizer = this.#buildScrutinizer();
+
+    let scrutinizer = new Scrutinizer(new Context({
+      monster: this,
+      target: CharacterLibrary.getCachedCharacter(this.#target),
+    }));
 
     console.log("==== Get Abilities ====")
     console.log("At Range:",range);
@@ -107,19 +111,6 @@ global.Monster = class Monster {
 
     return available;
   }
-
-  #buildScrutinizer() {
-    let context = new WeaverContext();
-        context.set('monster',this);
-        context.set('target',CharacterLibrary.getCachedCharacter(this.#target));
-
-    let scrutinizer = new Scrutinizer()
-        scrutinizer.setContext(context);
-
-    return scrutinizer;
-  }
-
-
 
   hasAbilities() { return this.#abilities.length > 0; }
 
