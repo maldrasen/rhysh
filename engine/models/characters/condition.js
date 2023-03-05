@@ -1,9 +1,14 @@
 global.Condition = class Condition {
 
-  #condition = 'normal';
-  #statuses = {};
-  #maxHitPoints
-  #currentHitPoints
+  #condition;
+  #statuses;
+  #maxHitPoints;
+  #currentHitPoints;
+
+  constructor() {
+    this.#condition = 'normal';
+    this.#statuses = {};
+  }
 
   getMaxHitPoints() { return this.#maxHitPoints; }
   setMaxHitPoints(points) {
@@ -61,6 +66,7 @@ global.Condition = class Condition {
   // class, and made it work the same for monsters and normal characters.
 
   getCondition() { return this.#condition; }
+  hasCondition(code) { return this.#condition == code; }
 
   setCondition(code) {
     ConditionDictionary.lookup(code);
@@ -68,7 +74,7 @@ global.Condition = class Condition {
   }
 
   getStatuses() { return { ...this.#statuses }; }
-  hasStatus() { return this.statuses[code] != null; }
+  hasStatus(code) { return this.#statuses[code] != null; }
   removeStatus(code) { delete this.#statuses[code]; }
   setStatus(code, duration) {
     StatusDictionary.lookup(code);

@@ -52,6 +52,10 @@ global.Monster = class Monster {
   setAttributes(attributes) { this.#attributes = attributes; }
 
   getCondition() { return this.#condition; }
+  hasCondition(condition) { return this.#condition.hasCondition(condition); }
+  hasStatus(status) { return this.#condition.hasStatus(status); }
+
+  getMaxHitPoints() { return this.#condition.getMaxHitPoints(); }
   setMaxHitPoints(points) { this.#condition.setMaxHitPoints(points); }
 
   // Essence is the base amount of experience a player earns for killing a
@@ -77,45 +81,64 @@ global.Monster = class Monster {
   chooseCombatAction() {
     MonsterTarget.chooseTarget(this);
 
-    let abilities = this.getAvailableAbilities();
+    let state = GameState.getCurrentBattle();
+    let currentRange = state.getMonsterRange(this.getID());
+    let availableAbilities = this.getAvailableAbilities(currentRange);
+    let canAttack = this.#canAttack(currentRange);
+
+    if (canAttack == false && availableAbilities.length == 0) {
+      return { action:'nothing' };
+    }
+
+    let ability = Random.from(availableAbilities);
+    if (canAttack == false || Random.roll(100) < this.getAbilityChance()) {
+      return { action:'ability', ability:ability };
+    }
+
+    return { action:'attack' };
   }
 
-  // === Abilities =============================================================
-
-  getAbilities() { return this.#abilities; }
-
-  getAvailableAbilities() {
+  getAvailableAbilities(currentRange) {
     let available = [];
-    let state = GameState.getCurrentBattle();
-    let range = state.getMonsterRange(this.getID());
 
     let scrutinizer = new Scrutinizer(new Context({
       monster: this,
       target: CharacterLibrary.getCachedCharacter(this.#target),
     }));
 
-    console.log("==== Get Abilities ====")
-    console.log("At Range:",range);
-    console.log("Scrutinizer:",scrutinizer);
-
     this.#abilities.forEach(ability => {
-      let canUse = true;
       let template = AbilityDictionary.lookup(ability.code);
       let abilityRange = template.range || 'close';
 
-      console.log("Can Use?",ability);
-      console.log("  Type",template.type);
-      console.log("  Requires",template.requires);
-      console.log("  Range",abilityRange);
+      if (this.#abilityInRange(currentRange, abilityRange) && scrutinizer.meetsRequirements(template.requires)) {
+        available.push(ability);
+      }
     });
 
     return available;
   }
 
+  #canAttack(currentRange) {
+    if (this.#mainHand == null) { return false; }
+    let weapon = WeaponDictionary.lookup(this.#mainHand);
+    return this.#abilityInRange(currentRange, weapon.range);
+  }
+
+  #abilityInRange(currentRange, abilityRange) {
+    if (abilityRange == 'close') { return currentRange == 'close'; }
+    if (abilityRange == 'extended') { return ['close','extended'].indexOf(currentRange) >= 0; }
+    return true
+  }
+
+  // === Abilities =============================================================
+
+  getAbilities() { return this.#abilities; }
   hasAbilities() { return this.#abilities.length > 0; }
 
-  getRandomAbility() {
-    return Random.from(this.getAvailableAbilities());
+  // We call lookup on the ability just to make sure that it exists.
+  addAbility(ability) {
+    AbilityDictionary.lookup(ability.code);
+    this.#abilities.push(ability);
   }
 
   // This should be called every time an ability is used, first to validate
@@ -141,12 +164,6 @@ global.Monster = class Monster {
     if (template.cooldown) {
       this.#cooldowns[code] = template.cooldown;
     }
-  }
-
-  // We call lookup on the ability just to make sure that it exists.
-  addAbility(ability) {
-    AbilityDictionary.lookup(ability.code);
-    this.#abilities.push(ability);
   }
 
   // === Weapons and Armor =====================================================

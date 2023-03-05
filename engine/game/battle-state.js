@@ -14,7 +14,7 @@ global.BattleState = class BattleState {
     this.#monsters = {};
     this.#squads = {};
 
-    new MonsterBuilder(this).generate();
+    new MonsterBuilder(this, options).generate();
   }
 
   getMonsters() { return this.#monsters; }

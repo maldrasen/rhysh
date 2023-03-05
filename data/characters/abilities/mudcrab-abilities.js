@@ -62,7 +62,7 @@ AbilityDictionary.register('crab-grab-arms', {
 
 AbilityDictionary.register('crab-leg-crush', {
   type: 'hold',
-  requires: ['state:self(holding-legs)'],
+  requires: ['monster.condition=holding-legs'],
   stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} ankles, crushing them painfully in its claws.` }
   ],
@@ -70,7 +70,7 @@ AbilityDictionary.register('crab-leg-crush', {
 
 AbilityDictionary.register('crab-arm-crush', {
   type: 'hold',
-  requires: ['state:self(holding-arms)'],
+  requires: ['monster.condition=holding-arms'],
   stories: [
     { text:`The Mudcrab squeezes {{T::firstName's}} wrists, crushing them painfully in its claws.` }
   ],
@@ -78,7 +78,7 @@ AbilityDictionary.register('crab-arm-crush', {
 
 AbilityDictionary.register('crab-brutalize', {
   type: 'coup-de-grace',
-  requires: ['status:target(bound-arms)','status:target(bound-legs)'],
+  requires: ['target.status=bound-arms','target.status=bound-legs'],
   storyTeller: 'MudcrabBrutalizer',
 });
 

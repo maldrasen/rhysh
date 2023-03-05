@@ -52,6 +52,8 @@ global.Scrutinizer = class Scrutinizer {
     if (requirement.match(/^no-flag/)) { return this.checkFlagNotExists(requirement); }
     if (requirement.match(/^state/))   { return this.checkState(requirement); }
     if (requirement.match(/^player/))  { return PlayerScrutinizer.check(requirement); }
+    if (requirement.match(/^monster/)) { return BattleScrutinizer.check(requirement, this.#context); }
+    if (requirement.match(/^target/))  { return BattleScrutinizer.check(requirement, this.#context); }
 
     throw `Unknown Requirement - ${requirement}`;
   }

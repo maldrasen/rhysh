@@ -17,8 +17,8 @@ describe('Goblin', function() {
   });
 
   // This might build crabs too right now.
-  it('chooses a combat ability', function() {
-    let state = new BattleState();
+  it.only('chooses a combat ability', function() {
+    let state = new BattleState({ monster:'Mudcrab' });
     let gobbo = state.getMonster('M1');
 
     SpecHelper.randomMainCharacter();

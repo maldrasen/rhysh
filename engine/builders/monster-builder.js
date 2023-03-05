@@ -1,9 +1,11 @@
 global.MonsterBuilder = class MonsterBuilder {
 
   #battleState;
+  #options;
 
-  constructor(battleState) {
+  constructor(battleState, options={}) {
     this.#battleState = battleState;
+    this.#options = options;
   }
 
   // TODO: Eventually this will need to read data from the current zone and
@@ -12,6 +14,9 @@ global.MonsterBuilder = class MonsterBuilder {
   //       monsters. That might be a bit far out still, for now we can just
   //       generate goblins or mudcrabs.
   generate() {
+    if (this.#options.monster == 'Mudcrab') { return this.tempMudcrabs(); }
+    if (this.#options.monster == 'Goblin') { return this.tempGoblins(); }
+
     (Random.roll(6) < 4) ? this.tempMudcrabs() : this.tempGoblins();
   }
 

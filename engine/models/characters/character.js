@@ -35,8 +35,11 @@ global.Character = class Character {
   setAttributes(attributesObject) { this.#attributes = attributesObject; }
 
   getCondition() { return this.#condition; }
+  hasCondition(condition) { return this.#condition.hasCondition(condition); }
+  hasStatus(status) { return this.#condition.hasStatus(status); }
   setCondition(conditionObject) { this.#condition = conditionObject; }
 
+  getName() { return this.#firstName; }
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
   getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }
