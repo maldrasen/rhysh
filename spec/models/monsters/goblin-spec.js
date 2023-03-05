@@ -16,7 +16,8 @@ describe('Goblin', function() {
     expect(chestArmor).to.be.greaterThan(12);
   });
 
-  it.only('chooses a combat ability', function() {
+  // This might build crabs too right now.
+  it('chooses a combat ability', function() {
     let state = new BattleState();
     let gobbo = state.getMonster('M1');
 
@@ -24,7 +25,6 @@ describe('Goblin', function() {
     GameState.setCurrentBattle(state);
 
     console.log("Action:",gobbo.chooseCombatAction());
-
   });
 
 });

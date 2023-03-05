@@ -25,29 +25,32 @@ global.Scrutinizer = class Scrutinizer {
   setContext(context) { this.#context = context; }
   setState(state) { this.#state = state; }
 
-  async meetsRequirements(requires) {
+  meetsRequirements(requires) {
     if (requires == null || requires.length == 0) { return true; }
 
     let requirements = (typeof requires == "string") ? [requires] : requires;
 
-    return (await Promise.all(requirements.map(async requirement => {
+    return requirements.map(requirement => {
       return requirement.or ?
-        (await this.meetsOrRequirements(requirement.or)):
-        (await this.meetsRequirement(requirement));
-    }))).indexOf(false) < 0;
+        ( this.meetsOrRequirements(requirement.or)):
+        ( this.meetsRequirement(requirement));
+    }).indexOf(false) < 0;
   }
 
-  async meetsOrRequirements(requirements) {
-    return (await Promise.all(requirements.map(async requirement => {
-      return await this.meetsRequirement(requirement);
-    }))).indexOf(true) >= 0;
+   meetsOrRequirements(requirements) {
+    return requirements.map( requirement => {
+      return  this.meetsRequirement(requirement);
+    }).indexOf(true) >= 0;
   }
 
-  async meetsRequirement(requirement) {
+   meetsRequirement(requirement) {
+    if (requirement == 'TRUE') { return true; }
+    if (requirement == 'FALSE') { return false; }
+
     if (requirement.match(/^flag/))    { return this.checkFlag(requirement); }
     if (requirement.match(/^no-flag/)) { return this.checkFlagNotExists(requirement); }
     if (requirement.match(/^state/))   { return this.checkState(requirement); }
-    if (requirement.match(/^player/))  { return await PlayerScrutinizer.check(requirement); }
+    if (requirement.match(/^player/))  { return PlayerScrutinizer.check(requirement); }
 
     throw `Unknown Requirement - ${requirement}`;
   }
@@ -67,24 +70,24 @@ global.Scrutinizer = class Scrutinizer {
   checkFlag(requirement) {
     let match = requirement.match(/^flag\.([^<>=]+)(<|<=|=|>=|>)([^<>=]+)/);
     if (match == null) {
-      return checkFlagExists(requirement);
+      return this.checkFlagExists(requirement);
     }
 
-    let value = Flag.lookup(match[1]);
-    return (value == null) ? false : checkComparisonOperation(value, match[2], match[3]);
+    let value = Flag.get(match[1]);
+    return (value == null) ? false : Scrutinizer.checkComparisonOperation(value, match[2], match[3]);
   }
 
   checkFlagExists(requirement) {
-    return Flag.lookup(requirement.match(/^flag\.(.+)/)[1]) != null;
+    return Flag.get(requirement.match(/^flag\.(.+)/)[1]) != null;
   }
 
   checkFlagNotExists(requirement) {
-    return Flag.lookup(requirement.match(/^no-flag\.(.+)/)[1]) == null;
+    return Flag.get(requirement.match(/^no-flag\.(.+)/)[1]) == null;
   }
 
-  // Requirements Like: state.sex=filthy, or state.litersOfCum>=37
+  // Requirements Like: state.sex=filthy, or state.gallonsOfCum>30
   checkState(requirement) {
     let match = requirement.match(/^state\.([^<>=]+)(<|<=|=|>=|>)([^<>=]+)/);
-    return checkComparisonOperation(this.#state[match[1]], match[2], match[3]);
+    return Scrutinizer.checkComparisonOperation(this.#state[match[1]], match[2], match[3]);
   }
 }

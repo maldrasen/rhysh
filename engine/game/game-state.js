@@ -77,7 +77,7 @@ global.GameState = (function() {
   function getCurrentEvent() { return $currentEvent; }
   function setCurrentEvent(event) { $currentEvent = event; }
 
-  async function endEvent(endState) {
+  function endEvent(endState) {
     let code = $currentEvent.getCode();
     let template = EventDictionary.lookup(code);
     if (template.onFinish) {
@@ -96,7 +96,7 @@ global.GameState = (function() {
     if (typeof template.repeat == 'string') {
       let scrutinizer = new Scrutinizer();
       scrutinizer.setState(endState);
-      canRepeat = await scrutinizer.meetsRequirements(template.repeat);
+      canRepeat = scrutinizer.meetsRequirements(template.repeat);
     }
 
     // If an event can repeat we should keep track of the number of times it's
