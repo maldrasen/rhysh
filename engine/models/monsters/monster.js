@@ -78,6 +78,10 @@ global.Monster = class Monster {
 
   // === Combat ================================================================
 
+
+  // TODO: This needs to take condition into consideration. If a monster is
+  //       prone for instance their action will be to get up. Some statuses
+  //       randomly effect a character's actions too.
   chooseCombatAction() {
     MonsterTarget.chooseTarget(this);
 
@@ -86,13 +90,17 @@ global.Monster = class Monster {
     let availableAbilities = this.getAvailableAbilities(currentRange);
     let canAttack = this.#canAttack(currentRange);
 
+    // If they have no attacks or abilities that are off cooldown or are
+    // currently in range, then there's nothing they can do.
     if (canAttack == false && availableAbilities.length == 0) {
       return { action:'nothing' };
     }
 
+    // Ability can be null here if they can make a regular melee attack, but
+    // have no other available abilities.
     let ability = Random.from(availableAbilities);
     if (canAttack == false || Random.roll(100) < this.getAbilityChance()) {
-      return { action:'ability', ability:ability };
+      if (ability != null) { return { action:'ability', ability:ability }; }
     }
 
     return { action:'attack' };

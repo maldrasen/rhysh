@@ -37,7 +37,7 @@ AbilityDictionary.register('crab-claw', {
 });
 
 AbilityDictionary.register('crab-grab-legs', {
-  type: 'grapple',
+  type: 'attack',
   cooldown: 5,
   targetSlot: 'legs',
 
@@ -51,7 +51,7 @@ AbilityDictionary.register('crab-grab-legs', {
 });
 
 AbilityDictionary.register('crab-grab-arms', {
-  type: 'grapple',
+  type: 'attack',
   cooldown: 5,
   targetSlot: 'hands',
 
@@ -85,7 +85,6 @@ AbilityDictionary.register('crab-brutalize', {
   requires: ['target.status=bound-arms','target.status=bound-legs'],
   storyTeller: 'MudcrabBrutalizer',
 });
-
 
 // TODO: Actually... this is one ability is complicated enough to need a separate story teller class, it has complex
 //       branching logic that depends on what the person is wearing, it changes the state of their equipment, and all

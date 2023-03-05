@@ -76,6 +76,8 @@ global.AbilityDictionary = (function() {
   }
 
   // Validate both the status and the status target (on value).
+  // addStatus can also have a duration set. If duration is null the status is
+  // valid until something removes it.
   function validateAddStatus(ability) {
     StatusDictionary.lookup(ability.addStatus.status);
     Validate.isIn(ability.addStatus.on, [
