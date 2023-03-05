@@ -27,6 +27,10 @@ describe('CharacterBuilder', function() {
     expect(equipped['head'].getMaterial()).to.equal('plate');
     expect(equipped['mainHand'].getBase()).to.equal('longsword');
     expect(equipped['offHand'].getEffects().armorClass).to.equal(2);
+
+    let ac = main.getArmorClass('chest');
+    expect(ac).to.be.lessThan(19);
+    expect(ac).to.be.greaterThan(15);
   });
 
 });

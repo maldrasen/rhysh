@@ -126,8 +126,24 @@ global.Character = class Character {
     return true;
   }
 
+  // TODO: Some accessories can add armor.
+  // TODO: Spell effects can add armor.
   getArmorClass(slot) {
-    // OK, now need to calculate armor class.
+    let baseArmor = this.getBaseArmorClass();
+    let dexBonus = this.getAttributes().dexModifier();
+    let armorBonus = 0;
+
+    let armor = Inventory.getEquippedBy(this)[slot];
+    if (armor) {
+      let maxDex = armor.getMaxDex();
+      if (maxDex && maxDex > dexBonus) {
+        dexBonus = maxDex;
+      }
+
+      armorBonus = armor.getArmorClass();
+    }
+
+    return baseArmor + dexBonus + armorBonus;
   }
 
   // === Persistance ===========================================================
