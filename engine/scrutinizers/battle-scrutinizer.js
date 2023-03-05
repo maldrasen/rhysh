@@ -18,15 +18,10 @@ global.BattleScrutinizer = (function() {
   }
 
   function checkCondition(actor, value) {
-    console.log("Check Condition",actor.getName(),value,actor.hasCondition(value));
-
     return actor.hasCondition(value);
   }
 
   function checkStatus(actor, value) {
-
-    console.log("Check Status",actor.getName(),value,actor.hasStatus(value));
-
     return actor.hasStatus(value);
   }
 
