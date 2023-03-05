@@ -141,26 +141,17 @@ global.Monster = class Monster {
     this.#abilities.push(ability);
   }
 
-  // This should be called every time an ability is used, first to validate
-  // that an ability can be used. This function also sets the ability cooldown
-  // if the ability has a cooldown.
+  findAbility(code) {
+    for (let i=0; i<this.#abilities.length; i++) {
+      if (this.#abilities[i].code == code) { return this.#abilities[i]; }
+    }
+  }
+
+  // This should be called every time an ability is used in order to set the
+  // ability cooldown if the ability has a cooldown. This may do other things
+  // as well.
   useAbility(code) {
-    let available = this.getAvailableAbilities();
     let template = AbilityDictionary.lookup(code);
-    let ability;
-
-    for (let i=0; i<available.length; i++) {
-      if (available[i].code == code) { ability = available[i]; }
-    }
-
-    if (ability == null) {
-      throw `Cannot use Ability(${code})`;
-    }
-
-    if (template.selfSetState) {
-      this.setState(template.selfSetState);
-    }
-
     if (template.cooldown) {
       this.#cooldowns[code] = template.cooldown;
     }

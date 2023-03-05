@@ -126,6 +126,10 @@ global.Character = class Character {
     return true;
   }
 
+  getArmorClass(slot) {
+    // OK, now need to calculate armor class.
+  }
+
   // === Persistance ===========================================================
 
   save() {

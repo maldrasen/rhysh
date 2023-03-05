@@ -30,6 +30,7 @@ global.AbilityDictionary = (function() {
       validateStories(ability);
 
       if (ability.range) { validateRange(ability); }
+      if (ability.targetSlot) { validateTargetSlot(ability); }
       if (ability.setCondition) { validateSetCondition(ability); }
       if (ability.addStatus) { validateAddStatus(ability); }
     } catch(error) {
@@ -44,6 +45,7 @@ global.AbilityDictionary = (function() {
         'code',
         'type',
         'range',
+        'targetSlot',
         'cooldown',
         'requires',
         'setCondition',
@@ -62,16 +64,21 @@ global.AbilityDictionary = (function() {
     Validate.isIn(ability.range, ['close','extended','long']);
   }
 
+  function validateTargetSlot(ability) {
+    Validate.isIn(ability.targetSlot, ['head','chest','legs','hands','feet']);
+  }
+
   // Validate both the condition and the condition target (on value).
   function validateSetCondition(ability) {
     ConditionDictionary.lookup(ability.setCondition.condition);
-    Validate.isIn(ability.setCondition.on, ['self','target'])
+    Validate.isIn(ability.setCondition.on, ['self','target']);
+    Validate.isIn(ability.setCondition.when, ['always','success','failure']);
   }
 
   // Validate both the status and the status target (on value).
   function validateAddStatus(ability) {
     StatusDictionary.lookup(ability.addStatus.status);
-    Validate.isIn(ability.setCondition.on, [
+    Validate.isIn(ability.addStatus.on, [
       'all-ally',
       'all-enemy',
       'ally',

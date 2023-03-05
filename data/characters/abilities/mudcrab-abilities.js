@@ -39,8 +39,10 @@ AbilityDictionary.register('crab-claw', {
 AbilityDictionary.register('crab-grab-legs', {
   type: 'grapple',
   cooldown: 5,
-  setCondition: { on:'self', condition:'holding-legs' },
-  addStatus: { on:'target', status:'bound-legs' },
+  targetSlot: 'legs',
+
+  setCondition: { on:'self', condition:'holding-legs', when:'success' },
+  addStatus: { on:'target', status:'bound-legs', when:'success' },
   stories: [
     { attempt:`The Mudcrab lunges for {{T::firstName}} and manages to grab onto both of {{T::his}} legs, `,
       hit:`holding them tightly in its claws.`,
@@ -51,8 +53,10 @@ AbilityDictionary.register('crab-grab-legs', {
 AbilityDictionary.register('crab-grab-arms', {
   type: 'grapple',
   cooldown: 5,
-  setCondition: { on:'self', condition:'holding-arms' },
-  addStatus: { on:'target', status:'bound-arms' },
+  targetSlot: 'hands',
+
+  setCondition: { on:'self', condition:'holding-arms', when:'success' },
+  addStatus: { on:'target', status:'bound-arms', when:'success' },
   stories: [
     { attempt:`The Mudcrab lunges for {{T::firstName}} and manages to grab onto both of {{T::his}} wrists, `,
       hit:`holding them tightly in its claws.`,

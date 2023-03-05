@@ -13,9 +13,9 @@ Monster.Mudcrab = class Mudcrab extends Monster {
     }));
 
     this.setSlots({ head:1, back:4, legs:3, claws:1 });
-    this.addAbility({ code:'crab-claw', hit:0, damage:{ d:4 }});
-    this.addAbility({ code:'crab-grab-legs', hit:0 });
-    this.addAbility({ code:'crab-grab-arms', hit:0 });
+    this.addAbility({ code:'crab-claw', damage:{ d:4 }});
+    this.addAbility({ code:'crab-grab-legs', hit:-2 });
+    this.addAbility({ code:'crab-grab-arms', hit:-2 });
     this.addAbility({ code:'crab-leg-crush', damage:{ d:4, p:4 }});
     this.addAbility({ code:'crab-arm-crush', damage:{ d:4, p:4 }});
     this.addAbility({ code:'crab-brutalize', damage:{ d:8, p:4 }});
