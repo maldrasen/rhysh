@@ -20,6 +20,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
   }
 
+  getMonster() { return this.#monster; }
+  getMonsterID() { return this.#monster.getID(); }
+  getTarget() { return this.#target; }
+  getTargetCode() { return this.#target.getCode(); }
+  getAbilityCode() { return this.#ability ? this.#ability.code : null; }
+
   getAttackRoll() { return this.#attackRoll; }
   getAttackResult() { return this.#attackResult; }
   getAttackDamage() { return this.#attackDamage; }
