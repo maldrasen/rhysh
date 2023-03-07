@@ -1,7 +1,7 @@
 describe('BattleEngine', function() {
 
   // Should be able to look at events maybe?
-  it.only("executes a full round", function() {
+  it("executes a full round", function() {
     SpecHelper.randomMainCharacter({ archetype:'knight' });
     GameState.setCurrentBattle(new BattleState());
 

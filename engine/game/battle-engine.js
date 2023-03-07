@@ -24,8 +24,11 @@ global.BattleEngine = class BattleEngine {
           let monster = state.getMonster(initiative.id);
           let action = monster.chooseCombatAction();
 
-          if (action.action == 'attack') { this.doMonsterAttack(monster); }
-          if (action.action == 'ability') { this.doMonsterAbility(monster, action.ability); }
+          let round = new MonsterCombatRound(monster);
+          if (action.action == 'attack') { round.doMonsterAttack(); }
+          if (action.action == 'ability') { round.doMonsterAbility(action.ability); }
+
+          this.#battleEvents.push(round);
         }
 
         // TODO: Some actions that characters take will increase threat across
@@ -48,101 +51,6 @@ global.BattleEngine = class BattleEngine {
     }
 
     return this.#battleEvents;
-  }
-
-  doMonsterAttack(monster) {
-    // console.log("...do attack");
-  }
-
-  // TODO: Some abilities won't have a target.
-  // TODO: Some abilities won't roll to hit.
-  // TODO: Handle different template type: attack, hold, coup-de-grace.
-  doMonsterAbility(monster, ability) {
-    monster.useAbility(ability.code);
-
-    let template = AbilityDictionary.lookup(ability.code);
-    let target = CharacterLibrary.getCachedCharacter(monster.getTarget());
-    let result = this.#getAttackResult(monster, target, template.targetSlot, ability.hit);
-
-    result.ability = ability.code;
-
-    if (result.is == 'hit') {
-      result.damage = this.rollDamage(ability.damage);
-    }
-    if (result.is == 'critical-hit') {
-      result.damage = this.rollDamage(ability.damage,2);
-    }
-    if (result.is == 'critical-miss') {
-      // TODO: Determine critical failure result for monster. We could do a few
-      //       interesting things here. Add a prone condition, have them hit an
-      //       ally instead.
-    }
-
-    if (result.damage) {
-      target.getCondition().adjustCurrentHitPoints(-result.damage);
-    }
-
-    // Set condition of monster or target.
-    if (template.setCondition && this.#isValidWhen(result, template.setCondition.when)) {
-      result.setConditionOn = template.setCondition.on;
-      result.setConditionCode = template.setCondition.condition;
-
-      if (template.setCondition.on == 'self') {
-        monster.getCondition().setCondition(template.setCondition.condition);
-      }
-      if (template.setCondition.on == 'target') {
-        target.getCondition().setCondition(template.setCondition.condition);
-      }
-    }
-
-    // Add status to monster or target.
-    if (template.addStatus && this.#isValidWhen(result, template.addStatus.when)) {
-      result.addStatusOn = template.addStatus.on;
-      result.addStatusCode = template.addStatus.status;
-
-      if (template.addStatus.on == 'self') {
-        monster.getCondition().setStatus(template.addStatus.status, template.addStatus.duration);
-      }
-      if (template.addStatus.on == 'target') {
-        target.getCondition().setStatus(template.addStatus.status, template.addStatus.duration);
-      }
-      if (template.addStatus.on == 'all-ally') { throw `TODO: Implement all-ally target for status effects.`}
-      if (template.addStatus.on == 'all-enemy') { throw `TODO: Implement all-enemy target for status effects.` }
-      if (template.addStatus.on == 'ally') { throw `TODO: Implement random ally target for status effects.` }
-      if (template.addStatus.on == 'rank') { throw `TODO: Implement rank target for status effects.` }
-    }
-
-    console.log("Result:",result);
-
-    // TODO: We then need to pick a story, weave the story text. Possibly add
-    //       bonus damage.
-
-  }
-
-  #isValidWhen(result, when) {
-    if (when == 'always')  { return true; }
-    if (when == 'success') { return ['hit','critical-hit'].indexOf(result.is) >= 0; }
-    if (then == 'failure') { return ['miss','critical-miss'].indexOf(result.is) >= 0; }
-  }
-
-  // Roll to get the attack result. If targetSlot is null a random slot will be
-  // picked. Hit bonus is 0 by default and only applies to some abilities.
-  #getAttackResult(monster, target, targetSlot, hitBonus=0) {
-    let roll = Random.rollDice({ d:20 })
-    if (roll == 1)  { return { roll:1,  is:'critical-miss' }; }
-    if (roll == 20) { return { roll:20, is:'critical-hit' };  }
-
-    let targetArmorClass = target.getArmorClass(targetSlot || BattleEngine.randomSlot());
-    let adjustedHit = roll + monster.getBaseHit() + hitBonus;
-
-    return {
-      roll: roll,
-      is: (adjustedHit >= targetArmorClass) ? 'hit' : 'miss'
-    };
-  }
-
-  rollDamage(damage, multiplier=1) {
-    return (damage == null) ? 0 : Math.floor(Random.rollDice(damage) * multiplier);
   }
 
   // === Initiative ============================================================
