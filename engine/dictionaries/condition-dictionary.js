@@ -1,7 +1,9 @@
 global.ConditionDictionary = (function() {
 
   const conditions = {
-    'normal': { effect:'none' },
+    'normal':  {},
+    'fainted': {},
+    'dead':    {},
 
     // Prone and stunned are functionally the same, the monster cannot take
     // action this round though the state is cleared afterwards.

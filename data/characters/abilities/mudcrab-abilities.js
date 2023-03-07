@@ -8,10 +8,10 @@ AbilityDictionary.register('crab-claw', {
   type: 'attack',
   stories: [
     { attempt: `The Mudcrab attacks {{T::firstName}} with its claws.`,
-      hit: `It pinches {{T::his}} {{attack.slot-word}} painfully.` },
+      hit: `It pinches {{T::his}} {{battle|target-slot-word}} painfully.` },
 
     { attempt: `The Mudcrab attacks {{T::firstName}} with its claws.`,
-      hit: `Its sharp claw draws a deep scratch across {{T::his}} {{attack.slot-word}}.` },
+      hit: `Its sharp claw draws a deep scratch across {{T::his}} {{battle|target-slot-word}}.` },
 
     { when: ['attack.hits-head'],
       bonusDamage: 2,

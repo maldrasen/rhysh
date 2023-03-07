@@ -6,14 +6,14 @@ Weaver.WeaponLoom = (function() {
   //
   function findValue(actor, fullToken, context) {
     let match = fullToken.match(/weapon\.(main-hand|off-hand)\.(.*)/);
-    if (match == null) {
-      return Weaver.error(`Bad weapon token(${fullToken})`);
+    if (match) {
+      let weapon = WeaponDictionary.lookup((match[1] == 'main-hand') ? actor.getMainHand() : actor.getOffHand());
+
+      if (match[2] == 'name') { return weapon.name.toLowerCase(); }
+      if (match[2] == 'Name') { return weapon.name; }
     }
 
-    let hand = (match[1] == 'main-hand') ? 'main' : 'off';
-    let token = match[2];
-
-    return `Lookup Weapon (${hand}:${token})`;
+    return Weaver.error(`Bad Weapon Token(${fullToken})`);
   }
 
   return { findValue };

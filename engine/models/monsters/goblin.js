@@ -22,6 +22,12 @@ Monster.Goblin = class Goblin extends Monster {
 
     this.setName('Goblin');
     this.setSizeClass('small');
+    this.setSex(Random.fromFrequencyMap({
+      female: 20,
+      futa: 30,
+      male: 50,
+    }));
+
     this.setBaseArmorClass(11);
     this.setBaseHit(2);
     this.setEssence(50);

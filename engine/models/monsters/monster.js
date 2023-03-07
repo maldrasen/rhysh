@@ -2,6 +2,7 @@ global.Monster = class Monster {
 
   #id;
   #name;
+  #sex;
   #sizeClass;
   #abilities = [];
   #attributes;
@@ -35,6 +36,12 @@ global.Monster = class Monster {
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
+
+  getSex() { return this.#sex || 'male'; }
+  setSex(sex) {
+    if (['female','futa','male'].indexOf(sex) < 0) { throw `Invalid Sex ${sex}`; }
+    this.#sex = sex;
+  }
 
   getSizeClass() { return this.#sizeClass; }
   setSizeClass(size) {
