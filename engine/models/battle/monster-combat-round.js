@@ -2,6 +2,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   #monster;
   #target;
+  #targetSlot;
 
   #ability;
   #abilityTemplate;
@@ -15,6 +16,8 @@ global.MonsterCombatRound = class MonsterCombatRound {
   #addStatusOn;
   #addStatusCode;
 
+  #story;
+
   constructor(monster) {
     this.#monster = monster;
     this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
@@ -22,13 +25,17 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   getMonster() { return this.#monster; }
   getMonsterID() { return this.#monster.getID(); }
+
   getTarget() { return this.#target; }
   getTargetCode() { return this.#target.getCode(); }
-  getAbilityCode() { return this.#ability ? this.#ability.code : null; }
+  getTargetSlot() { return this.#targetSlot; }
 
   getAttackRoll() { return this.#attackRoll; }
   getAttackResult() { return this.#attackResult; }
   getAttackDamage() { return this.#attackDamage; }
+
+  getAbilityCode() { return this.#ability ? this.#ability.code : null; }
+  getAbilityTemplate() { return this.#abilityTemplate; }
 
   getConditionSet() {
     return { code:this.#setConditionCode, on:this.#setConditionOn };
@@ -53,11 +60,13 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#abilityTemplate = AbilityDictionary.lookup(ability.code);
 
     this.#monster.useAbility(ability.code);
+    this.#targetSlot = this.#abilityTemplate.targetSlot || BattleEngine.randomSlot();
 
-    this.rollAttack(this.#abilityTemplate.targetSlot, this.#ability.hit);
+    this.rollAttack(this.#ability.hit);
     this.rollDamage(this.#ability.damage);
     this.updateCondition();
     this.updateStatus();
+    this.selectStory();
 
     // TODO: We then need to pick a story, weave the story text. Possibly add
     //       bonus damage.
@@ -66,13 +75,13 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // Add the make an attack and determine the result. If targetSlot is
   // null a random slot will be picked. Hit bonus is 0 by default and only
   // applies to some abilities.
-  rollAttack(targetSlot, hitBonus=0) {
+  rollAttack(hitBonus=0) {
     this.#attackRoll = Random.rollDice({ d:20 })
 
     if (this.#attackRoll == 1)  { this.#attackResult = 'critical-miss'; return; }
     if (this.#attackRoll == 20) { this.#attackResult = 'critical-hit';  return; }
 
-    let targetArmorClass = this.#target.getArmorClass(targetSlot || BattleEngine.randomSlot());
+    let targetArmorClass = this.#target.getArmorClass(this.#targetSlot);
     let adjustedHit = this.#attackRoll + this.#monster.getBaseHit() + hitBonus;
 
     this.#attackResult = (adjustedHit >= targetArmorClass) ? 'hit' : 'miss';
@@ -139,6 +148,33 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (when == 'always')  { return true; }
     if (when == 'success') { return this.isSuccess(); }
     if (then == 'failure') { return this.isFailure(); }
+  }
+
+  // TODO: Some abilities should have a storyTeller rather than an array of
+  //       possible stories.
+  selectStory() {
+    let validStories = [];
+
+    if (this.#abilityTemplate.stories == null) {
+      throw `TODO: This ability either has no stories or uses a storyTeller.`
+    }
+
+    this.#abilityTemplate.stories.forEach(story => {
+      if (this.isValidStory(story)) { validStories.push(story); }
+    });
+
+    if (validStories.length == 0) {
+      console.error('There are no valid stories for a MonsterCombatRound with the following state:')
+      console.error(this.pack());
+      throw `No valid stories`;
+    }
+
+    this.#story = Random.from(validStories);
+  }
+
+  isValidStory(story) {
+    console.log("Is Valid?",story)
+    return false;
   }
 
   pack() {

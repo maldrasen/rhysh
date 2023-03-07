@@ -3,7 +3,7 @@ describe('MonsterCombatRound', function() {
   // Running a combat round for a single monster still produces very random
   // results, but its less random than running an entire combat round from the
   // battle engine and allows control over the target and ability used.
-  it("uses an ability", function() {
+  it.only("uses an ability", function() {
     SpecHelper.randomMainCharacter({ archetype:'mindbender' });
 
     let crab = new Monster.Mudcrab();
