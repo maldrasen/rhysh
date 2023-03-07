@@ -71,3 +71,6 @@ Messenger.subscribe("browser.render", viewState => {
   Browser.send("render", viewState);
 });
 
+Messenger.subscribe("browser.render-battle-round", data => {
+  Browser.send("render-battle-round", data);
+});

@@ -17,6 +17,7 @@ global.BattleState = class BattleState {
     new MonsterBuilder(this, options).generate();
   }
 
+  getRoundNumber() { return this.#roundCounter; }
   getMonsters() { return this.#monsters; }
   getMonster(id) { return this.#monsters[id]; }
 
@@ -74,6 +75,7 @@ global.BattleState = class BattleState {
     this.#roundCounter += 1
   }
 
+
   // At the end of every round we need to check all the temporary effects and
   // remove the ones that expire. There will be battle wide effects, squad
   // effects and individual character effects, so they all need to be checked.
@@ -96,16 +98,11 @@ global.BattleState = class BattleState {
   // for display in the battle UI.
 
   pack() {
-    let state = {
+    return {
+      roundCounter: this.#roundCounter,
       party: this.packParty(),
       monsters: this.packMonsters(),
     };
-
-    console.log('=== Battle State ===');
-    console.log('Main:',state.party.main);
-    console.log('Monsters',state.monsters['1'].monsters);
-
-    return state;
   }
 
   packParty() {

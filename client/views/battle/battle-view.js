@@ -9,6 +9,11 @@ window.BattleView = (function() {
     X.onCodeDown(123, () => {
       return Environment.debug && MapView.isOpen() && !isOpen()
     }, debugBattleStart);
+
+    ServerEvents.onRenderBattleRound((payload, data) => {
+      $battleState = data.battle;
+      BattleStoryTeller.start(data.events);
+    });
   }
 
   function show(state) {
@@ -28,6 +33,11 @@ window.BattleView = (function() {
   }
 
   function getBattleState() { return $battleState; }
+
+  function startNewRound() {
+    Battlefield.updateMonsterList();
+    BattleControls.startControlPhase();
+  }
 
   function getActiveCharacterCode() { return $activeCharacterCode; }
   function getActiveCharacter() { return $activeCharacter; }
@@ -54,6 +64,7 @@ window.BattleView = (function() {
     isOpen,
 
     getBattleState,
+    startNewRound,
 
     getActiveCharacterCode,
     getActiveCharacter,

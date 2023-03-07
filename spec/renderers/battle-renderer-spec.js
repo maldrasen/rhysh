@@ -1,8 +1,8 @@
 describe('BattleRenderer', function() {
 
-  it.only(`Doesn't blow up.`, function() {
+  it(`Doesn't blow up.`, function() {
     SpecHelper.randomMainCharacter({ archetype:'knight' });
-    GameState.setCurrentBattle(new BattleState({ monster:'Goblin' }));
+    GameState.setCurrentBattle(new BattleState({ monster:'Mudcrab' }));
 
     let engine = new BattleEngine({ actions:{ Main:{ action:'attack', mainMode:'random', offMode:'random' }}});
     let events = engine.execute();
