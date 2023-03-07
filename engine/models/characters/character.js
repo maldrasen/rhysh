@@ -38,6 +38,7 @@ global.Character = class Character {
   hasCondition(condition) { return this.#condition.hasCondition(condition); }
   hasStatus(status) { return this.#condition.hasStatus(status); }
   setCondition(conditionObject) { this.#condition = conditionObject; }
+  doDamage(points) { this.#condition.doDamage(points); }
 
   getName() { return this.#firstName; }
   getFirstName() { return this.#firstName; }

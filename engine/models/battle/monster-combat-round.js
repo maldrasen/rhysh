@@ -68,13 +68,9 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.updateStatus();
     this.selectStory();
 
-    console.log("Picked:",this.#story);
-
-
-    // if (this.#story.bonusDamage())
-
-    // TODO: weave the story text. Possibly add
-    //       bonus damage.
+    if (this.#story.bonusDamage) {
+      this.#target.doDamage(this.#story.bonusDamage);
+    }
   }
 
   // Add the make an attack and determine the result. If targetSlot is
@@ -103,7 +99,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     }
 
     if (this.#attackDamage && this.#attackDamage > 0) {
-      this.#target.getCondition().adjustCurrentHitPoints(-this.#attackDamage);
+      this.#target.doDamage(this.#attackDamage);
     }
   }
 
@@ -192,7 +188,6 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#story = Random.from(validStories);
   }
 
-
   pack() {
     let packed = {};
 
@@ -206,7 +201,4 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
     return packed;
   }
-
 }
-
-

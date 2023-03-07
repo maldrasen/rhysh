@@ -41,6 +41,11 @@ global.Condition = class Condition {
     this.checkCondition();
   }
 
+  doDamage(points) {
+    this.#currentHitPoints -= points;
+    this.checkCondition();
+  }
+
   // Health is a percentage of current and max health.
   getHealth() {
     return Math.ceil(100 * this.getCurrentHitPoints() / this.getMaxHitPoints());
