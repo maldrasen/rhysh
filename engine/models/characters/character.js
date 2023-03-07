@@ -47,7 +47,10 @@ global.Character = class Character {
   setLastName(name) { this.#lastName = name; }
 
   getSex(sex) { return this.#sex; }
-  setSex(sex) { this.#sex = sex; }
+  setSex(sex) {
+    if (['female','futa','male'].indexOf(sex) < 0) { throw `Invalid Sex: ${sex}`; }
+    this.#sex = sex;
+  }
 
   getArchetypeCode() { return this.#archetypeCode; }
   getArchetype() { return ArchetypeDictionary.lookup(this.#archetypeCode); }
@@ -93,9 +96,21 @@ global.Character = class Character {
     return Math.ceil(this.getLevel() / factor);
   }
 
+  isFemale() { return this.#sex == 'female'; }
+  isFuta() { return this.#sex == 'futa'; }
+  isMale() { return this.#sex == 'male'; }
+
+  isNotFemale() { return this.#sex != 'female'; }
+  isNotFuta() { return this.#sex != 'futa'; }
+  isNotMale() { return this.#sex != 'male'; }
+
+  hasCock() { return this.isNotFemale(); }
+  hasTits() { return this.isNotMale(); }
+
   // === Members ===============================================================
 
   rollForInitiative() { return RollsInitiative.rollFor(this); }
+  isCockExposed() { return CheckEquipment.isCockExposed(this); }
 
   // === Experience ============================================================
 

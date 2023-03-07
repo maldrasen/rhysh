@@ -68,7 +68,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.updateStatus();
     this.selectStory();
 
-    // TODO: We then need to pick a story, weave the story text. Possibly add
+    console.log("Picked:",this.#story);
+
+
+    // if (this.#story.bonusDamage())
+
+    // TODO: weave the story text. Possibly add
     //       bonus damage.
   }
 
@@ -153,14 +158,29 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // TODO: Some abilities should have a storyTeller rather than an array of
   //       possible stories.
   selectStory() {
-    let validStories = [];
 
-    if (this.#abilityTemplate.stories == null) {
-      throw `TODO: This ability either has no stories or uses a storyTeller.`
+    if (this.#abilityTemplate.story) {
+      this.#story = this.#abilityTemplate.story; return;
     }
 
+    if (this.#abilityTemplate.storyTeller) {
+      throw `TODO: Implement Story Tellers.`;
+    }
+
+    let validStories = [];
+
+    let scrutinizer = new Scrutinizer(new Context({
+      round: this,
+      monster: this.#monster,
+      target: this.#target,
+    }));
+
     this.#abilityTemplate.stories.forEach(story => {
-      if (this.isValidStory(story)) { validStories.push(story); }
+      if (scrutinizer.meetsRequirements(story.when)) {
+        if ((story.chance) ? (Random.roll(100) < story.chance) : true) {
+          validStories.push(story);
+        }
+      }
     });
 
     if (validStories.length == 0) {
@@ -172,10 +192,6 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#story = Random.from(validStories);
   }
 
-  isValidStory(story) {
-    console.log("Is Valid?",story)
-    return false;
-  }
 
   pack() {
     let packed = {};

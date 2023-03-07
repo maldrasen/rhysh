@@ -32,6 +32,9 @@ global.Armor = class Armor {
   addTag(tag) { this.#tags.push(tag); }
   setTags(tags) { this.#tags = tags; }
 
+  isLewd() { return this.hasTag('lewd'); }
+  isRoomy() { return this.hasTag('roomy'); }
+
   // === Equipment =============================================================
 
   getEquippedBy() { return { ...this.#equippedBy }; }

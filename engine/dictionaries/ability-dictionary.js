@@ -50,6 +50,7 @@ global.AbilityDictionary = (function() {
         'requires',
         'setCondition',
         'addStatus',
+        'story',
         'stories',
         'storyTeller'
       ]);
@@ -91,9 +92,12 @@ global.AbilityDictionary = (function() {
   }
 
   function validateStories(ability) {
-    let both = ability.stories == null && ability.storyTeller == null;
-    let none = ability.stories != null && ability.storyTeller != null;
-    if (both || none) { throw `Ability should have either a story teller or a list of stories.`; }
+    let count = 0;
+
+    if (ability.story) { count += 1; }
+    if (ability.stories) { count += 1; }
+    if (ability.storyTeller) { count += 1; }
+    if (count != 1) { throw `Ability should have a story, a story teller or a list of stories.`; }
 
     (ability.stories||[]).forEach(story => validateStory(story));
   }

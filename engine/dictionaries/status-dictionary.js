@@ -9,6 +9,12 @@ global.StatusDictionary = (function() {
     'bound-legs': { prevent:'use-of-legs' },
     'bound-arms': { prevent:'use-of-arms' },
     'bound-body': { prevent:'use-of-body' },
+
+    // The chest or leg armor has been stripped off or destroyed somehow. These
+    // status effects don't prevent any actions, but influence story and
+    // monster ability selection.
+    'groin-exposed': {},
+    'chest-exposed': {},
   }
 
   function lookup(code) {

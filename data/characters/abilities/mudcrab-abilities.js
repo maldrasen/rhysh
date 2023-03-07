@@ -7,32 +7,35 @@
 AbilityDictionary.register('crab-claw', {
   type: 'attack',
   stories: [
-    { attempt: `The Mudcrab attacks {{T::firstName}} with it's claws `,
-      hit: `pinching {{T::his}} {{attack-slot-word}} painfully.`,
-      miss: `but misses.` },
+    { attempt: `The Mudcrab attacks {{T::firstName}} with its claws.`,
+      hit: `It pinches {{T::his}} {{attack.slot-word}} painfully.` },
 
-    { when: ['attack-head'],
+    { attempt: `The Mudcrab attacks {{T::firstName}} with its claws.`,
+      hit: `Its sharp claw draws a deep scratch across {{T::his}} {{attack.slot-word}}.` },
+
+    { when: ['attack.hits-head'],
       bonusDamage: 2,
-      attempt: `The Mudcrab slashes at {{T::firstName's}} with its claw `,
-      hit: ` cutting a deep wound across {{T::his}} face.`,
-      miss: ` but misses.` },
+      attempt: `The Mudcrab slashes at {{T::firstName}} with its claws.`,
+      hit: `Its sharp claw cuts a deep wound across {{T::his}} face.` },
 
-    { when: ['attack-chest','target-has-tits'],
+    { when: ['attack.hits-chest','target.has-tits'],
       chance: 10,
       bonusDamage: 2,
-      hit: `The Mudcrab grabs onto both of {{T::firstName's}} breasts and pinches down hard.`,
-      miss: `The Mudcrab tries to grab both of {{T::firstName's}} breasts in its claws but misses.` },
+      attempt: `The Mudcrab slashes at {{T::firstName's}} breasts with its claws.`,
+      hit: `The Mudcrab grabs onto both of {{T::his}} breasts and pinches down hard, leaving dark bruises on {{T::his}}
+            tits.` },
 
-    { when: ['attack-legs','target-not-male'],
+    { when: ['attack.hits-legs','target.not-male'],
       chance: 50,
-      hit:`The Mudcrab pinches {{T::firstName's}} rounded ass painfully hard.`,
-      miss: `The Mudcrab tries to pinch at {{T::firstName's}} legs but misses.` },
+      attempt: `The Mudcrab slashes at {{T::firstName's}} legs with its claws.`,
+      hit:`The Mudcrab pinches {{T::his}} rounded ass painfully hard.` },
 
-    { when: ['attack-legs','target-cock-exposed'],
-      chance: 5,
+    { when: ['attack.hits-legs','target.cock-exposed'],
+      chance: 10,
       bonusDamage: 4,
-      hit:`The Mudcrab somehow manages to grab onto {{T::firstName's}} balls and pinches down hard.`,
-      miss: `The Mudcrab tries to pinch at {{T::firstName's}} legs but misses.` },
+      attempt: `The Mudcrab slashes at {{T::firstName's}} legs with its claws.`,
+      hit:`The Mudcrab somehow manages to grab onto {{T::firstName's}} dangling ballsack and pinches down hard, almost
+            crushing one of {{T::his}} balls.` },
   ],
 });
 
@@ -43,11 +46,10 @@ AbilityDictionary.register('crab-grab-legs', {
 
   setCondition: { on:'self', condition:'holding-legs', when:'success' },
   addStatus: { on:'target', status:'bound-legs', when:'success' },
-  stories: [
-    { attempt:`The Mudcrab lunges for {{T::firstName}} and manages to grab onto both of {{T::his}} legs, `,
-      hit:`holding them tightly in its claws.`,
-      miss:`but luckily {{T::he}}'s able to pull free.` }
-  ],
+  story: {
+    attempt:`The Mudcrab lunges for {{T::firstName's}} legs.`,
+    hit:`It grabs on to both of {{T::his}} legs holding them tightly in its claws.`
+  },
 });
 
 AbilityDictionary.register('crab-grab-arms', {
@@ -57,27 +59,22 @@ AbilityDictionary.register('crab-grab-arms', {
 
   setCondition: { on:'self', condition:'holding-arms', when:'success' },
   addStatus: { on:'target', status:'bound-arms', when:'success' },
-  stories: [
-    { attempt:`The Mudcrab lunges for {{T::firstName}} and manages to grab onto both of {{T::his}} wrists, `,
-      hit:`holding them tightly in its claws.`,
-      miss:`but luckily {{T::he}}'s able to pull free.` }
-  ],
+  story: {
+    attempt:`The Mudcrab lunges for {{T::firstName's}} arms.`,
+    hit:`It grabs on to both of {{T::his}} wrists holding them tightly in its claws.`
+  },
 });
 
 AbilityDictionary.register('crab-leg-crush', {
   type: 'hold',
   requires: ['monster.condition=holding-legs'],
-  stories: [
-    { text:`The Mudcrab squeezes {{T::firstName's}} ankles, crushing them painfully in its claws.` }
-  ],
+  story: { text:`The Mudcrab squeezes {{T::firstName's}} ankles, crushing them painfully in its sharp claws.` }
 });
 
 AbilityDictionary.register('crab-arm-crush', {
   type: 'hold',
   requires: ['monster.condition=holding-arms'],
-  stories: [
-    { text:`The Mudcrab squeezes {{T::firstName's}} wrists, crushing them painfully in its claws.` }
-  ],
+  story: { text:`The Mudcrab squeezes {{T::firstName's}} wrists, crushing them painfully in its sharp claws.` }
 });
 
 AbilityDictionary.register('crab-brutalize', {
