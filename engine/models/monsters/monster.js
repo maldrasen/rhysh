@@ -150,7 +150,15 @@ global.Monster = class Monster {
   getAbilities() { return this.#abilities; }
   hasAbilities() { return this.#abilities.length > 0; }
 
-  // We call lookup on the ability just to make sure that it exists.
+  // We call lookup on the ability just to make sure that it exists. Abilities
+  // added to the monster can have damage and hit modifiers set.
+  //
+  //   ability: {
+  //     code:      Ability code for lookup in the ability dictionary
+  //     damage:    Damage in dice format { x:1, d:6, p:2 }
+  //     hit:       Hit modifier, can be positive or negative
+  //   }
+  //
   addAbility(ability) {
     AbilityDictionary.lookup(ability.code);
     this.#abilities.push(ability);

@@ -29,11 +29,21 @@ global.BattleRenderer = (function() {
     if (round.getAttackDamage()) {
       segments.push(renderAttackDamageSegment(round))
     }
-    if (round.getAttackResult() == 'miss') {
-      segments.push(renderMissSegment(story, context));
+    if (round.isFailure()) {
+      segments.push(renderFailureSegment(round, context));
     }
-    if (round.getAttackResult() == 'hit') {
-      segments.push(renderHitSegment(story, context));
+    if (round.isSuccess()) {
+      segments.push(renderSuccessSegment(round, context));
+    }
+
+    if (round.isStatusAdded()) {
+      segments.push(renderStatusSegment(round, context));
+    }
+    if (round.isConditionSet()) {
+      segments.push(renderConditionSegment(round, context));
+    }
+    if (round.getTargetBeaten()) {
+      segments.push(renderTargetBeatenSegment(round, context));
     }
 
     console.log(segments)
@@ -49,20 +59,49 @@ global.BattleRenderer = (function() {
   }
 
   function renderAttackDamageSegment(round) {
-    return { type:'damage', ramage:round.getAttackDamage() };
+    return { type:'damage', damage:round.getAttackDamage() };
   }
 
-  function renderMissSegment(story, context) {
+  function renderConditionSegment(round, context) {
+    let conditionSet = round.getConditionSet();
+    let text;
+
+    if (conditionSet.on == 'self') {
+      if (conditionSet.code == 'prone') { text = `<span class='condition-set prone'>{{M::TheMonster}} falls prone.</span>` }
+    }
+
+    return { type:'conditionSet', text:Weaver.weave(text, context) };
+  }
+
+  function renderStatusSegment(round, context) {
+    return { type:'statusAdded', ...round.getStatusAdded() };
+  }
+
+  function renderFailureSegment(round, context) {
+    let template = round.getStory().miss;
+
     return {
-      type: 'miss',
-      text: story.miss ? Weaver.weave(story.miss, context) : `<span class='plain-miss'>Miss</span>`
+      type: round.getAttackResult(),
+      text: template ? Weaver.weave(template, context) : `<span class='plain-miss'>Miss</span>`
     };
   }
 
-  function renderHitSegment(story, context) {
-    return { type:'hit', text:Weaver.weave(story.hit, context) };
+  function renderSuccessSegment(round, context) {
+    return {
+      type: round.getAttackResult(),
+      text: Weaver.weave(round.getStory().hit, context)
+    };
   }
 
+  function renderTargetBeatenSegment(round, context) {
+    if (round.getTargetCode() == 'Main') {
+      let text = (round.getTargetBeaten() == 'dead') ?
+        `<span class='main-character-killed'>{{T::firstName}} was killed!</span>` :
+        `<span class='main-character-faints'>{{T::firstName}} faints!</span>`;
+      return { type:'defeat', text:Weaver.weave(text, context) };
+    }
+    throw `TODO: Handle defeat of another character.`
+  }
 
   return {
     renderCombatRound

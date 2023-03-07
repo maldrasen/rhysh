@@ -3,6 +3,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   #monster;
   #target;
   #targetSlot;
+  #targetBeaten;
 
   #ability;
   #abilityTemplate;
@@ -30,6 +31,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   getTarget() { return this.#target; }
   getTargetCode() { return this.#target.getCode(); }
   getTargetSlot() { return this.#targetSlot; }
+  getTargetBeaten() { return this.#targetBeaten; }
 
   getAttackRoll() { return this.#attackRoll; }
   getAttackResult() { return this.#attackResult; }
@@ -38,10 +40,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
   getAbilityCode() { return this.#ability ? this.#ability.code : null; }
   getAbilityTemplate() { return this.#abilityTemplate; }
 
+  isConditionSet() { return this.#setConditionCode != null; }
   getConditionSet() {
     return { code:this.#setConditionCode, on:this.#setConditionOn };
   }
 
+  isStatusAdded() { return this.#addStatusCode != null; }
   getStatusAdded() {
     return { code:this.#addStatusCode, on:this.#addStatusOn };
   }
@@ -73,6 +77,8 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#story.bonusDamage) {
       this.#target.doDamage(this.#story.bonusDamage);
     }
+
+    this.checkCondition();
   }
 
   // Add the make an attack and determine the result. If targetSlot is
@@ -190,6 +196,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#story = Random.from(validStories);
   }
 
+  checkCondition() {
+    let condition = this.#target.getCondition();
+    if (condition.hasCondition('fainted')) { this.#targetBeaten = 'fainted'; }
+    if (condition.hasCondition('dead')) { this.#targetBeaten = 'dead'; }
+  }
+
   pack() {
     let packed = {};
 
@@ -200,6 +212,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#attackDamage)     { packed.attackDamage = this.#attackDamage;     }
     if (this.#setConditionCode) { packed.conditionSet = this.getConditionSet(); }
     if (this.#addStatusCode)    { packed.statusAdded = this.getStatusAdded();   }
+    if (this.#targetBeaten)     { packed.targetBeaten = this.#targetBeaten;     }
     if (this.#story)            { packed.story = this.#story;                   }
 
     return packed;

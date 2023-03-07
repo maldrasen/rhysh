@@ -31,7 +31,7 @@ Monster.Goblin = class Goblin extends Monster {
     this.setBaseArmorClass(11);
     this.setBaseHit(2);
     this.setEssence(50);
-    this.setMaxHitPoints(Random.rollDice({ x:1, d:6, p:6 }));
+    this.setMaxHitPoints(Random.rollDice({ d:6, p:6 }));
     this.setAttributes(new Attributes({
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
