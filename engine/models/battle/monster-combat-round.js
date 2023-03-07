@@ -23,6 +23,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
   }
 
+  getClassName() { return "MonsterCombatRound"; }
   getMonster() { return this.#monster; }
   getMonsterID() { return this.#monster.getID(); }
 
@@ -47,6 +48,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   isSuccess() { return ['hit','critical-hit'].indexOf(this.#attackResult) >= 0; }
   isFailure() { return ['miss','critical-miss'].indexOf(this.#attackResult) >= 0; }
+  getStory() { return this.#story; }
 
   doMonsterAttack() {
     // console.log("...do attack");
@@ -198,6 +200,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#attackDamage)     { packed.attackDamage = this.#attackDamage;     }
     if (this.#setConditionCode) { packed.conditionSet = this.getConditionSet(); }
     if (this.#addStatusCode)    { packed.statusAdded = this.getStatusAdded();   }
+    if (this.#story)            { packed.story = this.#story;                   }
 
     return packed;
   }

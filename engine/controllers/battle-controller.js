@@ -6,7 +6,7 @@ global.BattleController = (function() {
     });
 
     ipcMain.handle("battle.start-round", (payload, orders) => {
-      let events = new BattleEngine(orders).execute();
+      BattleRenderer.renderCombatRound(new BattleEngine(orders).execute());
     });
   }
 
