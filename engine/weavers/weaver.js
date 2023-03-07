@@ -48,33 +48,51 @@ global.Weaver = (function() {
 
   // Find an actor loom that matches the token and replace it.
   function actorValue(subject, token, context) {
-    for (let i=0; i<Looms.actor.length; i++) {
-      if (token.match(Looms.actor[i].pattern)) {
-        return Looms.actor[i].replaceFunction(subject, token, context);
-      }
+    let actor = context.get(subject);
+
+    if (actor == null) {
+      if (subject == 'T') { actor = context.get('target'); }
+      if (subject == 'M') { actor = context.get('monster'); }
     }
 
-    return error(`BadToken(${subject}::${token})`);
+    if (actor == null) { throw `Cannot determine actor.` }
+
+    // if (token.startsWith('balls'))     { return Weaver.BallsLoom.findValue(actor, token, context); }
+    // if (token.startsWith('body'))      { return Weaver.BodyLoom.findValue(actor, token, context); }
+    // if (token.startsWith('cock'))      { return Weaver.CockLoom.findValue(actor, token, context); }
+    // if (token.startsWith('gender'))    { return Weaver.GenderLoom.findValue(actor, token, context); }
+    // if (token.startsWith('nipples'))   { return Weaver.NipplesLoom.findValue(actor, token, context); }
+    // if (token.startsWith('species'))   { return Weaver.SpeciesLoom.findValue(actor, token, context); }
+    // if (token.startsWith('tits'))      { return Weaver.TitsLoom.findValue(actor, token, context); }
+
+    if (token.startsWith('weapon')) { return Weaver.WeaponLoom.findValue(actor, token, context); }
+
+    return Weaver.CharacterLoom.findValue(actor, token, context);
   }
 
   // Find a utility loom that matches the token and replace it.
   function utilityValue(utility, argument, context) {
-    for (let i=0; i<Looms.utility.length; i++) {
-      if (utility.match(Looms.utility[i].pattern)) {
-        return Looms.utility[i].replaceFunction(utility, argument, context);
-      }
-    }
-
+    // if (utility.startsWith('flag')) { return Weaver.FlagLoom.findValue(argument, context); }
+    // if (utility.startsWith('game')) { return Weaver.GameLoom.findValue(argument, context); }
+    // if (utility.match(/^[rR]andom/)) { return Weaver.RandomLoom.findValue(utility, argument); }
+    // if (utility.match(/^(inch|foot|feet|yard|yards)/)) { return Weaver.MeasurementLoom.findValue(utility, argument); }
     return error(`BadToken(${utility}|${argument})`);
   }
 
   // Find a simple loom that matches the token and replace it.
   function simpleValue(token) {
-    for (let i=0; i<Looms.simple.length; i++) {
-      if (token.match(Looms.simple[i].pattern)) {
-        return Looms.simple[i].replaceFunction();
-      }
-    }
+    // if (token == 'ballsack')  { return Random.from(['ballsack','ballsack','scrotum']); }
+    // if (token == 'maleDemon') { return Random.from(['Abaddon','Baal','Baphomet','Behemoth','Lucifer','Maldrasen','Mephistopheles','Satan','Slaanesh']); }
+    // if (token == 'cock')      { return Random.from(['cock','cock','dick']); }
+    // if (token == 'pussy')     { return Random.from(['pussy','pussy','cunt']); }
+    // if (token == 'sheath')    { return Random.from(['sheath','cocksheath']); }
+    // if (token == 'testicles') { return Random.from(['testicles','balls']); }
+    // if (token == 'tit')       { return Random.from(['breast','tit']); }
+    // if (token == 'tits')      { return Random.from(['breasts','tits']); }
+    // if (token == 'throb')     { return Random.from(['throb','pulse']); }
+    // if (token == 'throbbing') { return Random.from(['throbbing','pulsing']); }
+    // if (token == 'wide')      { return Random.from(['wide','thick']); }
+    // if (token == 'unholy')    { return Random.from(['unholy','demonic','infernal','satanic','corrupt','blasphemous','cursed','accursed']); }
 
     return error(`BadToken(${token})`);
   }
@@ -89,12 +107,14 @@ global.Weaver = (function() {
   // matching and navigating down into objects, so there are no dependencies
   // on the character classes to worry about.
   function shortcutValue(token, context) {
-    const keys = Object.keys(context.getActors());
-    const first = context.getActors()[keys[0]];
+    // TODO: This will need redone I think...
 
-    if (keys.length == 1) { return first.character.gender[token]; }
-    if (context.actors['C']) { return context.get('C').character.gender[token]; }
-    throw `Pronoun shortcuts can only be used when there is only one actor in a scene, or when there is a 'C' actor.`;
+    // const keys = Object.keys(context.getActors());
+    // const first = context.getActors()[keys[0]];
+
+    // if (keys.length == 1) { return first.character.gender[token]; }
+    // if (context.actors['C']) { return context.get('C').character.gender[token]; }
+    // throw `Pronoun shortcuts can only be used when there is only one actor in a scene, or when there is a 'C' actor.`;
   }
 
   function error(message) {

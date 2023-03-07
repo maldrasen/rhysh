@@ -9,8 +9,8 @@ global.BattleRenderer = (function() {
   function renderMonsterCombatRound(round) {
     if (round.getStory() == null) { return null; }
 
-    console.log("\n---Render---")
-    console.log(round.pack());
+    // console.log("\n---Render---")
+    // console.log(round.pack());
 
     let packed = round.pack();
     let segments = [];

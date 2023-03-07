@@ -12,9 +12,9 @@ global.Context = class Context {
 
   // Get all characters except for the main character. In order for this to
   // work characters should only be referenced by single letter keys. The
-  // letter 'M' is reserved for the Main character.
+  // letter 'P' is reserved for the Main player character.
   getCharacters() {
-    return ObjectHelper.select(this.#properties, key => key.length == 1 && key != 'M');
+    return ObjectHelper.select(this.#properties, key => key.length == 1 && key != 'P');
   }
 
   // One of the main purposes of the WeaverContent is to lookup properties on

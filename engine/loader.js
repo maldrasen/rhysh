@@ -31,6 +31,7 @@ global.Loader = (function() {
     'models/characters/character.js',
     'models/dungeon/vector.js',
     'models/monsters/monster.js',
+    'weavers/weaver.js',
   ];
 
   let complete = [];
