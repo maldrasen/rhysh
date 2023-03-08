@@ -1,8 +1,12 @@
 global.CombatResult = class CombatResult {
 
   #combatRound;
-
   #targetSlot;
+
+  #weapon;
+  #weaponBase;
+  #weaponMode;
+
   #attackRoll;
   #attackResult;
   #attackDamage;
@@ -27,6 +31,19 @@ global.CombatResult = class CombatResult {
   setTargetSlot(slot) { this.#targetSlot = slot; }
   chooseTargetSlot(slot) { this.#targetSlot = slot || BattleEngine.randomSlot(); }
 
+  getWeaponBase() { return this.#weaponBase; }
+  setWeaponBase(base) { this.#weaponBase = base; }
+  setWeapon(weapon) {
+    this.#weapon = weapon;
+    this.#weaponBase = weapon.getBase();
+  }
+
+  getWeaponMode() { return this.#weaponMode; }
+  setWeaponMode(mode) { this.#weaponMode = mode; }
+  isWeaponAttackMode() {
+    return (this.#weaponMode) ? (['parry','riposte','entangle'].indexOf(this.#weaponMode) < 0) : false;
+  }
+
   getAttackRoll() { return this.#attackRoll; }
   setAttackRoll(roll) { this.#attackRoll = roll; }
 
@@ -49,25 +66,31 @@ global.CombatResult = class CombatResult {
 
   isSuccess() { return ['hit','critical-hit'].indexOf(this.#attackResult) >= 0; }
   isFailure() { return ['miss','critical-miss'].indexOf(this.#attackResult) >= 0; }
+  isHit() { return this.#attackResult == 'hit'; }
+  isMiss() { return this.#attackResult == 'miss'; }
+  isCriticalHit() { return this.#attackResult == 'critical-hit'; }
+  isCriticalMiss() { return this.#attackResult == 'critical-miss'; }
 
   // Make an attack and determine the result. Hit bonus is 0 by default and
   // only applies to some abilities.
   rollAttack(hitBonus=0) {
+    let modeHit = this.#weaponMode ? WeaponModeDictionary.lookup(this.#weaponMode).hit : 0;
+
     this.#attackRoll = Random.rollDice({ d:20 })
 
     if (this.#attackRoll == 1)  { this.#attackResult = 'critical-miss'; return; }
     if (this.#attackRoll == 20) { this.#attackResult = 'critical-hit';  return; }
 
     let targetArmorClass = this.getTarget().getArmorClass(this.#targetSlot);
-    let adjustedHit = this.#attackRoll + this.getActor().getBaseHit() + hitBonus;
+    let adjustedHit = this.#attackRoll + this.getActor().getBaseHit() + hitBonus + modeHit;
 
     this.#attackResult = (adjustedHit >= targetArmorClass) ? 'hit' : 'miss';
   }
 
   // TODO: Adjust critical hit ranges and damage multipliers.
-  rollDamage(damage) {
-    if (this.#attackResult == 'hit') { this.#attackDamage = this.getDamage(damage); }
-    if (this.#attackResult == 'critical-hit') { this.#attackDamage = this.getDamage(damage,2); }
+  rollDamage(damage, bonusDamage=0) {
+    if (this.#attackResult == 'hit') { this.#attackDamage = this.getDamage(damage,bonusDamage); }
+    if (this.#attackResult == 'critical-hit') { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
 
     if (this.#attackResult == 'critical-miss') {
       // TODO: Determine critical failure result for monster. We could do a few
@@ -76,8 +99,24 @@ global.CombatResult = class CombatResult {
     }
   }
 
-  getDamage(damage, multiplier=1) {
-    return (damage == null) ? 0 : Math.floor(Random.rollDice(damage) * multiplier);
+  getDamage(damage, bonusDamage=0, multiplier=1) {
+    return (damage == null) ? 0 : Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;
+  }
+
+  useWeapon() {
+    if (this.#weaponMode == 'parry') {
+      this.getActor().getCondition().setStatus('defensive');
+      this.setStory({ text:`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.` })
+      return;
+    }
+
+    if (this.#weaponMode == 'riposte') {
+      this.getActor().getCondition().setStatus('riposte');
+      this.setStory({ text:`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a counter attack.` })
+      return;
+    }
+
+    throw `TODO: Implement ${this.#weaponMode} weapon mode.`
   }
 
   updateCondition() {
@@ -168,6 +207,8 @@ global.CombatResult = class CombatResult {
     let packed = {};
 
     if (this.#targetSlot) { packed.targetSlot = this.#targetSlot; }
+    if (this.#weaponBase) { packed.weaponCode = this.#weaponBase.code; }
+    if (this.#weaponMode) { packed.weaponMode = this.#weaponMode; }
     if (this.#attackRoll) { packed.attackRoll = this.#attackRoll; }
     if (this.#attackResult) { packed.attackResult = this.#attackResult; }
     if (this.#attackDamage) { packed.attackDamage = this.#attackDamage; }

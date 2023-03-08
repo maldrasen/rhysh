@@ -6,9 +6,12 @@ global.StatusDictionary = (function() {
   //       effect may end up being it's own class perhaps?
 
   const statuses = {
-    'bound-legs': { prevent:'use-of-legs' },
-    'bound-arms': { prevent:'use-of-arms' },
-    'bound-body': { prevent:'use-of-body' },
+    'defensive': { adjustArmorClass:4 },
+    'riposte': { adjustArmorClass:2 },
+
+    'bound-legs': { prevent:'use-of-legs', dexPenalty:-2 },
+    'bound-arms': { prevent:'use-of-arms', dexPenalty:-4 },
+    'bound-body': { prevent:'use-of-body', dexPenalty:-6 },
 
     // The chest or leg armor has been stripped off or destroyed somehow. These
     // status effects don't prevent any actions, but influence story and

@@ -2,8 +2,8 @@
 const CloseRangeWeapons = {
   battleaxe:   { name:'Battleaxe',     damage:{ d:10 },     hands:'2', modes:['slash']},
   club:        { name:'Club',          damage:{ d:4 },      hands:'M', modes:['bash']},
-  dagger:      { name:'Dagger',        damage:{ d:4 },      hands:'1', modes:['slash','thust','parry']},
-  dirk:        { name:'Dirk',          damage:{ d:5 },      hands:'1', modes:['slash','thust','parry']},
+  dagger:      { name:'Dagger',        damage:{ d:4 },      hands:'1', modes:['slash','thrust','parry']},
+  dirk:        { name:'Dirk',          damage:{ d:5 },      hands:'1', modes:['slash','thrust','parry']},
   flail:       { name:'Flail',         damage:{ d:8 },      hands:'1', modes:['bash']},
   hammer:      { name:'Hammer',        damage:{ d:4 },      hands:'1', modes:['bash']},
   handaxe:     { name:'Handaxe',       damage:{ d:6 },      hands:'1', modes:['slash']},

@@ -16,6 +16,7 @@ global.Attributes = class Attributes {
   wis() { return this.attributeMap[WIS]; }
   cha() { return this.attributeMap[CHA]; }
 
+  // TODO: Status effects can adjust stat bonuses.
   strModifier() { return Attributes.modifierFor(this.attributeMap[STR]); }
   dexModifier() { return Attributes.modifierFor(this.attributeMap[DEX]); }
   conModifier() { return Attributes.modifierFor(this.attributeMap[CON]); }

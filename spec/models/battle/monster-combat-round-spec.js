@@ -17,17 +17,17 @@ describe('MonsterCombatRound', function() {
     expect(round.getCombatResults()[0].getAttackRoll()).to.be.greaterThan(0);
   });
 
-  it("uses an attack", function() {
+  it.only("uses an attack", function() {
     SpecHelper.randomMainCharacter({ archetype:'chosen' });
 
-    let gobbo = new Monster.Mudcrab();
+    let gobbo = new Monster.Goblin();
         gobbo.setTarget('Main');
 
     let round = new MonsterCombatRound(gobbo);
         round.doMonsterAttack();
 
-    // console.log("=== Attack ===")
-    // console.log(JSON.stringify(round.pack()));
+    console.log("=== Attack ===")
+    console.log(JSON.stringify(round.pack()));
   });
 
 });

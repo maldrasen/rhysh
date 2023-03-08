@@ -143,7 +143,9 @@ global.Character = class Character {
   }
 
   // TODO: Some accessories can add armor.
+  // TODO: A shield adds armor.
   // TODO: Spell effects can add armor.
+  // TODO: Status effects can adjust armor class.
   getArmorClass(slot) {
     let baseArmor = this.getBaseArmorClass();
     let dexBonus = this.getAttributes().dexModifier();
