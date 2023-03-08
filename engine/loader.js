@@ -20,6 +20,7 @@ global.Loader = (function() {
     'models',
     'renderers',
     'scrutinizers',
+    'storyTellers',
     'weavers',
   ];
 

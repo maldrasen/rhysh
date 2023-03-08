@@ -67,6 +67,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (result.isWeaponAttackMode()) {
       result.rollAttack(hitBonus);
       result.rollDamage(weapon.damage, this.getMonster().getAttributes().strModifier());
+      result.setStory(new WeaponAttackStoryTeller(result).tellStory());
     } else {
       result.useWeapon();
     }
