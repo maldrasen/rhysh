@@ -58,7 +58,11 @@ global.BattleRenderer = (function() {
         });
       }
 
-      $renderedEvents.push(segments);
+      $renderedEvents.push({
+        actorType: 'Monster',
+        monsterID: combatRound.getMonsterID(),
+        segments: segments,
+      });
     });
   }
 
