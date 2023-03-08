@@ -17,7 +17,7 @@ Weaver.BattleLoom = (function() {
       hands: ['arm','arm','hand','wrist','shoulder'],
       feet:  ['foot','ankle'],
       legs:  ['leg','leg','knee','ass','crotch','thigh','loin','hip'],
-    }[context.get('round').getTargetSlot()]);
+    }[context.get('combatResult').getTargetSlot()]);
   }
 
   return { findValue };

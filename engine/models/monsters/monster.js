@@ -117,7 +117,7 @@ global.Monster = class Monster {
     let available = [];
 
     let scrutinizer = new Scrutinizer(new Context({
-      monster: this,
+      actor: this,
       target: CharacterLibrary.getCachedCharacter(this.#target),
     }));
 

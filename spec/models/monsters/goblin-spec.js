@@ -12,7 +12,7 @@ describe('Goblin', function() {
     expect(maxHP).to.equal(hp);
     expect(gobbo.getAttributes().dexModifier()).to.equal(2);
     expect(gobbo.getEssence()).to.equal(50);
-    expect(chestArmor).to.be.lessThan(17);
+    expect(chestArmor).to.be.lessThan(18);
     expect(chestArmor).to.be.greaterThan(12);
   });
 

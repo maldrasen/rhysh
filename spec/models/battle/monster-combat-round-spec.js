@@ -10,11 +10,24 @@ describe('MonsterCombatRound', function() {
         crab.setTarget('Main');
 
     let round = new MonsterCombatRound(crab);
-        round.doMonsterAbility({ code:'crab-claw', damage:{ d:4 }, hit:0 });
+        round.doMonsterAbility({ code:'crab-claw', damage:{ d:4 }, hit:10 });
 
     expect(round.getAbilityCode()).to.equal('crab-claw');
     expect(round.getTargetCode()).to.equal('Main');
-    expect(round.getAttackRoll()).to.be.greaterThan(0);
+    expect(round.getCombatResults()[0].getAttackRoll()).to.be.greaterThan(0);
+  });
+
+  it("uses an attack", function() {
+    SpecHelper.randomMainCharacter({ archetype:'chosen' });
+
+    let gobbo = new Monster.Mudcrab();
+        gobbo.setTarget('Main');
+
+    let round = new MonsterCombatRound(gobbo);
+        round.doMonsterAttack();
+
+    // console.log("=== Attack ===")
+    // console.log(JSON.stringify(round.pack()));
   });
 
 });

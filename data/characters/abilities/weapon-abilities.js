@@ -7,9 +7,9 @@ AbilityDictionary.register('bad-idea', {
   cooldown: 5,
   setCondition: { on:'self', condition:'prone', when:'always' },
   stories: [
-    { attempt: `{{M::TheMonster}} charges at {{T::firstName}} swingingly {{M::his}} {{M::weapon.main-hand.name}} wildly.`,
-      hit: `{{M::His}} desprate attack scores a deep hit on {{T::firstName's}} {{battle|target-slot-word}}, but leaves
-            {{M::him}} sprawled out on the ground.`,
-      miss: `{{M::He}} misses badly, falling flat on {{M::his}} face.` },
+    { attempt: `{{A::TheMonster}} charges at {{T::firstName}} swingingly {{A::his}} {{A::weapon.main-hand.name}} wildly.`,
+      hit: `{{A::His}} desprate attack scores a deep hit on {{T::firstName's}} {{battle|target-slot-word}}, but leaves
+            {{A::him}} sprawled out on the ground.`,
+      miss: `{{A::He}} misses badly, falling flat on {{A::his}} face.` },
   ]
 });

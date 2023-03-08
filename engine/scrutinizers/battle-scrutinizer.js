@@ -19,22 +19,26 @@ global.BattleScrutinizer = (function() {
 
   function checkAttackRequirement(value, context) {
     let match = value.match(/^hits-(.*)/);
-    if (match) { return context.get('round').getTargetSlot() == match[1]; }
+    if (match) { return context.get('combatResult').getTargetSlot() == match[1]; }
 
     throw `Unrecognized Attack Requirement Value: ${value}`;
   }
 
   function checkConditionRequirement(parts, context) {
-    let actor = context.get(parts[1] == 'target' ? 'target' : 'monster');
+    let actor = context.get(parts[1] == 'target' ? 'target' : 'actor');
     let property = parts[2];
     let value = parts[4];
+
+    if (actor == null) {
+      throw `No actor in context at ${parts[1]}`;
+    }
 
     if (property == 'condition') { return checkCondition(actor,value); }
     if (property == 'status') { return checkStatus(actor,value); }
   }
 
   function checkActorRequirement(parts, context) {
-    let actor = context.get(parts[1] == 'target' ? 'target' : 'monster');
+    let actor = context.get(parts[1] == 'target' ? 'target' : 'actor');
     let value = parts[2];
 
     if (value == 'cock-exposed') { return actor.isCockExposed(); }

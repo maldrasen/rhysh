@@ -40,7 +40,7 @@ global.Weaver = (function() {
     if (actor == null) {
       if (subject == 'P') { actir = CharacterLibrary.getMainCharacter(); }
       if (subject == 'T') { actor = context.get('target'); }
-      if (subject == 'M') { actor = context.get('monster'); }
+      if (subject == 'A') { actor = context.get('actor'); }
     }
 
     if (actor == null) { throw `Cannot determine actor.` }
