@@ -94,7 +94,8 @@ global.EventRenderer = class EventRenderer {
   //   speaker:speaker object (player, actor, narrator)
   //   background: code
   //   filter: filter object
-  //   text:template string
+  //   text: template string
+  //   requires: (They are checked when rendering the stage)
   //
   // TODO: Need to implement these speaker objects. The most basic
   //       implementation of this is that the speaker would just change the
