@@ -38,7 +38,7 @@ global.Weaver = (function() {
     let actor = context.get(subject);
 
     if (actor == null) {
-      if (subject == 'P') { actir = CharacterLibrary.getMainCharacter(); }
+      if (subject == 'P') { actor = CharacterLibrary.getMainCharacter(); }
       if (subject == 'T') { actor = context.get('target'); }
       if (subject == 'A') { actor = context.get('actor'); }
     }

@@ -28,6 +28,8 @@ global.Context = class Context {
     if (template.actors || state.characters) {
       throw "TODO: Add actors in Context";
     }
+
+    return context;
   }
 
 }
