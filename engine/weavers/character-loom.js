@@ -13,6 +13,10 @@ Weaver.CharacterLoom = (function() {
     if (token == "TheMonster") { return `The ${actor.getName()}`; }
     if (token == "theMonster") { return `the ${actor.getName()}`; }
 
+    // Species
+    if (token == "anElf") { return EnglishHelper.a_an(actor.getSpecies().name); }
+    if (token == "AnElf") { return EnglishHelper.A_An(actor.getSpecies().name); }
+
     // Pronouns
     if (token == "his")  { return PronounHelper.his(actor.getSex());  }
     if (token == "him")  { return PronounHelper.him(actor.getSex());  }

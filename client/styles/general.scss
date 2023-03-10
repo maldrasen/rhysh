@@ -94,3 +94,8 @@
 // === Other ===
 .bonus { color: $fg-bonus; }
 .penalty { color: $fg-penalty; }
+
+.weaver-error {
+  color: $fg-button-danger;
+  font-family: roboto-mono;
+}

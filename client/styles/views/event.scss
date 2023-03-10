@@ -11,7 +11,8 @@
       bottom:20px;
       left: calc(10% - 11px);
       width: 80%;
-      height: 200px;
+      min-height: 200px;
+      background-color: rgba(5,5,5,0.8);
       z-index: $z-event-text;
     }
 
