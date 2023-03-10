@@ -15,7 +15,7 @@ EventDictionary.register('game.start',{
               long for the legendary island of Rhysh to be rediscovered.` },
       { text:`The Adenturer's Guild is of course doing all they can to keep that discovery a secret.` },
       { text:`It's understandable really. The ancient human empire had magics that are still beyond today's greatest
-              wizards.`, background:'vault' },
+              wizards.`, background:'vault-1' },
       { text:`Wars have been fought over a single Rhyshian artifact, so it's no doubt that an island presumably full of
               them would cause no end of trouble for the world, and to complicate matters even further a untamed
               dungeon had been found on the island.` },
@@ -24,7 +24,7 @@ EventDictionary.register('game.start',{
               power of a lost of empire known for their unsavory practices and barely understood magic.` },
 
       { text:`Although that is of course what has brought {{P::firstName}} here.` },
-      { text:`That and the dreams.`, background:'harem' },
+      { text:`That and the dreams.`, background:'harem-1' },
 
       { text:`The dreams have haunted {{P::him}} for months now, and while {{P::he}} can't remember any details, they
               leave a strong impression of lurid sensuality that has {{P::him}} hard and throbbing every morning when
