@@ -24,7 +24,7 @@ EventDictionary.register('game.start',{
               power of a lost of empire known for their unsavory practices and barely understood magic.` },
 
       { text:`Although that is of course what has brought {{P::firstName}} here.` },
-      { text:`That and the dreams.`, background:'harem-1' },
+      { text:`That and the dreams.`, background:'event-orgy-1' },
 
       { text:`The dreams have haunted {{P::him}} for months now, and while {{P::he}} can't remember any details, they
               leave a strong impression of lurid sensuality that has {{P::him}} hard and throbbing every morning when

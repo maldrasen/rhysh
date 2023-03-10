@@ -35,12 +35,15 @@ window.EventView = (function() {
   function showEvent() {
     stageCounter = 0;
 
-    X.first("#eventView").setAttribute('class',`font-size-${Options.fontSize}`);
-
+    setTextWindowStyle(Options.fontSize, Options.windowColor)
     if (eventData.background) { BackgroundImage.setBackground(eventData.background); }
     if (eventData.filter) { BackgroundImage.setFilter(eventData.filter); }
 
     showStage();
+  }
+
+  function setTextWindowStyle(fontSize, windowColor) {
+    X.first("#eventView .text-container").setAttribute('class',`text-container font-size-${fontSize} window-color-${windowColor}`);
   }
 
   function showStage() {
@@ -121,6 +124,7 @@ window.EventView = (function() {
     init,
     show,
     isOpen,
+    setTextWindowStyle,
   }
 
 })();

@@ -72,7 +72,7 @@
     width: calc(100% + 80px);
   }
 
-  #fontSizeExample {
+  .event-example {
     display: inline-block;
 
     height: auto;
@@ -83,7 +83,6 @@
 
     border: $border-normal;
     box-shadow: $shadow-frame;
-    background-color: rgba(0,0,0,0.5);
   }
 }
 

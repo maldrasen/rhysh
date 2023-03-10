@@ -12,7 +12,19 @@ window.OptionsOverlay = (function() {
     9: 24,
   };
 
-  let fontSizeSlider;
+  const WindowColors = {
+    1: 'Light',
+    2: 'Dark',
+    3: 'Very Dark',
+    4: 'Black',
+    5: 'Brown',
+    6: 'Red',
+    7: 'Blue',
+    8: 'Green',
+  };
+
+  let $fontSizeSlider;
+  let $windowColorSlider;
 
   function init() {
     X.onCodeDown(27, isOpen, close);
@@ -22,16 +34,28 @@ window.OptionsOverlay = (function() {
 
   function build() {
     Template.load('#optionsOverlay','client/views/mainMenu/options-overlay.html').then(loaded => {
+      ScrollingPanel.build('#optionsOverlay .scrolling-panel');
 
-      fontSizeSlider = new Slider({
+      $fontSizeSlider = new Slider({
         id: 'fontSizeSlider',
         parent: X.first('#fontSizeContainer'),
         min: 1,
         max: 9,
         formatter: value => { return `${FontSizes[value]} point` },
-        onChange: event => { updateFontSize(event.value); },
+        onChange: event => { updateEventExamples(); },
       });
-      fontSizeSlider.build();
+      $fontSizeSlider.build();
+
+      $windowColorSlider = new Slider({
+        id: 'windowColorSlider',
+        parent: X.first('#windowColorContainer'),
+        min: 1,
+        max: 8,
+        formatter: value => { return `${WindowColors[value]}` },
+        onChange: event => { updateEventExamples(); },
+      });
+      $windowColorSlider.build();
+
 
     });
   }
@@ -39,22 +63,32 @@ window.OptionsOverlay = (function() {
   function show() {
     let mainMenu = X.first('#mainMenu');
 
-    fontSizeSlider.setValue(Options.fontSize);
-    updateFontSize(Options.fontSize)
+    $fontSizeSlider.setValue(Options.fontSize);
+    $windowColorSlider.setValue(Options.windowColor);
+    updateEventExamples();
 
     if (mainMenu) {
       X.addClass(mainMenu,'hide');
     }
 
     X.removeClass('#optionsOverlay','hide');
+
+    ScrollingPanel.resize('#optionsOverlay .scrolling-panel');
+
   }
 
-  function updateFontSize(value) {
-    X.first('#fontSizeExample').setAttribute('class',`font-size-${value}`);
+  function updateEventExamples(event) {
+    let fontSize = $fontSizeSlider.getValue();
+    let windowColor = $windowColorSlider.getValue();
+
+    X.first('#fontSizeExample').setAttribute('class',`event-example window-color-${windowColor} font-size-${fontSize}`);
+    X.first('#windowColorExample').setAttribute('class',`event-example window-color-${windowColor} font-size-${fontSize}`);
 
     if (EventView.isOpen()) {
-      X.first("#eventView").setAttribute('class',`font-size-${value}`);
+      EventView.setTextWindowStyle(fontSize, windowColor);
     }
+
+    ScrollingPanel.resize('#optionsOverlay .scrolling-panel');
   }
 
   function close() {
@@ -67,7 +101,8 @@ window.OptionsOverlay = (function() {
   }
 
   function save() {
-    Options.fontSize = fontSizeSlider.getValue();
+    Options.fontSize = $fontSizeSlider.getValue();
+    Options.windowColor = $windowColorSlider.getValue();
 
     ClientCommands.send('options.save',Options).then(status => {
       if (status == 'success') {

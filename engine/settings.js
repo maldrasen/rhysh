@@ -6,6 +6,8 @@ global.Settings = (function() {
     lastWorld: null,
     worldCounter: 1,
     fontSize: 5,
+    windowColor: 1,
+    futaPronouns: 'shi',
   };
 
   // If the settings file exists we load it into the current settings. If it doesn't exist we save a file with the
@@ -19,7 +21,9 @@ global.Settings = (function() {
   function set(key, value) { currentSettings[key] = value; }
 
   function setAll(options) {
-    set('fontSize',options.fontSize);
+    set('fontSize',    options.fontSize);
+    set('windowColor', options.windowColor);
+    set('futaPronouns',options.futaPronouns);
   }
 
   function getAll() { return {...currentSettings}; }
