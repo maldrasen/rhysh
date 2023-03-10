@@ -2,7 +2,7 @@
 
   #newGameForm {
     padding: 20px 60px;
-    min-width: 900px;
+    min-width: 1000px;
   }
 
   h2 {
@@ -23,6 +23,7 @@
       text-align: center;
       background-size: contain;
       border: none;
+      box-shadow: none;
     }
 
     .drop {
@@ -47,19 +48,19 @@
     a.dominatrix { background-image: url('../assets/icons/arch-dominatrix.png'); }
     a.chosen { background-image: url('../assets/icons/arch-chosen.png'); }
 
-    a.elf.male { background-image: url('../assets/icons/species-elf-m.png'); }
-    a.orc.male { background-image: url('../assets/icons/species-orc-m.png'); }
-    a.minotaur.male { background-image: url('../assets/icons/species-minotaur-m.png'); }
-    a.dragonkind.male { background-image: url('../assets/icons/species-dragonkind-m.png'); }
-    a.lupin.male { background-image: url('../assets/icons/species-lupin-m.png'); }
-    a.satyr.male { background-image: url('../assets/icons/species-satyr-m.png'); }
+    a.elf.male { background-image: url('../assets/portraits/elf-m-01.jpg'); }
+    a.orc.male { background-image: url('../assets/portraits/orc-m-01.jpg'); }
+    a.minotaur.male { background-image: url('../assets/portraits/minotaur-01.jpg'); }
+    a.dragonkind.male { background-image: url('../assets/portraits/dragon-m-01.jpg'); }
+    a.lupin.male { background-image: url('../assets/portraits/lupin-m-01.jpg'); }
+    a.satyr.male { background-image: url('../assets/portraits/satyr-m-01.jpg'); }
 
-    a.elf.female { background-image: url('../assets/icons/species-elf-f.png'); }
-    a.nymph.female { background-image: url('../assets/icons/species-nymph-f.png'); }
-    a.orc.female { background-image: url('../assets/icons/species-orc-f.png'); }
-    a.dragonkind.female { background-image: url('../assets/icons/species-dragonkind-f.png'); }
-    a.lupin.female { background-image: url('../assets/icons/species-lupin-f.png'); }
-    a.satyr.female { background-image: url('../assets/icons/species-satyr-f.png'); }
+    a.elf.female { background-image: url('../assets/portraits/elf-f-01.jpg'); }
+    a.nymph.female { background-image: url('../assets/portraits/nymph-01.jpg'); }
+    a.orc.female { background-image: url('../assets/portraits/orc-f-01.jpg'); }
+    a.dragonkind.female { background-image: url('../assets/portraits/dragon-f-01.jpg'); }
+    a.lupin.female { background-image: url('../assets/portraits/lupin-f-01.jpg'); }
+    a.satyr.female { background-image: url('../assets/portraits/satyr-f-01.jpg'); }
   }
 
   .archetypes {
@@ -73,7 +74,7 @@
     }
 
     .drop {
-      top: 210px;
+      top: 209px;
       width: 128px;
     }
   }
@@ -119,13 +120,13 @@
     margin-bottom: 40px;
 
     a.button {
-      height: 183px;
-      width: 128px;
+      height: 200px;
+      width: 150px;
     }
 
     .drop {
-      top: 374px;
-      width: 128px;
+      top: 390px;
+      width: 150px;
     }
   }
 

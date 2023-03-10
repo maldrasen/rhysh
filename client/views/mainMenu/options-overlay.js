@@ -25,6 +25,7 @@ window.OptionsOverlay = (function() {
 
   let $fontSizeSlider;
   let $windowColorSlider;
+  let $futaButtons;
 
   function init() {
     X.onCodeDown(27, isOpen, close);
@@ -36,13 +37,22 @@ window.OptionsOverlay = (function() {
     Template.load('#optionsOverlay','client/views/mainMenu/options-overlay.html').then(loaded => {
       ScrollingPanel.build('#optionsOverlay .scrolling-panel');
 
+      $futaButtons = new RadioButtons({
+        currentValue: 'shi',
+        onSelect: (x) => { console.log("On Select?",x); },
+        choices: [
+          { value:'shi', label:'Shi/Hir' },
+          { value:'she', label:'She/Her' },
+        ]
+      });
+
       $fontSizeSlider = new Slider({
         id: 'fontSizeSlider',
         parent: X.first('#fontSizeContainer'),
         min: 1,
         max: 9,
         formatter: value => { return `${FontSizes[value]} point` },
-        onChange: event => { updateEventExamples(); },
+        onChange: event => { updateEventExample(); },
       });
       $fontSizeSlider.build();
 
@@ -52,20 +62,19 @@ window.OptionsOverlay = (function() {
         min: 1,
         max: 8,
         formatter: value => { return `${WindowColors[value]}` },
-        onChange: event => { updateEventExamples(); },
+        onChange: event => { updateEventExample(); },
       });
       $windowColorSlider.build();
-
-
     });
   }
 
   function show() {
     let mainMenu = X.first('#mainMenu');
 
+    $futaButtons.setValue(Options.futaPronouns);
     $fontSizeSlider.setValue(Options.fontSize);
     $windowColorSlider.setValue(Options.windowColor);
-    updateEventExamples();
+    updateEventExample();
 
     if (mainMenu) {
       X.addClass(mainMenu,'hide');
@@ -77,12 +86,11 @@ window.OptionsOverlay = (function() {
 
   }
 
-  function updateEventExamples(event) {
+  function updateEventExample(event) {
     let fontSize = $fontSizeSlider.getValue();
     let windowColor = $windowColorSlider.getValue();
 
-    X.first('#fontSizeExample').setAttribute('class',`event-example window-color-${windowColor} font-size-${fontSize}`);
-    X.first('#windowColorExample').setAttribute('class',`event-example window-color-${windowColor} font-size-${fontSize}`);
+    X.first('#eventExample').setAttribute('class',`window-color-${windowColor} font-size-${fontSize}`);
 
     if (EventView.isOpen()) {
       EventView.setTextWindowStyle(fontSize, windowColor);

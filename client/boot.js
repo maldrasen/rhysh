@@ -48,6 +48,7 @@
       import('./elements/alert.js'),
       import('./elements/background-image.js'),
       import('./elements/confirmation.js'),
+      import('./elements/radio-buttons.js'),
       import('./elements/scrolling-panel.js'),
       import('./elements/slider.js'),
       import('./elements/tooltip.js'),
@@ -114,6 +115,7 @@
     NewGame.init();
     OptionsOverlay.init();
     PartyPanel.init();
+    RadioButtons.init();
     Renderer.init();
     ScrollingPanel.init();
     Slider.init();

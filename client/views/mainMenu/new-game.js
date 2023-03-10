@@ -44,16 +44,19 @@ window.NewGame = (function() {
   }
 
   function handleSelectArchetype(target) {
+    if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
     if (name != selectedArchetype) { selectArchetype(name); }
   }
 
   function handleSelectSex(target) {
+    if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
     if (name != selectedSex) { selectSex(name); }
   }
 
   function handleSelectSpecies(target) {
+    if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
     if (name != selectedSpecies) { selectSpecies(name); }
   }
