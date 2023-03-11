@@ -67,7 +67,9 @@ global.BattleRenderer = (function() {
   }
 
   function renderAttemptSegment(combatResult, context) {
-    return { type:'attempt', text:Weaver.weave(combatResult.getStory().attempt, context) };
+    let story = combatResult.getStory()
+    let text = Weaver.weave((story.text || story.attempt), context);
+    return { type:'attempt', text:text };
   }
 
   function renderFailureSegment(combatResult, context) {

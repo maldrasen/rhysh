@@ -25,6 +25,11 @@ Weaver.CharacterLoom = (function() {
     if (token == "He")   { return PronounHelper.He(actor.getSex());   }
     if (token == "Hers") { return PronounHelper.Hers(actor.getSex()); }
 
+    // Body Parts
+    if (token == "bigBalls") { return (actor.briefDescriptionOfBalls()); }
+    if (token == "bigCock") { return (actor.briefDescriptionOfCock()); }
+    if (token == "bigTits") { return (actor.briefDescriptionOfTits()); }
+
     return Weaver.error(`Bad Character Token(${token})`);
   }
 

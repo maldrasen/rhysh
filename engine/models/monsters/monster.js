@@ -91,6 +91,11 @@ global.Monster = class Monster {
   isPussyExposed() { throw 'Implement this in Monster' }
   areTitsExposed() { throw 'Implement this in Monster' }
 
+  // TODO: Body part describers for monsters.
+  briefDescriptionOfBalls() { return 'balls' }
+  briefDescriptionOfCock() { return 'cock' }
+  briefDescriptionOfTits() { return 'tits' }
+
   // === Combat ================================================================
 
 

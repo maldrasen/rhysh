@@ -106,6 +106,7 @@ global.Character = class Character {
   isNotMale() { return this.#sex != 'male'; }
 
   hasCock() { return this.isNotFemale(); }
+  hasPussy() { return this.isFemale(); }
   hasTits() { return this.isNotMale(); }
 
   // === Members ===============================================================
@@ -114,6 +115,22 @@ global.Character = class Character {
   isCockExposed() { return CheckEquipment.isCockExposed(this); }
   isPussyExposed() { return CheckEquipment.isPussyExposed(this); }
   areTitsExposed() { return CheckEquipment.areTitsExposed(this); }
+
+  // TODO: Body part describers.
+  briefDescriptionOfBalls() {
+    if (this.hasCock() == false) { throw 'Character has no balls.' }
+    return 'balls'
+  }
+
+  briefDescriptionOfCock() {
+    if (this.hasCock() == false) { throw 'Character has no cock.' }
+    return 'cock'
+  }
+
+  briefDescriptionOfTits() {
+    if (this.hasCock() == false) { throw 'Character has no tits.' }
+    return 'tits'
+  }
 
   // === Experience ============================================================
 

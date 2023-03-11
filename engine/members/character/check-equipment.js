@@ -1,7 +1,7 @@
 global.CheckEquipment = (function() {
 
   function isCockExposed(character) {
-    if (character.hasCock() == 'false') { return false; }
+    if (character.hasCock() == false) { return false; }
     if (character.getCondition().hasStatus('crotch-exposed'));
 
     let armor = Inventory.getEquippedBy(character)['legs'];
@@ -12,7 +12,7 @@ global.CheckEquipment = (function() {
   }
 
   function isPussyExposed(character) {
-    if (character.hasPussy() == 'false') { return false; }
+    if (character.hasPussy() == false) { return false; }
     if (character.getCondition().hasStatus('crotch-exposed'));
 
     let armor = Inventory.getEquippedBy(character)['legs'];
@@ -23,7 +23,7 @@ global.CheckEquipment = (function() {
   }
 
   function areTitsExposed(character) {
-    if (character.hasTits() == 'false') { return false; }
+    if (character.hasTits() == false) { return false; }
     if (character.getCondition().hasStatus('crotch-exposed'));
 
     let armor = Inventory.getEquippedBy(character)['chest'];
