@@ -115,7 +115,6 @@
     NewGame.init();
     OptionsOverlay.init();
     PartyPanel.init();
-    RadioButtons.init();
     Renderer.init();
     ScrollingPanel.init();
     Slider.init();

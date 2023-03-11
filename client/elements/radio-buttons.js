@@ -5,15 +5,6 @@ window.RadioButtons = class RadioButtons {
   #onSelect;
   #element;
 
-  static init() {
-
-    X.onClick('.radio-buttons .radio-button', event => {
-      console.log("Click:",event.target)
-      // Wat?
-      // $(this).data('controller').setValue($(this).data('value'));
-    });
-  }
-
   // RadioButtons have the following options:
   //   currentValue:  Currently selected value.
   //   onSelect:      Select callback, only triggers when value changes.
@@ -30,32 +21,37 @@ window.RadioButtons = class RadioButtons {
   }
 
   getElement() { return this.#element; }
-  getCurrentValue() { return this.#currentValue; }
+  getValue() { return this.#currentValue; }
 
   addChoice(choice) {
-    console.log("Add Choice:",choice)
-    // let button = $('<a>',{ href:'#', class:'radio-button' }).
-    //   attr('data-value',choice.value).
-    //   data('controller',this).
-    //   append(choice.label);
+    let button = X.createElement(`<a href='#' class='radio-button'>`)
+    button.setAttribute('data-value',choice.value);
+    button.innerHTML = choice.label;
+    button.addEventListener('click', event => {
+      this.setValue(event.target.getAttribute('data-value'));
+    });
 
-    // if (choice.value == this.currentValue) {
-    //   button.addClass('on');
-    // }
+    if (choice.value == this.#currentValue) {
+      X.addClass(button,'on');
+    }
 
-    // this.element.append(button);
+    this.#element.appendChild(button);
   }
 
   setValue(value) {
-    // if (value != this.currentValue) {
-    //   this._currentValue = value;
-    //   this.element.find('.on').removeClass('on');
-    //   this.element.find(`.radio-button[data-value="${value}"]`).addClass('on');
+    if (value != this.#currentValue) {
+      this.#currentValue = value;
 
-    //   if (typeof this._onSelect == 'function') {
-    //     this._onSelect({ radioButtons:this, value:value });
-    //   }
-    // }
+      let other = this.#element.querySelector('.on');
+      if (other) {
+        X.removeClass(other,'on');
+      }
+
+      X.addClass(this.#element.querySelector(`.radio-button[data-value="${value}"]`),'on')
+      if (this.#onSelect) {
+        this.#onSelect({ radioButtons:this, value:value });
+      }
+    }
   }
 
 }

@@ -2,7 +2,7 @@ global.Settings = (function() {
 
   const filepath = `${DATA}/settings.json`;
 
-  let currentSettings = {
+  let $currentSettings = {
     lastWorld: null,
     worldCounter: 1,
     fontSize: 5,
@@ -18,7 +18,7 @@ global.Settings = (function() {
     });
   }
 
-  function set(key, value) { currentSettings[key] = value; }
+  function set(key, value) { $currentSettings[key] = value; }
 
   function setAll(options) {
     set('fontSize',    options.fontSize);
@@ -26,14 +26,15 @@ global.Settings = (function() {
     set('futaPronouns',options.futaPronouns);
   }
 
-  function getAll() { return {...currentSettings}; }
-  function getLastWorld() { return currentSettings.lastWorld; }
-  function getWorldCounter() { return currentSettings.worldCounter; }
-  function setLastWorld(world) { currentSettings.lastWorld = world; }
-  function incWorldCounter() { currentSettings.worldCounter += 1; }
+  function getAll() { return {...$currentSettings}; }
+  function getFutaPronouns() { return $currentSettings.futaPronouns; }
+  function getLastWorld() { return $currentSettings.lastWorld; }
+  function getWorldCounter() { return $currentSettings.worldCounter; }
+  function setLastWorld(world) { $currentSettings.lastWorld = world; }
+  function incWorldCounter() { $currentSettings.worldCounter += 1; }
 
   function save() {
-    fs.writeFile(filepath, JSON.stringify(currentSettings), (error) => {
+    fs.writeFile(filepath, JSON.stringify($currentSettings), (error) => {
       if (error) { throw `Error: Cannot save settings. ${error}` }
     });
   }
@@ -41,7 +42,7 @@ global.Settings = (function() {
   function load() {
     fs.readFile(filepath, (error, data) => {
       if (error) { throw `Error: Cannot load settings. ${error}` }
-      currentSettings = JSON.parse(data);
+      $currentSettings = JSON.parse(data);
     });
   }
 
@@ -50,6 +51,7 @@ global.Settings = (function() {
     set,
     setAll,
     getAll,
+    getFutaPronouns,
     getLastWorld,
     getWorldCounter,
     setLastWorld,

@@ -39,12 +39,11 @@ window.OptionsOverlay = (function() {
 
       $futaButtons = new RadioButtons({
         currentValue: 'shi',
-        onSelect: (x) => { console.log("On Select?",x); },
         choices: [
           { value:'shi', label:'Shi/Hir' },
-          { value:'she', label:'She/Her' },
-        ]
+          { value:'she', label:'She/Her' }]
       });
+      X.first('#futaPronouns').appendChild($futaButtons.getElement());
 
       $fontSizeSlider = new Slider({
         id: 'fontSizeSlider',
@@ -111,6 +110,7 @@ window.OptionsOverlay = (function() {
   function save() {
     Options.fontSize = $fontSizeSlider.getValue();
     Options.windowColor = $windowColorSlider.getValue();
+    Options.futaPronouns = $futaButtons.getValue();
 
     ClientCommands.send('options.save',Options).then(status => {
       if (status == 'success') {
