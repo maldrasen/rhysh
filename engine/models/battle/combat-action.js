@@ -18,13 +18,22 @@ global.CombatAction = class CombatAction {
     if (options.offMode)    { this.#offMode = options.offMode; }
 
     if (this.#targetType == null) {
-      if (this.#actionType == 'attack') { this.#targetType = 'monster'; }
+      if (this.#actionType == _attack) { this.#targetType = _monster; }
     }
 
+    if (this.#targetRank == null) {
+      if (this.#targetType == _monster) { this.#targetRank = _rank_1; }
+      if (this.#targetType == _rank) { throw `A target rank should have been set.` }
+    }
+
+    Validate.isIn(this.#actionType, ActionTypes);
     Validate.isIn(this.#targetType, TargetTypes);
   }
 
   getActionType() { return this.#actionType; }
+  isAttack() { return this.#actionType == _attack; }
+  isAbility() { return this.#actionType == _ability; }
+
   getTargetType() { return this.#targetType; }
   getTargetRank() { return this.#targetRank; }
 

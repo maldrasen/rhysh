@@ -135,8 +135,8 @@ global.BattleRenderer = (function() {
       }
 
       // No need to mention holds as that would be redundant.
-      if (conditionChange.set == 'holding-legs') { return null; }
-      if (conditionChange.set == 'holding-arms') { return null; }
+      if (conditionChange.set == 'holdingLegs') { return null; }
+      if (conditionChange.set == 'holdingArms') { return null; }
     }
 
     if (text == null) {

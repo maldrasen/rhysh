@@ -44,7 +44,7 @@ AbilityDictionary.register('crab-grab-legs', {
   cooldown: 5,
   targetSlot: 'legs',
 
-  setCondition: { on:'self', condition:'holding-legs', when:'success' },
+  setCondition: { on:'self', condition:'holdingLegs', when:'success' },
   addStatus: { on:'target', status:'bound-legs', when:'success' },
   story: {
     attempt:`The Mudcrab lunges for {{T::name's}} legs.`,
@@ -57,7 +57,7 @@ AbilityDictionary.register('crab-grab-arms', {
   cooldown: 5,
   targetSlot: 'hands',
 
-  setCondition: { on:'self', condition:'holding-arms', when:'success' },
+  setCondition: { on:'self', condition:'holdingArms', when:'success' },
   addStatus: { on:'target', status:'bound-arms', when:'success' },
   story: {
     attempt:`The Mudcrab lunges for {{T::name's}} arms.`,
@@ -67,13 +67,13 @@ AbilityDictionary.register('crab-grab-arms', {
 
 AbilityDictionary.register('crab-leg-crush', {
   type: 'hold',
-  requires: ['monster.condition=holding-legs'],
+  requires: ['monster.condition=holdingLegs'],
   story: { text:`The Mudcrab squeezes {{T::name's}} ankles, crushing them painfully in its sharp claws.` }
 });
 
 AbilityDictionary.register('crab-arm-crush', {
   type: 'hold',
-  requires: ['monster.condition=holding-arms'],
+  requires: ['monster.condition=holdingArms'],
   story: { text:`The Mudcrab squeezes {{T::name's}} wrists, crushing them painfully in its sharp claws.` }
 });
 

@@ -12,14 +12,13 @@ global.CharacterCombatRound = class CharacterCombatRound {
   constructor(character, action) {
     this.#character = character;
     this.#action = action;
-    this.#target = DeterminesTarget.determineTarget(this,action);
     this.#combatResults = [];
     this.#triggers = [];
   }
 
   execute() {
-    if (this.#action.action == 'attack') { this.doAttack(); }
-    if (this.#action.action == 'ability') { this.doAbility(); }
+    if (this.#action.isAttack()) { this.doAttack(); }
+    if (this.#action.isAbility()) { this.doAbility(); }
   }
 
   getClassName() { return "CharacterCombatRound"; }
@@ -30,7 +29,8 @@ global.CharacterCombatRound = class CharacterCombatRound {
   getActor() { return this.#character; }
   getActorType() { return 'Character'; }
 
-  // getTarget() { return this.#target; }
+  getCombatAction() { return this.#action; }
+  getTarget() { return this.#target; }
 
   // getAbilityCode() { return this.#ability ? this.#ability.code : null; }
   // getAbilityTemplate() { return this.#abilityTemplate; }
@@ -40,23 +40,26 @@ global.CharacterCombatRound = class CharacterCombatRound {
   // }
 
   doAttack() {
-    // let result
+    this.determineTarget();
 
-    // let weapons = this.lookupWeapons()
-    // let mainMode = (weapons.main) ? Random.from(weapons.main.modes) : null;
-    // let offMode = (weapons.off) ? Random.from(weapons.off.modes) : null;
-    // let hit = this.getMonster().getBaseHit();
+    console.log("=== Doing attack ===")
+    console.log("Target is:",this.#target.getActor().getID());
+
+    let result = new CombatResult(this);
+    let hit = this.#character.getBaseHit();
+
+    console.log("Hit:",hit);
 
     // while(hit > 0) {
-    //   if (mainMode) {
-    //     result = this.doSingleAttack(hit, weapons.main, mainMode);
-    //   }
-    //   if (offMode && hit-2 >= 0) {
-    //     result = this.doSingleAttack(hit-2, weapons.off, offMode);
-    //   }
+      // if (mainMode) {
+      //   result = this.doSingleAttack(hit, weapons.main, mainMode);
+      // }
+      // if (offMode && hit-2 >= 0) {
+      //   result = this.doSingleAttack(hit-2, weapons.off, offMode);
+      // }
 
-    //   hit = (result.isCriticalMiss()) ? -1 : hit - 5;
-    //   this.#combatResults.push(result);
+      // hit = (result.isCriticalMiss()) ? -1 : hit - 5;
+      // this.#combatResults.push(result);
     // }
   }
 
@@ -129,6 +132,53 @@ global.CharacterCombatRound = class CharacterCombatRound {
   //     if (condition.hasCondition('dead')) { this.addTrigger('main-character-killed'); }
   //   }
   // }
+
+  // The first thing we need to do when executing most abilities is determine
+  // the target of the action.
+  //
+  // If we're targeting a rank of monsters we check to see if the monster we
+  // targeted last round is in that rank. If so we attack the same monster.
+  // If we don't have a previous monster or that monster is dead we choose one
+  // at random. (for now)
+  //
+  // Using an area of effect ability, or an ability that doesn't target a
+  // monster should clear the previous target.
+  //
+  // TODO: We should make this smarter by having the character target weakened
+  //       monsters. If a monster is stunned they should switch to attacking
+  //       that target instead.
+  //
+  determineTarget() {
+    let battleState = GameState.getCurrentBattle()
+    let previousTarget = battleState.getCharacterTarget(this.#character.getCode());
+
+    this.#target = new Target(this.#action.getTargetType());
+
+    // We know we're targeting a single monster.
+    if (this.#target.getType() == _monster) {
+      if (previousTarget && this.previousTargetValid(previousTarget.getActor())) { return previousTarget; }
+      this.#target.setActor(Random.from(battleState.getRank(this.#action.getTargetRank()).monsters));
+      return;
+    }
+
+    throw `TODO: Build a target object for this type.`
+  }
+
+  // Target is no longer valid if dead or fainted, out of range, or if their
+  // squad has moved.
+  previousTargetValid(monster) {
+    if (monster == null) { return false; }
+    if (monster.getCondition().hasCondition(_dead)) { return false; }
+    if (monster.getCondition().hasCondition(_fainted)) { return false; }
+
+    // TODO: Check monster range.
+
+    // let rank = this.#action.getTargetRank(); Is monster in rank???
+    // TODO: Check monster is in rank targeted by action, lets have a previous
+    //       target before we do this though...
+
+    return true;
+  }
 
   // pack() {
   //   let packed = {

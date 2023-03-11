@@ -72,6 +72,18 @@ global.BattleState = class BattleState {
     return 'long';
   }
 
+  // Squads can be referenced by number or string in the format 'rank-#'
+  getRank(rank) {
+    let rankNumber = (typeof rank == 'string') ? parseInt(rank.match(/rank-(\d)/)[1]) : rank;
+    let correctSquad;
+
+    ObjectHelper.each(this.#squads, (key,squad) => {
+      if (squad.rank == rankNumber) { correctSquad = squad; }
+    });
+
+    return correctSquad;
+  }
+
   // === Combat ================================================================
 
   // At the start of each round we reduce all cooldowns. Probably some other

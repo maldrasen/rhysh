@@ -32,7 +32,20 @@ global.SizeClass = {
   huge:   { maxSquadSize:1  },
 }
 
-// Slots
+
+// === Conditions ===
+
+global._normal = 'normal';
+global._fainted = 'fainted';
+global._dead = 'dead';
+
+global._prone = 'prone';
+global._stunned = 'stunned';
+global._holdingArms = 'holdingArms';
+global._holdingBody = 'holdingBody';
+global._holdingLegs = 'holdingLegs';
+
+// === Slots ===
 global._mainHand = 'mainHand';
 global._offHand = 'offHand';
 
@@ -73,7 +86,33 @@ global.AccessorySlots = [
   _ring,
 ];
 
+
+// === Action Types ===
+
+global._attack = 'attack';
+global._ability = 'ability';
+
+global.ActionTypes = [
+  _attack,
+  _ability
+];
+
+global._rank_1 = 'rank-1';
+global._rank_2 = 'rank-2';
+global._rank_3 = 'rank-3';
+global._rank_4 = 'rank-4';
+global._rank_5 = 'rank-5';
+
+global.SquadRanks = [
+  _rank_1,
+  _rank_2,
+  _rank_3,
+  _rank_4,
+  _rank_5,
+];
+
 // === Target Types ===
+
 global._self = 'self';
 global._monster = 'monster';
 global._rank = 'rank';
