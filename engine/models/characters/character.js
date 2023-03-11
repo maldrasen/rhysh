@@ -169,6 +169,9 @@ global.Character = class Character {
     return baseArmor + dexBonus + armorBonus;
   }
 
+  getMainHand() { return Inventory.getEquippedBy(this)['mainHand']; }
+  getOffHand() { return Inventory.getEquippedBy(this)['offHand']; }
+
   // === Persistance ===========================================================
 
   save() {

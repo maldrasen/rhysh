@@ -6,6 +6,7 @@ global.BattleState = class BattleState {
 
   #monsters;
   #squads;
+  #characterTargets;
 
   constructor(options) {
     this.#roundCounter = 0;
@@ -13,6 +14,7 @@ global.BattleState = class BattleState {
     this.#squadCounter = 1;
     this.#monsters = {};
     this.#squads = {};
+    this.#characterTargets = {};
 
     new MonsterBuilder(this, options).generate();
   }
@@ -20,6 +22,9 @@ global.BattleState = class BattleState {
   getRoundNumber() { return this.#roundCounter; }
   getMonsters() { return this.#monsters; }
   getMonster(id) { return this.#monsters[id]; }
+
+  getCharacterTarget(code) { return this.#characterTargets[code]; }
+  setCharacterTarget(code,target) { this.#characterTargets[code] = target; }
 
   // Add a squad of monsters to the battle. The battle state needs to make a
   // squad, assign it an id, and assign each monster a unique id for the

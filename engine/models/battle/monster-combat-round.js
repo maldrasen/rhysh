@@ -1,6 +1,7 @@
 global.MonsterCombatRound = class MonsterCombatRound {
 
   #monster;
+  #action;
   #target;
   #ability;
   #abilityTemplate;
@@ -8,11 +9,17 @@ global.MonsterCombatRound = class MonsterCombatRound {
   #combatResults;
   #triggers;
 
-  constructor(monster) {
+  constructor(monster, action) {
     this.#monster = monster;
+    this.#action = action;
     this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
     this.#combatResults = [];
     this.#triggers = [];
+  }
+
+  execute() {
+    if (this.#action.action == 'attack') { this.doAttack(); }
+    if (this.#action.action == 'ability') { this.doAbility(); }
   }
 
   getClassName() { return "MonsterCombatRound"; }
@@ -100,11 +107,11 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // TODO: Some abilities won't have a target.
   // TODO: Some abilities won't roll to hit.
   // TODO: Handle different template type: attack, hold, coup-de-grace.
-  doAbility(ability) {
-    this.#ability = ability;
-    this.#abilityTemplate = AbilityDictionary.lookup(ability.code);
+  doAbility() {
+    this.#ability = this.#action.ability;
+    this.#abilityTemplate = AbilityDictionary.lookup(this.#ability.code);
 
-    this.#monster.useAbility(ability.code);
+    this.#monster.useAbility(this.#ability.code);
 
     let result = new CombatResult(this);
     result.chooseTargetSlot(this.#abilityTemplate.targetSlot);

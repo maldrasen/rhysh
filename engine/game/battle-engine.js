@@ -7,7 +7,12 @@ global.BattleEngine = class BattleEngine {
   constructor(orders) {
     this.#battleEvents = [];
     this.#initiativeOrder = {};
-    this.#characterActions = orders.actions;
+    this.#characterActions = {};
+
+    ObjectHelper.each(orders.actions, (code, actionOptions) => {
+      this.#characterActions[code] = new CombatAction(actionOptions);
+      this.#characterActions[code].adjustForCharacter(code);
+    });
   }
 
   execute() {
@@ -22,9 +27,8 @@ global.BattleEngine = class BattleEngine {
           let monster = state.getMonster(initiative.id);
           let action = monster.chooseCombatAction();
 
-          let round = new MonsterCombatRound(monster);
-          if (action.action == 'attack') { round.doAttack(); }
-          if (action.action == 'ability') { round.doAbility(action.ability); }
+          let round = new MonsterCombatRound(monster, action);
+              round.execute();
 
           this.#battleEvents.push(round);
         }
@@ -33,9 +37,8 @@ global.BattleEngine = class BattleEngine {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
 
-          let round = new CharacterCombatRound(character);
-          if (action.action == 'attack') { round.doAttack(); }
-          if (action.action == 'ability') { round.doAbility(action.ability); }
+          let round = new CharacterCombatRound(character, action);
+              round.execute();
 
           this.#battleEvents.push(round);
         }

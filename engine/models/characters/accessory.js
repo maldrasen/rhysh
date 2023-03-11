@@ -9,6 +9,7 @@ global.Accessory = class Accessory {
     this.#effects = {};
   }
 
+  isWeapon() { return false; }
   getID() { return this.#id; }
   setID(id) { this.#id = id; }
 
@@ -28,7 +29,7 @@ global.Accessory = class Accessory {
     if (slot == null) {
       throw `Determine slot from type?`
     }
-    if (Object.keys(AccessorySlots).indexOf(slot) < 0) {
+    if (AccessorySlots.indexOf(slot) < 0) {
       throw `Unrecognized accessory slot: ${slot}`;
     }
     if (character.canEquip(this) == false) {

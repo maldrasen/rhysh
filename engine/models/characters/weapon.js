@@ -10,6 +10,7 @@ global.Weapon = class Weapon {
     this.#name = WeaponDictionary.lookup(base).name;
   }
 
+  isWeapon() { return true; }
   getBase() { return this.#base; }
   getWeaponBase() { return WeaponDictionary.lookup(this.#base); }
   getDamage() { return this.getWeaponBase().damage; }

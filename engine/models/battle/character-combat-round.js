@@ -1,6 +1,7 @@
 global.CharacterCombatRound = class CharacterCombatRound {
 
   #character;
+  #action;
   #target;
   #ability;
   #abilityTemplate;
@@ -8,11 +9,17 @@ global.CharacterCombatRound = class CharacterCombatRound {
   #combatResults;
   #triggers;
 
-  constructor(character) {
+  constructor(character, action) {
     this.#character = character;
-    // this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
-    // this.#combatResults = [];
-    // this.#triggers = [];
+    this.#action = action;
+    this.#target = DeterminesTarget.determineTarget(this,action);
+    this.#combatResults = [];
+    this.#triggers = [];
+  }
+
+  execute() {
+    if (this.#action.action == 'attack') { this.doAttack(); }
+    if (this.#action.action == 'ability') { this.doAbility(); }
   }
 
   getClassName() { return "CharacterCombatRound"; }
@@ -20,14 +27,10 @@ global.CharacterCombatRound = class CharacterCombatRound {
   // getTriggers() { return this.#triggers; }
   // clearTriggers() { this.#triggers = []; }
 
-  // getActor() { return this.#monster; }
-  // getActorType() { return 'Monster'; }
-  // getMonster() { return this.#monster; }
-  // getMonsterID() { return this.#monster.getID(); }
+  getActor() { return this.#character; }
+  getActorType() { return 'Character'; }
 
   // getTarget() { return this.#target; }
-  // getTargetCode() { return this.#target.getCode(); }
-  // getTargetType() { return 'Character'; }
 
   // getAbilityCode() { return this.#ability ? this.#ability.code : null; }
   // getAbilityTemplate() { return this.#abilityTemplate; }
