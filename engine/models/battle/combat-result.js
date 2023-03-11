@@ -2,6 +2,7 @@ global.CombatResult = class CombatResult {
 
   #combatRound;
   #targetSlot;
+  #scrutinizer;
 
   #weapon;
   #weaponBase;
@@ -20,6 +21,13 @@ global.CombatResult = class CombatResult {
     this.#attackDamage = 0;
     this.#conditionChanges = [];
     this.#statusChanges = [];
+
+    this.#scrutinizer = new Scrutinizer(new Context({
+      combatResult: this,
+      combatRound: this.#combatRound,
+      actor: this.getActor(),
+      target: this.getTarget(),
+    }));
   }
 
   getActor() { return this.#combatRound.getActor(); }
@@ -30,6 +38,7 @@ global.CombatResult = class CombatResult {
   getTargetSlot() { return this.#targetSlot; }
   setTargetSlot(slot) { this.#targetSlot = slot; }
   chooseTargetSlot(slot) { this.#targetSlot = slot || BattleEngine.randomSlot(); }
+  getScrutinizer() { return this.#scrutinizer; }
 
   getWeaponBase() { return this.#weaponBase; }
   setWeaponBase(base) { this.#weaponBase = base; }
@@ -172,15 +181,8 @@ global.CombatResult = class CombatResult {
 
     let validStories = [];
 
-    let scrutinizer = new Scrutinizer(new Context({
-      combatResult: this,
-      combatRound: this.#combatRound,
-      actor: this.getActor(),
-      target: this.getTarget(),
-    }));
-
     template.stories.forEach(story => {
-      if (scrutinizer.meetsRequirements(story.when)) {
+      if (this.#scrutinizer.meetsRequirements(story.when)) {
         if ((story.chance) ? (Random.roll(100) < story.chance) : true) {
           validStories.push(story);
         }

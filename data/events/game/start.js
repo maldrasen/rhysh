@@ -3,7 +3,7 @@ EventDictionary.register('game.start',{
   stages:[{
     background:'ship-1',
     pages:[
-      { text:`{{P::firstName}} stood at the prow of the guild ship, watching the horizon as the large island in the
+      { text:`{{P::name}} stood at the prow of the guild ship, watching the horizon as the large island in the
               distance grew closer.` },
       { text:`The seas this far north were treacherous in the best of conditions and the storm that had been following
               them threatened to overtake them if they didn't make landfall soon.` },
@@ -23,7 +23,7 @@ EventDictionary.register('game.start',{
               monsters in check, and this dungeon has not only grown wild for centuries, but was formed on the seat of
               power of a lost of empire known for their unsavory practices and barely understood magic.` },
 
-      { text:`Although that is of course what has brought {{P::firstName}} here.` },
+      { text:`Although that is of course what has brought {{P::name}} here.` },
       { text:`That and the dreams.`, background:'event-orgy-1' },
 
       { text:`The dreams have haunted {{P::him}} for months now, and while {{P::he}} can't remember any details, they
@@ -34,7 +34,7 @@ EventDictionary.register('game.start',{
               requires:`player.female` },
 
       { text:`Though the guild may have tried to keep the island a secret, adventurers are a talkative lot. When word
-              of the discovery reached {{P::firstName}} it struck a chord within {{P::him}}. Somehow {{P::he}} knew the
+              of the discovery reached {{P::name}} it struck a chord within {{P::him}}. Somehow {{P::he}} knew the
               island had been calling to {{P::him}}.`, background:'ship-2' },
       { text:`Perhaps it was destiny or perhaps it was just delusion. Either way {{P::he}} knew he had to make the
               journey here, to seek {{P::his}} fortune among the bones of the old Rhysh empire.` },
@@ -77,7 +77,7 @@ EventDictionary.register('game.start',{
     background:'ship-2',
     pages: [
       { text:`Though the Adventurer's Guild was still limiting access to the island to only their most seasoned and
-              trusted members, {{P::anElf}} of {{P::firstName's}} talents had little trouble finding someone "willing"
+              trusted members, {{P::anElf}} of {{P::name's}} talents had little trouble finding someone "willing"
               to part with the necessary documents to secure {{P::his}} passage.` },
     ]
   },{

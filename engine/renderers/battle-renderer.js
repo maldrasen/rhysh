@@ -72,11 +72,7 @@ global.BattleRenderer = (function() {
 
   function renderFailureSegment(combatResult, context) {
     let template = combatResult.getStory().miss;
-    let defaultText = `<span class='plain-miss'>Miss</span>`;
-
-    if (combatResult.getAttackResult() == 'critical-miss') {
-      defaultText = `<span class='critical-miss'>Fumbles!</span>`;
-    }
+    let defaultText = combatResult.isCriticalMiss() ? `Fumbles!` : `Miss`;
 
     return {
       type: combatResult.getAttackResult(),
@@ -86,34 +82,55 @@ global.BattleRenderer = (function() {
   }
 
   function renderSuccessSegment(combatResult, context) {
+    let hitStory = combatResult.getStory().hit;
+
+    if (hitStory == null) {
+      hitStory = combatResult.isCriticalHit() ? 'Critical Hit!' : 'Hit!';
+    }
+
     return {
       type: combatResult.getAttackResult(),
       attackRoll: combatResult.getAttackRoll(),
       damage: combatResult.getAttackDamage(),
-      text: Weaver.weave(combatResult.getStory().hit, context),
+      text: Weaver.weave(hitStory, context),
     };
   }
 
   function renderStatusSegment(statusChange, context) {
     let text;
+    let severity;
 
     if (statusChange.on == 'target') {
-      if (statusChange.add == 'bound-legs') { text = `<span class='status-added bound'>{{T::firstName's}} legs are bound.</span>` }
-      if (statusChange.add == 'bound-arms') { text = `<span class='status-added bound'>{{T::firstName's}} arms are bound.</span>` }
+      if (statusChange.add == 'bound-legs') {
+        text = `{{T::name's}} legs are bound.`;
+        severity = 'bad';
+      }
+      if (statusChange.add == 'bound-arms') {
+        text = `{{T::name's}} arms are bound.`;
+        severity = 'bad';
+      }
     }
 
     if (text == null) {
       throw `TODO: Render this condition ${statusChange.on}:${statusChange.add}`;
     }
 
-    return { type:'statusChange', text:Weaver.weave(text, context) };
+    return {
+      type: 'statusChange',
+      text: Weaver.weave(text, context),
+      severity: severity
+    };
   }
 
   function renderConditionSegment(conditionChange, context) {
     let text;
+    let severity;
 
     if (conditionChange.on == 'self') {
-      if (conditionChange.set == 'prone') { text = `<span class='condition-set prone'>{{A::TheMonster}} falls prone.</span>` }
+      if (conditionChange.set == 'prone') {
+        text = `{{A::Name}} falls prone.`
+        severity = 'bad'
+      }
 
       // No need to mention holds as that would be redundant.
       if (conditionChange.set == 'holding-legs') { return null; }
@@ -124,16 +141,20 @@ global.BattleRenderer = (function() {
       throw `TODO: Render this condition ${conditionChange.on}:${conditionChange.set}`;
     }
 
-    return { type:'conditionChange', text:Weaver.weave(text, context) };
+    return {
+      type: 'conditionChange',
+      text: Weaver.weave(text, context),
+      severity: severity
+    };
   }
 
   function renderTriggerSegment(trigger, context) {
     if (trigger == 'main-character-fainted') {
-      let text =`<span class='main-character-faints'>{{T::firstName}} faints!</span>`;
+      let text =`<span class='main-character-faints'>{{T::name}} faints!</span>`;
       return { type:'trigger', triggers:'game-over', text:Weaver.weave(text,context)};
     }
     if (trigger == 'main-character-killed') {
-      let text = `<span class='main-character-killed'>{{T::firstName}} was killed!</span>`;
+      let text = `<span class='main-character-killed'>{{T::name}} was killed!</span>`;
       return { type:'trigger', triggers:'game-over', text:Weaver.weave(text,context)};
     }
     throw `TODO: Implement trigger ${trigger}`;

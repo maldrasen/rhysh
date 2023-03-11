@@ -5,13 +5,11 @@ Weaver.CharacterLoom = (function() {
   //
   function findValue(actor, token, context) {
 
-    // Character names
-    if (token == "firstName") { return actor.getFirstName(); }
-    if (token == "firstName's") { return EnglishHelper.possessive(actor.getFirstName()); }
-
-    // Monster names
-    if (token == "TheMonster") { return `The ${actor.getName()}`; }
-    if (token == "theMonster") { return `the ${actor.getName()}`; }
+    // Names
+    if (token == "name")   { return actor.getStoryName(); }
+    if (token == "Name")   { return TextHelper.titlecase(actor.getStoryName()); }
+    if (token == "name's") { return EnglishHelper.possessive(actor.getStoryName()); }
+    if (token == "Name's") { return EnglishHelper.possessive(TextHelper.titlecase(actor.getStoryName())); }
 
     // Species
     if (token == "anElf") { return EnglishHelper.a_an(actor.getSpecies().name); }

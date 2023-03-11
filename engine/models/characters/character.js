@@ -40,7 +40,7 @@ global.Character = class Character {
   setCondition(conditionObject) { this.#condition = conditionObject; }
   doDamage(points) { this.#condition.doDamage(points); }
 
-  getName() { return this.#firstName; }
+  getStoryName() { return this.#firstName; }
   getFirstName() { return this.#firstName; }
   getLastName()  { return this.#lastName; }
   getFullName()  { return `${this.getFirstName()} ${this.getLastName()}`; }

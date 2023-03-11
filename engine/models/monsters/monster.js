@@ -36,6 +36,7 @@ global.Monster = class Monster {
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
+  getStoryName() { return `the ${this.#name}`; }
 
   getSex() { return this.#sex || 'male'; }
   setSex(sex) {
