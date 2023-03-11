@@ -84,6 +84,13 @@ global.Monster = class Monster {
 
   rollForInitiative() { return RollsInitiative.rollFor(this); }
 
+  hasCock()  { throw 'Implement this in Monster' }
+  hasPussy() { throw 'Implement this in Monster' }
+  hasTits()  { throw 'Implement this in Monster' }
+  isCockExposed()  { throw 'Implement this in Monster' }
+  isPussyExposed() { throw 'Implement this in Monster' }
+  areTitsExposed() { throw 'Implement this in Monster' }
+
   // === Combat ================================================================
 
 

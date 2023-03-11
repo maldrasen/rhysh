@@ -30,7 +30,7 @@ AbilityDictionary.register('crab-claw', {
       attempt: `The Mudcrab slashes at {{T::name's}} legs with its claws.`,
       hit:`The Mudcrab pinches {{T::his}} rounded ass painfully hard.` },
 
-    { when: ['attack.hits-legs','target.cock-exposed'],
+    { when: ['attack.hits-legs','target.exposed-cock'],
       chance: 10,
       bonusDamage: 4,
       attempt: `The Mudcrab slashes at {{T::name's}} legs with its claws.`,
