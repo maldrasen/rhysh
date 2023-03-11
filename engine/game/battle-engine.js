@@ -15,8 +15,6 @@ global.BattleEngine = class BattleEngine {
       let state = GameState.getCurrentBattle();
           state.startRound();
 
-      // TODO: Reduce all cooldowns by one, and remove at 0.
-
       this.rollForInitiative();
       this.forInitiativeOrder((segment, initiative) => {
 
@@ -25,21 +23,21 @@ global.BattleEngine = class BattleEngine {
           let action = monster.chooseCombatAction();
 
           let round = new MonsterCombatRound(monster);
-          if (action.action == 'attack') { round.doMonsterAttack(); }
-          if (action.action == 'ability') { round.doMonsterAbility(action.ability); }
+          if (action.action == 'attack') { round.doAttack(); }
+          if (action.action == 'ability') { round.doAbility(action.ability); }
 
           this.#battleEvents.push(round);
         }
 
-        // TODO: Some actions that characters take will increase threat across
-        //       all monsters. Actions like healing and area of effect spells
-        //       especially.
-        //
         if (initiative.type == 'character') {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
-          // console.log("  Character:",character.getFullName());
-          // console.log("  Action:",action)
+
+          let round = new CharacterCombatRound(character);
+          if (action.action == 'attack') { round.doAttack(); }
+          if (action.action == 'ability') { round.doAbility(action.ability); }
+
+          this.#battleEvents.push(round);
         }
       });
 

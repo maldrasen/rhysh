@@ -36,7 +36,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
   }
 
-  doMonsterAttack() {
+  doAttack() {
     let result
 
     let weapons = this.lookupWeapons()
@@ -100,7 +100,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // TODO: Some abilities won't have a target.
   // TODO: Some abilities won't roll to hit.
   // TODO: Handle different template type: attack, hold, coup-de-grace.
-  doMonsterAbility(ability) {
+  doAbility(ability) {
     this.#ability = ability;
     this.#abilityTemplate = AbilityDictionary.lookup(ability.code);
 

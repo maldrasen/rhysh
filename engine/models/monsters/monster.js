@@ -193,6 +193,19 @@ global.Monster = class Monster {
     }
   }
 
+  reduceCooldowns() {
+    let oldCooldowns = this.#cooldowns;
+    this.#cooldowns = {};
+
+    ObjectHelper.each(this.#cooldowns, (code, rounds) => {
+      if (rounds-1 > 0) { this.#cooldowns[code] = rounds - 1; }
+    });
+
+    if (Object.keys(oldCooldowns).length > 0) {
+      console.log("TEMP[Monster.reduceCooldowns()]", oldCooldowns, this.#cooldowns);
+    }
+  }
+
   // === Weapons and Armor =====================================================
 
   getSlots() { return this.#slots; }

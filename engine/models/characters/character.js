@@ -132,27 +132,13 @@ global.Character = class Character {
     return 'tits'
   }
 
+  // === Abilities =============================================================
+
+  reduceCooldowns() {}
+
   // === Experience ============================================================
 
-  gainExperience(points) {
-    // TODO: Handle gaining levels. I think gaining experience will work in
-    //       essentially the same way for all the character sub-classes. The
-    //       amount of experience needed to gain a level won't depend on the
-    //       archetype or species, but a character can have an experience
-    //       penality (or a bonus) that changes the rate of leveling. Could
-    //       even add an experience bonus as part of the game configuration as
-    //       a cheat option.
-    //
-    //       The level attribute is secondary to experience. It's convinient to
-    //       have as a reference and some skills will depend on level. The only
-    //       way to set the character's level though is for them to
-    //       gainExperience.
-    //
-    //       Gain experience should trigger a gainLevel() function each time
-    //       the level threshold is met. gainLevel() can be overridded by the
-    //       subclasses so that player's gain levels differently that party
-    //       members or monsters.
-  }
+  gainExperience(points) {}
 
   // === Equipment =============================================================
 
@@ -188,12 +174,6 @@ global.Character = class Character {
   save() {
     CharacterLibrary.saveCharacter(this);
   }
-
-  // === New Attributes ===
-  // #arcanumMap = {};
-  // #gnosisMap = {};
-  // #powerMap = {};
-  // #skillMap = {};
 
   pack() {
     let data = {
@@ -295,17 +275,10 @@ global.Character = class Character {
     return packed;
   }
 
-  // TODO: A main character can issue orders to his followers. This is their
-  //       action and takes their entire turn, but should buff the rest of the
-  //       party somehow. Running is also an order that only the main character
-  //       can give, so it's bundled in with the rest of the orders.
   packOrders() {
     return [{ name:"Retreat", code:'retreat' }];
   }
 
-  // TODO: Need to select portrait at character creation. Should also allow
-  //       people to change portrait and name at any time. For now we're just
-  //       getting a random elf portrait.
   packForStatus() {
     let image = `minotaur-03`;
 

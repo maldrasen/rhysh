@@ -69,10 +69,18 @@ global.BattleState = class BattleState {
 
   // === Combat ================================================================
 
-  // Other than advancing the round counter, not sure what all needs to be done
-  // at the start of a round.
+  // At the start of each round we reduce all cooldowns. Probably some other
+  // things as well.
   startRound() {
     this.#roundCounter += 1
+
+    ObjectHelper.each(this.#monsters, (id, monster) => {
+      monster.reduceCooldowns();
+    });
+
+    ObjectHelper.each(CharacterLibrary.getParty(), (position, character) => {
+      if (character) { character.reduceCooldowns(); }
+    });
   }
 
 
