@@ -16,6 +16,13 @@ global.INT = 'int';
 global.WIS = 'wis';
 global.CHA = 'cha';
 
+global._str = 'str';
+global._dex = 'dex';
+global._con = 'con';
+global._int = 'int';
+global._wis = 'wis';
+global._cha = 'cha';
+
 // TODO: Replace these with _N
 global.N = "N";
 global.S = "S";

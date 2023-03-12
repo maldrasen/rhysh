@@ -163,6 +163,18 @@ global.EventRenderer = class EventRenderer {
   //    ]
   //
   renderSelectionStage(stage) {
-    throw `TODO: Selection Stage`;
+    let selections = [];
+
+    stage.selections.forEach(selection => {
+      if (this.#scrutinizer.meetsRequirements(selection.requires)) {
+        console.log("Valid Selection:",selection);
+        // selections.push()
+      }
+    });
+
+    return {
+      selectionStage: stage.selectionKey,
+      selections: selections,
+    };
   }
 }

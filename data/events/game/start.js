@@ -153,79 +153,23 @@ EventDictionary.register('game.start',{
         text:`She frowns as she looks you over, "As you can imagine we're... understaffed. I'll allow you to stay, but
               under the condition that you'll officially join the guild and agree to follow orders."` },
 
+      { text:`You nod, knowing it's the best offer you're likely to get, "Very well."` },
+      { text:`She stands up, reaches over the table and starts to unlock the shackles still tightly locked around your
+              wrists. "Guildmistress Khaja Bremen. Welcome to the guild, try not to die. Your shit's in the trunk over
+              by the wall. Once you're dressed go talk to Serthia in front."` },
 
+      { requires:'player.species=nymph',
+        text:`Once your wrists are finally freed from the shackles you give her a wink, "But I'm already dressed." She
+              sighs and shakes her head, saying something under her breath before leaving you alone in the dark once
+              again.` },
+
+      { requires:'player.species!=nymph',
+        text:`With that she turns and exits the room, leaving you alone in the dark once again.` },
     ],
   }],
 
-
-
-
-
-
-// You nod, knowing it's the best offer you're likely to get, "Very well."
-
-// She stands up, reaches over the table and starts to unlock the shackles still tightly locked around your wrists. "Guildmistress Khaja Bremen. Welcome to the guild, try not to die. Your shit's in the trunk over by the wall. Once you're dressed go talk to Serthia in front."
-
-// --- when nymph
-//     Once your wrists are finally freed from the shackles you give her a wink, "But I'm already dressed." She sighs and shakes her head, saying something under her breath before leaving you alone in the dark once again.
-
-// --- when not nymph
-//     With that she turns and exits the room, leaving you alone in the dark once again.
-
-
-
-
-
-  //   requires:'player.archetype=chosen',
-  //   background:'ship-2',
-  //   pages: [
-  //     { text:`Start as Chosen` },
-  //   ]
-  // },{
-  //   requires:'player.archetype=cultist',
-  //   background:'ship-2',
-  //   pages: [
-  //     { text:`Start as Cultist` },
-  //   ]
-  // },{
-  //   requires:'player.archetype=dominatrix',
-  //   background:'ship-2',
-  //   pages: [
-  //     { text:`Start as Dominatrix` },
-  //   ]
-  // },{
-  //   requires:'player.archetype=knight',
-  //   pages: [
-  //     { text:`As a knight of the Order of the Umbral Bastion it wasn't difficult for him to force his way abord the
-  //             guild ship. The Black Knights are purportedly an order of demon hunters, and thus can make certain
-  //             demands.` },
-  //     { text:`To bar him passage would only make the guild look like it had something to hide, though he was certain
-  //             his reception will be less than welcoming when he finally did arrive.` },
-  //   ]
-  // },{
-  //   requires:'player.archetype=mindbender',
-  //   background:'ship-2',
-  //   pages: [
-  //     { text:`Start as Mindbender` },
-  //   ]
-  // },{
-  //   requires:'player.archetype=slaver',
-  //   background:'ship-2',
-  //   pages: [
-  //     { text:`Though the Adventurer's Guild was still limiting access to the island to only their most seasoned and
-  //             trusted members, {{P::anElf}} of {{P::name's}} talents had little trouble finding someone "willing"
-  //             to part with the necessary documents to secure {{P::his}} passage.` },
-  //   ]
-  // },{
-  //   background:'battle-town-1',
-  //   pages: [
-  //     { text:`Walk about town` }
-  //   ]
-  // },{
-  //   background:'guild',
-  //   pages: [
-  //     { text:`Talk to the guildmistress` }
-  //   ]
-  // }],
+  onFinish: function(choices) {
+    console.log("Event Complete, set flag from ",choices);
+  },
 
 });
