@@ -20,6 +20,35 @@ global.EventRenderer = class EventRenderer {
     this.#scrutinizer.setState(this.#state);
   }
 
+  // Format:
+  //   attributeChecks:{
+  //     lookSexy:{
+  //       who:'A',          - If null defaults to player, or is the actor key.
+  //       attribute:'cha',  - Attribute to check
+  //       target:14         - Target value.
+  //     }
+  //   }
+  runAttributeChecks() {
+    let checks = this.#template.attributeChecks;
+    if (checks) {
+      ObjectHelper.each(checks, (code,check) => {
+        let actor = check.who ? this.lookupActor(check.who) : CharacterLibrary.getMainCharacter();
+        let roll = Random.rollDice({ d:20 });
+        let bonus = actor.getAttributes().getModifier(check.attribute);
+        let total = roll + bonus;
+
+        this.#state[code] = {
+          attribute: check.attribute,
+          target: check.target,
+          roll: roll,
+          bonus: bonus,
+          total: total,
+          success: (total >= check.target),
+        }
+      });
+    }
+  }
+
   // Event event template may have
   //   repeat: null, true, or requirement value
   //   requires: string or array of requirements
@@ -28,12 +57,15 @@ global.EventRenderer = class EventRenderer {
   //   filter: filter object
   //   stages: stage array
   //   onFinish: function
+  //   attributeChecks: map of attribute checks to make and add to the state.
   render() {
     try {
       this.createContext();
+      this.runAttributeChecks();
 
       let stages = ArrayHelper.compact(this.#template.stages.map(stage => {
         if (this.#scrutinizer.meetsRequirements(stage.requires)) {
+          if (stage.attributeCheck) { console.log('TODO: Check Stage attributeCheck') }
           return this.renderStage(stage);
         }
       }));
@@ -70,6 +102,7 @@ global.EventRenderer = class EventRenderer {
   //       can change inside the event such as after selectionStages. Currently
   //       this only checks to see if a key matches a value. Could be extended
   //       if needed though.
+  //   attributeCheck: { code:boolean },
   //   background: code
   //   filter: filter object
   //   pages:[]
@@ -77,6 +110,7 @@ global.EventRenderer = class EventRenderer {
   renderNormalStage(stage) {
     let pages = ArrayHelper.compact(stage.pages.map(page => {
       if (this.#scrutinizer.meetsRequirements(page.requires)) {
+        if (page.attributeCheck) { console.log('TODO: Check Page attributeCheck') }
         return this.renderPage(page, stage);
       }
     }));
@@ -96,6 +130,7 @@ global.EventRenderer = class EventRenderer {
   //   filter: filter object
   //   text: template string
   //   requires: (They are checked when rendering the stage)
+  //   attributeCheck: { code:boolean },
   //
   // TODO: Need to implement these speaker objects. The most basic
   //       implementation of this is that the speaker would just change the
@@ -108,6 +143,7 @@ global.EventRenderer = class EventRenderer {
 
     if (page.background) { rendered.background = page.background; }
     if (page.filter)     { rendered.filter = page.filter; }
+
 
     return rendered;
   }

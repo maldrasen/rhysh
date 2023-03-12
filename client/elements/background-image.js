@@ -41,7 +41,6 @@ window.BackgroundImage = (function() {
       let blur = t.value / 2;
       let brightness = (100 - t.value)/100;
       background.style['filter'] = `blur(${blur}px) brightness(${brightness})`
-
     });
 
     tween.onComplete(()=>{
