@@ -1,95 +1,202 @@
 EventDictionary.register('game.start',{
 
   stages:[{
-    background:'ship-1',
+    background:'prison-1',
+    filter:{ effect:'wakeUp' },
     pages:[
-      { text:`{{P::name}} stood at the prow of the guild ship, watching the horizon as the large island in the
-              distance grew closer.` },
-      { text:`The seas this far north were treacherous in the best of conditions and the storm that had been following
-              them threatened to overtake them if they didn't make landfall soon.` },
-      { text:`There were more than ten thousand islands in the Great Northern Archipelago, and because of the way the
-              archipelago sat between the two northern oceans the currents that swept past the islands were both
-              fierce and unpredictable.` },
-      { text:`While the journey though the archipelago would cut the travel time from Caldwyn to Ithadross by a few
-              days, only the truly desperate or foolhardy would risk it. It's hardly surprising then that it took so
-              long for the legendary island of Rhysh to be rediscovered.` },
-      { text:`The Adenturer's Guild is of course doing all they can to keep that discovery a secret.` },
-      { text:`It's understandable really. The ancient human empire had magics that are still beyond today's greatest
-              wizards.`, background:'vault-1' },
-      { text:`Wars have been fought over a single Rhyshian artifact, so it's no doubt that an island presumably full of
-              them would cause no end of trouble for the world, and to complicate matters even further a untamed
-              dungeon had been found on the island.` },
-      { text:`It's the responsibility of the guild to manage the dungeons, control their growth and to keep the
-              monsters in check, and this dungeon has not only grown wild for centuries, but was formed on the seat of
-              power of a lost of empire known for their unsavory practices and barely understood magic.` },
+      { text:`You slowly wake to the sound of dripping water and a splitting headache.` },
+      { text:`With a groan you carefully push yourself up and take a look around at the small prison cell you've found
+              yourself in.` },
 
-      { text:`Although that is of course what has brought {{P::name}} here.` },
-      { text:`That and the dreams.`, background:'event-orgy-1' },
+      { requires:'player.species.isNot(nymph,satyr)',
+        text:`The ground is uncomfortably wet with half an inch of filthy water pooling underneath you. To make matters
+              worse it seems you've been stripped naked as well.` },
 
-      { text:`The dreams have haunted {{P::him}} for months now, and while {{P::he}} can't remember any details, they
-              leave a strong impression of lurid sensuality that has {{P::him}} hard and throbbing every morning when
-              {{P::he}} wakes.`, requires:`player.not-female` },
-      { text:`The dreams have haunted her for months now, and while she can't remember any details, they leave a strong
-              impression of lurid sensuality that has her flushed and dripping every morning when she wakes.`,
-              requires:`player.female` },
+      { requires:'player.species=nymph',
+        text:`The ground is uncomfortably wet with half an inch of filthy water pooling underneath you. As a water
+              spirit a little wetness isn't enough to bother you, but you do wish it was at least a little cleaner.` },
 
-      { text:`Though the guild may have tried to keep the island a secret, adventurers are a talkative lot. When word
-              of the discovery reached {{P::name}} it struck a chord within {{P::him}}. Somehow {{P::he}} knew the
-              island had been calling to {{P::him}}.`, background:'ship-2' },
-      { text:`Perhaps it was destiny or perhaps it was just delusion. Either way {{P::he}} knew he had to make the
-              journey here, to seek {{P::his}} fortune among the bones of the old Rhysh empire.` },
-    ]
-  },{
-    requires:'player.archetype=chosen',
-    background:'ship-2',
-    pages: [
-      { text:`Start as Chosen` },
-    ]
-  },{
-    requires:'player.archetype=cultist',
-    background:'ship-2',
-    pages: [
-      { text:`Start as Cultist` },
-    ]
-  },{
-    requires:'player.archetype=dominatrix',
-    background:'ship-2',
-    pages: [
-      { text:`Start as Dominatrix` },
-    ]
-  },{
-    requires:'player.archetype=knight',
-    pages: [
-      { text:`As a knight of the Order of the Umbral Bastion it wasn't difficult for him to force his way abord the
-              guild ship. The Black Knights are purportedly an order of demon hunters, and thus can make certain
-              demands.` },
-      { text:`To bar him passage would only make the guild look like it had something to hide, though he was certain
-              his reception will be less than welcoming when he finally did arrive.` },
-    ]
-  },{
-    requires:'player.archetype=mindbender',
-    background:'ship-2',
-    pages: [
-      { text:`Start as Mindbender` },
-    ]
-  },{
-    requires:'player.archetype=slaver',
-    background:'ship-2',
-    pages: [
-      { text:`Though the Adventurer's Guild was still limiting access to the island to only their most seasoned and
-              trusted members, {{P::anElf}} of {{P::name's}} talents had little trouble finding someone "willing"
-              to part with the necessary documents to secure {{P::his}} passage.` },
-    ]
-  },{
-    background:'battle-town-1',
-    pages: [
-      { text:`Walk about town` }
-    ]
-  },{
-    background:'guild',
-    pages: [
-      { text:`Talk to the guildmistress` }
+      { requires:'player.species=satyr',
+        text:`The ground is uncomfortably wet with half an inch of filthy water pooling underneath you. It seems you've
+              been stripped naked as well. Not that you wear much anyway though you wish you at least had something to
+              shield you from the cold clammy air.` },
+
+      { background:'ship-1',
+        text:`You try to remember how you got here. The last thing you remember was standing at the prow of the guild
+              ship, watching the horizon as the large island in the distance grew closer.` },
+      { text:`The ship was an Adventurer's Guild supply ship, supporting the guild's secret expedition to the Island of
+              Rhysh. Knowing the ship was bound for the lost island you procured what forged documents you needed to be
+              allowed on board.` },
+      { text:`Perhaps your deception was found out.` },
+
+      { background:'prison-1',
+        text:`That would explain your current situation.` },
+
+      { text:`You wait for what feels like hours, properly languishing in your dank cell. Eventually your jailer
+              decides to show himself, a large and well armored orc. You can tell from his expression that he'd love
+              any excuse to knock you completely unconscious once again, so you wisely remain silent as he starts
+              unchaining you from the wall.` },
+
+      { background:'prison-2',
+        text:`Wearing nothing but a pair of manacles you're led into the next room which seems to be an interrogation
+              room of some sort. You're pushed down into a chair and left to wait.` },
+
+      { text:`A few minutes later a well dressed and severe looking elf walks into the room, baring a stack of familiar
+              looking documents which she casually drops on the table before sitting opposite you.` },
+      { text:`"I'm a busy woman. I'll give you five minutes to explain what you're doing here and why I shouldn't just
+              toss you back into the ocean."` },
+      { text:`You had been expecting something like this. Perhaps, not quite so soon, but while your forgeries were
+              enough to get you aboard the ship you knew they wouldn't pass muster once they were presented to the
+              guild.` },
+      { text:`You can't tell her the real reason of course, that the dreams led you here.` },
     ]
   }],
+
+
+// Instead you offer an actually plausible explanation.
+//     I'm a knight of the Order of the Umbral Bastian (knight)
+//     I'm a scholar from the Immaculum of Xanth. (int > 10)
+//     I'm a traveling bard (chr > 10)
+//     I'm a explorer and treasure hunter. (str > 10)
+
+
+
+
+
+// ==== Scene (choose knight) ===
+// "I'll have you know I am a knight of the Order of the Umbral Bastian. Certain rumors have come to the attention of my order that I've been sent here to investigate. The Island of Rhysh, home to the last and greatest human empire, after all these centuries its location has finally been uncovered."
+
+// "While I understand your guild's need for secrecy concerning the island, my order is charged with defending against possible Incursions. No one knows what happened to Rhysh, the possibility of demonic involvement cannot be overlooked."
+
+// "I understand that my documentation may not be in order. There simply wasn't the time to go through the proper channels, not when a situation of this severity has arisen."
+
+// The woman sighs and shakes her head, no doubt frustrated that this situation has become political now. "Knights... just what I fucking need. Fine. I won't have you thrown off the island, but whatever rumors you've heard clearly haven't covered the entirety of our situation here."
+
+
+
+
+
+// ==== Scene (choose scholar) ===
+// "I apologize for any confusion or trouble I may have caused. I am a scholar from the Artificum of Xanth. There are certain rumors that have recently surfaced that I've been sent here to investigate. The Island of Rhysh, home to the last and greatest human empire, after all these centuries its location has finally been uncovered.
+
+// "While I understand your guild's need for secrecy concerning the island, given the likelihood that there are extremely dangerous artifacts to be found here. Which is of course why the Artificum felt the need to pursue their own investigation."
+
+// "I understand that my documentation may not be in order, but I assure you that my intentions are purely academic and I have no interest in causing any harm or trouble for the guild or its members."
+
+// The woman sighs and shakes her head, no doubt frustrated that this situation has become political now. "The Artificum... just what I fucking need. Fine. I won't have you thrown off the island, but whatever rumors you've heard clearly haven't covered the entirety of our situation here."
+
+
+
+
+
+
+// ==== Scene (choose bard) ===
+// You put on your most convincing smile, trying to look harmless for the severe looking elf, "I apologize for any confusion or trouble I may have caused. I promise I'm not anyone dangerous, just a traveling bard, out to see the world and collect its stories."
+
+// "You see, I've heard some interesting rumors recently. The Island of Rhysh, home to the last and greatest human empire, after all these centuries its location has finally been uncovered. And there's a secret expedition to explore the ancient ruins. Knowing all this staying away simply wasn't possible for a {{P::man}} like me."
+
+// "I understand the severity of my actions and I'm willing to accept any punishment you see fit. But I promise you that I'm not here to cause trouble or disrupt your mission in any way. If you'll allow me to join your expedition and contribute my knowledge and skills, I'll do everything in my power to make it worth your while."
+
+// The woman sighs and shakes her head, "A bard... just what I fucking need. Fine. I won't have you thrown off the island, but whatever rumors you've heard clearly haven't covered the entirety of our situation here."
+
+
+
+
+
+// === Scene (chose explorer) ===
+// "I apologize for any trouble I may have caused. I'm an explorer... well a bit of a treasure hunter really, and I've heard some interesting rumors recently. The Island of Rhysh, home to the last and greatest human empire, after all these centuries its location has finally been uncovered.
+
+// "It's understandable, keeping this discovery to yourself. Wars have been fought over a single Rhyshian artifact after all. However, this is also the single greatest discovery in centuries. Once I knew what had been found here, staying away simply wasn't possible for a {{P::man}} like me."
+
+// "I understand the severity of my actions and I'm willing to accept any punishment you see fit. But I promise you that I'm not here to cause trouble or disrupt your mission in any way. If you'll allow me to join your expedition and contribute my knowledge and skills, I'll do everything in my power to make it worth your while."
+
+// The woman sighs and shakes her head, "A fucking treasure hunter... just what I fucking need. Fine. I won't have you thrown off the island, but whatever rumors you've heard clearly haven't covered the entirety of our situation here."
+
+
+
+
+
+// === Scene ===
+// "Rhysh isn't just ruins, it's a dungeon, and it covers the entire island. It's been growing here, uncontrolled for centuries, perhaps even longer. And because it's a dungeon that puts the Adventurer's Guild in charge here understand?"
+
+// That would explain a few things. The Adventurer's Guild is charged with controlling and maintaining the dungeons, making sure they don't grow out of control and start threatening the surrounding areas.
+
+// Wild dungeons like this are rare, but when they are found they're maybe only a few decades old at most and generally much smaller. Even so, it sometimes takes years for the guild to fully bring the dungeon to heel. A dungeon that covers the entire island? They might never get it under control.
+
+// "I see, so your real purpose here is"
+
+// "To keep idiots like you from wandering in and triggering whatever stupid dark magic killed all the humans off to begin with," she interrupts. "But then yes, find the dungeon core, take control, stop its growth."
+
+// --- chr check(14) passed
+//     She frowns as she looks you over, though you do notice a slight flush in her cheeks as her eyes roam over your naked body, "As you can imagine we're... understaffed. I'll allow you to stay, but under the condition that you'll officially join the guild and agree to follow orders."
+
+// --- chr check(14) fail
+//     She frowns as she looks you over, "As you can imagine we're... understaffed. I'll allow you to stay, but under the condition that you'll officially join the guild and agree to follow orders."
+
+// You nod, knowing it's the best offer you're likely to get, "Very well."
+
+// She stands up, reaches over the table and starts to unlock the shackles still tightly locked around your wrists. "Guildmistress Khaja Bremen. Welcome to the guild, try not to die. Your shit's in the trunk over by the wall. Once you're dressed go talk to Serthia in front."
+
+// --- when nymph
+//     Once your wrists are finally freed from the shackles you give her a wink, "But I'm already dressed." She sighs and shakes her head, saying something under her breath before leaving you alone in the dark once again.
+
+// --- when not nymph
+//     With that she turns and exits the room, leaving you alone in the dark once again.
+
+
+
+
+
+  //   requires:'player.archetype=chosen',
+  //   background:'ship-2',
+  //   pages: [
+  //     { text:`Start as Chosen` },
+  //   ]
+  // },{
+  //   requires:'player.archetype=cultist',
+  //   background:'ship-2',
+  //   pages: [
+  //     { text:`Start as Cultist` },
+  //   ]
+  // },{
+  //   requires:'player.archetype=dominatrix',
+  //   background:'ship-2',
+  //   pages: [
+  //     { text:`Start as Dominatrix` },
+  //   ]
+  // },{
+  //   requires:'player.archetype=knight',
+  //   pages: [
+  //     { text:`As a knight of the Order of the Umbral Bastion it wasn't difficult for him to force his way abord the
+  //             guild ship. The Black Knights are purportedly an order of demon hunters, and thus can make certain
+  //             demands.` },
+  //     { text:`To bar him passage would only make the guild look like it had something to hide, though he was certain
+  //             his reception will be less than welcoming when he finally did arrive.` },
+  //   ]
+  // },{
+  //   requires:'player.archetype=mindbender',
+  //   background:'ship-2',
+  //   pages: [
+  //     { text:`Start as Mindbender` },
+  //   ]
+  // },{
+  //   requires:'player.archetype=slaver',
+  //   background:'ship-2',
+  //   pages: [
+  //     { text:`Though the Adventurer's Guild was still limiting access to the island to only their most seasoned and
+  //             trusted members, {{P::anElf}} of {{P::name's}} talents had little trouble finding someone "willing"
+  //             to part with the necessary documents to secure {{P::his}} passage.` },
+  //   ]
+  // },{
+  //   background:'battle-town-1',
+  //   pages: [
+  //     { text:`Walk about town` }
+  //   ]
+  // },{
+  //   background:'guild',
+  //   pages: [
+  //     { text:`Talk to the guildmistress` }
+  //   ]
+  // }],
 
 });
