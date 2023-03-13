@@ -18,12 +18,12 @@ global.Vector = class Vector {
   }
 
   go(direction) {
-    if (direction == N) { return this.translate(new Vector( 0,-1, 0)); }
-    if (direction == S) { return this.translate(new Vector( 0, 1, 0)); }
-    if (direction == E) { return this.translate(new Vector( 1, 0, 0)); }
-    if (direction == W) { return this.translate(new Vector(-1, 0, 0)); }
-    if (direction == U) { return this.translate(new Vector( 0, 0, 1)); }
-    if (direction == D) { return this.translate(new Vector( 0, 0,-1)); }
+    if (direction == _N) { return this.translate(new Vector( 0,-1, 0)); }
+    if (direction == _S) { return this.translate(new Vector( 0, 1, 0)); }
+    if (direction == _E) { return this.translate(new Vector( 1, 0, 0)); }
+    if (direction == _W) { return this.translate(new Vector(-1, 0, 0)); }
+    if (direction == _U) { return this.translate(new Vector( 0, 0, 1)); }
+    if (direction == _D) { return this.translate(new Vector( 0, 0,-1)); }
   }
 
   // The vector argument doesn't have to be a vector, just an object with an x,

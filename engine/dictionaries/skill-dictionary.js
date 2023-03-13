@@ -1,19 +1,19 @@
 global.SkillDictionary = (function() {
 
   const skills = {
-    athletics:    { attribute:STR }, // Grappling skill is based on athletics
-    acrobatics:   { attribute:DEX }, // Getting past some events and perhaps also some sex skills?
-    bondage:      { attribute:DEX }, // Tying up, getting untied, and general robe use
-    stealth:      { attribute:DEX }, // Hide in shadows chance
-    history:      { attribute:INT }, // Knowledge of the old Rhysh empire mostly
-    wizardry:     { attribute:INT }, // Success in casting a spell
-    mechanics:    { attribute:INT }, // Disarming and setting traps
-    perception:   { attribute:WIS }, // Notice things in the dungeon, traps and shit
-    appraisial:   { attribute:WIS }, // Get information about mosters and items.
-    religion:     { attribute:WIS }, // Not sure, probably useful given we have cultists and shit.
-    intimidation: { attribute:CHA }, // Some combat skills also might use intimidation
-    seduction:    { attribute:CHA }, // Conversation and general sex skills
-    persuasion:   { attribute:CHA }, // Might not use, but might as well include for now.
+    athletics:    { attribute:_str }, // Grappling skill is based on athletics
+    acrobatics:   { attribute:_dex }, // Getting past some events and perhaps also some sex skills?
+    bondage:      { attribute:_dex }, // Tying up, getting untied, and general robe use
+    stealth:      { attribute:_dex }, // Hide in shadows chance
+    history:      { attribute:_int }, // Knowledge of the old Rhysh empire mostly
+    wizardry:     { attribute:_int }, // Success in casting a spell
+    mechanics:    { attribute:_int }, // Disarming and setting traps
+    perception:   { attribute:_wis }, // Notice things in the dungeon, traps and shit
+    appraisial:   { attribute:_wis }, // Get information about mosters and items.
+    religion:     { attribute:_wis }, // Not sure, probably useful given we have cultists and shit.
+    intimidation: { attribute:_cha }, // Some combat skills also might use intimidation
+    seduction:    { attribute:_cha }, // Conversation and general sex skills
+    persuasion:   { attribute:_cha }, // Might not use, but might as well include for now.
   }
 
   function lookup(code) {

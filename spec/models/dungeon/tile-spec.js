@@ -15,37 +15,37 @@ describe('Tile', function() {
 
   it("Flips walls horizontally", function() {
     let tile = Tile.normal();
-    tile.placeWall(E);
+    tile.placeWall(_E);
     tile.flipH();
-    expect(tile.wallAt(E)).to.be.null;
-    expect(tile.wallAt(W).isNormal()).to.be.true;
+    expect(tile.wallAt(_E)).to.be.null;
+    expect(tile.wallAt(_W).isNormal()).to.be.true;
   });
 
   it("Flips walls vertically", function() {
     let tile = Tile.normal();
-    tile.placeWall(N);
+    tile.placeWall(_N);
     tile.flipV();
-    expect(tile.wallAt(N)).to.be.null;
-    expect(tile.wallAt(S).isNormal()).to.be.true;
+    expect(tile.wallAt(_N)).to.be.null;
+    expect(tile.wallAt(_S).isNormal()).to.be.true;
   });
 
   it("Flips walls diagonally", function() {
     let tile = Tile.normal();
-    tile.placeWall(N);
-    tile.placeWall(W);
+    tile.placeWall(_N);
+    tile.placeWall(_W);
     tile.flipD();
-    expect(tile.wallAt(N)).to.be.null;
-    expect(tile.wallAt(W)).to.be.null;
-    expect(tile.wallAt(S).isNormal()).to.be.true;
-    expect(tile.wallAt(E).isNormal()).to.be.true;
+    expect(tile.wallAt(_N)).to.be.null;
+    expect(tile.wallAt(_W)).to.be.null;
+    expect(tile.wallAt(_S).isNormal()).to.be.true;
+    expect(tile.wallAt(_E).isNormal()).to.be.true;
   });
 
   it("sets walls from a string", function() {
     let tile = Tile.normal();
     tile.setWallsFromString("SEX");
-    expect(tile.wallAt(S).isNormal()).to.be.true;
-    expect(tile.wallAt(E).isNormal()).to.be.true;
-    expect(tile.wallAt(W)).to.be.null;
+    expect(tile.wallAt(_S).isNormal()).to.be.true;
+    expect(tile.wallAt(_E).isNormal()).to.be.true;
+    expect(tile.wallAt(_W)).to.be.null;
   });
 
   it("sets the floor from a string", function() {

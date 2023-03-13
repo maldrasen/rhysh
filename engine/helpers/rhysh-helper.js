@@ -1,10 +1,10 @@
 
 global.NSEW = function(callback) {
-  [N,S,E,W].forEach(facing => callback(facing));
+  [_N,_S,_E,_W].forEach(facing => callback(facing));
 }
 
 global.oppositeDirection = function(direction) {
-  return { N:S, S:N, E:W, W:E }[direction];
+  return { N:_S, S:_N, E:_W, W:_E }[direction];
 }
 
 // === Loops ===

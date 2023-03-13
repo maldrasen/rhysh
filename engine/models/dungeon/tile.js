@@ -108,8 +108,8 @@ global.Tile = class Tile {
   }
 
   makeStairs(direction, facing) {
-    if (ArrayHelper.contains([N,S,E,W],facing) == false) { throw `Bad facing for stairs: ${facing}`; }
-    if (ArrayHelper.contains([U,D],direction) == false) { throw `Bad direction for stairs: ${direction}`; }
+    if (ArrayHelper.contains([_N,_S,_E,_W],facing) == false) { throw `Bad facing for stairs: ${facing}`; }
+    if (ArrayHelper.contains([_U,_D],direction) == false) { throw `Bad direction for stairs: ${direction}`; }
 
     this.type = Tile.Type.Stairs;
     this.stairDirection = direction;
@@ -218,7 +218,7 @@ global.Tile = class Tile {
   }
 
   setExtra(extra, zoneData, index) {
-    if (extra.type == "Stairs") { return this.makeStairs((extra.stairs == "Up" ? U : D), extra.facing); }
+    if (extra.type == "Stairs") { return this.makeStairs((extra.stairs == "Up" ? _U : _D), extra.facing); }
     if (extra.type == "Door") { return this.setDoorExtra(extra); }
     if (extra.type == "Fence") { return this.setFenceExtra(extra); }
     if (extra.type == "Gateway") { return this.setGatewayExtra(extra, zoneData, index); }

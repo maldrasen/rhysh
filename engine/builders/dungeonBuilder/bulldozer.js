@@ -9,7 +9,7 @@ global.Bulldozer = class Bulldozer {
     this.tileSource = properties.tileSource;
     this.startPoint = properties.startPoint;
     this.defaultTile = properties.defaultTile;
-    this.directionMap = { N:[N,E,W], S:[S,E,W], E:[E,N,S], W:[W,N,S] }[properties.direction];
+    this.directionMap = { N:[_N,_E,_W], S:[_S,_E,_W], E:[_E,_N,_S], W:[_W,_N,_S] }[properties.direction];
 
     if (this.defaultTile == null) { throw `Default Tile is null.`; }
   }

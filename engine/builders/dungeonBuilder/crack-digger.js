@@ -15,7 +15,7 @@ global.CrackDigger = class CrackDigger {
     forUpTo(Math.floor(this.carvePoints.length * density), _ => {
       let startIndex = Random.from(this.carvePoints)
       let neighbors = this.tileSource.getNeighborTiles(startIndex)
-      let direction = Random.from([N,S,E,W]);
+      let direction = Random.from([_N,_S,_E,_W]);
 
       NSEW(facing => {
         if (neighbors[facing].tile) {
@@ -68,4 +68,4 @@ global.CrackDigger = class CrackDigger {
 }
 
 // An array of the possible directions that the tunnel will go, with the first element being the most likely.
-const DirectionMaps = { N:[N,E,W], S:[S,E,W], E:[E,N,S], W:[W,N,S] };
+const DirectionMaps = { N:[_N,_E,_W], S:[_S,_E,_W], E:[_E,_N,_S], W:[_W,_N,_S] };

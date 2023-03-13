@@ -74,8 +74,8 @@ global.TunnelDigger = class TunnelDigger {
   connectPoints(fromPoint, toPoint) {
     let xOffset = fromPoint.x - toPoint.x;
     let yOffset = fromPoint.y - toPoint.y;
-    let horizontal = fromPoint.x < toPoint.x ? E : W;
-    let vertical = fromPoint.y < toPoint.y ? S : N;
+    let horizontal = fromPoint.x < toPoint.x ? _E : _W;
+    let vertical = fromPoint.y < toPoint.y ? _S : _N;
 
     // Return when the from point and the to point are the same point.
     if (xOffset == 0 && yOffset == 0) {

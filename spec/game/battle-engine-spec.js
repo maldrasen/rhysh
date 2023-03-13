@@ -1,4 +1,4 @@
-describe.only('BattleEngine', function() {
+describe('BattleEngine', function() {
 
   // Should be able to look at events maybe?
   it("executes a full round", function() {

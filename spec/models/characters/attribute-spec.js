@@ -21,8 +21,8 @@ describe('Attributes', function() {
 
     expect(attributes.str()).to.equal(16);
     expect(attributes.conModifier()).to.equal(2);
-    expect(attributes.getValue(DEX)).to.equal(8);
-    expect(attributes.getModifier(WIS)).to.equal(-1);
+    expect(attributes.getValue(_dex)).to.equal(8);
+    expect(attributes.getModifier(_wis)).to.equal(-1);
   });
 
   it("Packs and unpacks attribute data", function() {
@@ -30,7 +30,7 @@ describe('Attributes', function() {
     let packed = attributes.pack();
 
     expect(packed.str).to.equal(19);
-    expect(Attributes.unpack(packed).getValue(DEX)).to.equal(18);
+    expect(Attributes.unpack(packed).getValue(_dex)).to.equal(18);
   });
 
 });

@@ -8,14 +8,6 @@ global.AttributeNames = {
   cha: 'Charisma',
 };
 
-// TODO: Replace these with _str
-global.STR = 'str';
-global.DEX = 'dex';
-global.CON = 'con';
-global.INT = 'int';
-global.WIS = 'wis';
-global.CHA = 'cha';
-
 global._str = 'str';
 global._dex = 'dex';
 global._con = 'con';
@@ -32,13 +24,12 @@ global.AttributeLabels = {
   cha:'Charisma',
 }
 
-// TODO: Replace these with _N
-global.N = "N";
-global.S = "S";
-global.E = "E";
-global.W = "W";
-global.U = "U";
-global.D = "D";
+global._N = "N";
+global._S = "S";
+global._E = "E";
+global._W = "W";
+global._U = "U";
+global._D = "D";
 
 global.SizeClass = {
   tiny:   { maxSquadSize:16 },
@@ -47,7 +38,6 @@ global.SizeClass = {
   large:  { maxSquadSize:3  },
   huge:   { maxSquadSize:1  },
 }
-
 
 // === Conditions ===
 

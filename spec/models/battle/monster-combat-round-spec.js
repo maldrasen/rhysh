@@ -10,7 +10,7 @@ describe('MonsterCombatRound', function() {
         crab.setTarget('Main');
 
     let round = new MonsterCombatRound(crab);
-        round.doMonsterAbility({ code:'crab-claw', damage:{ d:4 }, hit:10 });
+        round.doAbility({ code:'crab-claw', damage:{ d:4 }, hit:10 });
 
     expect(round.getAbilityCode()).to.equal('crab-claw');
     expect(round.getTargetCode()).to.equal('Main');
@@ -24,7 +24,7 @@ describe('MonsterCombatRound', function() {
         gobbo.setTarget('Main');
 
     let round = new MonsterCombatRound(gobbo);
-        round.doMonsterAttack();
+        round.doAttack();
 
     let results = round.getCombatResults()[0];
 
