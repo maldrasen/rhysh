@@ -1,6 +1,6 @@
 #eventView {
 
-  .click-advance {
+  #clickAdvance {
     @include full-screen;
     z-index: $z-event-clicker;
   }
@@ -23,6 +23,41 @@
     .event-text {
       padding: 30px;
       text-shadow: 0px 0px 5px black, 0px 0px 2px black;
+    }
+  }
+
+  .selection-stage {
+    @include full-screen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: $z-event-text;
+
+    .selection-frame {
+      position: absolute;
+      min-height: 200px;
+      min-width: 200px;
+      padding: 10px;
+      border: $border-normal;
+      box-shadow: $shadow-frame;
+      background-color: $bg-frame;
+    }
+
+    .header {
+      margin-bottom: 5px;
+      padding: 10px 20px;
+      font-size: $fs-bigger;
+      border-bottom: $border-normal;
+    }
+
+    .selection-buttons {
+      display: flex;
+      flex-direction: column;
+
+      a {
+        flex-grow: 1;
+        margin: 5px 0;
+      }
     }
   }
 

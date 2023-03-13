@@ -56,6 +56,7 @@ EventDictionary.register('game.start',{
     ]
   },{
     selectionStage: true,
+    selectionHeader: `Instead you offer a plausible explanation`,
     selectionKey: 'explanation',
     selections:[
       { text:`I'm a knight of the Order of the Umbral Bastian`, value:'knight',   requires:'player.archetype=knight' },
@@ -84,7 +85,7 @@ EventDictionary.register('game.start',{
       { text:`"I apologize for any confusion or trouble I may have caused. I am a scholar from the Artificum of Xanth.
               There are certain rumors that have recently surfaced that I've been sent here to investigate. The Island
               of Rhysh, home to the last and greatest human empire, after all these centuries its location has finally
-              been uncovered.` },
+              been uncovered."` },
       { text:`"While I understand your guild's need for secrecy concerning the island, given the likelihood that there
               are extremely dangerous artifacts to be found here. Which is of course why the Artificum felt the need to
               pursue their own investigation."` },
@@ -117,7 +118,7 @@ EventDictionary.register('game.start',{
     pages:[
       { text:`"I apologize for any trouble I may have caused. I'm an explorer... well a bit of a treasure hunter
               really, and I've heard some interesting rumors recently. The Island of Rhysh, home to the last and
-              greatest human empire, after all these centuries its location has finally been uncovered.` },
+              greatest human empire, after all these centuries its location has finally been uncovered."` },
       { text:`"It's understandable, keeping this discovery to yourself. Wars have been fought over a single Rhyshian
               artifact after all. However, this is also the single greatest discovery in centuries. Once I knew what
               had been found here, staying away simply wasn't possible for a {{P::man}} like me."` },

@@ -154,6 +154,7 @@ global.EventRenderer = class EventRenderer {
   // shown. Selections can also have effect badges, letting the player know
   // what kind of concequences a choice might have.
   //
+  //    selectionHeader: text,
   //    selectionStage: true,
   //    selectionKey: 'approach',
   //    selections:[
@@ -167,13 +168,17 @@ global.EventRenderer = class EventRenderer {
 
     stage.selections.forEach(selection => {
       if (this.#scrutinizer.meetsRequirements(selection.requires)) {
-        console.log("Valid Selection:",selection);
-        // selections.push()
+        selections.push({
+          label: Weaver.weave(selection.text, this.#context),
+          value: selection.value,
+          effects: selection.effects,
+        });
       }
     });
 
     return {
       selectionStage: stage.selectionKey,
+      selectionHeader: Weaver.weave(stage.selectionHeader, this.#context),
       selections: selections,
     };
   }
