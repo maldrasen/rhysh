@@ -52,7 +52,7 @@ window.PartyPanel = (function () {
     let hpMax = status.condition.maxHitPoints;
     let hitPercent = Math.ceil(100 * (hpCurrent / hpMax));
 
-    element.querySelector('.portrait').style['background-image'] = `url('../assets/portraits/${status.portrait}.jpg')`;
+    element.querySelector('.portrait').style['background-image'] = `url('../assets/${status.portrait}.jpg')`;
     element.querySelector('.health-bar .bar').style['width'] = `${hitPercent}%`;
     element.querySelector('.name').innerHTML = status.firstName;
 

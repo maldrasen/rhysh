@@ -53,6 +53,7 @@ global.EventRenderer = class EventRenderer {
   //   repeat: null, true, or requirement value
   //   requires: string or array of requirements
   //   actors: { X:query }
+  //   speakers: { dude:{ portrait:image, label:name }}
   //   background: code
   //   filter: filter object
   //   stages: stage array
@@ -60,23 +61,38 @@ global.EventRenderer = class EventRenderer {
   //   attributeChecks: map of attribute checks to make and add to the state.
   render() {
     try {
+      const player = CharacterLibrary.getMainCharacter();
+
       this.createContext();
       this.runAttributeChecks();
 
-      let stages = ArrayHelper.compact(this.#template.stages.map(stage => {
+      const stages = ArrayHelper.compact(this.#template.stages.map(stage => {
         if (this.#scrutinizer.meetsRequirements(stage.requires)) {
           if (stage.attributeCheck) { console.log('TODO: Check Stage attributeCheck') }
           return this.renderStage(stage);
         }
       }));
 
-      let rendered = {
+      const rendered = {
         state: this.#state,
         stages: stages,
+        player: {
+          name: player.getStoryName(),
+          portrait: player.getPortrait(),
+        }
       };
 
       if (this.#template.background) { rendered.background = this.#template.background; }
       if (this.#template.filter) { rendered.filter = this.#template.filter; }
+
+      // An event can have both actors and speakers. Actors have actual
+      // character objects that we reference for the names and portraits
+      // whereas speakers only have the name and portrait as set in the event.
+      //
+      // TODO: When we build the speakers object in the rendered view we need
+      //       to add a speaker object { portrait:image, label:name } for each
+      //       actor in case we need to render a page with them speaking.
+      if (this.#template.speakers) { rendered.speakers = this.#template.speakers; }
 
       return rendered
     }
@@ -127,6 +143,7 @@ global.EventRenderer = class EventRenderer {
   // Page object may have
   //   speaker:speaker object (player, actor, narrator)
   //   background: code
+  //   speaker: code
   //   filter: filter object
   //   text: template string
   //   requires: (They are checked when rendering the stage)
@@ -143,7 +160,7 @@ global.EventRenderer = class EventRenderer {
 
     if (page.background) { rendered.background = page.background; }
     if (page.filter)     { rendered.filter = page.filter; }
-
+    if (page.speaker)    { rendered.speaker = page.speaker; }
 
     return rendered;
   }

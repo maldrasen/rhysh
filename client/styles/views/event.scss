@@ -5,14 +5,11 @@
     z-index: $z-event-clicker;
   }
 
-  .normal-layout {
-
+  .text-layout {
     .text-container {
       display: block;
       position: absolute;
       bottom:20px;
-      left: calc(10% - 11px);
-      width: 80%;
       min-height: 200px;
       padding: 10px;
       border: $border-normal;
@@ -23,6 +20,47 @@
     .event-text {
       padding: 30px;
       text-shadow: 0px 0px 5px black, 0px 0px 2px black;
+    }
+
+    .portrait {
+      position: absolute;
+      bottom: 10px;
+      height: 600px;
+      width: 450px;
+
+      z-index: $z-event-portrait;
+      border: $border-normal;
+      border-radius: 5px;
+      box-shadow: $shadow-deep;
+
+    }
+  }
+
+  .normal-layout {
+    .text-container {
+      left: 20px;
+      width: calc(100% - 62px);
+    }
+  }
+
+  .player-speaking {
+    .text-container {
+      left: 458px;
+      width: calc(100% - 500px)
+    }
+    .portrait {
+      left: 10px;
+    }
+  }
+
+  .character-speaking {
+    .text-container {
+      right: 458px;
+      width: calc(100% - 500px)
+    }
+    .portrait {
+      right: 10px;
+      transform: rotate(180deg) scaleY(-1);
     }
   }
 

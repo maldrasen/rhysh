@@ -47,6 +47,8 @@ global.Character = class Character {
   setFirstName(name) { this.#firstName = name; }
   setLastName(name) { this.#lastName = name; }
 
+  getPortrait() { return 'portraits/ass-m-15' }
+
   getSex(sex) { return this.#sex; }
   setSex(sex) {
     if (['female','futa','male'].indexOf(sex) < 0) { throw `Invalid Sex: ${sex}`; }
@@ -283,11 +285,9 @@ global.Character = class Character {
   }
 
   packForStatus() {
-    let image = `minotaur-03`;
-
     return {
       code: this.#code,
-      portrait: image,
+      portrait: this.getPortrait(),
       firstName: this.#firstName,
       condition: this.#condition.pack(),
     };

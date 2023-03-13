@@ -14,6 +14,7 @@ window.EventView = (function() {
   function show(data) {
     MainContent.show({ path:"client/views/event/event-view.html", classname:'event' }).then(() => {
       $eventData = data.event;
+      $layout = null;
       showEvent();
       MainContent.hideCover({ fadeTime:250 });
     });
@@ -41,11 +42,16 @@ window.EventView = (function() {
     if ($eventData.background) { BackgroundImage.setBackground($eventData.background); }
     if ($eventData.filter) { BackgroundImage.setFilter($eventData.filter); }
 
+    X.first('#eventView .player-speaking .portrait').style['background-image'] = `url('../assets/${$eventData.player.portrait}.jpg')`;
+    X.first('#eventView .player-speaking .label').innerHTML = $eventData.player.name;
+
     showStage();
   }
 
   function setTextWindowStyle(fontSize, windowColor) {
-    X.first("#eventView .text-container").setAttribute('class',`text-container font-size-${fontSize} window-color-${windowColor}`);
+    X.each("#eventView .text-container", container => {
+      container.setAttribute('class',`text-container font-size-${fontSize} window-color-${windowColor}`);
+    });
   }
 
   function showStage() {
@@ -62,16 +68,35 @@ window.EventView = (function() {
     throw `TODO: Implement whatever this is.`
   }
 
-  // Currently we always show the normal layout, but as soon as we start
-  // adding things like character portraits and such we'll need to get or
-  // calculate the layout from the page data.
   function showPage() {
-    setLayout('normal-layout',true);
-    X.fill('.text-container',buildCurrentTextElement());
-
     let page = currentPage();
+
+    if (page.speaker) {
+      if (page.speaker == 'player') {
+        setLayout('player-speaking',true);
+      } else {
+        setLayout('character-speaking',true);
+        updateSpeaker(page.speaker);
+      }
+    }
+
+    if (page.speaker == null) {
+      setLayout('normal-layout',true);
+    }
+
+    X.fill(`#eventView .${$layout} .text-container`,buildCurrentTextElement());
+
     if (page.background) { BackgroundImage.setBackground(page.background); }
     if (page.filter) { BackgroundImage.setFilter(page.filter); }
+  }
+
+  function updateSpeaker(code) {
+    let speaker = $eventData.speakers[code];
+    let portrait = X.first(`#eventView .${$layout} .portrait`);
+    let label = X.first(`#eventView .${$layout} .label`);
+
+    portrait.style['background-image'] = `url('../assets/${speaker.portrait}.jpg')`;
+    label.innerHTML = speaker.label || '';
   }
 
   function buildCurrentTextElement() {
@@ -86,7 +111,15 @@ window.EventView = (function() {
     if ($layout != layoutClass) {
       $layout = layoutClass;
 
+      X.each('#eventView .text-container', element => {
+        element.innerHTML = '';
+      });
+
       X.addClass('#eventView .normal-layout','hide');
+      X.addClass('#eventView .player-speaking','hide');
+      X.addClass('#eventView .character-speaking','hide');
+      X.addClass('#eventView .selection-stage','hide');
+
       X.addClass('#eventView .selection-stage','hide');
       X.removeClass(`#eventView .${layoutClass}`,'hide');
 
