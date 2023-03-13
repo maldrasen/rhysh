@@ -18,14 +18,14 @@ global.Monster = class Monster {
   #armor = {};
   #abilityChance = 25;
 
-  #cooldowns;
+  #cooldownTable;
   #threatTable;
   #target;
 
   constructor(options) {
     this.#condition = new Condition();
     this.#threatTable = new ThreatTable();
-    this.#cooldowns = {};
+    this.#cooldownTable = new CooldownTable();
   }
 
   // The monster ID will probably only be used by the battle state. This is how
@@ -189,21 +189,12 @@ global.Monster = class Monster {
   useAbility(code) {
     let template = AbilityDictionary.lookup(code);
     if (template.cooldown) {
-      this.#cooldowns[code] = template.cooldown;
+      this.#cooldownTable.set(code,template.cooldown);
     }
   }
 
   reduceCooldowns() {
-    let oldCooldowns = this.#cooldowns;
-    this.#cooldowns = {};
-
-    ObjectHelper.each(this.#cooldowns, (code, rounds) => {
-      if (rounds-1 > 0) { this.#cooldowns[code] = rounds - 1; }
-    });
-
-    if (Object.keys(oldCooldowns).length > 0) {
-      console.log("TEMP[Monster.reduceCooldowns()]", oldCooldowns, this.#cooldowns);
-    }
+    this.#cooldownTable.reduce();
   }
 
   // === Weapons and Armor =====================================================

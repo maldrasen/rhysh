@@ -44,6 +44,12 @@ global.CharacterLibrary = (function() {
     };
   }
 
+  function eachActivePartyMember(callback) {
+    ObjectHelper.each(getParty(), (position, character) => {
+      if (character) { callback(position, character); }
+    });
+  }
+
   // Save this character and add them to the character cache. I don't think we
   // ever need to wait for a character to save. Accessing a character
   // immeadietly after it's saved just pulls it from the cache.
@@ -88,6 +94,7 @@ global.CharacterLibrary = (function() {
     getCachedCharacter,
     getMainCharacter,
     getParty,
+    eachActivePartyMember,
     saveCharacter,
     saveAll,
     loadCharacter,

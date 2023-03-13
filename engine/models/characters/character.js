@@ -18,6 +18,12 @@ global.Character = class Character {
   #powerMap = {};
   #skillMap = {};
 
+  // A character has some (at least one) attributes that are never persisted.
+  // The cooldown table for instance is reset at the start of every battle and
+  // doesn't need to exist beyond that. There will probably be more temporary
+  // state objects as well.
+  #cooldownTable;
+
   // The character code is part of the filename where the character is saved
   // and how the character is referenced in the CharacterLibrary.
   constructor(code, options={}) {
@@ -136,7 +142,13 @@ global.Character = class Character {
 
   // === Abilities =============================================================
 
-  reduceCooldowns() {}
+  onBattleStart() {
+    this.#cooldownTable = new CooldownTable();
+  }
+
+  reduceCooldowns() {
+    this.#cooldownTable.reduce();
+  }
 
   // === Experience ============================================================
 

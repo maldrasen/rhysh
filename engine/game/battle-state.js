@@ -17,6 +17,10 @@ global.BattleState = class BattleState {
     this.#characterTargets = {};
 
     new MonsterBuilder(this, options).generate();
+
+    CharacterLibrary.eachActivePartyMember((position, character) => {
+      character.onBattleStart();
+    });
   }
 
   getRoundNumber() { return this.#roundCounter; }
@@ -95,8 +99,8 @@ global.BattleState = class BattleState {
       monster.reduceCooldowns();
     });
 
-    ObjectHelper.each(CharacterLibrary.getParty(), (position, character) => {
-      if (character) { character.reduceCooldowns(); }
+    CharacterLibrary.eachActivePartyMember((position, character) => {
+      character.reduceCooldowns();
     });
   }
 
