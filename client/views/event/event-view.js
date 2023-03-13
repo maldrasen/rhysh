@@ -43,7 +43,6 @@ window.EventView = (function() {
     if ($eventData.filter) { BackgroundImage.setFilter($eventData.filter); }
 
     X.first('#eventView .player-speaking .portrait').style['background-image'] = `url('../assets/${$eventData.player.portrait}.jpg')`;
-    X.first('#eventView .player-speaking .label').innerHTML = $eventData.player.name;
 
     showStage();
   }
@@ -70,41 +69,46 @@ window.EventView = (function() {
 
   function showPage() {
     let page = currentPage();
+    let speakerLabel = buildSpeakerLabel(page.speaker);
 
-    if (page.speaker) {
-      if (page.speaker == 'player') {
-        setLayout('player-speaking',true);
-      } else {
-        setLayout('character-speaking',true);
-        updateSpeaker(page.speaker);
-      }
+    updateLayout(page);
+
+    let container = X.first(`#eventView .${$layout} .text-container`);
+        container.innerHTML = '';
+
+    if (speakerLabel) {
+      container.appendChild(speakerLabel);
     }
-
-    if (page.speaker == null) {
-      setLayout('normal-layout',true);
-    }
-
-    X.fill(`#eventView .${$layout} .text-container`,buildCurrentTextElement());
+    container.appendChild(X.createElement(`<p class='event-text'>${page.text}</p>`));
 
     if (page.background) { BackgroundImage.setBackground(page.background); }
     if (page.filter) { BackgroundImage.setFilter(page.filter); }
   }
 
+  function updateLayout(page) {
+    if (page.speaker == 'player') {
+      setLayout('player-speaking',true);
+      return;
+    }
+    if (page.speaker) {
+      setLayout('character-speaking',true);
+      updateSpeaker(page.speaker);
+      return;
+    }
+    setLayout('normal-layout',true);
+  }
+
   function updateSpeaker(code) {
     let speaker = $eventData.speakers[code];
     let portrait = X.first(`#eventView .${$layout} .portrait`);
-    let label = X.first(`#eventView .${$layout} .label`);
-
     portrait.style['background-image'] = `url('../assets/${speaker.portrait}.jpg')`;
-    label.innerHTML = speaker.label || '';
   }
 
-  function buildCurrentTextElement() {
-    let page = currentPage();
-
-    return X.createElement(`<p class='event-text'>
-      ${page.text}
-    </p>`)
+  function buildSpeakerLabel(code) {
+    if (code == null) { return null; }
+    let name = (code == 'player') ? $eventData.player.name : $eventData.speakers[code].label;
+    if (name == null) { return null; }
+    return X.createElement(`<div class='speaker-label'>${name}</div>`);
   }
 
   function setLayout(layoutClass, showClickAdvance) {
