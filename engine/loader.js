@@ -29,9 +29,9 @@ global.Loader = (function() {
     'constants.js',
     'builders/equipmentBuilders/equipment-builder.js',
     'core/messenger.js',
-    'models/characters/character.js',
+    'models/character.js',
+    'models/monster.js',
     'models/dungeon/vector.js',
-    'models/monsters/monster.js',
     'weavers/weaver.js',
   ];
 
