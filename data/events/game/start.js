@@ -203,7 +203,7 @@ EventDictionary.register('game.start',{
   }],
 
   onFinish: function(choices) {
-    console.log("Event Complete, set flag from ",choices);
+    Flag.set('event.assumed-identity',choices.explanation);
   },
 
 });

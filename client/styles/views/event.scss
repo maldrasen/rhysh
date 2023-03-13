@@ -72,6 +72,23 @@
     }
   }
 
+  .attribute-checks {
+    margin-bottom: -30px;
+    margin-left: 30px;
+    margin-top: 30px;
+    font-size: 80%;
+    border-bottom: $border-light;
+
+    .math {
+      font-size: 80%;
+      margin: 0 20px;
+      font-family: 'roboto-mono';
+    }
+
+    .success-true .outcome { color: $fg-button-success; }
+    .success-false .outcome { color: $fg-button-danger; }
+  }
+
   .selection-stage {
     @include full-screen;
     display: flex;

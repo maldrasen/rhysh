@@ -1,0 +1,4 @@
+
+
+event.assumed-identity      [knight,scholar,bard,explorer]     The reason you gave for coming to Rhysh.
+

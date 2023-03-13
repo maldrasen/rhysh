@@ -24,6 +24,10 @@ Weaver.CharacterLoom = (function() {
     if (token == "Him")  { return PronounHelper.Him(actor.getSex());  }
     if (token == "He")   { return PronounHelper.He(actor.getSex());   }
     if (token == "Hers") { return PronounHelper.Hers(actor.getSex()); }
+    if (token == "man")  { return PronounHelper.man(actor.getSex());  }
+    if (token == "Man")  { return PronounHelper.Man(actor.getSex());  }
+    if (token == "boy")  { return PronounHelper.boy(actor.getSex());  }
+    if (token == "Boy")  { return PronounHelper.Boy(actor.getSex());  }
 
     // Body Parts
     if (token == "bigBalls") { return (actor.briefDescriptionOfBalls()); }

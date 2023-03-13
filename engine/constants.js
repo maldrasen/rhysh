@@ -23,6 +23,15 @@ global._int = 'int';
 global._wis = 'wis';
 global._cha = 'cha';
 
+global.AttributeLabels = {
+  str:'Strength',
+  dex:'Dexterity',
+  con:'Constitution',
+  int:'Intelligence',
+  wis:'Wisdom',
+  cha:'Charisma',
+}
+
 // TODO: Replace these with _N
 global.N = "N";
 global.S = "S";

@@ -29,24 +29,24 @@ global.EventRenderer = class EventRenderer {
   //     }
   //   }
   runAttributeChecks() {
-    let checks = this.#template.attributeChecks;
-    if (checks) {
-      ObjectHelper.each(checks, (code,check) => {
-        let actor = check.who ? this.lookupActor(check.who) : CharacterLibrary.getMainCharacter();
-        let roll = Random.rollDice({ d:20 });
-        let bonus = actor.getAttributes().getModifier(check.attribute);
-        let total = roll + bonus;
+    ObjectHelper.each((this.#template.attributeChecks || {}), (code,check) => {
+      let actor = check.who ? this.lookupActor(check.who) : CharacterLibrary.getMainCharacter();
+      let roll = Random.rollDice({ d:20 });
+      let bonus = actor.getAttributes().getModifier(check.attribute);
+      let total = roll + bonus;
 
-        this.#state[code] = {
-          attribute: check.attribute,
-          target: check.target,
-          roll: roll,
-          bonus: bonus,
-          total: total,
-          success: (total >= check.target),
-        }
-      });
-    }
+      let success = (total >= check.target);
+      if (roll == 20) { success = true; }
+      if (roll == 1) { success = false; }
+
+      this.#state[code] = {
+        attribute: check.attribute,
+        roll: roll,
+        bonus: bonus,
+        total: total,
+        success: success,
+      }
+    });
   }
 
   // Event event template may have
@@ -67,8 +67,7 @@ global.EventRenderer = class EventRenderer {
       this.runAttributeChecks();
 
       const stages = ArrayHelper.compact(this.#template.stages.map(stage => {
-        if (this.#scrutinizer.meetsRequirements(stage.requires)) {
-          if (stage.attributeCheck) { console.log('TODO: Check Stage attributeCheck') }
+        if (this.#scrutinizer.meetsRequirements(stage.requires) && this.attributeChecksPassed(stage)) {
           return this.renderStage(stage);
         }
       }));
@@ -125,17 +124,17 @@ global.EventRenderer = class EventRenderer {
   //
   renderNormalStage(stage) {
     let pages = ArrayHelper.compact(stage.pages.map(page => {
-      if (this.#scrutinizer.meetsRequirements(page.requires)) {
-        if (page.attributeCheck) { console.log('TODO: Check Page attributeCheck') }
+      if (this.#scrutinizer.meetsRequirements(page.requires) && this.attributeChecksPassed(page)) {
         return this.renderPage(page, stage);
       }
     }));
 
     let rendered = { pages:pages };
 
-    if (stage.background) { rendered.background = stage.background; }
-    if (stage.filter)     { rendered.filter = stage.filter; }
-    if (stage.when)       { rendered.when = stage.when; }
+    if (stage.attributeCheck) { rendered.attributeCheck = stage.attributeCheck; }
+    if (stage.background)     { rendered.background = stage.background; }
+    if (stage.filter)         { rendered.filter = stage.filter; }
+    if (stage.when)           { rendered.when = stage.when; }
 
     return rendered;
   }
@@ -158,9 +157,10 @@ global.EventRenderer = class EventRenderer {
   renderPage(page, stage) {
     let rendered = { text:Weaver.weave(page.text, this.#context) };
 
-    if (page.background) { rendered.background = page.background; }
-    if (page.filter)     { rendered.filter = page.filter; }
-    if (page.speaker)    { rendered.speaker = page.speaker; }
+    if (page.attributeCheck) { rendered.attributeCheck = page.attributeCheck; }
+    if (page.background)     { rendered.background = page.background; }
+    if (page.filter)         { rendered.filter = page.filter; }
+    if (page.speaker)        { rendered.speaker = page.speaker; }
 
     return rendered;
   }
@@ -199,4 +199,23 @@ global.EventRenderer = class EventRenderer {
       selections: selections,
     };
   }
+
+  // Attribute checks are a little complicated. When an event is rendered we
+  // first roll all the attribute checks that may happen in an event. When we
+  // render a page or a stage that checks against one of these attribute checks
+  // we check the state to see if the check passed. This returns true if the
+  // branch matches the check outcome.
+  //
+  // i.e. { lookSexy:false } is an attribute check against a roll for lookSexy
+  // that should be shown when the check fails.
+  attributeChecksPassed(source) {
+    let valid = true;
+
+    ObjectHelper.each((source.attributeCheck || {}), (checkCode, checkBranch) => {
+      if (this.#state[checkCode].success != checkBranch) { valid = false; }
+    });
+
+    return valid;
+  }
+
 }

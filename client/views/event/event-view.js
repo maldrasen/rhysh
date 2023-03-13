@@ -67,18 +67,40 @@ window.EventView = (function() {
     throw `TODO: Implement whatever this is.`
   }
 
+  function setLayout(layoutClass, showClickAdvance) {
+    if ($layout != layoutClass) {
+      $layout = layoutClass;
+
+      X.each('#eventView .text-container', element => {
+        element.innerHTML = '';
+      });
+
+      X.addClass('#eventView .normal-layout','hide');
+      X.addClass('#eventView .player-speaking','hide');
+      X.addClass('#eventView .character-speaking','hide');
+      X.addClass('#eventView .selection-stage','hide');
+
+      X.addClass('#eventView .selection-stage','hide');
+      X.removeClass(`#eventView .${layoutClass}`,'hide');
+
+      showClickAdvance ? X.removeClass('#clickAdvance','hide') : X.addClass('#clickAdvance','hide');
+    }
+  }
+
+  // === Page Rendering ========================================================
+
   function showPage() {
     let page = currentPage();
     let speakerLabel = buildSpeakerLabel(page.speaker);
+    let attributeCheck = buildAttributeCheckElement(page);
 
     updateLayout(page);
 
     let container = X.first(`#eventView .${$layout} .text-container`);
         container.innerHTML = '';
 
-    if (speakerLabel) {
-      container.appendChild(speakerLabel);
-    }
+    if (speakerLabel) { container.appendChild(speakerLabel); }
+    if (attributeCheck) { container.appendChild(attributeCheck); }
     container.appendChild(X.createElement(`<p class='event-text'>${page.text}</p>`));
 
     if (page.background) { BackgroundImage.setBackground(page.background); }
@@ -105,29 +127,32 @@ window.EventView = (function() {
   }
 
   function buildSpeakerLabel(code) {
-    if (code == null) { return null; }
-    let name = (code == 'player') ? $eventData.player.name : $eventData.speakers[code].label;
-    if (name == null) { return null; }
-    return X.createElement(`<div class='speaker-label'>${name}</div>`);
+    if (code) {
+      let name = (code == 'player') ? $eventData.player.name : $eventData.speakers[code].label;
+      return name ? X.createElement(`<div class='speaker-label'>${name}</div>`) : null;
+    }
   }
 
-  function setLayout(layoutClass, showClickAdvance) {
-    if ($layout != layoutClass) {
-      $layout = layoutClass;
+  function buildAttributeCheckElement(page) {
+    if (page.attributeCheck) {
+      const checks = X.createElement(`<ul class='attribute-checks'></ul>`);
 
-      X.each('#eventView .text-container', element => {
-        element.innerHTML = '';
+      ObjectHelper.each(page.attributeCheck, (checkCode, checkBranch) => {
+        const checkState = $eventData.state[checkCode];
+        const attrName = AttributeLabels[checkState.attribute];
+        const attr = TextHelper.titlecase(checkState.attribute);
+
+        checks.appendChild(X.createElement(`
+          <li class='success-${checkBranch}'>
+            ${attrName} Check
+            <span class='math'>
+              ${attr}(${checkState.bonus}) Roll(${checkState.roll}) = Total(${checkState.total})
+            </span>
+            <span class='outcome'>${checkState.success ? "Success!" : "Failure"}</span>
+          </li>`));
       });
 
-      X.addClass('#eventView .normal-layout','hide');
-      X.addClass('#eventView .player-speaking','hide');
-      X.addClass('#eventView .character-speaking','hide');
-      X.addClass('#eventView .selection-stage','hide');
-
-      X.addClass('#eventView .selection-stage','hide');
-      X.removeClass(`#eventView .${layoutClass}`,'hide');
-
-      showClickAdvance ? X.removeClass('#clickAdvance','hide') : X.addClass('#clickAdvance','hide');
+      return checks;
     }
   }
 
