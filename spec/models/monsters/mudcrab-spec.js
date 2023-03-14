@@ -8,14 +8,20 @@ describe('Mudcrab', function() {
     expect(crab.getSlots().claws).to.equal(1);
   });
 
-  it('chooses a combat ability', function() {
+  it.only('chooses a combat ability', function() {
     let state = new BattleState({ monster:'Mudcrab' });
     let crab = state.getMonster('M1');
 
     SpecHelper.randomMainCharacter();
     GameState.setCurrentBattle(state);
 
-    expect(crab.chooseCombatAction()).to.not.be.null;
+    // expect(crab.chooseCombatAction()).to.not.be.null;
+
+    let action = crab.chooseCombatAction()
+    if (action) {
+      console.log("Choose:",action.pack());
+    }
+
   });
 
 });

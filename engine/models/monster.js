@@ -20,7 +20,6 @@ global.Monster = class Monster {
 
   #cooldownTable;
   #threatTable;
-  #target;
 
   constructor(options) {
     this.#condition = new Condition();
@@ -73,9 +72,6 @@ global.Monster = class Monster {
   // Monsters' essense.
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
-
-  getTarget() { return this.#target; }
-  setTarget(target) { this.#target = target; }
 
   getAbilityChance() { return this.#abilityChance; }
   setAbilityChance(chance) { this.#abilityChance = chance; }

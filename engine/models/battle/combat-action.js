@@ -3,12 +3,11 @@ global.CombatAction = class CombatAction {
   #actionType;
   #targetType;
   #targetRank;
+  #targetIdentifier;
   #abilityCode;
-
   #mainMode;
   #offMode;
 
-  // Why does this have a target type and not a target?
   constructor(options) {
     this.#actionType = options.action;
 
@@ -33,11 +32,42 @@ global.CombatAction = class CombatAction {
   }
 
   getActionType() { return this.#actionType; }
+  isNothing() { return this.#actionType == _nothing; }
   isAttack() { return this.#actionType == _attack; }
   isAbility() { return this.#actionType == _ability; }
 
+  // === Targets ===============================================================
+
   getTargetType() { return this.#targetType; }
   getTargetRank() { return this.#targetRank; }
+  getTargetIdentifier() { return this.#targetIdentifier; }
+
+  isSingleTarget() { return [_monster,_character].indexOf(this.#targetType) >= 0; }
+  targetsCharacters() { return [_party,_character,_everyone].indexOf(this.#targetType) >= 0; }
+  targetsMonsters() { return [_monster,_rank,_allMonsters,_everyone].indexOf(this.#targetType) >= 0; }
+
+  setTargetRank(rank) {
+    if (rank != null) { Validate.isIn(rank, SquadRanks); }
+    if (this.#targetIdentifier != null) { throw 'Target cannot have a rank if an identifier is set.'; }
+    this.#targetRank = rank;
+  }
+
+  setTargetIdentifier(identifier) {
+    if (this.#targetRank != null) { throw 'Target cannot have an identifier if a rank is set.'; }
+    this.#targetIdentifier = identifier;
+  }
+
+  getTarget() {
+    if (this.#targetType == _character) {
+      return CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
+    }
+    if (this.#targetType == _monster) {
+      return GameState.getCurrentBattle().getMonster(this.#targetIdentifier);
+    }
+  }
+
+  // === Attacks & Abilities ===================================================
+
 
   getAbilityCode() { return this.#abilityCode; }
   getAbilityTemplate() { return AbilityDictionary.lookup(this.#abilityCode); }

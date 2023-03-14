@@ -2,14 +2,14 @@ global.MonsterAI = (function() {
 
   let $currentRange;
   let $monster;
+  let $targetCode;
 
   // TODO: This needs to take condition into consideration. If a monster is
   //       prone for instance their action will be to get up. Some statuses
   //       randomly effect a character's actions too.
   function chooseCombatAction(monster) {
+    $currentRange = GameState.getCurrentBattle().getMonsterRange(monster.getID());
     $monster = monster;
-    $currentRange = GameState.getCurrentBattle().getMonsterRange($monster.getID());
-
 
     chooseTarget();
 
@@ -26,30 +26,40 @@ global.MonsterAI = (function() {
     // have no other available abilities.
     let ability = Random.from(availableAbilities);
     if (canAttack == false || Random.roll(100) < $monster.getAbilityChance()) {
-      if (ability != null) {
-        return new CombatAction({
-          action: _ability,
-          ability: ability.code,
-          targetType: (AbilityDictionary.lookup(ability.code).targetType || _character),
-        });
-      }
+      if (ability != null) { return buildAbilityAction(ability.code); }
     }
 
     return new CombatAction({
       action: _attack,
       targetType: _character,
+      targetIdentifier: $targetCode,
     });
   }
 
-  function buildAbilityAction(code) {
+  function buildAbilityAction(abilityCode) {
+    let template = AbilityDictionary.lookup(abilityCode);
+    let targetType = template.targetType || _character;
+
+    let action = new CombatAction({
+      action: _ability,
+      ability: abilityCode,
+      targetType: targetType,
+    });
+
+    if (targetType == _character) {
+      action.setTargetIdentifier($targetCode);
+    }
+
+    return action;
   }
 
   function getAvailableAbilities() {
     let available = [];
+    let target = CharacterLibrary.getCachedCharacter($targetCode);
 
     let scrutinizer = new Scrutinizer(new Context({
       actor: $monster,
-      target: $monster.getTarget().getActor(),
+      target: target,
     }));
 
     $monster.getAbilities().forEach(ability => {
@@ -77,38 +87,24 @@ global.MonsterAI = (function() {
     return true
   }
 
-  // TODO: This is all well and good, but for now we only have a single
-  //       character, so the target will always be the main character. We can
-  //       look into implementing all this once we have a few party members.
-  //
-  // Normally we want to return whoever the monster was targeting last turn.
-  // However, if the current target cannot be attacked clear the target and
-  // pick a new one.
-  //
-  // If another character is at least 50% higher on the threat table than the
-  // current target should switch to that target.
-  //
-  // Otherwise we need to pick another target. Some methods of selecting a
-  // target are more intelligent than others so a int bonus will help picking
-  // a better strategy.
-  //
-  // This should always pick a character to target, even it they end up using
-  // an area of effect ability or something that doesn't hit the characters at
-  // all.
+  // Some methods of selecting a target are more intelligent than others so an
+  // int bonus will help the monster pick a better strategy. This should always
+  // pick a character to target, even it they end up using an area of effect
+  // ability or something that doesn't hit the characters at all.
 
   function chooseTarget(monster) {
-    let target = $monster.getTarget();
 
-    if (target == null) {
-      let roll = Random.roll(20) + $monster.getAttributes().intModifier();
-      if (roll < 5) { target = chooseRandomTarget(); }
-      if (roll < 10) { target = chooseMostHatedTarget(); }
-      if (roll < 15) { target = chooseMostVulnerableTarget(); }
-      target = chooseMostDangerousTarget();
-    }
+    // TODO: This is all well and good, but for now we only have a single
+    //       character, so the target will always be the main character. We can
+    //       look into implementing all this once we have a few party members.
+    $targetCode = 'Main';
+    return;
 
-    // Temp, until we actually implement this.
-    $monster.setTarget(new Target(_character,'Main'));
+    let roll = Random.roll(20) + $monster.getAttributes().intModifier();
+    if (roll < 5) { target = chooseRandomTarget(); }
+    if (roll < 10) { target = chooseMostHatedTarget(); }
+    if (roll < 15) { target = chooseMostVulnerableTarget(); }
+    target = chooseMostDangerousTarget();
   }
 
   function chooseRandomTarget() {} // Pick randomly.

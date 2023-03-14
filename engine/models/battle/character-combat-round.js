@@ -2,7 +2,6 @@ global.CharacterCombatRound = class CharacterCombatRound {
 
   #character;
   #action;
-  #target;
   #ability;
   #abilityTemplate;
 
@@ -30,7 +29,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
   getActorType() { return 'Character'; }
 
   getCombatAction() { return this.#action; }
-  getTarget() { return this.#target; }
+  // getTarget() { return this.#target; }
 
   // getAbilityCode() { return this.#ability ? this.#ability.code : null; }
   // getAbilityTemplate() { return this.#abilityTemplate; }
@@ -40,15 +39,15 @@ global.CharacterCombatRound = class CharacterCombatRound {
   // }
 
   doAttack() {
-    this.determineTarget();
+    // this.determineTarget();
 
-    console.log("=== Doing attack ===")
-    console.log("Target is:",this.#target.getActor().getID());
+    // console.log("=== Doing attack ===")
+    // console.log("Target is:",this.#target.getActor().getID());
 
-    let result = new CombatResult(this);
-    let hit = this.#character.getBaseHit();
+    // let result = new CombatResult(this);
+    // let hit = this.#character.getBaseHit();
 
-    console.log("Hit:",hit);
+    // console.log("Hit:",hit);
 
     // while(hit > 0) {
       // if (mainMode) {
@@ -149,27 +148,33 @@ global.CharacterCombatRound = class CharacterCombatRound {
   //       that target instead.
   //
   determineTarget() {
-    let battleState = GameState.getCurrentBattle()
-    let previousTarget = battleState.getCharacterTarget(this.#character.getCode());
+    // let battleState = GameState.getCurrentBattle()
+    // let previousTarget = battleState.getCharacterTarget(this.#character.getCode());
 
-    this.#target = new Target(this.#action.getTargetType());
+    // this.#target = new Target(this.#action.getTargetType());
 
-    // We know we're targeting a single monster.
-    if (this.#target.getType() == _monster) {
-      if (previousTarget && this.previousTargetValid(previousTarget.getActor())) { return previousTarget; }
-      this.#target.setActor(Random.from(battleState.getRank(this.#action.getTargetRank()).monsters));
-      return;
-    }
+    // // We know we're targeting a single monster.
+    // if (this.#target.getType() == _monster) {
+    //   if (previousTarget && this.previousTargetValid(previousTarget.getActor())) { return previousTarget; }
 
-    throw `TODO: Build a target object for this type.`
+
+    //   let monster = Random.from(battleState.getRank(this.#action.getTargetRank()).monsters)
+
+    //   console.log("MONSTER:",monster.getID())
+
+    //   // this.#target.setActor();
+    //   return;
+    // }
+
+    // throw `TODO: Build a target object for this type.`
   }
 
   // Target is no longer valid if dead or fainted, out of range, or if their
   // squad has moved.
   previousTargetValid(monster) {
-    if (monster == null) { return false; }
-    if (monster.getCondition().hasCondition(_dead)) { return false; }
-    if (monster.getCondition().hasCondition(_fainted)) { return false; }
+    // if (monster == null) { return false; }
+    // if (monster.getCondition().hasCondition(_dead)) { return false; }
+    // if (monster.getCondition().hasCondition(_fainted)) { return false; }
 
     // TODO: Check monster range.
 
