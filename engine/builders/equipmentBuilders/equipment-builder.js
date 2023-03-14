@@ -5,8 +5,11 @@ global.EquipmentBuilder = (function() {
   // weapon.
   function build(options) {
     if (options.type == null) { throw `EquipmentBuilder at least requires a type` }
+    if (options.type == 'shield') { return EquipmentBuilder.AccessoryBuilder.build(options); }
+
     if (ArrayHelper.contains(ArmorSlots, options.type)) { return EquipmentBuilder.ArmorBuilder.build(options); }
     if (ArrayHelper.contains(AccessorySlots, options.type)) { return EquipmentBuilder.AccessoryBuilder.build(options); }
+
     return EquipmentBuilder.WeaponBuilder.build(options);
   }
 

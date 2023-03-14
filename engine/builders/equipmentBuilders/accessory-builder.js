@@ -2,7 +2,7 @@ EquipmentBuilder.AccessoryBuilder = (function() {
 
   // TODO: Implement the other accessory types.
   function build(options) {
-    if (options.type == 'offHand') { return buildShield(options); }
+    if (options.type == 'shield') { return buildShield(options); }
   }
 
   // TODO: This currently only builds a normal shield, of which there is only

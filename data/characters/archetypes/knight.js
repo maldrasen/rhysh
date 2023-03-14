@@ -13,7 +13,7 @@ ArchetypeDictionary.register('knight', {
   powers:     ['aura-fear'],
 
   startingEquipment: {
-    mainHand:  { type:'weapon', code:'longsword' },
+    mainHand:  { rarity:'normal', type:'weapon', code:'longsword' },
     offHand:   { rarity:'normal', type:'shield' },
     head:      { rarity:'normal', type:'head',   material:['plate']},
     chest:     { rarity:'normal', type:'chest',  material:['plate']},
