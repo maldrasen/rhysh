@@ -1,10 +1,5 @@
 describe('MonsterCombatRound', function() {
 
-  const crabClawAction = {
-    action:'ability',
-    ability:{ code:'crab-claw', damage:{ d:4 }, hit:10 }
-  };
-
   // Running a combat round for a single monster still produces very random
   // results, but its less random than running an entire combat round from the
   // battle engine and allows control over the target and ability used.
@@ -12,28 +7,38 @@ describe('MonsterCombatRound', function() {
     SpecHelper.randomMainCharacter({ archetype:'mindbender' });
 
     let crab = new Monster.Mudcrab();
-        crab.setTarget('Main');
+    let action = new CombatAction({
+      action: _ability,
+      ability: 'crab-claw',
+      targetType: _character,
+      targetIdentifier: 'Main',
+    });
 
-    let round = new MonsterCombatRound(crab, crabClawAction);
+    let round = new MonsterCombatRound(crab, action);
         round.doAbility();
 
+    let results = round.getCombatResults()[0];
+
     expect(round.getAbilityCode()).to.equal('crab-claw');
-    expect(round.getTargetCode()).to.equal('Main');
     expect(round.getCombatResults()[0].getAttackRoll()).to.be.greaterThan(0);
+    expect(results.getStory()).to.not.be.null;
   });
 
   it("uses an attack", function() {
     SpecHelper.randomMainCharacter({ archetype:'chosen' });
 
     let gobbo = new Monster.Goblin();
-        gobbo.setTarget('Main');
+    let action = new CombatAction({
+      action: _attack,
+      targetType: _character,
+      targetIdentifier: 'Main',
+    });
 
-    let round = new MonsterCombatRound(gobbo, { action:'attack' });
+    let round = new MonsterCombatRound(gobbo, action);
         round.doAttack();
 
     let results = round.getCombatResults()[0];
 
-    expect(round.getTargetCode()).to.equal('Main');
     expect(results.getAttackRoll()).to.be.greaterThan(0);
     expect(results.getStory()).to.not.be.null;
   });

@@ -2,17 +2,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   #monster;
   #action;
-  #target;
-  #ability;
-  #abilityTemplate;
-
   #combatResults;
   #triggers;
 
   constructor(monster, action) {
     this.#monster = monster;
     this.#action = action;
-    this.#target = CharacterLibrary.getCachedCharacter(monster.getTarget());
     this.#combatResults = [];
     this.#triggers = [];
   }
@@ -22,7 +17,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#action.action == 'ability') { this.doAbility(); }
   }
 
-  getClassName() { return "MonsterCombatRound"; }
+  getClassName() { return 'MonsterCombatRound'; }
   getCombatResults() { return this.#combatResults; }
   getTriggers() { return this.#triggers; }
   clearTriggers() { this.#triggers = []; }
@@ -32,12 +27,11 @@ global.MonsterCombatRound = class MonsterCombatRound {
   getMonster() { return this.#monster; }
   getMonsterID() { return this.#monster.getID(); }
 
-  getTarget() { return this.#target; }
-  getTargetCode() { return this.#target.getCode(); }
-  getTargetType() { return 'Character'; }
-
-  getAbilityCode() { return this.#ability ? this.#ability.code : null; }
-  getAbilityTemplate() { return this.#abilityTemplate; }
+  getTarget() { return this.#action.getTarget(); }
+  getTargetType() { return this.#action.getTargetType(); }
+  getTargetIdentifier() { return this.#action.getTargetIdentifier(); }
+  getAbilityCode() { return this.#action.getAbilityCode(); }
+  getAbilityTemplate() { return this.#action.getAbilityTemplate(); }
 
   addTrigger(trigger) {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
@@ -108,15 +102,16 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // TODO: Some abilities won't roll to hit.
   // TODO: Handle different template type: attack, hold, coup-de-grace.
   doAbility() {
-    this.#ability = this.#action.ability;
-    this.#abilityTemplate = AbilityDictionary.lookup(this.#ability.code);
+    let ability = this.getAbilityCode();
+    let template = this.getAbilityTemplate();
+    let details = this.#monster.findAbility(ability);
 
-    this.#monster.useAbility(this.#ability.code);
+    this.#monster.useAbility(ability);
 
     let result = new CombatResult(this);
-    result.chooseTargetSlot(this.#abilityTemplate.targetSlot);
-    result.rollAttack(this.#ability.hit);
-    result.rollDamage(this.#ability.damage);
+    result.chooseTargetSlot(template.targetSlot);
+    result.rollAttack(details.hit);
+    result.rollDamage(details.damage);
     result.updateCondition();
     result.updateStatus();
     result.selectStory();
@@ -127,8 +122,10 @@ global.MonsterCombatRound = class MonsterCombatRound {
   }
 
   checkCondition() {
-    let condition = this.#target.getCondition();
-    if (this.getTargetCode() == 'Main') {
+    let target = this.getTarget();
+    let condition = target.getCondition();
+
+    if (target.getCode() == 'Main') {
       if (condition.hasCondition('fainted')) { this.addTrigger('main-character-fainted'); }
       if (condition.hasCondition('dead')) { this.addTrigger('main-character-killed'); }
     }
@@ -137,11 +134,10 @@ global.MonsterCombatRound = class MonsterCombatRound {
   pack() {
     let packed = {
       monsterID: this.#monster.getID(),
+      action: this.#action.pack(),
       results: this.#combatResults.map(combatResult => { return combatResult.pack(); }),
     };
 
-    if (this.#ability) { packed.ability = this.#ability.code; }
-    if (this.#target) { packed.target = this.#target.getCode(); }
     if (this.#triggers) { packed.triggers = this.#triggers; }
 
     return packed;

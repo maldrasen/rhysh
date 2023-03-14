@@ -22,10 +22,6 @@ global.CombatResult = class CombatResult {
     this.#conditionChanges = [];
     this.#statusChanges = [];
 
-    // This is a problem. Target for characters and monsters are two different
-    // classes. I think I need to update monster to use the new combat action
-    // and target classes before I go any further with the character...
-
     this.#scrutinizer = new Scrutinizer(new Context({
       combatResult: this,
       combatRound: this.#combatRound,

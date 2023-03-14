@@ -13,9 +13,10 @@ global.CombatAction = class CombatAction {
 
     if (options.targetType) { this.#targetType = options.targetType; }
     if (options.targetRank) { this.#targetRank = options.targetRank; }
-    if (options.ability)    { this.#abilityCode = options.ability; }
-    if (options.mainMode)   { this.#mainMode = options.mainMode; }
-    if (options.offMode)    { this.#offMode = options.offMode; }
+    if (options.targetIdentifier) { this.#targetIdentifier = options.targetIdentifier; }
+    if (options.ability) { this.#abilityCode = options.ability; }
+    if (options.mainMode) { this.#mainMode = options.mainMode; }
+    if (options.offMode) { this.#offMode = options.offMode; }
 
     if (this.#targetType == null) {
       if (this.#actionType == _attack) { this.#targetType = _monster; }
@@ -58,16 +59,13 @@ global.CombatAction = class CombatAction {
   }
 
   getTarget() {
-    if (this.#targetType == _character) {
-      return CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
-    }
-    if (this.#targetType == _monster) {
-      return GameState.getCurrentBattle().getMonster(this.#targetIdentifier);
-    }
+    if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
+    if (this.#targetType == _character) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
+    if (this.#targetType == _monster)   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
+    throw `There is no target object when the target type is ${this.#targetType}`;
   }
 
   // === Attacks & Abilities ===================================================
-
 
   getAbilityCode() { return this.#abilityCode; }
   getAbilityTemplate() { return AbilityDictionary.lookup(this.#abilityCode); }
