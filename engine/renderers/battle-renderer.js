@@ -27,7 +27,7 @@ global.BattleRenderer = (function() {
       let context = new Context({
         combatResult: combatResult,
         combatRound: combatRound,
-        actor: combatRound.getMonster(),
+        actor: combatRound.getActor(),
         target: combatRound.getTarget(),
       });
 
@@ -52,7 +52,7 @@ global.BattleRenderer = (function() {
       segments = ArrayHelper.compact(segments)
 
       if (Environment.verbose) {
-        console.log(`${combatRound.getMonster().getName()}[${combatRound.getMonster().getID()}]`);
+        console.log(`${combatRound.getActor().getName()}[${combatRound.getActor().getID()}]`);
         segments.forEach(segment => {
           console.log(' - ',JSON.stringify(segment));
         });
@@ -60,7 +60,7 @@ global.BattleRenderer = (function() {
 
       $renderedEvents.push({
         actorType: 'Monster',
-        monsterID: combatRound.getMonster().getID(),
+        monsterID: combatRound.getActor().getID(),
         segments: segments,
       });
     });

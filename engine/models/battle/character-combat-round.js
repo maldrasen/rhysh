@@ -16,8 +16,8 @@ global.CharacterCombatRound = class CharacterCombatRound {
   }
 
   execute() {
-    if (this.#action.isAttack()) { this.doAttack(); }
-    if (this.#action.isAbility()) { this.doAbility(); }
+    if (this.#action.isAttack()) { return this.doAttack(); }
+    if (this.#action.isAbility()) { return this.doAbility(); }
     throw `Unhandled action type: ${this.#action.getActionType()}`;
   }
 
@@ -52,9 +52,6 @@ global.CharacterCombatRound = class CharacterCombatRound {
     let hit = this.#character.getBaseHit();
     let result;
 
-    console.log("=== Doing attack ===");
-    console.log("Action:",this.#action.pack());
-
     while(hit >= 0) {
       result = null;
 
@@ -70,13 +67,12 @@ global.CharacterCombatRound = class CharacterCombatRound {
         this.#combatResults.push(result);
       }
     }
-
-    console.log("Results:",this.#combatResults.map(result => { return result.pack() }))
   }
 
   doSingleAttack(hitBonus, weapon, mode) {
     let result = new CombatResult(this);
     result.setWeapon(weapon);
+    result.setWeaponMode(mode);
     result.chooseTargetSlot();
 
     if (result.isWeaponAttackMode()) {
@@ -91,48 +87,6 @@ global.CharacterCombatRound = class CharacterCombatRound {
     this.checkCondition();
     return result;
   }
-
-  // If the off hand weapon is null, it's probably a shield or something that
-  // we don't need to worry about.
-  // lookupWeapons() {
-  //   let main;
-  //   let off;
-
-  //   if (this.getMonster().getMainHand()) {
-  //     main = WeaponDictionary.lookup(this.getMonster().getMainHand());
-  //   }
-  //   if (this.getMonster().getOffHand()) {
-  //     try {
-  //       off = WeaponDictionary.lookup(this.getMonster().getOffHand());
-  //     } catch(error) {
-  //       off = null;
-  //     }
-  //   }
-
-  //   return { main:main, off:off };
-  // }
-
-  // TODO: Some abilities won't have a target.
-  // TODO: Some abilities won't roll to hit.
-  // TODO: Handle different template type: attack, hold, coup-de-grace.
-  // doAbility(ability) {
-  //   this.#ability = ability;
-  //   this.#abilityTemplate = AbilityDictionary.lookup(ability.code);
-
-  //   this.#monster.useAbility(ability.code);
-
-  //   let result = new CombatResult(this);
-  //   result.chooseTargetSlot(this.#abilityTemplate.targetSlot);
-  //   result.rollAttack(this.#ability.hit);
-  //   result.rollDamage(this.#ability.damage);
-  //   result.updateCondition();
-  //   result.updateStatus();
-  //   result.selectStory();
-  //   result.commitDamage();
-
-  //   this.#combatResults.push(result);
-  //   this.checkCondition();
-  // }
 
   // TODO: Check condition. I think we need to add triggers for when monsters
   //       die or other things happen.

@@ -10,7 +10,7 @@ global.WeaponDictionary = (function() {
   }
 
   function lookup(code) {
-    if (dictionary[code] == null) { console.trace(); throw `Unknown Weapon (${code})` }
+    if (dictionary[code] == null) { throw `Unknown Weapon (${code})` }
     return dictionary[code];
   }
 

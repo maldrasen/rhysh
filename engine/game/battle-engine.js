@@ -23,7 +23,7 @@ global.BattleEngine = class BattleEngine {
       this.rollForInitiative();
       this.forInitiativeOrder((segment, initiative) => {
 
-        if (initiative.type == 'monster') {
+        if (initiative.type == _monster) {
           let monster = state.getMonster(initiative.id);
           let action = monster.chooseCombatAction();
 
@@ -33,7 +33,7 @@ global.BattleEngine = class BattleEngine {
           this.#battleEvents.push(round);
         }
 
-        if (initiative.type == 'character') {
+        if (initiative.type == _character) {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
 
