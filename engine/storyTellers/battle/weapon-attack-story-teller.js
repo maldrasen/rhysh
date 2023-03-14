@@ -100,6 +100,10 @@ global.WeaponAttackStoryTeller = class WeaponAttackStoryTeller {
       }[this.#result.getWeaponMode()]();
     }
     catch(error) {
+      console.error(`[Story Teller Error : ${error}]`);
+      console.error(this.#result.pack());
+      console.trace();
+
       return { text:`[Story Teller Error: ${error}]` };
     }
   }

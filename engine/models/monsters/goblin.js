@@ -20,13 +20,17 @@ Monster.Goblin = class Goblin extends Monster {
   constructor(options = {}) {
     super(options);
 
-    this.setName('Goblin');
-    this.setSizeClass('small');
-    this.setSex(Random.fromFrequencyMap({
+    let sex = Random.fromFrequencyMap({
       female: 20,
       futa: 30,
       male: 50,
-    }));
+    });
+
+    this.setName('Goblin');
+    this.buildBody({
+      sizeClass: _small,
+      sex: sex
+    });
 
     this.setBaseArmorClass(11);
     this.setBaseHit(2);
@@ -36,10 +40,10 @@ Monster.Goblin = class Goblin extends Monster {
       str:8, dex:14, con:10, int:10, wis:8, cha:8
     }));
 
-    this.setNormalSlots();
     this.setRandomArmor(GoblinArmorMap);
     this.setRandomWeapon(GoblinWeaponMap);
     this.addAbility({ code:'bad-idea', damage:{ d:8, p:4 }});
+    this.makeLewd();
   }
 }
 

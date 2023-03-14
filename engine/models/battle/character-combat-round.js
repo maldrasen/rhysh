@@ -22,7 +22,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
   }
 
   getActor() { return this.#character; }
-  getClassName() { return 'CharacterCombatRound'; }
+  getActorType() { return _character; }
 
   getCombatResults() { return this.#combatResults; }
   getTriggers() { return this.#triggers; }

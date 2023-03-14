@@ -5,7 +5,7 @@ describe('Mudcrab', function() {
 
     expect(crab.getBaseArmorClass()).to.equal(12);
     expect(crab.getAbilities().length).to.equal(6);
-    expect(crab.getSlots().claws).to.equal(1);
+    expect(crab.getSlots().claws).to.equal(2);
   });
 
   it('chooses a combat ability', function() {

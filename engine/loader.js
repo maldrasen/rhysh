@@ -14,6 +14,7 @@ global.Loader = (function() {
 
   const GameModules = [
     'builders',
+    'data',
     'dictionaries',
     'game',
     'members',

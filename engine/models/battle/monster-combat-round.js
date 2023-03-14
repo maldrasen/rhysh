@@ -20,7 +20,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   }
 
   getActor() { return this.#actor; }
-  getClassName() { return 'MonsterCombatRound'; }
+  getActorType() { return _monster; }
 
   getCombatResults() { return this.#combatResults; }
   getTriggers() { return this.#triggers; }

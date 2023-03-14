@@ -2,17 +2,16 @@ global.Monster = class Monster {
 
   #id;
   #name;
-  #sex;
-  #sizeClass;
+  #body;
   #abilities = [];
   #attributes;
   #condition;
+  #flags;
 
   #essence;
   #baseArmorClass;
   #baseHit;
 
-  #slots;
   #mainHand;
   #offHand;
   #armor = {};
@@ -25,6 +24,7 @@ global.Monster = class Monster {
     this.#condition = new Condition();
     this.#threatTable = new ThreatTable();
     this.#cooldownTable = new CooldownTable();
+    this.#flags = {};
   }
 
   // The monster ID will probably only be used by the battle state. This is how
@@ -36,18 +36,6 @@ global.Monster = class Monster {
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
   getStoryName() { return `the ${this.#name}`; }
-
-  getSex() { return this.#sex || 'male'; }
-  setSex(sex) {
-    if (['female','futa','male'].indexOf(sex) < 0) { throw `Invalid Sex ${sex}`; }
-    this.#sex = sex;
-  }
-
-  getSizeClass() { return this.#sizeClass; }
-  setSizeClass(size) {
-    if (SizeClass[size] == null) { throw `Invalid Size Class: ${size}`; }
-    this.#sizeClass = size;
-  }
 
   getBaseArmorClass() { return this.#baseArmorClass; }
   setBaseArmorClass(armorClass) { this.#baseArmorClass = armorClass; }
@@ -81,17 +69,27 @@ global.Monster = class Monster {
   chooseCombatAction() { return MonsterAI.chooseCombatAction(this); }
   rollForInitiative() { return RollsInitiative.rollFor(this); }
 
-  hasCock()  { throw 'Implement this in Monster' }
-  hasPussy() { throw 'Implement this in Monster' }
-  hasTits()  { throw 'Implement this in Monster' }
-  isCockExposed()  { throw 'Implement this in Monster' }
-  isPussyExposed() { throw 'Implement this in Monster' }
-  areTitsExposed() { throw 'Implement this in Monster' }
+  // === Flags =================================================================
 
-  // TODO: Body part describers for monsters.
-  briefDescriptionOfBalls() { return 'balls' }
-  briefDescriptionOfCock() { return 'cock' }
-  briefDescriptionOfTits() { return 'tits' }
+  getFlag(key) { return this.#flags[key]; }
+  hasFlag(key) { return this.#flags[key] != null; }
+  setFlag(key,value) { this.#flags[key] = value; }
+
+  makeLewd() { this.setFlag(_lewd,true); }
+  isLewd() { return this.hasFlag(_lewd); }
+
+  // === Monster Bodies ========================================================
+
+  buildBody(options) { this.#body = new MonsterBody(options); }
+
+  getBody() { return this.#body; }
+  getSlots() { return this.#body.getSlots(); }
+  getSizeClass() { return this.#body.getSizeClass(); }
+  getSex() { return this.#body.getSex(); }
+
+  isCockExposed() { return this.isLewd() && this.#body.hasCock(); }
+  isPussyExposed() { return this.isLewd() && this.#body.hasPussy(); }
+  areTitsExposed() { return this.isLewd() && this.#body.hasTits(); }
 
   // === Abilities =============================================================
 
@@ -137,10 +135,6 @@ global.Monster = class Monster {
   }
 
   // === Weapons and Armor =====================================================
-
-  getSlots() { return this.#slots; }
-  setSlots(slots) { this.#slots = slots; }
-  setNormalSlots() { this.#slots = { head:1, chest:4, legs:3, hands:1, feet:1 }}
 
   // This is probably feature creep, but I think some monsters will have a
   // slimmed down version of equipment that adds some variety to the

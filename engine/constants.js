@@ -31,7 +31,27 @@ global._W = "W";
 global._U = "U";
 global._D = "D";
 
-global.SizeClass = {
+// === Sexes ===
+
+global._male = 'male'
+global._female = 'female'
+global._futa = 'futa'
+
+global.Sexes = [
+  _female,
+  _futa,
+  _male,
+];
+
+// === Size Classes ===
+
+global._tiny = 'tiny';
+global._small = 'small';
+global._medium = 'medium';
+global._large = 'large';
+global._huge = 'huge';
+
+global.SizeClasses = {
   tiny:   { maxSquadSize:16 },
   small:  { maxSquadSize:10 },
   medium: { maxSquadSize:7  },
@@ -145,3 +165,8 @@ global.TargetTypes = [
 global._close = 'close';
 global._extended = 'extended';
 global._long = 'long';
+
+// === Monster Flags ===
+
+global._lewd = 'lewd';
+

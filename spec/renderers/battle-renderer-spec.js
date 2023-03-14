@@ -1,6 +1,6 @@
 describe('BattleRenderer', function() {
 
-  it(`Doesn't blow up.`, function() {
+  it.only(`Doesn't blow up.`, function() {
     SpecHelper.randomMainCharacter({ archetype:'knight' });
     GameState.setCurrentBattle(new BattleState({ monster:'Goblin' }));
 

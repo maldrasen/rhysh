@@ -3,7 +3,12 @@ Monster.Mudcrab = class Mudcrab extends Monster {
     super({});
 
     this.setName('Mudcrab');
-    this.setSizeClass('small');
+
+    this.buildBody({
+      bodyPlan: MonsterBodyPlans.Crabby,
+      sizeClass: _small,
+    });
+
     this.setBaseArmorClass(12);
     this.setBaseHit(0);
     this.setEssence(50);
@@ -12,7 +17,6 @@ Monster.Mudcrab = class Mudcrab extends Monster {
       str:12, dex:10, con:14, int:4, wis:4, cha:4
     }));
 
-    this.setSlots({ head:1, back:4, legs:3, claws:1 });
     this.addAbility({ code:'crab-claw', damage:{ d:4 }});
     this.addAbility({ code:'crab-grab-legs', hit:-2 });
     this.addAbility({ code:'crab-grab-arms', hit:-2 });
