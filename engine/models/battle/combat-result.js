@@ -5,7 +5,7 @@ global.CombatResult = class CombatResult {
   #scrutinizer;
 
   #weapon;
-  #weaponBase;
+  #weaponCode;
   #weaponMode;
 
   #attackRoll;
@@ -40,11 +40,17 @@ global.CombatResult = class CombatResult {
   chooseTargetSlot(slot) { this.#targetSlot = slot || BattleEngine.randomSlot(); }
   getScrutinizer() { return this.#scrutinizer; }
 
-  getWeaponBase() { return this.#weaponBase; }
-  setWeaponBase(base) { this.#weaponBase = base; }
+  getWeapon() { return this.#weapon; }
+  getWeaponBase() { return this.#weaponCode; }
+
   setWeapon(weapon) {
     this.#weapon = weapon;
-    this.#weaponBase = weapon.getBase();
+    this.setWeaponCode(weapon.getBase());
+  }
+
+  setWeaponCode(code) {
+    WeaponDictionary.lookup(code);
+    this.#weaponCode = code;
   }
 
   getWeaponMode() { return this.#weaponMode; }
@@ -209,7 +215,7 @@ global.CombatResult = class CombatResult {
     let packed = {};
 
     if (this.#targetSlot) { packed.targetSlot = this.#targetSlot; }
-    if (this.#weaponBase) { packed.weaponCode = this.#weaponBase.code; }
+    if (this.#weaponCode) { packed.weaponCode = this.#weaponCode; }
     if (this.#weaponMode) { packed.weaponMode = this.#weaponMode; }
     if (this.#attackRoll) { packed.attackRoll = this.#attackRoll; }
     if (this.#attackResult) { packed.attackResult = this.#attackResult; }

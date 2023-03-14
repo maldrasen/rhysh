@@ -18,69 +18,79 @@ global.CharacterCombatRound = class CharacterCombatRound {
   execute() {
     if (this.#action.isAttack()) { this.doAttack(); }
     if (this.#action.isAbility()) { this.doAbility(); }
+    throw `Unhandled action type: ${this.#action.getActionType()}`;
   }
-
-  getClassName() { return "CharacterCombatRound"; }
-  // getCombatResults() { return this.#combatResults; }
-  // getTriggers() { return this.#triggers; }
-  // clearTriggers() { this.#triggers = []; }
 
   getActor() { return this.#character; }
-  getActorType() { return 'Character'; }
+  getClassName() { return 'CharacterCombatRound'; }
+
+  getCombatResults() { return this.#combatResults; }
+  getTriggers() { return this.#triggers; }
+  clearTriggers() { this.#triggers = []; }
 
   getCombatAction() { return this.#action; }
-  // getTarget() { return this.#target; }
 
-  // getAbilityCode() { return this.#ability ? this.#ability.code : null; }
-  // getAbilityTemplate() { return this.#abilityTemplate; }
+  getTarget() { return this.#action.getTarget(); }
+  getTargetType() { return this.#action.getTargetType(); }
+  getTargetIdentifier() { return this.#action.getTargetIdentifier(); }
 
-  // addTrigger(trigger) {
-  //   if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
-  // }
+  getAbilityCode() { return this.#action.getAbilityCode(); }
+  getAbilityTemplate() { return this.#action.getAbilityTemplate(); }
 
-  doAttack() {
-    // this.determineTarget();
-
-    // console.log("=== Doing attack ===")
-    // console.log("Target is:",this.#target.getActor().getID());
-
-    // let result = new CombatResult(this);
-    // let hit = this.#character.getBaseHit();
-
-    // console.log("Hit:",hit);
-
-    // while(hit > 0) {
-      // if (mainMode) {
-      //   result = this.doSingleAttack(hit, weapons.main, mainMode);
-      // }
-      // if (offMode && hit-2 >= 0) {
-      //   result = this.doSingleAttack(hit-2, weapons.off, offMode);
-      // }
-
-      // hit = (result.isCriticalMiss()) ? -1 : hit - 5;
-      // this.#combatResults.push(result);
-    // }
+  addTrigger(trigger) {
+    if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
   }
 
-  // doSingleAttack(hitBonus, weapon, mode) {
-  //   let result = new CombatResult(this);
+  doAttack() {
+    this.determineAttackTarget();
 
-  //   result.setWeaponBase(weapon);
-  //   result.setWeaponMode(mode);
-  //   result.chooseTargetSlot();
+    const mainMode = this.#action.getMainMode();
+    const offMode = this.#action.getOffMode();
+    const mainHand = this.#character.getMainHand();
+    const offHand = this.#character.getOffHand();
 
-  //   if (result.isWeaponAttackMode()) {
-  //     result.rollAttack(hitBonus);
-  //     result.rollDamage(weapon.damage, this.getMonster().getAttributes().strModifier());
-  //     result.setStory(new WeaponAttackStoryTeller(result).tellStory());
-  //   } else {
-  //     result.useWeapon();
-  //   }
+    let hit = this.#character.getBaseHit();
+    let result;
 
-  //   result.commitDamage();
-  //   this.checkCondition();
-  //   return result;
-  // }
+    console.log("=== Doing attack ===");
+    console.log("Action:",this.#action.pack());
+
+    while(hit >= 0) {
+      result = null;
+
+      if (mainMode) {
+        result = this.doSingleAttack(hit, mainHand, mainMode);
+      }
+      if (offMode && hit-2 >= 0) {
+        result = this.doSingleAttack(hit-2, offHand, offMode);
+      }
+
+      if (result == null) { return; } else {
+        hit = (result.isCriticalMiss()) ? -1 : hit - 5;
+        this.#combatResults.push(result);
+      }
+    }
+
+    console.log("Results:",this.#combatResults.map(result => { return result.pack() }))
+  }
+
+  doSingleAttack(hitBonus, weapon, mode) {
+    let result = new CombatResult(this);
+    result.setWeapon(weapon);
+    result.chooseTargetSlot();
+
+    if (result.isWeaponAttackMode()) {
+      result.rollAttack(hitBonus);
+      result.rollDamage(weapon.damage, this.getTarget().getAttributes().strModifier());
+      result.setStory(new WeaponAttackStoryTeller(result).tellStory());
+    } else {
+      result.useWeapon();
+    }
+
+    result.commitDamage();
+    this.checkCondition();
+    return result;
+  }
 
   // If the off hand weapon is null, it's probably a shield or something that
   // we don't need to worry about.
@@ -124,77 +134,42 @@ global.CharacterCombatRound = class CharacterCombatRound {
   //   this.checkCondition();
   // }
 
-  // checkCondition() {
-  //   let condition = this.#target.getCondition();
-  //   if (this.getTargetCode() == 'Main') {
-  //     if (condition.hasCondition('fainted')) { this.addTrigger('main-character-fainted'); }
-  //     if (condition.hasCondition('dead')) { this.addTrigger('main-character-killed'); }
-  //   }
-  // }
-
-  // The first thing we need to do when executing most abilities is determine
-  // the target of the action.
-  //
-  // If we're targeting a rank of monsters we check to see if the monster we
-  // targeted last round is in that rank. If so we attack the same monster.
-  // If we don't have a previous monster or that monster is dead we choose one
-  // at random. (for now)
-  //
-  // Using an area of effect ability, or an ability that doesn't target a
-  // monster should clear the previous target.
-  //
-  // TODO: We should make this smarter by having the character target weakened
-  //       monsters. If a monster is stunned they should switch to attacking
-  //       that target instead.
-  //
-  determineTarget() {
-    // let battleState = GameState.getCurrentBattle()
-    // let previousTarget = battleState.getCharacterTarget(this.#character.getCode());
-
-    // this.#target = new Target(this.#action.getTargetType());
-
-    // // We know we're targeting a single monster.
-    // if (this.#target.getType() == _monster) {
-    //   if (previousTarget && this.previousTargetValid(previousTarget.getActor())) { return previousTarget; }
-
-
-    //   let monster = Random.from(battleState.getRank(this.#action.getTargetRank()).monsters)
-
-    //   console.log("MONSTER:",monster.getID())
-
-    //   // this.#target.setActor();
-    //   return;
-    // }
-
-    // throw `TODO: Build a target object for this type.`
+  // TODO: Check condition. I think we need to add triggers for when monsters
+  //       die or other things happen.
+  checkCondition() {
+    let condition = this.getTarget().getCondition();
   }
 
-  // Target is no longer valid if dead or fainted, out of range, or if their
-  // squad has moved.
-  previousTargetValid(monster) {
-    // if (monster == null) { return false; }
-    // if (monster.getCondition().hasCondition(_dead)) { return false; }
-    // if (monster.getCondition().hasCondition(_fainted)) { return false; }
+  // The first thing we need to do when executing an attack is determine the
+  // specific monster we're attacking. The target in the battle orders will
+  // only specify the monster rank, so this function should determine the
+  // optimal monster in that rank to attack.
+  //
+  // TODO: If a character has "Battle Senses" have them pick the most injured
+  //       monster in that rank. If they have "Improved Battle Senses" they
+  //       prioritize picking a monster with status effects like prone. This
+  //       will be complicated enough to offload onto a member I think.
+  determineAttackTarget() {
+    let battleState = GameState.getCurrentBattle();
+    let monsters = battleState.getRank(this.#action.getTargetRank()).monsters;
+    let monsterID = Random.from(monsters).getID();
 
-    // TODO: Check monster range.
-
-    // let rank = this.#action.getTargetRank(); Is monster in rank???
-    // TODO: Check monster is in rank targeted by action, lets have a previous
-    //       target before we do this though...
-
-    return true;
+    this.#action.setTargetType(_monster);
+    this.#action.setTargetRank(null);
+    this.#action.setTargetIdentifier(monsterID);
   }
 
-  // pack() {
-  //   let packed = {
-  //     monsterID: this.#monster.getID(),
-  //     results: this.#combatResults.map(combatResult => { return combatResult.pack(); }),
-  //   };
+  pack() {
+    let packed = {
+      character: this.#character.getCode(),
+      action: this.#action.pack(),
+      results: this.#combatResults.map(combatResult => { return combatResult.pack(); }),
+    };
 
-  //   if (this.#ability) { packed.ability = this.#ability.code; }
-  //   if (this.#target) { packed.target = this.#target.getCode(); }
-  //   if (this.#triggers) { packed.triggers = this.#triggers; }
+    if (this.#ability) { packed.ability = this.#ability.code; }
+    if (this.#triggers) { packed.triggers = this.#triggers; }
 
-  //   return packed;
-  // }
+    return packed;
+  }
+
 }

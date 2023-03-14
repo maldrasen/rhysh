@@ -1,32 +1,32 @@
 global.MonsterCombatRound = class MonsterCombatRound {
 
-  #monster;
+  #actor;
   #action;
   #combatResults;
   #triggers;
 
-  constructor(monster, action) {
-    this.#monster = monster;
+  constructor(actor, action) {
+    this.#actor = actor;
     this.#action = action;
     this.#combatResults = [];
     this.#triggers = [];
   }
 
   execute() {
-    if (this.#action.action == 'attack') { this.doAttack(); }
-    if (this.#action.action == 'ability') { this.doAbility(); }
+    if (this.#action.isNothing()) { return; }
+    if (this.#action.isAttack()) { return this.doAttack(); }
+    if (this.#action.isAbility()) { return this.doAbility(); }
+    throw `Unhandled action type: ${this.#action.getActionType()}`;
   }
 
+  getActor() { return this.#actor; }
   getClassName() { return 'MonsterCombatRound'; }
+
   getCombatResults() { return this.#combatResults; }
   getTriggers() { return this.#triggers; }
   clearTriggers() { this.#triggers = []; }
 
-  getActor() { return this.#monster; }
-  getActorType() { return 'Monster'; }
-  getMonster() { return this.#monster; }
-  getMonsterID() { return this.#monster.getID(); }
-
+  getCombatAction() { return this.#action; }
   getTarget() { return this.#action.getTarget(); }
   getTargetType() { return this.#action.getTargetType(); }
   getTargetIdentifier() { return this.#action.getTargetIdentifier(); }
@@ -43,7 +43,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
     let weapons = this.lookupWeapons()
     let mainMode = (weapons.main) ? Random.from(weapons.main.modes) : null;
     let offMode = (weapons.off) ? Random.from(weapons.off.modes) : null;
-    let hit = this.getMonster().getBaseHit();
+    let hit = this.getActor().getBaseHit();
 
     while(hit > 0) {
       if (mainMode) {
@@ -61,13 +61,13 @@ global.MonsterCombatRound = class MonsterCombatRound {
   doSingleAttack(hitBonus, weapon, mode) {
     let result = new CombatResult(this);
 
-    result.setWeaponBase(weapon);
+    result.setWeaponCode(weapon.code);
     result.setWeaponMode(mode);
     result.chooseTargetSlot();
 
     if (result.isWeaponAttackMode()) {
       result.rollAttack(hitBonus);
-      result.rollDamage(weapon.damage, this.getMonster().getAttributes().strModifier());
+      result.rollDamage(weapon.damage, this.getActor().getAttributes().strModifier());
       result.setStory(new WeaponAttackStoryTeller(result).tellStory());
     } else {
       result.useWeapon();
@@ -84,12 +84,12 @@ global.MonsterCombatRound = class MonsterCombatRound {
     let main;
     let off;
 
-    if (this.getMonster().getMainHand()) {
-      main = WeaponDictionary.lookup(this.getMonster().getMainHand());
+    if (this.getActor().getMainHand()) {
+      main = WeaponDictionary.lookup(this.getActor().getMainHand());
     }
-    if (this.getMonster().getOffHand()) {
+    if (this.getActor().getOffHand()) {
       try {
-        off = WeaponDictionary.lookup(this.getMonster().getOffHand());
+        off = WeaponDictionary.lookup(this.getActor().getOffHand());
       } catch(error) {
         off = null;
       }
@@ -104,9 +104,9 @@ global.MonsterCombatRound = class MonsterCombatRound {
   doAbility() {
     let ability = this.getAbilityCode();
     let template = this.getAbilityTemplate();
-    let details = this.#monster.findAbility(ability);
+    let details = this.getActor().findAbility(ability);
 
-    this.#monster.useAbility(ability);
+    this.getActor().useAbility(ability);
 
     let result = new CombatResult(this);
     result.chooseTargetSlot(template.targetSlot);
@@ -133,7 +133,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   pack() {
     let packed = {
-      monsterID: this.#monster.getID(),
+      monsterID: this.getActor().getID(),
       action: this.#action.pack(),
       results: this.#combatResults.map(combatResult => { return combatResult.pack(); }),
     };

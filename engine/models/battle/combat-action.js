@@ -11,25 +11,12 @@ global.CombatAction = class CombatAction {
   constructor(options) {
     this.#actionType = options.action;
 
-    if (options.targetType) { this.#targetType = options.targetType; }
-    if (options.targetRank) { this.#targetRank = options.targetRank; }
-    if (options.targetIdentifier) { this.#targetIdentifier = options.targetIdentifier; }
-    if (options.ability) { this.#abilityCode = options.ability; }
+    if (options.targetType) { this.setTargetType(options.targetType); }
+    if (options.targetRank) { this.setTargetRank(options.targetRank); }
+    if (options.targetIdentifier) { this.setTargetIdentifier(options.targetIdentifier); }
+    if (options.ability) { this.setAbilityCode(options.ability); }
     if (options.mainMode) { this.#mainMode = options.mainMode; }
     if (options.offMode) { this.#offMode = options.offMode; }
-
-    if (this.#targetType == null) {
-      if (this.#actionType == _attack) { this.#targetType = _monster; }
-      if (this.#actionType == _ability) { throw `An ability should know it's targetType.` }
-    }
-
-    if (this.#targetRank == null) {
-      if (this.#targetType == _monster) { this.#targetRank = _rank_1; }
-      if (this.#targetType == _rank) { throw `A target rank should have been set.` }
-    }
-
-    Validate.isIn(this.#actionType, ActionTypes);
-    Validate.isIn(this.#targetType, TargetTypes);
   }
 
   getActionType() { return this.#actionType; }
@@ -47,6 +34,18 @@ global.CombatAction = class CombatAction {
   targetsCharacters() { return [_party,_character,_everyone].indexOf(this.#targetType) >= 0; }
   targetsMonsters() { return [_monster,_rank,_allMonsters,_everyone].indexOf(this.#targetType) >= 0; }
 
+  getTarget() {
+    if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
+    if (this.#targetType == _character) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
+    if (this.#targetType == _monster)   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
+    throw `There is no target object when the target type is ${this.#targetType}`;
+  }
+
+  setTargetType(type) {
+    Validate.isIn(type, TargetTypes);
+    this.#targetType = type;
+  }
+
   setTargetRank(rank) {
     if (rank != null) { Validate.isIn(rank, SquadRanks); }
     if (this.#targetIdentifier != null) { throw 'Target cannot have a rank if an identifier is set.'; }
@@ -58,35 +57,38 @@ global.CombatAction = class CombatAction {
     this.#targetIdentifier = identifier;
   }
 
-  getTarget() {
-    if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
-    if (this.#targetType == _character) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
-    if (this.#targetType == _monster)   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
-    throw `There is no target object when the target type is ${this.#targetType}`;
-  }
-
   // === Attacks & Abilities ===================================================
 
   getAbilityCode() { return this.#abilityCode; }
   getAbilityTemplate() { return AbilityDictionary.lookup(this.#abilityCode); }
 
+  setAbilityCode(code) {
+    AbilityDictionary.lookup(code);
+    this.#abilityCode = code;
+  }
+
   getMainMode() { return this.#mainMode; }
   getOffMode() { return this.#offMode; }
 
-  // Make any character specific adjustments needed for the action. Right now
-  // this is just resetting the weapon modes if they're set to random. (which
-  // only happens in the tests I think) This might need to make other
-  // adjustments later though.
+  // Make any character specific adjustments needed for the action. When a
+  // character is attacking with a short range weapon they don't need to
+  // specify that they're targeting the front rank, but the battle engine does
+  // need to know that.
   adjustForCharacter(code) {
     let character = CharacterLibrary.getCachedCharacter(code);
     let mainHand = character.getMainHand();
     let offHand = character.getOffHand();
 
-    if (this.#mainMode == 'random') {
-      this.#mainMode = (mainHand && mainHand.isWeapon()) ? Random.from(mainHand.getModes()) : null;
-    }
-    if (this.#offMode == 'random') {
-      this.#offMode = (offHand && offHand.isWeapon()) ? Random.from(offHand.getModes()) : null;
+    if (this.#actionType == _attack) {
+      if (this.#targetType == null) { this.#targetType = _rank }
+      if (this.#targetRank == null) { this.#targetRank = _rank_1 }
+
+      if (this.#mainMode == 'random') {
+        this.#mainMode = (mainHand && mainHand.isWeapon()) ? Random.from(mainHand.getModes()) : null;
+      }
+      if (this.#offMode == 'random') {
+        this.#offMode = (offHand && offHand.isWeapon()) ? Random.from(offHand.getModes()) : null;
+      }
     }
   }
 
@@ -96,10 +98,11 @@ global.CombatAction = class CombatAction {
       targetType: this.#targetType,
     };
 
-    if (this.#targetRank)  { packed.targetRank = this.#targetRank; }
-    if (this.#abilityCode) { packed.abilityCode = this.#abilityCode; }
-    if (this.#mainMode)    { packed.mainMode = this.#mainMode; }
-    if (this.#offMode)     { packed.offMode = this.#offMode; }
+    if (this.#targetRank)       { packed.targetRank = this.#targetRank; }
+    if (this.#targetIdentifier) { packed.targetIdentifier = this.#targetIdentifier; }
+    if (this.#abilityCode)      { packed.abilityCode = this.#abilityCode; }
+    if (this.#mainMode)         { packed.mainMode = this.#mainMode; }
+    if (this.#offMode)          { packed.offMode = this.#offMode; }
 
     return packed;
   }

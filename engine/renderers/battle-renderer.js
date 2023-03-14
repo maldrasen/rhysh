@@ -60,7 +60,7 @@ global.BattleRenderer = (function() {
 
       $renderedEvents.push({
         actorType: 'Monster',
-        monsterID: combatRound.getMonsterID(),
+        monsterID: combatRound.getMonster().getID(),
         segments: segments,
       });
     });

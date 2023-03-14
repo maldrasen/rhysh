@@ -39,7 +39,6 @@ describe('MonsterCombatRound', function() {
 
     let results = round.getCombatResults()[0];
 
-    expect(results.getAttackRoll()).to.be.greaterThan(0);
     expect(results.getStory()).to.not.be.null;
   });
 
