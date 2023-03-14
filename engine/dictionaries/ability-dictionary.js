@@ -44,6 +44,7 @@ global.AbilityDictionary = (function() {
       Validate.isIn(key, [
         'code',
         'type',
+        'targetType',
         'range',
         'targetSlot',
         'cooldown',
@@ -62,11 +63,11 @@ global.AbilityDictionary = (function() {
   }
 
   function validateRange(ability) {
-    Validate.isIn(ability.range, ['close','extended','long']);
+    Validate.isIn(ability.range, [_close,_extended,_long]);
   }
 
   function validateTargetSlot(ability) {
-    Validate.isIn(ability.targetSlot, ['head','chest','legs','hands','feet']);
+    Validate.isIn(ability.targetSlot, ArmorSlots);
   }
 
   // Validate both the condition and the condition target (on value).

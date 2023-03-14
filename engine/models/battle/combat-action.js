@@ -8,6 +8,7 @@ global.CombatAction = class CombatAction {
   #mainMode;
   #offMode;
 
+  // Why does this have a target type and not a target?
   constructor(options) {
     this.#actionType = options.action;
 
@@ -19,6 +20,7 @@ global.CombatAction = class CombatAction {
 
     if (this.#targetType == null) {
       if (this.#actionType == _attack) { this.#targetType = _monster; }
+      if (this.#actionType == _ability) { throw `An ability should know it's targetType.` }
     }
 
     if (this.#targetRank == null) {

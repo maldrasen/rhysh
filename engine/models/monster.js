@@ -132,6 +132,10 @@ global.Monster = class Monster {
     }
   }
 
+  isAbilityOnCooldown(code) {
+    return this.#cooldownTable.onCooldown(code);
+  }
+
   reduceCooldowns() {
     this.#cooldownTable.reduce();
   }

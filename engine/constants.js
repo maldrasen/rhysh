@@ -57,9 +57,9 @@ global._offHand = 'offHand';
 
 global._head = 'head';
 global._chest = 'chest';
-global._arms = 'arms';
-global._feet = 'feet';
 global._legs = 'legs';
+global._hands = 'hands';
+global._feet = 'feet';
 
 global._ass = 'ass';
 global._back = 'back';
@@ -74,8 +74,8 @@ global._ring = 'ring';
 global.ArmorSlots = [
   _head,
   _chest,
-  _arms,
   _legs,
+  _hands,
   _feet,
 ];
 
@@ -92,15 +92,16 @@ global.AccessorySlots = [
   _ring,
 ];
 
-
 // === Action Types ===
 
 global._attack = 'attack';
 global._ability = 'ability';
+global._nothing = 'nothing';
 
 global.ActionTypes = [
   _attack,
-  _ability
+  _ability,
+  _nothing,
 ];
 
 global._rank_1 = 'rank-1';
@@ -126,6 +127,7 @@ global._allMonsters = 'allMonsters';
 global._character = 'character';
 global._party = 'party';
 global._everyone = 'everyone';
+global._none = 'none';
 
 global.TargetTypes = [
   _self,
@@ -135,5 +137,11 @@ global.TargetTypes = [
   _character,
   _party,
   _everyone,
+  _none,
 ];
 
+// === Ranges ===
+
+global._close = 'close';
+global._extended = 'extended';
+global._long = 'long';

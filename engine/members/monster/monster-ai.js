@@ -1,5 +1,6 @@
 global.MonsterAI = (function() {
 
+  let $currentRange;
   let $monster;
 
   // TODO: This needs to take condition into consideration. If a monster is
@@ -7,67 +8,74 @@ global.MonsterAI = (function() {
   //       randomly effect a character's actions too.
   function chooseCombatAction(monster) {
     $monster = monster;
+    $currentRange = GameState.getCurrentBattle().getMonsterRange($monster.getID());
 
-    console.log("=== Choose Combat Action ===");
 
     chooseTarget();
 
+    let availableAbilities = getAvailableAbilities();
+    let canAttack = canAttackWithWeapon()
 
-    // let state = GameState.getCurrentBattle();
-    // let currentRange = state.getMonsterRange(this.getID());
-    // let availableAbilities = this.getAvailableAbilities(currentRange);
-    // let canAttack = this.#canAttack(currentRange);
+    // If they have no attacks or abilities that are off cooldown or are
+    // currently in range, then there's nothing they can do.
+    if (canAttack == false && availableAbilities.length == 0) {
+      return new CombatAction({ action:_nothing, targetType:_none });
+    }
 
-    // // If they have no attacks or abilities that are off cooldown or are
-    // // currently in range, then there's nothing they can do.
-    // if (canAttack == false && availableAbilities.length == 0) {
-    //   return { action:'nothing' };
-    // }
+    // Ability can be null here if they can make a regular melee attack, but
+    // have no other available abilities.
+    let ability = Random.from(availableAbilities);
+    if (canAttack == false || Random.roll(100) < $monster.getAbilityChance()) {
+      if (ability != null) {
+        return new CombatAction({
+          action: _ability,
+          ability: ability.code,
+          targetType: (AbilityDictionary.lookup(ability.code).targetType || _character),
+        });
+      }
+    }
 
-    // // Ability can be null here if they can make a regular melee attack, but
-    // // have no other available abilities.
-    // let ability = Random.from(availableAbilities);
-    // if (canAttack == false || Random.roll(100) < this.getAbilityChance()) {
-    //   if (ability != null) { return { action:'ability', ability:ability }; }
-    // }
-
-    // return { action:'attack' };
+    return new CombatAction({
+      action: _attack,
+      targetType: _character,
+    });
   }
 
-  // getAvailableAbilities(currentRange) {
-  //   let available = [];
+  function buildAbilityAction(code) {
+  }
 
-  //   let scrutinizer = new Scrutinizer(new Context({
-  //     actor: this,
-  //     target: CharacterLibrary.getCachedCharacter(this.#target),
-  //   }));
+  function getAvailableAbilities() {
+    let available = [];
 
-  //   this.#abilities.forEach(ability => {
-  //     let template = AbilityDictionary.lookup(ability.code);
-  //     let abilityRange = template.range || 'close';
+    let scrutinizer = new Scrutinizer(new Context({
+      actor: $monster,
+      target: $monster.getTarget().getActor(),
+    }));
 
-  //     if (this.#abilityInRange(currentRange, abilityRange) && scrutinizer.meetsRequirements(template.requires)) {
-  //       available.push(ability);
-  //     }
-  //   });
+    $monster.getAbilities().forEach(ability => {
+      if ($monster.isAbilityOnCooldown(ability.code) == false) {
+        let template = AbilityDictionary.lookup(ability.code);
+        let abilityRange = template.range || 'close';
 
-  //   return available;
-  // }
+        if (abilityInRange(abilityRange) && scrutinizer.meetsRequirements(template.requires)) {
+          available.push(ability);
+        }
+      }
+    });
 
-  // #canAttack(currentRange) {
-  //   if (this.#mainHand == null) { return false; }
-  //   let weapon = WeaponDictionary.lookup(this.#mainHand);
-  //   return this.#abilityInRange(currentRange, weapon.range);
-  // }
+    return available;
+  }
 
-  // #abilityInRange(currentRange, abilityRange) {
-  //   if (abilityRange == 'close') { return currentRange == 'close'; }
-  //   if (abilityRange == 'extended') { return ['close','extended'].indexOf(currentRange) >= 0; }
-  //   return true
-  // }
+  function canAttackWithWeapon(currentRange) {
+    let mainHand = $monster.getMainHand();
+    return mainHand ? abilityInRange(WeaponDictionary.lookup(mainHand).range) : false;
+  }
 
-
-
+  function abilityInRange(abilityRange) {
+    if (abilityRange == 'close') { return $currentRange == _close; }
+    if (abilityRange == 'extended') { return [_close,_extended].indexOf($currentRange) >= 0; }
+    return true
+  }
 
   // TODO: This is all well and good, but for now we only have a single
   //       character, so the target will always be the main character. We can
@@ -83,6 +91,10 @@ global.MonsterAI = (function() {
   // Otherwise we need to pick another target. Some methods of selecting a
   // target are more intelligent than others so a int bonus will help picking
   // a better strategy.
+  //
+  // This should always pick a character to target, even it they end up using
+  // an area of effect ability or something that doesn't hit the characters at
+  // all.
 
   function chooseTarget(monster) {
     let target = $monster.getTarget();
