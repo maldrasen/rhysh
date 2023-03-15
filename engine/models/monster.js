@@ -49,6 +49,7 @@ global.Monster = class Monster {
   getCondition() { return this.#condition; }
   hasCondition(condition) { return this.#condition.hasCondition(condition); }
   hasStatus(status) { return this.#condition.hasStatus(status); }
+  doDamage(points) { this.#condition.doDamage(points); }
 
   getMaxHitPoints() { return this.#condition.getMaxHitPoints(); }
   setMaxHitPoints(points) { this.#condition.setMaxHitPoints(points); }

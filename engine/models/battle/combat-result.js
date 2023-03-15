@@ -104,6 +104,8 @@ global.CombatResult = class CombatResult {
 
   // TODO: Adjust critical hit ranges and damage multipliers.
   rollDamage(damage, bonusDamage=0) {
+    if (damage == null) { throw 'Damage cannot be null'; }
+
     if (this.#attackResult == 'hit') { this.#attackDamage = this.getDamage(damage,bonusDamage); }
     if (this.#attackResult == 'critical-hit') { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
 
