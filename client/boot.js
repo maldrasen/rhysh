@@ -64,7 +64,7 @@
       // Views
       import('./views/battle/battle-controls.js'),
       import('./views/battle/battle-effects.js'),
-      import('./views/battle/battle-story-teller.js'),
+      import('./views/battle/battle-player.js'),
       import('./views/battle/battle-view.js'),
       import('./views/battle/battlefield.js'),
       import('./views/dungeon/dungeon.js'),
@@ -103,6 +103,7 @@
 
   function initAll() {
     BattleControls.init();
+    BattlePlayer.init();
     BattleView.init();
     Confirmation.init();
     Dungeon.init();

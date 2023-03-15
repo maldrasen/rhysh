@@ -7,6 +7,12 @@
   right: 0;
 }
 
+#clickAdvance {
+  @include full-screen;
+  z-index: $z-click-advance;
+  cursor: pointer;
+}
+
 .background-image {
   @include full-screen;
   background-position: center;

@@ -1,10 +1,5 @@
 #eventView {
 
-  #clickAdvance {
-    @include full-screen;
-    z-index: $z-event-clicker;
-  }
-
   .text-layout {
     .text-container {
       display: block;

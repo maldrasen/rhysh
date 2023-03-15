@@ -12,7 +12,7 @@ window.BattleView = (function() {
 
     ServerEvents.onRenderBattleRound((payload, data) => {
       $battleState = data.battle;
-      BattleStoryTeller.start(data.events);
+      BattlePlayer.start(data.events);
     });
   }
 

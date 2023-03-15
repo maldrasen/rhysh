@@ -38,6 +38,8 @@ window.EventView = (function() {
     $stageCounter = 0;
     $pageCounter = 0;
 
+    X.removeClass('#clickAdvance','hide');
+
     setTextWindowStyle(Options.fontSize, Options.windowColor)
     if ($eventData.background) { BackgroundImage.setBackground($eventData.background); }
     if ($eventData.filter) { BackgroundImage.setFilter($eventData.filter); }
@@ -159,8 +161,10 @@ window.EventView = (function() {
   // === Next Page and Skip Page ===============================================
 
   function clickAdvance(e) {
-    $skipActive = false;
-    nextPage();
+    if (isOpen()) {
+      $skipActive = false;
+      nextPage();
+    }
   }
 
   function activateSkip() {
@@ -213,6 +217,7 @@ window.EventView = (function() {
   }
 
   function endEvent() {
+    X.addClass('#clickAdvance','hide');
     MainContent.clear();
     ClientCommands.send('game.end-event',$eventData.state);
   }
