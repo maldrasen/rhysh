@@ -186,6 +186,16 @@ global.Character = class Character {
   getMainHand() { return Inventory.getEquippedBy(this)['mainHand']; }
   getOffHand() { return Inventory.getEquippedBy(this)['offHand']; }
 
+  getMainHandCode() {
+    let weapon = this.getMainHand();
+    return weapon ? weapon.getBase() : null;
+  }
+
+  getOffHandCode() {
+    let weapon = this.getOffHand();
+    return weapon ? weapon.getBase() : null;
+  }
+
   // === Persistance ===========================================================
 
   save() {

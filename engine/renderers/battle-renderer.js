@@ -23,56 +23,61 @@ global.BattleRenderer = (function() {
     combatRound.getCombatResults().forEach(combatResult => {
       if (combatResult.getStory() == null) { return null; }
 
-      // console.log(`\nRendering ${actorType} result`);
-
-      let segments = [];
-      let context = new Context({
+      const context = new Context({
         combatResult: combatResult,
         combatRound: combatRound,
         actor: combatRound.getActor(),
         target: combatRound.getTarget(),
       });
 
-      // segments.push(renderAttemptSegment(combatResult, context));
+      const rendered = {
+        actorType: combatRound.getActorType(),
+        segments: []
+      };
 
-      // if (combatResult.isFailure()) { segments.push(renderFailureSegment(combatResult, context)); }
-      // if (combatResult.isSuccess()) { segments.push(renderSuccessSegment(combatResult, context)); }
+      if (rendered.actorType == _character) { rendered.characterCode = combatRound.getActor().getCode(); }
+      if (rendered.actorType == _monster) { rendered.monsterID = combatRound.getActor().getID(); }
 
-      // combatResult.getStatusChanges().forEach(statusChange => {
-      //   segments.push(renderStatusSegment(statusChange, context));
-      // });
+      rendered.segments.push(renderAttemptSegment(combatResult, context));
 
-      // combatResult.getConditionChanges().forEach(conditionChange => {
-      //   segments.push(renderConditionSegment(conditionChange, context));
-      // });
+      if (combatResult.isFailure()) { rendered.segments.push(renderFailureSegment(combatResult, context)); }
+      if (combatResult.isSuccess()) { rendered.segments.push(renderSuccessSegment(combatResult, context)); }
 
-      // combatRound.getTriggers().forEach(trigger => {
-      //   segments.push(renderTriggerSegment(trigger, context));
-      // });
+      combatResult.getStatusChanges().forEach(statusChange => {
+        rendered.segments.push(renderStatusSegment(statusChange, context));
+      });
 
-      // combatRound.clearTriggers();
-      // segments = ArrayHelper.compact(segments)
+      combatResult.getConditionChanges().forEach(conditionChange => {
+        rendered.segments.push(renderConditionSegment(conditionChange, context));
+      });
 
-      // if (Environment.verbose) {
-      //   console.log(`${combatRound.getActor().getName()}[${combatRound.getActor().getID()}]`);
-      //   segments.forEach(segment => {
-      //     console.log(' - ',JSON.stringify(segment));
-      //   });
-      // }
+      combatRound.getTriggers().forEach(trigger => {
+        rendered.segments.push(renderTriggerSegment(trigger, context));
+      });
 
-      // $renderedEvents.push({
-      //   actorType: 'Monster',
-      //   monsterID: combatRound.getActor().getID(),
-      //   segments: segments,
-      // });
+      combatRound.clearTriggers();
+      rendered.segments = ArrayHelper.compact(rendered.segments);
+
+      $renderedEvents.push(rendered);
+
+      printRenderedEvents(rendered);
     });
+  }
+
+  function printRenderedEvents(rendered) {
+    if (Environment.verbose) {
+      let id = rendered.actorType == _monster ? rendered.monsterID : rendered.characterCode
+
+      console.log(`\nEvent[${rendered.actorType}:${id}]`);
+      rendered.segments.forEach(segment => {
+        console.log(' - ',JSON.stringify(segment));
+      });
+    }
   }
 
   function renderAttemptSegment(combatResult, context) {
     let story = combatResult.getStory()
     let text = Weaver.weave((story.text || story.attempt), context);
-
-console.log("Attempt Segment:",story,text)
 
     return { type:'attempt', text:text };
   }

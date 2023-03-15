@@ -91,6 +91,11 @@ global.Monster = class Monster {
   isPussyExposed() { return this.isLewd() && this.#body.hasPussy(); }
   areTitsExposed() { return this.isLewd() && this.#body.hasTits(); }
 
+  briefDescriptionOfBalls() { return this.#body.briefDescriptionOfBalls(); }
+  briefDescriptionOfCock() { return this.#body.briefDescriptionOfCock(); }
+  briefDescriptionOfPussy() { return this.#body.briefDescriptionOfPussy(); }
+  briefDescriptionOfTits() { return this.#body.briefDescriptionOfTits(); }
+
   // === Abilities =============================================================
 
   getAbilities() { return this.#abilities; }
@@ -140,11 +145,11 @@ global.Monster = class Monster {
   // slimmed down version of equipment that adds some variety to the
   // encounters. While this is mostly noticible with the weapons, we might as
   // well allow adjustments to the armor too.
-  getMainHand() { return this.#mainHand; }
-  setMainHand(code) { this.#mainHand = code; }
+  getMainHandCode() { return this.#mainHand; }
+  setMainHandCode(code) { this.#mainHand = code; }
 
-  getOffHand() { return this.#offHand; }
-  setOffHand(code) { this.#offHand = code; }
+  getOffHandCode() { return this.#offHand; }
+  setOffHandCode(code) { this.#offHand = code; }
 
   getArmorMaterial(slot) { return this.#armor[slot]; }
   setArmorMaterial(slot, code) {
@@ -168,13 +173,13 @@ global.Monster = class Monster {
     if (mainHand == 'scimitar-shield') { mainHand = 'scimitar'; offHand = 'shield'; }
     if (mainHand == 'two-daggers')     { mainHand = 'dagger';   offHand = 'dagger'; }
 
-    if (mainHand) { this.setMainHand(mainHand); }
-    if (offHand) { this.setOffHand(offHand); }
+    if (mainHand) { this.setMainHandCode(mainHand); }
+    if (offHand) { this.setOffHandCode(offHand); }
   }
 
   getArmorClass(slot) {
     let dexBonus = this.getAttributes().dexModifier();
-    let shieldBonus = this.getOffHand() == 'shield' ? 1 : 0;
+    let shieldBonus = this.getOffHandCode() == 'shield' ? 1 : 0;
     let material = this.getArmorMaterial(slot)
     let armorBonus = 0;
 

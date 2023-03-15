@@ -161,6 +161,7 @@ let names = [
   { name:"Tosser" },
   { name:"Tosspot", aspects:['golden']},
   { name:"Tug" },
+  { name:"Turd", aspects:['revolting']},
   { name:"Tweek" },
   { name:"Unusual" },
   { name:"Warpig", aspects:['violent'], triggers:['ugly']},

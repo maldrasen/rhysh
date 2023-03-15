@@ -81,21 +81,18 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // If the off hand weapon is null, it's probably a shield or something that
   // we don't need to worry about.
   lookupWeapons() {
-    let main;
-    let off;
+    let mainCode = this.getActor().getMainHandCode()
+    let offCode = this.getActor().getOffHandCode()
+    let offHand
 
-    if (this.getActor().getMainHand()) {
-      main = WeaponDictionary.lookup(this.getActor().getMainHand());
-    }
-    if (this.getActor().getOffHand()) {
-      try {
-        off = WeaponDictionary.lookup(this.getActor().getOffHand());
-      } catch(error) {
-        off = null;
-      }
+    if (offCode) {
+      try { offHand = WeaponDictionary.lookup(); } catch(error) {}
     }
 
-    return { main:main, off:off };
+    return {
+      main: (mainCode ? WeaponDictionary.lookup(mainCode) : null),
+      off: offHand
+    };
   }
 
   // TODO: Some abilities won't have a target.

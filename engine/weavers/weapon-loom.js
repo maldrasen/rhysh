@@ -7,7 +7,10 @@ Weaver.WeaponLoom = (function() {
   function findValue(actor, fullToken, context) {
     let match = fullToken.match(/weapon\.(main-hand|off-hand)\.(.*)/);
     if (match) {
-      let weapon = WeaponDictionary.lookup((match[1] == 'main-hand') ? actor.getMainHand() : actor.getOffHand());
+
+      let weapon = WeaponDictionary.lookup((match[1] == 'main-hand') ?
+        actor.getMainHandCode() :
+        actor.getOffHandCode());
 
       if (match[2] == 'name') { return weapon.name.toLowerCase(); }
       if (match[2] == 'Name') { return weapon.name; }
