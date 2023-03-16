@@ -208,3 +208,7 @@ global.MonsterFlags = [
   _lewd,
 ]
 
+// === Events ==================================================================
+
+global._selectionStage = 'selectionStage';
+global._normalStage = 'normalStage';

@@ -57,7 +57,7 @@ global.GameData = (function() {
     });
 
     if (state.currentEvent) {
-      GameState.setCurrentEvent(Event.unpack(state.currentEvent));
+      GameState.setCurrentEvent(EventState.unpack(state.currentEvent));
     }
 
     ZoneLibrary.loadZone(GameState.getCurrentZoneName());

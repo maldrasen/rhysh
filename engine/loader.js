@@ -31,9 +31,13 @@ global.Loader = (function() {
     'builders/equipmentBuilders/equipment-builder.js',
     'core/messenger.js',
 
+    'data/stage.js',
+    'data/selection-stage.js',
+
     'data/ability.js',
     'data/arcanum.js',
     'data/archetype.js',
+    'data/event.js',
     'data/condition-type.js',
     'data/gnosis.js',
     'data/power.js',

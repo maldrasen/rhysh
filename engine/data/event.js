@@ -3,7 +3,7 @@ const EventDictionary = {}
 global.Event = class Event {
 
   static register(event) {
-    GnosisDictionary[event.code] = event;
+    EventDictionary[event.code] = event;
   }
 
   static lookup(code) {
@@ -12,11 +12,33 @@ global.Event = class Event {
   }
 
   #code;
+  #attributeChecks;
+  #speakers;
+  #onFinish;
+  #stages;
 
-  constructor(code, data) {
+  constructor(code) {
     this.#code = code;
+    this.#stages = [];
   }
 
   get code() { return this.#code; }
+  get attributeChecks() { return this.#attributeChecks; }
+  get speakers() { return this.#speakers; }
+  get onFinish() { return this.#onFinish; }
+  get stages() { return this.#stages; }
 
+  setAttributeChecks(checks) { this.#attributeChecks = checks; }
+  setSpeakers(speakers) { this.#speakers = speakers; }
+  setOnFinish(onFinish) { this.#onFinish = onFinish; }
+
+  addStage(stageData={}) {
+    let stage = new Stage(stageData);
+    this.#stages.push(stage);
+    return stage;
+  }
+
+  addSelectionStage(stageData) {
+    this.#stages.push(new SelectionStage(stageData));
+  }
 }

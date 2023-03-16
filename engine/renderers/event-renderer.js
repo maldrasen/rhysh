@@ -99,11 +99,14 @@ global.EventRenderer = class EventRenderer {
     }
   }
 
-  // Determine what kind of stage to render.
+  // Determine what kind of stage to render. Right now it's just the
+  // selectionStage and the normal Stage. We'll probably have other types
+  // eventually. Perhaps a stage that's just a raw view of some sort that
+  // takes over the event view but then returns to the event when complete?
   renderStage(stage) {
-    if (stage.showView) { return stage.showView; }
-    if (stage.selectionStage) { return this.renderSelectionStage(stage); }
-    return this.renderNormalStage(stage);
+    if (stage.type == _selectionStage) { return this.renderSelectionStage(stage); }
+    if (stage.type == _normalStage) { return this.renderNormalStage(stage); }
+    throw `TODO: Implement this stage type: ${stage.type}`;
   }
 
   // Stage object may have
@@ -169,9 +172,8 @@ global.EventRenderer = class EventRenderer {
   // shown. Selections can also have effect badges, letting the player know
   // what kind of concequences a choice might have.
   //
-  //    selectionHeader: text,
-  //    selectionStage: true,
-  //    selectionKey: 'approach',
+  //    key: 'approach',
+  //    header: text,
   //    selections:[
   //      { text:'Befriend {{his}}', value:'befriend' },
   //      { text:'Torment {{him}}',  value:'torment',  effects:['player sadist 1']},
@@ -192,8 +194,8 @@ global.EventRenderer = class EventRenderer {
     });
 
     return {
-      selectionStage: stage.selectionKey,
-      selectionHeader: Weaver.weave(stage.selectionHeader, this.#context),
+      selectionStage: stage.key,
+      selectionHeader: Weaver.weave(stage.header, this.#context),
       selections: selections,
     };
   }
