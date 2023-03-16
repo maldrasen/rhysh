@@ -35,22 +35,22 @@ global.CharacterBuilder = (function() {
     let archetype = character.getArchetype();
     let species = character.getSpecies();
 
-    [...(archetype.arcanum||[]), ...(species.arcanum||[])].forEach(code => {
-      character.addArcanum(new Arcanum(code));
+    [...(archetype.arcanumList), ...(species.arcanumList)].forEach(code => {
+      character.addArcanum(new ArcanumLevel(code));
     });
 
-    [...(archetype.gnosis||[]), ...(species.gnosis||[])].forEach(code => {
-      character.addGnosis(new Gnosis(code));
+    [...(archetype.gnosisList), ...(species.gnosisList)].forEach(code => {
+      character.addGnosis(new GnosisLevel(code));
     });
 
-    [...(archetype.powers||[]), ...(species.powers||[])].forEach(code => {
-      character.addPower(new Power(code));
+    [...(archetype.powerList), ...(species.powerList)].forEach(code => {
+      character.addPower(new PowerLevel(code));
     });
   }
 
   function addSkills(character) {
     SkillDictionary.allCodes().forEach(code => {
-      let skill = new Skill(code);
+      let skill = new SkillLevel(code);
           skill.setLevel(character.getArchetype().startingSkills[code]||0);
 
       character.addSkill(skill);

@@ -257,19 +257,19 @@ global.Character = class Character {
     character.#speciesCode = data.speciesCode;
 
     ObjectHelper.each(data.arcanumMap, (code, arcanumData) => {
-      character.addArcanum(Arcanum.unpack(arcanumData));
+      character.addArcanum(ArcanumLevel.unpack(arcanumData));
     });
 
     ObjectHelper.each(data.gnosisMap, (code, gnosisData) => {
-      character.addGnosis(Gnosis.unpack(gnosisData));
+      character.addGnosis(GnosisLevel.unpack(gnosisData));
     });
 
     ObjectHelper.each(data.powerMap, (code, powerData) => {
-      character.addPower(Power.unpack(powerData));
+      character.addPower(PowerLevel.unpack(powerData));
     });
 
     ObjectHelper.each(data.skillMap, (code, skillData) => {
-      character.addSkill(Skill.unpack(skillData));
+      character.addSkill(SkillLevel.unpack(skillData));
     });
 
     return character;

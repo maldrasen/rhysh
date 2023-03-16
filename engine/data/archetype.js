@@ -54,6 +54,11 @@ global.Archetype = class Archetype {
   get hitDice() { return this.#hitDice; }
   get armorType() { return this.#armorType; }
   get weaponType() { return this.#weaponType; }
+
+  get arcanumList() { return this.#arcanumList; }
+  get gnosisList() { return this.#gnosisList; }
+  get powerList() { return this.#powerList; }
+
   get startingEquipment() { return this.#startingEquipment; }
   get startingSkills() { return this.#startingSkills; }
 

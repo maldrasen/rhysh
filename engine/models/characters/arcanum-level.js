@@ -1,4 +1,4 @@
-global.Gnosis = class Gnosis {
+global.ArcanumLevel = class ArcanumLevel {
 
   #code;
   #level;
@@ -14,8 +14,7 @@ global.Gnosis = class Gnosis {
   getLevel() { return this.#level; }
   getExperience() { return this.#experience; }
 
-  // TODO: Gnosis will gain experience when abilities within the gnosis are
-  //       used.
+  // TODO: Arcanum will gain experience when spells from that arcanum are cast
   addExperience() {}
 
   // === Persistance ===========================================================
@@ -29,11 +28,11 @@ global.Gnosis = class Gnosis {
   }
 
   static unpack(data) {
-    let gnosis = new Gnosis(data.code);
-        gnosis.#level = data.level;
-        gnosis.#experience = data.experience;
+    let ability = new ArcanumLevel(data.code);
+        ability.#level = data.level;
+        ability.#experience = data.experience;
 
-    return gnosis;
+    return ability;
   }
 
 }

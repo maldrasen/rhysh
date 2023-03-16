@@ -84,12 +84,12 @@
       import('./views/townView/town-view.js'),
 
       // Data
-      import('../data/characters/archetypes/chosen.js'),
-      import('../data/characters/archetypes/cultist.js'),
-      import('../data/characters/archetypes/dominatrix.js'),
-      import('../data/characters/archetypes/knight.js'),
-      import('../data/characters/archetypes/mindbender.js'),
-      import('../data/characters/archetypes/slaver.js'),
+      import('../engine/data/archetypes/chosen.js'),
+      import('../engine/data/archetypes/cultist.js'),
+      import('../engine/data/archetypes/dominatrix.js'),
+      import('../engine/data/archetypes/knight.js'),
+      import('../engine/data/archetypes/mindbender.js'),
+      import('../engine/data/archetypes/slaver.js'),
 
       import('../engine/data/species/dragonkind.js'),
       import('../engine/data/species/elf.js'),

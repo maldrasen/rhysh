@@ -1,4 +1,4 @@
-global.Skill = class Skill {
+global.SkillLevel = class SkillLevel {
 
   #code;
   #level;
@@ -35,7 +35,7 @@ global.Skill = class Skill {
   }
 
   static unpack(data) {
-    let skill = new Skill(data.code);
+    let skill = new SkillLevel(data.code);
         skill.#level = data.level;
         skill.#experience = data.experience;
 

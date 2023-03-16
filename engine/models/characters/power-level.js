@@ -1,4 +1,4 @@
-global.Power = class Power {
+global.PowerLevel = class PowerLevel {
 
   #code;
   #level;
@@ -34,7 +34,7 @@ global.Power = class Power {
   }
 
   static unpack(data) {
-    let power = new Power(data.code);
+    let power = new PowerLevel(data.code);
         power.#level = data.level;
         power.#experience = data.experience;
 
