@@ -42,7 +42,7 @@ Monster.Goblin = class Goblin extends Monster {
 
     this.setRandomArmor(GoblinArmorMap);
     this.setRandomWeapon(GoblinWeaponMap);
-    this.addAbility({ code:'bad-idea', damage:{ d:8, p:4 }});
+    this.addAbility('bad-idea');
     this.makeLewd();
   }
 }

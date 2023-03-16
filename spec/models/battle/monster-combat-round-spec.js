@@ -24,7 +24,7 @@ describe('MonsterCombatRound', function() {
     expect(results.getStory()).to.not.be.null;
   });
 
-  it.only("uses an attack", function() {
+  it("uses an attack", function() {
     SpecHelper.randomMainCharacter({ archetype:'chosen' });
 
     let gobbo = new Monster.Goblin();
