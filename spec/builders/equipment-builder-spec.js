@@ -69,7 +69,7 @@ describe('EquipmentBuilder', function() {
 
   it("builds a one hand weapon", function() {
     let weapon = EquipmentBuilder.build({ rarity:'normal', type:'weapon', hands:'1' });
-    expect(WeaponDictionary.lookup(weapon.getBase()).hands).to.equal('1');
+    expect(WeaponType.lookup(weapon.getBase()).hands).to.equal('1');
   });
 
 });

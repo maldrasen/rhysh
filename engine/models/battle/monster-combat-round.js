@@ -85,11 +85,11 @@ global.MonsterCombatRound = class MonsterCombatRound {
     let offHand
 
     if (offCode) {
-      try { offHand = WeaponDictionary.lookup(); } catch(error) {}
+      try { offHand = WeaponType.lookup(); } catch(error) {}
     }
 
     return {
-      main: (mainCode ? WeaponDictionary.lookup(mainCode) : null),
+      main: (mainCode ? WeaponType.lookup(mainCode) : null),
       off: offHand
     };
   }

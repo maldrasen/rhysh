@@ -48,7 +48,7 @@ global.CombatResult = class CombatResult {
   }
 
   setWeaponCode(code) {
-    WeaponDictionary.lookup(code);
+    WeaponType.lookup(code);
     this.#weaponCode = code;
   }
 

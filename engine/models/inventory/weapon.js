@@ -7,12 +7,12 @@ global.Weapon = class Weapon {
 
   constructor(base) {
     this.#base = base;
-    this.#name = WeaponDictionary.lookup(base).name;
+    this.#name = WeaponType.lookup(base).name;
   }
 
   isWeapon() { return true; }
   getBase() { return this.#base; }
-  getWeaponBase() { return WeaponDictionary.lookup(this.#base); }
+  getWeaponBase() { return WeaponType.lookup(this.#base); }
   getDamage() { return this.getWeaponBase().damage; }
   getHands() { return this.getWeaponBase().hands; }
   getModes() { return this.getWeaponBase().modes; }

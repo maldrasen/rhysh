@@ -7,7 +7,7 @@ EquipmentBuilder.WeaponBuilder = (function() {
   }
 
   function pickBase(options) {
-    return Random.from(ObjectHelper.values(WeaponDictionary.findAll(options))).code;
+    return Random.from(ObjectHelper.values(WeaponType.findAll(options))).code;
   }
 
   return { build };

@@ -78,7 +78,7 @@ global.MonsterAI = (function() {
 
   function canAttackWithWeapon(currentRange) {
     let mainHand = $monster.getMainHandCode();
-    return mainHand ? abilityInRange(WeaponDictionary.lookup(mainHand).range) : false;
+    return mainHand ? abilityInRange(WeaponType.lookup(mainHand).range) : false;
   }
 
   function abilityInRange(abilityRange) {

@@ -1,4 +1,4 @@
-describe.only('BattleRenderer', function() {
+describe('BattleRenderer', function() {
 
   it(`Doesn't blow up.`, function() {
     SpecHelper.randomMainCharacter({ archetype:'knight' });
