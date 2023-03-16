@@ -38,7 +38,7 @@ global.SpecHelper = {
     }
 
     let archetypeCode = (options.archetype) ? options.archetype : Random.from(archetypeList);
-    let archetype = ArchetypeDictionary.lookup(archetypeCode);
+    let archetype = Archetype.lookup(archetypeCode);
     let speciesCode = (options.species) ? options.species : Random.from(archetype.availableSpecies);
     let species = Species.lookup(speciesCode);
     let sex = (options.sex) ? options.sex : Random.from(archetype.availableSexes);

@@ -31,14 +31,16 @@
 
       // Engine
       import('../engine/constants.js'),
-      import('../engine/dictionaries/archetype-dictionary.js'),
-      import('../engine/dictionaries/species-dictionary.js'),
+      import('../engine/data/species.js'),
+      import('../engine/data/archetype.js'),
+      import('../engine/models/dungeon/vector.js'),
+
+      // Helpers
       import('../engine/helpers/array-helper.js'),
       import('../engine/helpers/object-helper.js'),
       import('../engine/helpers/random-helper.js'),
       import('../engine/helpers/rhysh-helper.js'),
       import('../engine/helpers/text-helper.js'),
-      import('../engine/models/dungeon/vector.js'),
 
       // Components
       import('./components/attribute-control.js'),
@@ -89,7 +91,6 @@
       import('../data/characters/archetypes/mindbender.js'),
       import('../data/characters/archetypes/slaver.js'),
 
-      import('../engine/data/species.js'),
       import('../engine/data/species/dragonkind.js'),
       import('../engine/data/species/elf.js'),
       import('../engine/data/species/lupin.js'),

@@ -31,6 +31,7 @@ global.Loader = (function() {
     'builders/equipmentBuilders/equipment-builder.js',
     'core/messenger.js',
 
+    'data/archetype.js',
     'data/species.js',
 
     'models/character.js',

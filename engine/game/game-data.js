@@ -132,7 +132,7 @@ global.GameData = (function() {
         worldIndex: state.worldIndex,
         firstName: state.playerState.firstName,
         lastName: state.playerState.lastName,
-        archetype: ArchetypeDictionary.lookup(state.playerState.archetypeCode).name,
+        archetype: Archetype.lookup(state.playerState.archetypeCode).name,
         species: Species.lookup(state.playerState.speciesCode).name,
         sex: state.playerState.sex,
         level: state.playerState.level,

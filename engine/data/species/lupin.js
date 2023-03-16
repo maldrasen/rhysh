@@ -1,5 +1,6 @@
 
 const lupin = new Species({
+  code: 'lupin',
   name: 'Lupin',
   baseAttributes: { str:14, dex:14, con:16, int:12, wis:10, cha:10 },
   baseArmorClass: 12,
@@ -12,4 +13,4 @@ lupin.addGnosis('strife');
 lupin.addGnosis('claw');
 lupin.addPower('regeneration');
 
-Species.register('lupin',lupin)
+Species.register(lupin);

@@ -2,9 +2,8 @@ const SpeciesDictionary = {}
 
 global.Species = class Species {
 
-  static register(code, species) {
-    species.setCode(code);
-    SpeciesDictionary[code] = species;
+  static register(species) {
+    SpeciesDictionary[species.code] = species;
   }
 
   static lookup(code) {
@@ -23,6 +22,7 @@ global.Species = class Species {
   #powerList;
 
   constructor(options) {
+    this.#code = options.code;
     this.#name = options.name;
     this.#baseAttributes = options.baseAttributes;
     this.#baseArmorClass = options.baseArmorClass;
@@ -45,20 +45,16 @@ global.Species = class Species {
   get gnosisList() { return this.#gnosisList; }
   get powerList() { return this.#powerList; }
 
-  setCode(code) {
-    if (this.#code == null) {
-      this.#code = code;
-    }
-  }
-
   addArcanum(code) {
     // ArcanumBase.lookup(code);
     this.#arcanumList.push(code);
   }
+
   addGnosis(code) {
     // GnosisBase.lookup(code);
     this.#gnosisList.push(code);
   }
+
   addPower(code) {
     // PowerBase.lookup(code);
     this.#powerList.push(code);

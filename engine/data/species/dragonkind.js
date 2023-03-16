@@ -1,5 +1,6 @@
 
 const dragonkind = new Species({
+  code: 'dragonkind',
   name: 'Dragonkind',
   baseAttributes: { str:14, dex:14, con:12, int:14, wis:12, cha:12 },
   baseArmorClass: 14,
@@ -11,5 +12,4 @@ dragonkind.addArcanum('flame');
 dragonkind.addGnosis('scales');
 dragonkind.addPower('fire-breath');
 
-Species.register('dragonkind',dragonkind)
-
+Species.register(dragonkind);
