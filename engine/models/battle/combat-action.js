@@ -30,16 +30,15 @@ global.CombatAction = class CombatAction {
   getTargetRank() { return this.#targetRank; }
   getTargetIdentifier() { return this.#targetIdentifier; }
 
-  isSingleTarget() { return [_monster,_character].indexOf(this.#targetType) >= 0; }
-  targetsCharacters() { return [_party,_character,_everyone].indexOf(this.#targetType) >= 0; }
-  targetsMonsters() { return [_monster,_rank,_allMonsters,_everyone].indexOf(this.#targetType) >= 0; }
-
   getTarget() {
     if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
     if (this.#targetIdentifier == 'Main') { return CharacterLibrary.getMainCharacter(); }
-    // if (this.#targetType == ) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
-    // if (this.#targetType == )   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
-    throw `TODO: Lookup ${this.#targetIdentifier}`;
+
+    if (this.#targetIdentifier.match(/M\d+/)) {
+      return GameState.getCurrentBattle().getMonster(this.#targetIdentifier);
+    }
+
+    return CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
   }
 
   setTargetType(type) {

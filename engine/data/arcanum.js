@@ -11,13 +11,13 @@ global.Arcanum = class Arcanum {
     return ArcanumDictionary[code];
   }
 
+  #code;
+  #name;
+
   constructor(options) {
     this.#code = options.code;
     this.#name = options.name;
   }
-
-  #code;
-  #name;
 
   get code() { return this.#code; }
   get name() { return this.#name; }

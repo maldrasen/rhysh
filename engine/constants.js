@@ -95,6 +95,12 @@ global.AccessorySlots = [
 
 // === Battle, Actions & Abilities =============================================
 
+global._monsterInitiative = 'monsterInitiative';
+global._characterInitiative = 'characterInitiative';
+
+global._monsterActor = 'monsterActor';
+global._characterActor = 'characterActor';
+
 global._attack = 'attack';
 global._ability = 'ability';
 global._nothing = 'nothing';

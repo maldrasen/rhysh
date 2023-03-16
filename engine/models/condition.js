@@ -74,7 +74,7 @@ global.Condition = class Condition {
   hasCondition(code) { return this.#condition == code; }
 
   setCondition(code) {
-    ConditionDictionary.lookup(code);
+    ConditionType.lookup(code);
     this.#condition = code;
   }
 

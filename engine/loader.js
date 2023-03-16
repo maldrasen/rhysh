@@ -34,6 +34,7 @@ global.Loader = (function() {
     'data/ability.js',
     'data/arcanum.js',
     'data/archetype.js',
+    'data/condition-type.js',
     'data/gnosis.js',
     'data/power.js',
     'data/species.js',

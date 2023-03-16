@@ -35,8 +35,8 @@ global.BattleRenderer = (function() {
         segments: []
       };
 
-      if (rendered.actorType == _character) { rendered.characterCode = combatRound.getActor().getCode(); }
-      if (rendered.actorType == _monster) { rendered.monsterID = combatRound.getActor().getID(); }
+      if (rendered.actorType == _characterActor) { rendered.characterCode = combatRound.getActor().getCode(); }
+      if (rendered.actorType == _monsterActor) { rendered.monsterID = combatRound.getActor().getID(); }
 
       rendered.segments.push(renderAttemptSegment(combatResult, context));
 
@@ -66,7 +66,7 @@ global.BattleRenderer = (function() {
 
   function printRenderedEvents(rendered) {
     if (Environment.verbose) {
-      let id = rendered.actorType == _monster ? rendered.monsterID : rendered.characterCode
+      let id = rendered.actorType == _monsterActor ? rendered.monsterID : rendered.characterCode
 
       console.log(`\nEvent[${rendered.actorType}:${id}]`);
       rendered.segments.forEach(segment => {

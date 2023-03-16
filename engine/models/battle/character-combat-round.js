@@ -22,7 +22,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
   }
 
   getActor() { return this.#character; }
-  getActorType() { return _character; }
+  getActorType() { return _characterActor; }
 
   getCombatResults() { return this.#combatResults; }
   getTriggers() { return this.#triggers; }
@@ -106,7 +106,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
     let monsters = battleState.getRank(this.#action.getTargetRank()).monsters;
     let monsterID = Random.from(monsters).getID();
 
-    this.#action.setTargetType(_monster);
+    this.#action.setTargetType(_single);
     this.#action.setTargetRank(null);
     this.#action.setTargetIdentifier(monsterID);
   }

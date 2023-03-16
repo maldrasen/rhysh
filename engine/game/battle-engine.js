@@ -23,7 +23,7 @@ global.BattleEngine = class BattleEngine {
       this.rollForInitiative();
       this.forInitiativeOrder((segment, initiative) => {
 
-        if (initiative.type == _monster) {
+        if (initiative.type == _monsterInitiative) {
           let monster = state.getMonster(initiative.id);
           let action = monster.chooseCombatAction();
 
@@ -33,7 +33,7 @@ global.BattleEngine = class BattleEngine {
           this.#battleEvents.push(round);
         }
 
-        if (initiative.type == _character) {
+        if (initiative.type == _characterInitiative) {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
 
@@ -80,12 +80,12 @@ global.BattleEngine = class BattleEngine {
 
     ObjectHelper.each(CharacterLibrary.getParty(), (position, character) => {
       if (character) {
-        add('character',character.getCode(),character.rollForInitiative());
+        add(_characterInitiative,character.getCode(),character.rollForInitiative());
       }
     });
 
     ObjectHelper.each(GameState.getCurrentBattle().getMonsters(), (id, monster) => {
-      add('monster',id,monster.rollForInitiative());
+      add(_monsterInitiative,id,monster.rollForInitiative());
     });
   }
 

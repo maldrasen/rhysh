@@ -93,7 +93,7 @@ global.Ability = class Ability {
 
   // Validate both the condition and the condition target (on value).
   validateSetCondition() {
-    ConditionDictionary.lookup(this.setCondition.condition);
+    ConditionType.lookup(this.setCondition.condition);
     Validate.isIn('setCondition.on',this.setCondition.on, [_self,_single]);
     Validate.isIn('setCondition.when',this.setCondition.when, [_always,_success,_failure]);
   }

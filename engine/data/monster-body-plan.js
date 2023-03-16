@@ -1,4 +1,3 @@
-
 global.MonsterBodyPlans = {};
 
 global.MonsterBodyPlan = class MonsterBodyPlan {
