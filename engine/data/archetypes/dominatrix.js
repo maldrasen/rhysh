@@ -1,6 +1,5 @@
 
-const dominatrix = new Archetype({
-  code: 'dominatrix',
+const dominatrix = new Archetype('dominatrix',{
   name: 'Dominatrix',
   availableSexes: ['female','futa'],
   availableSpecies: ['elf','nymph','orc','dragonkind','lupin','satyr'],

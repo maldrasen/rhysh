@@ -1,6 +1,5 @@
 
-const delight = new Arcanum({
-  code: 'delight',
+const delight = new Arcanum('delight',{
   name: 'Arcanum (OF) Delight',
 });
 

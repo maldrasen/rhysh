@@ -14,8 +14,8 @@ global.Arcanum = class Arcanum {
   #code;
   #name;
 
-  constructor(options) {
-    this.#code = options.code;
+  constructor(code, options) {
+    this.#code = code;
     this.#name = options.name;
   }
 

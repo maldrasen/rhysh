@@ -1,6 +1,5 @@
 
-const dreams = new Arcanum({
-  code: 'dreams',
+const dreams = new Arcanum('dreams',{
   name: 'Arcanum (OF) Dreams',
 });
 

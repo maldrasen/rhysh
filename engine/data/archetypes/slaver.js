@@ -1,6 +1,5 @@
 
-const slaver = new Archetype({
-  code: 'slaver',
+const slaver = new Archetype('slaver',{
   name: 'Slaver',
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','orc','lupin','satyr'],

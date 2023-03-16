@@ -1,6 +1,5 @@
 
-const nymph = new Species({
-  code: 'nymph',
+const nymph = new Species('nymph',{
   name: 'Nymph',
   baseAttributes: { str:8, dex:10, con:8, int:14, wis:12, cha:16 },
   baseArmorClass: 10,

@@ -1,6 +1,5 @@
 
-const dragonkind = new Species({
-  code: 'dragonkind',
+const dragonkind = new Species('dragonkind',{
   name: 'Dragonkind',
   baseAttributes: { str:14, dex:14, con:12, int:14, wis:12, cha:12 },
   baseArmorClass: 14,

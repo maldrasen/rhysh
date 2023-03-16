@@ -1,6 +1,5 @@
 
-const chosen = new Archetype({
-  code: 'chosen',
+const chosen = new Archetype('chosen',{
   name: 'Chosen',
   availableSexes: ['male','futa'],
   availableSpecies: ['elf','orc','minotaur','dragonkind','lupin','satyr'],

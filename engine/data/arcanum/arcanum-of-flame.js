@@ -1,6 +1,5 @@
 
-const flame = new Arcanum({
-  code: 'flame',
+const flame = new Arcanum('flame',{
   name: 'Arcanum (OF) Flame',
 });
 

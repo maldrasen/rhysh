@@ -1,6 +1,5 @@
 
-const domination = new Arcanum({
-  code: 'domination',
+const domination = new Arcanum('domination',{
   name: 'Arcanum (OF) Domination',
 });
 

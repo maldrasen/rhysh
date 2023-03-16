@@ -1,6 +1,5 @@
 
-const elf = new Species({
-  code: 'elf',
+const elf = new Species('elf',{
   name: 'Elf',
   baseAttributes: { str:12, dex:14, con:10, int:12, wis:10, cha:10 },
   baseArmorClass: 10,

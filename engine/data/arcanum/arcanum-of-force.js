@@ -1,6 +1,5 @@
 
-const force = new Arcanum({
-  code: 'force',
+const force = new Arcanum('force',{
   name: 'Arcanum (OF) Force',
 });
 

@@ -1,6 +1,5 @@
 
-const knight = new Archetype({
-  code: 'knight',
+const knight = new Archetype('knight',{
   name: 'Black Knight',
   availableSexes: ['male'],
   availableSpecies: ['elf','orc','minotaur'],

@@ -1,6 +1,5 @@
 
-const subjugation = new Gnosis({
-  code: 'subjugation',
+const subjugation = new Gnosis('subjugation',{
   name: 'Gnosis (OF) Subjugation',
 });
 

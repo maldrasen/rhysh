@@ -1,6 +1,5 @@
 
-const carnage = new Gnosis({
-  code: 'carnage',
+const carnage = new Gnosis('carnage',{
   name: 'Gnosis (OF) Carnage',
 });
 

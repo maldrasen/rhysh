@@ -1,6 +1,5 @@
 
-const claws = new Gnosis({
-  code: 'claws',
+const claws = new Gnosis('claws',{
   name: 'Gnosis (OF) Rending Claws',
 });
 

@@ -1,6 +1,5 @@
 
-const cultist = new Archetype({
-  code: 'cultist',
+const cultist = new Archetype('cultist',{
   name: 'Cultist',
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','nymph','dragonkind','satyr'],

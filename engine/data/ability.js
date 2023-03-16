@@ -28,10 +28,10 @@ global.Ability = class Ability {
   #stories;
   #storyTeller;
 
-  constructor(options) {
+  constructor(code, options) {
     if (options.range == null && this.shouldHaveRangeSet(options.type)) { options.range = _close; }
 
-    this.#code = options.code;
+    this.#code = code;
     this.#type = options.type;
     this.#name = options.name;
 
@@ -110,9 +110,9 @@ global.Ability = class Ability {
     let packed = {
       code: this.#code,
       type: this.#type,
-      name: this.#name,
     };
 
+    if (this.#name) { packed.name = this.#name; }
     if (this.#range) { packed.range = this.#range; }
     if (this.#targetType) { packed.targetType = this.#targetType; }
     if (this.#targetSlot) { packed.targetSlot = this.#targetSlot; }

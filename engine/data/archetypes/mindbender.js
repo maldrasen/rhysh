@@ -1,6 +1,5 @@
 
-const mindbender = new Archetype({
-  code: 'mindbender',
+const mindbender = new Archetype('mindbender',{
   name: 'Mindbender',
   availableSexes: ['male','female','futa'],
   availableSpecies: ['elf','nymph','dragonkind','satyr'],

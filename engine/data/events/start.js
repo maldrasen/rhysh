@@ -1,4 +1,10 @@
-EventDictionary.register('game.start',{
+
+let start = new Event('game.start', {
+});
+
+/*
+
+Event.register(,{
 
   attributeChecks:{
     lookSexy:{ attribute:'cha', target:14 },
@@ -207,3 +213,4 @@ EventDictionary.register('game.start',{
   },
 
 });
+*/

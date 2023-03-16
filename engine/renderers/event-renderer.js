@@ -1,19 +1,17 @@
 global.EventRenderer = class EventRenderer {
 
-  #code
+  #event
   #state
-  #template
   #context
   #scrutinizer
 
-  constructor(event) {
-    this.#code = event.getCode();
-    this.#state = event.getState();
-    this.#template = EventDictionary.lookup(this.#code);
+  constructor(eventState) {
+    this.#event = Event.lookup(eventState.getCode());
+    this.#state = eventState.getState();
   }
 
   createContext() {
-    this.#context = Context.forEvent(this.#template, this.#state);
+    this.#context = Context.forEvent(this.#event, this.#state);
 
     this.#scrutinizer = new Scrutinizer();
     this.#scrutinizer.setContext(this.#context);
@@ -29,7 +27,7 @@ global.EventRenderer = class EventRenderer {
   //     }
   //   }
   runAttributeChecks() {
-    ObjectHelper.each((this.#template.attributeChecks || {}), (code,check) => {
+    ObjectHelper.each((this.#event.attributeChecks || {}), (code,check) => {
       let actor = check.who ? this.lookupActor(check.who) : CharacterLibrary.getMainCharacter();
       let roll = Random.rollDice({ d:20 });
       let bonus = actor.getAttributes().getModifier(check.attribute);
@@ -49,7 +47,7 @@ global.EventRenderer = class EventRenderer {
     });
   }
 
-  // Event event template may have
+  // Events may have
   //   repeat: null, true, or requirement value
   //   requires: string or array of requirements
   //   actors: { X:query }
@@ -66,7 +64,7 @@ global.EventRenderer = class EventRenderer {
       this.createContext();
       this.runAttributeChecks();
 
-      const stages = ArrayHelper.compact(this.#template.stages.map(stage => {
+      const stages = ArrayHelper.compact(this.#event.stages.map(stage => {
         if (this.#scrutinizer.meetsRequirements(stage.requires) && this.attributeChecksPassed(stage)) {
           return this.renderStage(stage);
         }
@@ -81,8 +79,8 @@ global.EventRenderer = class EventRenderer {
         }
       };
 
-      if (this.#template.background) { rendered.background = this.#template.background; }
-      if (this.#template.filter) { rendered.filter = this.#template.filter; }
+      if (this.#event.background) { rendered.background = this.#event.background; }
+      if (this.#event.filter) { rendered.filter = this.#event.filter; }
 
       // An event can have both actors and speakers. Actors have actual
       // character objects that we reference for the names and portraits
@@ -91,12 +89,12 @@ global.EventRenderer = class EventRenderer {
       // TODO: When we build the speakers object in the rendered view we need
       //       to add a speaker object { portrait:image, label:name } for each
       //       actor in case we need to render a page with them speaking.
-      if (this.#template.speakers) { rendered.speakers = this.#template.speakers; }
+      if (this.#event.speakers) { rendered.speakers = this.#event.speakers; }
 
       return rendered
     }
     catch(error) {
-      console.error(`Error while rendering event`,this.#code);
+      console.error(`Error while rendering event`,this.#event.code);
       throw error;
     }
   }

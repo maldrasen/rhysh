@@ -14,8 +14,8 @@ global.ConditionType = class Condition {
   #code;
   #type;
 
-  constructor(options) {
-    this.#code = options.code;
+  constructor(code, options) {
+    this.#code = code;
     this.#type = options.type;
   }
 
@@ -23,39 +23,13 @@ global.ConditionType = class Condition {
   get type() { return this.#type; }
 }
 
-ConditionType.register(new ConditionType({
-  code:_normal
-}));
+ConditionType.register(new ConditionType(_normal,  {}));
+ConditionType.register(new ConditionType(_fainted, {}));
+ConditionType.register(new ConditionType(_dead,    {}));
 
-ConditionType.register(new ConditionType({
-  code:_fainted
-}));
+ConditionType.register(new ConditionType(_prone,   { type:'stun' }));
+ConditionType.register(new ConditionType(_stunned, { type:'stun' }));
 
-ConditionType.register(new ConditionType({
-  code:_dead
-}));
-
-ConditionType.register(new ConditionType({
-  code:_prone,
-  type:'stun',
-}));
-
-ConditionType.register(new ConditionType({
-  code:_stunned,
-  type:'stun',
-}));
-
-ConditionType.register(new ConditionType({
-  code: _holdingArms,
-  type: 'hold',
-}));
-
-ConditionType.register(new ConditionType({
-  code: _holdingBody,
-  type: 'hold',
-}));
-
-ConditionType.register(new ConditionType({
-  code: _holdingLegs,
-  type: 'hold',
-}));
+ConditionType.register(new ConditionType(_holdingArms, { type:'hold' }));
+ConditionType.register(new ConditionType(_holdingBody, { type:'hold' }));
+ConditionType.register(new ConditionType(_holdingLegs, { type: 'hold' }));

@@ -1,6 +1,5 @@
 
-const hooves = new Gnosis({
-  code: 'hooves',
+const hooves = new Gnosis('hooves',{
   name: 'Gnosis (OF) Thunderous Hooves',
 });
 

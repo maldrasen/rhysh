@@ -1,6 +1,5 @@
 
-const suffering = new Arcanum({
-  code: 'suffering',
+const suffering = new Arcanum('suffering',{
   name: 'Arcanum (OF) Suffering',
 });
 

@@ -83,8 +83,8 @@ global.WeaponType = class WeaponType {
   #range;
   #attribute;
 
-  constructor(options) {
-    this.#code = options.code;
+  constructor(code, options) {
+    this.#code = code;
     this.#name = options.name;
     this.#damage = options.damage;
     this.#hands = options.hands;
@@ -117,15 +117,15 @@ global.WeaponType = class WeaponType {
 }
 
 ObjectHelper.each(CloseRangeWeapons, (code, data) => {
-  WeaponType.register(new WeaponType({ code:code, ...data, range:_close }));
+  WeaponType.register(new WeaponType(code, { ...data, range:_close }));
 });
 
 ObjectHelper.each(ExtendedRangeWeapons, (code, data) => {
-  WeaponType.register(new WeaponType({ code:code, ...data, range:_extended }));
+  WeaponType.register(new WeaponType(code, { ...data, range:_extended }));
 });
 
 ObjectHelper.each(LongRangeWeapons, (code, data) => {
-  WeaponType.register(new WeaponType({ code:code, ...data, range:_long }));
+  WeaponType.register(new WeaponType(code, { ...data, range:_long }));
 });
 
 ['dagger','dirk','longbow','rapier','shortbow','shortsword'].forEach(code => {

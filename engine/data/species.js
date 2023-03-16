@@ -21,8 +21,8 @@ global.Species = class Species {
   #gnosisList;
   #powerList;
 
-  constructor(options) {
-    this.#code = options.code;
+  constructor(code, options) {
+    this.#code = code;
     this.#name = options.name;
     this.#baseAttributes = options.baseAttributes;
     this.#baseArmorClass = options.baseArmorClass;

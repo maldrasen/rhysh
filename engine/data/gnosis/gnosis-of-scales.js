@@ -1,6 +1,5 @@
 
-const scales = new Gnosis({
-  code: 'scales',
+const scales = new Gnosis('scales',{
   name: 'Gnosis (OF) Glimmering Scales',
 });
 

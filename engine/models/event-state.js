@@ -1,4 +1,4 @@
-global.Event = class Event {
+global.EventState = class EventState {
 
   #code;
   #state;
@@ -10,7 +10,7 @@ global.Event = class Event {
   // other hand I don't have any events like this, so I'm just guessing about
   // what I'll need given what the other version of this game had.
 
-  // State scan be null or an arbritrary data object. The state cannot hold
+  // States can be null or an arbritrary data object. The state cannot hold
   // instances of classes though as they wouldn't be properly serialized.
   constructor(code, state={}) {
     this.#code = code;
@@ -30,7 +30,7 @@ global.Event = class Event {
   }
 
   static unpack(data) {
-    return new Event(data.code, data.state);
+    return new EventState(data.code, data.state);
   }
 
 }

@@ -1,6 +1,5 @@
 
-const blasphemy = new Arcanum({
-  code: 'blasphemy',
+const blasphemy = new Arcanum('blasphemy',{
   name: 'Arcanum (OF) Blasphemy',
 });
 

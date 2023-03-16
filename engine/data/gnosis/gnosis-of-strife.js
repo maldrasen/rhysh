@@ -1,6 +1,5 @@
 
-const strife = new Gnosis({
-  code: 'strife',
+const strife = new Gnosis('strife',{
   name: 'Gnosis (OF) Strife',
 });
 

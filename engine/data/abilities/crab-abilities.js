@@ -1,8 +1,6 @@
 
-const cockClaw = new Ability({
+const cockClaw = new Ability('crab-cock-claw',{
   type: _attack,
-  code: 'crab-cock-claw',
-  name: 'Cock Claw',
   requires:['target.exposed-cock'],
   targetSlot: _legs,
   hitBonus: -2,
@@ -21,10 +19,8 @@ cockClaw.addStory(new Story({
 }));
 
 
-const titClaw = new Ability({
+const titClaw = new Ability('crab-tit-claw',{
   type: _attack,
-  code: 'crab-tit-claw',
-  name: 'Tit Claw',
   requires:['target.exposed-tits'],
   targetSlot: _chest,
   hitBonus: -2,
@@ -42,10 +38,8 @@ titClaw.addStory(new Story({
 }));
 
 
-const grabLegs = new Ability({
+const grabLegs = new Ability('crab-grab-legs',{
   type: _attack,
-  code: 'crab-grab-legs',
-  name: 'Leg Grab',
   targetSlot: _legs,
   hitBonus: -2,
   cooldown: 5,
@@ -58,10 +52,8 @@ grabLegs.addStory(new Story({
 }));
 
 
-const grabArms = new Ability({
+const grabArms = new Ability('crab-grab-arms',{
   type: _attack,
-  code: 'crab-grab-arms',
-  name: 'Arm Grab',
   targetSlot: _hands,
   hitBonus: -2,
   cooldown: 5,
@@ -74,10 +66,8 @@ grabArms.addStory(new Story({
 }));
 
 
-const legCrush = new Ability({
+const legCrush = new Ability('crab-leg-crush',{
   type: _hold,
-  code: 'crab-leg-crush',
-  name: 'Leg Crush',
   requires: ['monster.condition=holdingLegs'],
   damage:{ d:4, p:2 },
 });
@@ -86,10 +76,8 @@ legCrush.addStory(new Story({
 }));
 
 
-const armCrush = new Ability({
+const armCrush = new Ability('crab-arm-crush',{
   type: _hold,
-  code: 'crab-arm-crush',
-  name: 'Arm Crush',
   requires: ['monster.condition=holdingArms'],
   damage:{ d:4, p:2 },
 });
@@ -98,9 +86,8 @@ armCrush.addStory(new Story({
 }));
 
 
-const brutalize = new Ability({
+const brutalize = new Ability('crab-brutalize',{
   type: _coupDeGrace,
-  code: 'crab-brutalize',
   name: 'Brutalize',
   requires: ['target.status=bound-arms','target.status=bound-legs'],
   damage: { d:4, p:8 },

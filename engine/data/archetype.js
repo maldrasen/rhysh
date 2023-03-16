@@ -29,8 +29,8 @@ global.Archetype = class Archetype {
   #startingEquipment;
   #startingSkills;
 
-  constructor(options) {
-    this.#code = options.code;
+  constructor(code, options) {
+    this.#code = code;
     this.#name = options.name;
     this.#availableSexes = options.availableSexes;
     this.#availableSpecies = options.availableSpecies;

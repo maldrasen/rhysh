@@ -47,7 +47,7 @@ global.GameBuilder = (function() {
     Settings.setLastWorld(GameState.getWorldIndex());
     Settings.save();
 
-    GameState.setCurrentEvent(new Event("game.start"));
+    GameState.setCurrentEvent(new EventState("game.start"));
     GameState.setStageName("Dungeon");
     GameData.saveGame();
     GameRenderer.render();

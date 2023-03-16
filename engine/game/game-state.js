@@ -79,9 +79,9 @@ global.GameState = (function() {
 
   function endEvent(endState) {
     let code = $currentEvent.getCode();
-    let template = EventDictionary.lookup(code);
-    if (template.onFinish) {
-      template.onFinish(endState);
+    let event = Event.lookup(code);
+    if (event.onFinish) {
+      event.onFinish(endState);
     }
 
     // Not sure how this will actually be used yet, but I know some events
@@ -91,12 +91,12 @@ global.GameState = (function() {
     // some sort, something like { repeat:'flag.conditional-flag'} or anything
     // else that the scrutinizer could parse, baring in mind it has access to
     // the end event state as well.
-    let canRepeat = (template.repeat == true);
+    let canRepeat = (event.repeat == true);
 
-    if (typeof template.repeat == 'string') {
+    if (typeof event.repeat == 'string') {
       let scrutinizer = new Scrutinizer();
       scrutinizer.setState(endState);
-      canRepeat = scrutinizer.meetsRequirements(template.repeat);
+      canRepeat = scrutinizer.meetsRequirements(event.repeat);
     }
 
     // If an event can repeat we should keep track of the number of times it's

@@ -1,8 +1,6 @@
 
-const badIdea = new Ability({
+const badIdea = new Ability('bad-idea',{
   type: _attack,
-  code: 'bad-idea',
-  name: 'Bad Idea',
   damage:{ d:8, p:4 },
   setCondition: { on:_self, condition:_prone, when:_always },
   cooldown: 5,
