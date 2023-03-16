@@ -33,9 +33,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
   getTarget() { return this.#action.getTarget(); }
   getTargetType() { return this.#action.getTargetType(); }
   getTargetIdentifier() { return this.#action.getTargetIdentifier(); }
-
-  getAbilityCode() { return this.#action.getAbilityCode(); }
-  getAbilityTemplate() { return this.#action.getAbilityTemplate(); }
+  getAbility() { return this.#action.getAbility(); }
 
   addTrigger(trigger) {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }

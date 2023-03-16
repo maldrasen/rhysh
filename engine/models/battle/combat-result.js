@@ -32,8 +32,7 @@ global.CombatResult = class CombatResult {
 
   getActor() { return this.#combatRound.getActor(); }
   getTarget() { return this.#combatRound.getTarget(); }
-  getAbilityCode() { return this.#combatRound.getAbilityCode(); }
-  getAbilityTemplate() { return this.#combatRound.getAbilityTemplate(); }
+  getAbility() { return this.#combatRound.getAbility(); }
 
   getTargetSlot() { return this.#targetSlot; }
   setTargetSlot(slot) { this.#targetSlot = slot; }
@@ -136,36 +135,33 @@ global.CombatResult = class CombatResult {
   }
 
   updateCondition() {
-    let template = this.getAbilityTemplate();
+    let ability = this.getAbility();
 
-    if (template.setCondition && this.isValidWhen(template.setCondition.when)) {
-      this.addConditionChange({ on:template.setCondition.on, set:template.setCondition.condition });
+    if (ability.setCondition && this.isValidWhen(ability.setCondition.when)) {
+      this.addConditionChange({ on:ability.setCondition.on, set:ability.setCondition.condition });
 
-      if (template.setCondition.on == 'self') {
-        this.getActor().getCondition().setCondition(template.setCondition.condition);
+      if (ability.setCondition.on == _self) {
+        this.getActor().getCondition().setCondition(ability.setCondition.condition);
       }
-      if (template.setCondition.on == 'target') {
-        this.getTarget().getCondition().setCondition(template.setCondition.condition);
+      if (ability.setCondition.on == _single) {
+        this.getTarget().getCondition().setCondition(ability.setCondition.condition);
       }
     }
   }
 
   updateStatus() {
-    let template = this.getAbilityTemplate();
+    let ability = this.getAbility();
 
-    if (template.addStatus && this.isValidWhen(template.addStatus.when)) {
-      this.addStatusChange({ on:template.addStatus.on, add:template.addStatus.status });
+    if (ability.addStatus && this.isValidWhen(ability.addStatus.when)) {
+      this.addStatusChange({ on:ability.addStatus.on, add:ability.addStatus.status });
 
-      if (template.addStatus.on == 'self') {
-        this.getActor().getCondition().setStatus(template.addStatus.status, template.addStatus.duration);
+      if (ability.addStatus.on == _self) {
+        return this.getActor().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
       }
-      if (template.addStatus.on == 'target') {
-        this.getTarget().getCondition().setStatus(template.addStatus.status, template.addStatus.duration);
+      if (ability.addStatus.on == _single) {
+        return this.getTarget().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
       }
-      if (template.addStatus.on == 'all-ally') { throw `TODO: Implement all-ally target for status effects.`}
-      if (template.addStatus.on == 'all-enemy') { throw `TODO: Implement all-enemy target for status effects.` }
-      if (template.addStatus.on == 'ally') { throw `TODO: Implement random ally target for status effects.` }
-      if (template.addStatus.on == 'rank') { throw `TODO: Implement rank target for status effects.` }
+      throw `TODO: Handle ability.addStatus.on=${ability.addStatus.on}`
     }
   }
 
@@ -176,19 +172,15 @@ global.CombatResult = class CombatResult {
   }
 
   selectStory() {
-    let template = this.getAbilityTemplate();
+    let ability = this.getAbility();
 
-    if (template.story) {
-      this.#story = template.story; return;
-    }
-
-    if (template.storyTeller) {
+    if (ability.storyTeller) {
       throw `TODO: Implement Story Tellers.`;
     }
 
     let validStories = [];
 
-    template.stories.forEach(story => {
+    ability.stories.forEach(story => {
       if (this.#scrutinizer.meetsRequirements(story.when)) {
         if ((story.chance) ? (Random.roll(100) < story.chance) : true) {
           validStories.push(story);

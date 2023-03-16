@@ -127,12 +127,6 @@ global.Monster = class Monster {
     this.#abilities.push(ability);
   }
 
-  findAbility(code) {
-    for (let i=0; i<this.#abilities.length; i++) {
-      if (this.#abilities[i].code == code) { return this.#abilities[i]; }
-    }
-  }
-
   // This should be called every time an ability is used in order to set the
   // ability cooldown if the ability has a cooldown. This may do other things
   // as well.

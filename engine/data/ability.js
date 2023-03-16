@@ -106,4 +106,24 @@ global.Ability = class Ability {
     Validate.isIn('setStatus.on',this.addStatus.on, [_self,_single,_rank,_allMonsters,_allCharacters,_everyone]);
   }
 
+  pack() {
+    let packed = {
+      code: this.#code,
+      type: this.#type,
+      name: this.#name,
+    };
+
+    if (this.#range) { packed.range = this.#range; }
+    if (this.#targetType) { packed.targetType = this.#targetType; }
+    if (this.#targetSlot) { packed.targetSlot = this.#targetSlot; }
+    if (this.#hitBonus) { packed.hitBonus = this.#hitBonus; }
+    if (this.#damage) { packed.damage = this.#damage; }
+    if (this.#cooldown) { packed.cooldown = this.#cooldown; }
+    if (this.#requires) { packed.requires = this.#requires; }
+    if (this.#setCondition) { packed.setCondition = this.#setCondition; }
+    if (this.#addStatus) { packed.addStatus = this.#addStatus; }
+
+    return packed;
+  }
+
 }

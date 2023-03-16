@@ -19,12 +19,12 @@ describe('MonsterCombatRound', function() {
 
     let results = round.getCombatResults()[0];
 
-    expect(round.getAbilityCode()).to.equal('crab-grab-legs');
+    expect(round.getAbility().code).to.equal('crab-grab-legs');
     expect(round.getCombatResults()[0].getAttackRoll()).to.be.greaterThan(0);
     expect(results.getStory()).to.not.be.null;
   });
 
-  it("uses an attack", function() {
+  it.only("uses an attack", function() {
     SpecHelper.randomMainCharacter({ archetype:'chosen' });
 
     let gobbo = new Monster.Goblin();

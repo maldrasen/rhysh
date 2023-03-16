@@ -60,8 +60,7 @@ global.CombatAction = class CombatAction {
 
   // === Attacks & Abilities ===================================================
 
-  getAbilityCode() { return this.#abilityCode; }
-  getAbilityTemplate() { return Ability.lookup(this.#abilityCode); }
+  getAbility() { return Ability.lookup(this.#abilityCode); }
 
   setAbilityCode(code) {
     Ability.lookup(code);

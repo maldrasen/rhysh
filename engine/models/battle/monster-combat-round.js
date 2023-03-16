@@ -30,8 +30,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   getTarget() { return this.#action.getTarget(); }
   getTargetType() { return this.#action.getTargetType(); }
   getTargetIdentifier() { return this.#action.getTargetIdentifier(); }
-  getAbilityCode() { return this.#action.getAbilityCode(); }
-  getAbilityTemplate() { return this.#action.getAbilityTemplate(); }
+  getAbility() { return this.#action.getAbility(); }
 
   addTrigger(trigger) {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
@@ -97,18 +96,18 @@ global.MonsterCombatRound = class MonsterCombatRound {
 
   // TODO: Some abilities won't have a target.
   // TODO: Some abilities won't roll to hit.
-  // TODO: Handle different template type: attack, hold, coup-de-grace.
+  // TODO: Handle different ability types: attack, hold, coup-de-grace.
   doAbility() {
-    let ability = this.getAbilityCode();
-    let template = this.getAbilityTemplate();
-    let details = this.getActor().findAbility(ability);
+    let ability = this.getAbility();
+    let monster = this.getActor();
+    let hit = (ability.hitBonus || 0) + monster.getBaseHit();
 
-    this.getActor().useAbility(ability);
+    monster.useAbility(ability.code);
 
     let result = new CombatResult(this);
-    result.chooseTargetSlot(template.targetSlot);
-    result.rollAttack(details.hit);
-    result.rollDamage(details.damage);
+    result.chooseTargetSlot(ability.targetSlot);
+    result.rollAttack(hit);
+    result.rollDamage(ability.damage);
     result.updateCondition();
     result.updateStatus();
     result.selectStory();
