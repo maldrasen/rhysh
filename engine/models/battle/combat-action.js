@@ -36,18 +36,19 @@ global.CombatAction = class CombatAction {
 
   getTarget() {
     if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
-    if (this.#targetType == _character) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
-    if (this.#targetType == _monster)   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
-    throw `There is no target object when the target type is ${this.#targetType}`;
+    if (this.#targetIdentifier == 'Main') { return CharacterLibrary.getMainCharacter(); }
+    // if (this.#targetType == ) { return CharacterLibrary.getCachedCharacter(this.#targetIdentifier); }
+    // if (this.#targetType == )   { return GameState.getCurrentBattle().getMonster(this.#targetIdentifier); }
+    throw `TODO: Lookup ${this.#targetIdentifier}`;
   }
 
   setTargetType(type) {
-    Validate.isIn(type, TargetTypes);
+    Validate.isIn('targetType',type, TargetTypes);
     this.#targetType = type;
   }
 
   setTargetRank(rank) {
-    if (rank != null) { Validate.isIn(rank, SquadRanks); }
+    if (rank != null) { Validate.isIn('rank',rank, SquadRanks); }
     if (this.#targetIdentifier != null) { throw 'Target cannot have a rank if an identifier is set.'; }
     this.#targetRank = rank;
   }
@@ -60,10 +61,10 @@ global.CombatAction = class CombatAction {
   // === Attacks & Abilities ===================================================
 
   getAbilityCode() { return this.#abilityCode; }
-  getAbilityTemplate() { return AbilityDictionary.lookup(this.#abilityCode); }
+  getAbilityTemplate() { return Ability.lookup(this.#abilityCode); }
 
   setAbilityCode(code) {
-    AbilityDictionary.lookup(code);
+    Ability.lookup(code);
     this.#abilityCode = code;
   }
 

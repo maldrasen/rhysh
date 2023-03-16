@@ -9,8 +9,8 @@ describe('MonsterCombatRound', function() {
     let crab = new Monster.Mudcrab();
     let action = new CombatAction({
       action: _ability,
-      ability: 'crab-claw',
-      targetType: _character,
+      ability: 'crab-grab-legs',
+      targetType: _single,
       targetIdentifier: 'Main',
     });
 
@@ -19,7 +19,7 @@ describe('MonsterCombatRound', function() {
 
     let results = round.getCombatResults()[0];
 
-    expect(round.getAbilityCode()).to.equal('crab-claw');
+    expect(round.getAbilityCode()).to.equal('crab-grab-legs');
     expect(round.getCombatResults()[0].getAttackRoll()).to.be.greaterThan(0);
     expect(results.getStory()).to.not.be.null;
   });
@@ -30,7 +30,7 @@ describe('MonsterCombatRound', function() {
     let gobbo = new Monster.Goblin();
     let action = new CombatAction({
       action: _attack,
-      targetType: _character,
+      targetType: _single,
       targetIdentifier: 'Main',
     });
 

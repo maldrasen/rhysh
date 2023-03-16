@@ -14,7 +14,7 @@ global.MonsterBody = class MonsterBody {
   constructor(options) {
     let bodyPlan = options.bodyPlan || MonsterBodyPlans.Humanoid;
 
-    this.#sex = options.sex || _male;
+    this.#sex = options.sex || _nosex;
     this.#slots = bodyPlan.slots;
     this.#sizeClass = options.sizeClass || _medium;
 
@@ -22,8 +22,8 @@ global.MonsterBody = class MonsterBody {
     this.#pussy = bodyPlan.buildPussy(this);
     this.#tits = bodyPlan.buildTits(this);
 
-    Validate.isIn(this.#sex, Sexes);
-    Validate.isIn(this.#sizeClass, Object.keys(SizeClasses));
+    Validate.isIn('sex',this.#sex, Sexes);
+    Validate.isIn('sizeClass',this.#sizeClass, Object.keys(SizeClasses));
   }
 
   getSlots() { return this.#slots; }

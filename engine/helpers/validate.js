@@ -1,16 +1,16 @@
 global.Validate = (function() {
 
-  function between(value, min, max) {
-    if (value < min) { throw `Validation Failed: ${value} less than ${min}`; }
-    if (value > max) { throw `Validation Failed: ${value} greater than ${max}`; }
+  function between(name, value, min, max, message=null) {
+    if (value < min) { throw message ? message : `Validation Failed: ${name}.${value} less than ${min}`; }
+    if (value > max) { throw message ? message : `Validation Failed: ${name}.${value} greater than ${max}`; }
   }
 
-  function isIn(value, list) {
-    if (list.indexOf(value) == -1) { throw `Validation Failed: ${value} not in list.`; }
+  function isIn(name, value, list, message=null) {
+    if (list.indexOf(value) == -1) { throw message ? message : `Validation Failed: ${name}.${value} not in list.`; }
   }
 
-  function exists(value, message) {
-    if (value == null) { throw message }
+  function exists(name, value, message=null) {
+    if (value == null) { throw message ? message : `Validation Failed: ${name} is null.` }
   }
 
   return { between, isIn, exists };

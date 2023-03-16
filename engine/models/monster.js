@@ -11,19 +11,25 @@ global.Monster = class Monster {
   #essence;
   #baseArmorClass;
   #baseHit;
+  #abilityChance;
 
+  #basicAttackDamage;
+  #basicAttackText;
   #mainHand;
   #offHand;
-  #armor = {};
-  #abilityChance = 25;
+  #armor;
 
   #cooldownTable;
   #threatTable;
 
   constructor(options) {
+    this.abilityChance = 25;
+
     this.#condition = new Condition();
     this.#threatTable = new ThreatTable();
     this.#cooldownTable = new CooldownTable();
+
+    this.#armor = {};
     this.#flags = {};
   }
 
@@ -43,6 +49,9 @@ global.Monster = class Monster {
   getBaseHit() { return this.#baseHit; }
   setBaseHit(hit) { this.#baseHit = hit; }
 
+  getAbilityChance() { return this.#abilityChance; }
+  setAbilityChance(chance) { this.#abilityChance = chance; }
+
   getAttributes() { return this.#attributes; }
   setAttributes(attributes) { this.#attributes = attributes; }
 
@@ -61,9 +70,6 @@ global.Monster = class Monster {
   // Monsters' essense.
   getEssence() { return this.#essence; }
   setEssence(essence) { this.#essence = essence; }
-
-  getAbilityChance() { return this.#abilityChance; }
-  setAbilityChance(chance) { this.#abilityChance = chance; }
 
   // === Members ===============================================================
 
@@ -99,6 +105,11 @@ global.Monster = class Monster {
 
   // === Abilities =============================================================
 
+  getBasicAttackDamage() { return this.#basicAttackDamage; }
+  getBasicAttackText() { return this.#basicAttackText; }
+  setBasicAttackDamage(damage) { this.#basicAttackDamage = damage; }
+  setBasicAttackText(text) { this.#basicAttackText = text; }
+
   getAbilities() { return this.#abilities; }
   hasAbilities() { return this.#abilities.length > 0; }
 
@@ -112,7 +123,7 @@ global.Monster = class Monster {
   //   }
   //
   addAbility(ability) {
-    AbilityDictionary.lookup(ability.code);
+    Ability.lookup(ability);
     this.#abilities.push(ability);
   }
 
@@ -126,9 +137,9 @@ global.Monster = class Monster {
   // ability cooldown if the ability has a cooldown. This may do other things
   // as well.
   useAbility(code) {
-    let template = AbilityDictionary.lookup(code);
-    if (template.cooldown) {
-      this.#cooldownTable.set(code,template.cooldown);
+    let ability = Ability.lookup(code);
+    if (ability.cooldown) {
+      this.#cooldownTable.set(code,ability.cooldown);
     }
   }
 

@@ -26,19 +26,19 @@ global.MonsterAI = (function() {
     // have no other available abilities.
     let ability = Random.from(availableAbilities);
     if (canAttack == false || Random.roll(100) < $monster.getAbilityChance()) {
-      if (ability != null) { return buildAbilityAction(ability.code); }
+      if (ability != null) { return buildAbilityAction(ability); }
     }
 
     return new CombatAction({
       action: _attack,
-      targetType: _character,
+      targetType: _single,
       targetIdentifier: $targetCode,
     });
   }
 
   function buildAbilityAction(abilityCode) {
-    let template = AbilityDictionary.lookup(abilityCode);
-    let targetType = template.targetType || _character;
+    let template = Ability.lookup(abilityCode);
+    let targetType = template.targetType || _single;
 
     let action = new CombatAction({
       action: _ability,
@@ -46,7 +46,7 @@ global.MonsterAI = (function() {
       targetType: targetType,
     });
 
-    if (targetType == _character) {
+    if (targetType == _single) {
       action.setTargetIdentifier($targetCode);
     }
 
@@ -63,8 +63,8 @@ global.MonsterAI = (function() {
     }));
 
     $monster.getAbilities().forEach(ability => {
-      if ($monster.isAbilityOnCooldown(ability.code) == false) {
-        let template = AbilityDictionary.lookup(ability.code);
+      if ($monster.isAbilityOnCooldown(ability) == false) {
+        let template = Ability.lookup(ability);
         let abilityRange = template.range || 'close';
 
         if (abilityInRange(abilityRange) && scrutinizer.meetsRequirements(template.requires)) {

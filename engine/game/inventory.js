@@ -13,7 +13,7 @@ global.Inventory = (function() {
   }
 
   function lookup(id) {
-    Validate.exists($currentInventory[id],`No item with id(${id}) in inventory.`);
+    Validate.exists('id',$currentInventory[id],`No item with id(${id}) in inventory.`);
     return $currentInventory[id];
   }
 

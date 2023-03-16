@@ -37,6 +37,7 @@ global.Loader = (function() {
     'data/gnosis.js',
     'data/power.js',
     'data/species.js',
+    'data/story.js',
 
     'models/character.js',
     'models/monster.js',

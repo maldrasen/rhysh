@@ -4,7 +4,7 @@ describe('Mudcrab', function() {
     let crab = new Monster.Mudcrab();
 
     expect(crab.getBaseArmorClass()).to.equal(12);
-    expect(crab.getAbilities().length).to.equal(6);
+    expect(crab.getAbilities().length).to.equal(7);
     expect(crab.getSlots().claws).to.equal(2);
   });
 

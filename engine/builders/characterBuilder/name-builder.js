@@ -17,7 +17,7 @@ global.NameBuilder = (function() {
 
   function addName(data, index) {
     try {
-      if (data.restriction) { Validate.isIn(data.restriction, NameRestrictions); }
+      if (data.restriction) { Validate.isIn('restriction',data.restriction, NameRestrictions); }
     } catch(error) {
       console.error(`Invalid Name:`,data);
       throw error;

@@ -141,7 +141,7 @@ window.EventView = (function() {
 
       ObjectHelper.each(page.attributeCheck, (checkCode, checkBranch) => {
         const checkState = $eventData.state[checkCode];
-        const attrName = AttributeLabels[checkState.attribute];
+        const attrName = AttributeNames[checkState.attribute];
         const attr = TextHelper.titlecase(checkState.attribute);
 
         checks.appendChild(X.createElement(`
