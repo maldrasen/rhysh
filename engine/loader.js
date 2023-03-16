@@ -30,6 +30,9 @@ global.Loader = (function() {
     'constants.js',
     'builders/equipmentBuilders/equipment-builder.js',
     'core/messenger.js',
+
+    'data/species.js',
+
     'models/character.js',
     'models/monster.js',
     'models/dungeon/vector.js',

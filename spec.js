@@ -40,7 +40,7 @@ global.SpecHelper = {
     let archetypeCode = (options.archetype) ? options.archetype : Random.from(archetypeList);
     let archetype = ArchetypeDictionary.lookup(archetypeCode);
     let speciesCode = (options.species) ? options.species : Random.from(archetype.availableSpecies);
-    let species = SpeciesDictionary.lookup(speciesCode);
+    let species = Species.lookup(speciesCode);
     let sex = (options.sex) ? options.sex : Random.from(archetype.availableSexes);
 
     // Make sure the sex works for the species too, not just the archetype.
@@ -55,7 +55,7 @@ global.SpecHelper = {
       sex: sex,
       firstName: name.first.name,
       lastName: name.last.name,
-      attributes: species.basePlayerAttributes,
+      attributes: species.baseAttributes,
     });
   },
 

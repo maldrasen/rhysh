@@ -151,7 +151,7 @@ window.NewGame = (function() {
     hideAll();
 
     let baseAttributes = {};
-    let attributeBase = SpeciesDictionary.lookup(selectedSpecies).basePlayerAttributes;
+    let attributeBase = Species.lookup(selectedSpecies).baseAttributes;
     let attributeBonus = ArchetypeDictionary.lookup(selectedArchetype).attributeBonus;
     let firstNameInput = X.first('input#firstName');
     let lastNameInput = X.first('input#lastName');

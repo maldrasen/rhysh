@@ -66,7 +66,7 @@ global.Character = class Character {
   setArchetypeCode(code) { this.#archetypeCode = code; }
 
   getSpeciesCode() { return this.#speciesCode; }
-  getSpecies() { return SpeciesDictionary.lookup(this.#speciesCode); }
+  getSpecies() { return Species.lookup(this.#speciesCode); }
   setSpeciesCode(code) { this.#speciesCode = code; }
 
   getArcanumMap() { return this.#arcanumMap; }

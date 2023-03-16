@@ -1,6 +1,7 @@
 global.Attributes = class Attributes {
 
   constructor(map) {
+    if (map == null) { throw `Attribute map cannot be null.`; }
     this.attributeMap = map;
   }
 

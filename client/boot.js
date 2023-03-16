@@ -88,13 +88,15 @@
       import('../data/characters/archetypes/knight.js'),
       import('../data/characters/archetypes/mindbender.js'),
       import('../data/characters/archetypes/slaver.js'),
-      import('../data/characters/species/dragonkind.js'),
-      import('../data/characters/species/elf.js'),
-      import('../data/characters/species/lupin.js'),
-      import('../data/characters/species/minotaur.js'),
-      import('../data/characters/species/nymph.js'),
-      import('../data/characters/species/orc.js'),
-      import('../data/characters/species/satyr.js'),
+
+      import('../engine/data/species.js'),
+      import('../engine/data/species/dragonkind.js'),
+      import('../engine/data/species/elf.js'),
+      import('../engine/data/species/lupin.js'),
+      import('../engine/data/species/minotaur.js'),
+      import('../engine/data/species/nymph.js'),
+      import('../engine/data/species/orc.js'),
+      import('../engine/data/species/satyr.js'),
 
       // Extras
       import('./extras/character-tooltips.js'),
