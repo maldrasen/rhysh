@@ -170,3 +170,25 @@ global._long = 'long';
 
 global._lewd = 'lewd';
 
+
+// === Segment Types and Display Order ===
+
+global._attempt = 'attempt';
+global._hit = 'hit';
+global._miss = 'miss';
+global._criticalHit = 'criticalHit';
+global._criticalMiss = 'criticalMiss';
+global._statusChange = 'statusChange';
+global._conditionChange = 'conditionChange';
+global._trigger = 'trigger';
+
+global.SegmentTypes = [
+  _attempt,
+  _hit,
+  _miss,
+  _criticalHit,
+  _criticalMiss,
+  _statusChange,
+  _conditionChange,
+  _trigger,
+];

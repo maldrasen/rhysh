@@ -79,12 +79,12 @@ global.CombatResult = class CombatResult {
   getStatusChanges() { return this.#statusChanges; }
   addStatusChange(change) { this.#statusChanges.push(change); }
 
-  isSuccess() { return ['hit','critical-hit'].indexOf(this.#attackResult) >= 0; }
-  isFailure() { return ['miss','critical-miss'].indexOf(this.#attackResult) >= 0; }
-  isHit() { return this.#attackResult == 'hit'; }
-  isMiss() { return this.#attackResult == 'miss'; }
-  isCriticalHit() { return this.#attackResult == 'critical-hit'; }
-  isCriticalMiss() { return this.#attackResult == 'critical-miss'; }
+  isSuccess() { return [_hit,_criticalHit].indexOf(this.#attackResult) >= 0; }
+  isFailure() { return [_miss,_criticalMiss].indexOf(this.#attackResult) >= 0; }
+  isHit() { return this.#attackResult == _hit; }
+  isMiss() { return this.#attackResult == _miss; }
+  isCriticalHit() { return this.#attackResult == _criticalHit; }
+  isCriticalMiss() { return this.#attackResult == _criticalMiss; }
 
   // Make an attack and determine the result. Hit bonus is 0 by default and
   // only applies to some abilities.
@@ -104,8 +104,6 @@ global.CombatResult = class CombatResult {
 
   // TODO: Adjust critical hit ranges and damage multipliers.
   rollDamage(damage, bonusDamage=0) {
-    if (damage == null) { throw 'Damage cannot be null'; }
-
     if (this.#attackResult == 'hit') { this.#attackDamage = this.getDamage(damage,bonusDamage); }
     if (this.#attackResult == 'critical-hit') { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
 
@@ -116,6 +114,7 @@ global.CombatResult = class CombatResult {
     }
   }
 
+  // Damage can be null for an ability that does no damage.
   getDamage(damage, bonusDamage=0, multiplier=1) {
     return (damage == null) ? 0 : Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;
   }

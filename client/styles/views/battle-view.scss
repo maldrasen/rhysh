@@ -166,6 +166,40 @@
   }
 }
 
+#battleText {
+  position: absolute;
+  height: 130px;
+  width: 100%;
+  bottom: 250px;
+  left: 0;
+  overflow: hidden;
+
+  font-size: $fs-huge;
+  text-align: center;
+  text-shadow: 10px 10px 10px #000;
+  z-index: $z-battle-text;
+
+  span { margin: 0 5px; }
+
+  .roll {
+    font-size: 80%;
+    font-family: 'roboto-mono';
+    opacity: 0.80;
+  }
+  .damage {
+    font-size: 80%;
+    font-family: 'roboto-mono';
+    color: $fg-button-danger;
+  }
+
+  .severity-bad { color: rgb(180,140,50); }
+  .attempt { color:$fg-weak; }
+  .miss { color:$fg-weak; }
+  .hit { color:$fg-body; }
+  .criticalMiss { color:$fg-button-danger; }
+  .criticalHit { color:rgb(250,0,0); }
+}
+
 #fightText {
   position: absolute;
   top: 50%;

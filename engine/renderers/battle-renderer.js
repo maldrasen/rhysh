@@ -79,7 +79,7 @@ global.BattleRenderer = (function() {
     let story = combatResult.getStory()
     let text = Weaver.weave((story.text || story.attempt), context);
 
-    return { type:'attempt', text:text };
+    return { type:_attempt, text:text };
   }
 
   function renderFailureSegment(combatResult, context) {
@@ -128,7 +128,7 @@ global.BattleRenderer = (function() {
     }
 
     return {
-      type: 'statusChange',
+      type: _statusChange,
       text: Weaver.weave(text, context),
       severity: severity
     };
@@ -154,7 +154,7 @@ global.BattleRenderer = (function() {
     }
 
     return {
-      type: 'conditionChange',
+      type: _conditionChange,
       text: Weaver.weave(text, context),
       severity: severity
     };
@@ -163,11 +163,11 @@ global.BattleRenderer = (function() {
   function renderTriggerSegment(trigger, context) {
     if (trigger == 'main-character-fainted') {
       let text =`<span class='main-character-faints'>{{T::name}} faints!</span>`;
-      return { type:'trigger', triggers:'game-over', text:Weaver.weave(text,context)};
+      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
     }
     if (trigger == 'main-character-killed') {
       let text = `<span class='main-character-killed'>{{T::name}} was killed!</span>`;
-      return { type:'trigger', triggers:'game-over', text:Weaver.weave(text,context)};
+      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
     }
     throw `TODO: Implement trigger ${trigger}`;
   }
