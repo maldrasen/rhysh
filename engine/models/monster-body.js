@@ -12,7 +12,7 @@ global.MonsterBody = class MonsterBody {
   // characters will have. They don't need to be persisted, but they also
   // may have more variery, different body parts and so forth.
   constructor(options) {
-    let bodyPlan = options.bodyPlan || MonsterBodyPlans.Humanoid;
+    let bodyPlan = MonsterBodyPlan.lookup(options.bodyPlan || 'humanoid');
 
     this.#sex = options.sex || _nosex;
     this.#slots = bodyPlan.slots;

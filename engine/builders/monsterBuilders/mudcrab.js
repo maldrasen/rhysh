@@ -4,7 +4,7 @@ MonsterBuilder.register('mudcrab', options => {
 
   crab.setName('Mudcrab');
   crab.buildBody({
-    bodyPlan: MonsterBodyPlans.Crabby,
+    bodyPlan: 'crabby',
     sizeClass: _small,
   });
 
