@@ -16,36 +16,38 @@ const GoblinWeaponMap = {
   'two-daggers': 2,
 };
 
-Monster.Goblin = class Goblin extends Monster {
-  constructor(options = {}) {
-    super(options);
+const GoblinSexMap = {
+  female: 20,
+  futa: 30,
+  male: 50,
+};
 
-    let sex = Random.fromFrequencyMap({
-      female: 20,
-      futa: 30,
-      male: 50,
-    });
+const GoblinAttributes = {
+  str:8, dex:14, con:10, int:10, wis:8, cha:8
+};
 
-    this.setName('Goblin');
-    this.buildBody({
-      sizeClass: _small,
-      sex: sex
-    });
+MonsterBuilder.register('goblin', options => {
+  const goblin = new Monster(options);
 
-    this.setBaseArmorClass(11);
-    this.setBaseHit(2);
-    this.setEssence(50);
-    this.setMaxHitPoints(Random.rollDice({ d:6, p:6 }));
-    this.setAttributes(new Attributes({
-      str:8, dex:14, con:10, int:10, wis:8, cha:8
-    }));
+  goblin.setName('Goblin');
+  goblin.buildBody({
+    sizeClass: _small,
+    sex: Random.fromFrequencyMap(GoblinSexMap)
+  });
 
-    this.setRandomArmor(GoblinArmorMap);
-    this.setRandomWeapon(GoblinWeaponMap);
-    this.addAbility('bad-idea');
-    this.makeLewd();
-  }
-}
+  goblin.setBaseArmorClass(11);
+  goblin.setBaseHit(2);
+  goblin.setEssence(50);
+  goblin.setMaxHitPoints(Random.rollDice({ d:6, p:6 }));
+  goblin.setAttributes(new Attributes(GoblinAttributes));
+
+  goblin.setRandomArmor(GoblinArmorMap);
+  goblin.setRandomWeapon(GoblinWeaponMap);
+  goblin.addAbility('bad-idea');
+  goblin.makeLewd();
+
+  return goblin;
+});
 
 // TODO:
 //   Goblins should have a hide and sneak attack skill. The monster manual

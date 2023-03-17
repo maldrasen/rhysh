@@ -6,7 +6,7 @@ describe('MonsterCombatRound', function() {
   it("uses an ability", function() {
     SpecHelper.randomMainCharacter({ archetype:'mindbender' });
 
-    let crab = new Monster.Mudcrab();
+    let crab = MonsterBuilder.build('mudcrab');
     let action = new CombatAction({
       action: _ability,
       ability: 'crab-grab-legs',
@@ -27,7 +27,7 @@ describe('MonsterCombatRound', function() {
   it("uses an attack", function() {
     SpecHelper.randomMainCharacter({ archetype:'chosen' });
 
-    let gobbo = new Monster.Goblin();
+    let gobbo = MonsterBuilder.build('goblin');
     let action = new CombatAction({
       action: _attack,
       targetType: _single,

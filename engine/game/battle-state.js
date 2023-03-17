@@ -14,7 +14,7 @@ global.BattleState = class BattleState {
     this.#monsters = {};
     this.#squads = {};
 
-    new MonsterBuilder(this, options).generate();
+    MonsterBuilder.populateBattleState(this, options);
 
     CharacterLibrary.eachActivePartyMember((position, character) => {
       character.onBattleStart();

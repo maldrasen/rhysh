@@ -1,10 +1,4 @@
-Monster.HellHound = class HellHound extends Monster {
 
-  constructor(options = {}) {
-    super(options);
-  }
-
-}
 
 // Armor Class 15 (natural armor)
 // Hit Points 45 (7d8 + 14)

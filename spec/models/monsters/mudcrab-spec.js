@@ -1,7 +1,7 @@
 describe('Mudcrab', function() {
 
   it("Builds a Mudcrab", function() {
-    let crab = new Monster.Mudcrab();
+    let crab = new MonsterBuilder.build('mudcrab');
 
     expect(crab.getBaseArmorClass()).to.equal(12);
     expect(crab.getAbilities().length).to.equal(7);
@@ -9,7 +9,7 @@ describe('Mudcrab', function() {
   });
 
   it('chooses a combat ability', function() {
-    let state = new BattleState({ monster:'Mudcrab' });
+    let state = new BattleState({ monster:'mudcrab' });
     let crab = state.getMonster('M1');
 
     SpecHelper.randomMainCharacter();

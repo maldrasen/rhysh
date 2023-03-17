@@ -1,7 +1,7 @@
 describe('Goblin', function() {
 
   it("Builds a goblin", function() {
-    let gobbo = new Monster.Goblin({});
+    let gobbo = new MonsterBuilder.build('goblin');
     let chestArmor = gobbo.getArmorClass('chest');
     let maxHP = gobbo.getCondition().getMaxHitPoints();
     let hp = gobbo.getCondition().getCurrentHitPoints();
@@ -17,7 +17,7 @@ describe('Goblin', function() {
   });
 
   it('chooses a combat ability', function() {
-    let state = new BattleState({ monster:'Goblin' });
+    let state = new BattleState({ monster:'goblin' });
     let gobbo = state.getMonster('M1');
 
     SpecHelper.randomMainCharacter();

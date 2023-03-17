@@ -1,10 +1,4 @@
-Monster.Kobold = class Kobold extends Monster {
 
-  constructor(options = {}) {
-    super(options);
-  }
-
-}
 
 // KOBOLD
 // Armor Class 12

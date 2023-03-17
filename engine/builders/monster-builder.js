@@ -1,11 +1,17 @@
-global.MonsterBuilder = class MonsterBuilder {
 
-  #battleState;
-  #options;
 
-  constructor(battleState, options={}) {
-    this.#battleState = battleState;
-    this.#options = options;
+global.MonsterBuilder = (function() {
+  const $dictionary = {}
+
+  let $battleState;
+
+  function register(code, builder) {
+    $dictionary[code] = builder;
+  }
+
+  function build(code, options={}) {
+    if ($dictionary[code] == null) { throw `Unknown Monster(${code})` }
+    return $dictionary[code](options);
   }
 
   // TODO: Eventually this will need to read data from the current zone and
@@ -13,37 +19,39 @@ global.MonsterBuilder = class MonsterBuilder {
   //       of possible encounter formations that we then use to generate the
   //       monsters. That might be a bit far out still, for now we can just
   //       generate goblins or mudcrabs.
-  generate() {
-    if (this.#options.monster == 'Mudcrab') { return this.tempMudcrabs(); }
-    if (this.#options.monster == 'Goblin') { return this.tempGoblins(); }
+  function populateBattleState(battle, options={}) {
+    if (options.monster == 'mudcrab') { return tempMudcrabs(battle); }
+    if (options.monster == 'goblin') { return tempGoblins(battle); }
 
-    (Random.roll(6) < 4) ? this.tempMudcrabs() : this.tempGoblins();
+    (Random.roll(6) < 4) ? tempMudcrabs(battle) : tempGoblins(battle);
   }
 
-  tempMudcrabs() {
+  function tempMudcrabs(battle) {
     forUpTo((Random.roll(4)+1), i => {
       let crabs = [];
       let count = Random.roll(2) + 4;
 
       forUpTo(count, i => {
-        crabs.push(new Monster.Mudcrab({}));
+        crabs.push(build('mudcrab'));
       });
 
-      this.#battleState.addSquad(i+1,crabs,"Mudcrabs");
+      battle.addSquad(i+1,crabs,"Mudcrabs");
     });
   }
 
-  tempGoblins() {
+  function tempGoblins(battle) {
     forUpTo((Random.roll(4)+1), i => {
       let gobbos = [];
       let count = Random.roll(2) + 3;
 
       for (let i=0; i<count; i++) {
-        gobbos.push(new Monster.Goblin({}));
+        gobbos.push(build('goblin'));
       }
 
-      this.#battleState.addSquad(i+1,gobbos,"Goblins");
+      battle.addSquad(i+1,gobbos,"Goblins");
     });
   }
 
-}
+  return { register, build, populateBattleState }
+
+})();
