@@ -85,7 +85,7 @@ global.CombatResult = class CombatResult {
   // Make an attack and determine the result. Hit bonus is 0 by default and
   // only applies to some abilities.
   rollAttack(hitBonus=0) {
-    let modeHit = this.#weaponMode ? WeaponModeDictionary.lookup(this.#weaponMode).hit : 0;
+    let modeHit = this.#weaponMode ? WeaponModes[this.#weaponMode].hit : 0;
 
     this.#attackRoll = Random.rollDice({ d:20 })
 

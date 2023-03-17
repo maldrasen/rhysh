@@ -184,6 +184,16 @@ global._shoot = 'shoot';
 global._slash = 'slash';
 global._thrust = 'thrust';
 
+global.WeaponModes = {
+  slash:    { hit:0,  damage:0 },
+  shoot:    { hit:0,  damage:0 },
+  bash:     { hit:-1, damage:2 },
+  thrust:   { hit:-2, damage:4 },
+  parry:    { special:true },
+  riposte:  { special:true },
+  entangle: { special:true },
+}
+
 // Weapon Type Classes for Generator and determining allowable weapons.
 global._byCode = 'byCode';
 global._anyWeapons = 'anyWeapons';
