@@ -49,7 +49,7 @@ global.CharacterBuilder = (function() {
   }
 
   function addSkills(character) {
-    SkillDictionary.allCodes().forEach(code => {
+    Object.keys(Skills).forEach(code => {
       let skill = new SkillLevel(code);
           skill.setLevel(character.getArchetype().startingSkills[code]||0);
 

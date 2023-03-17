@@ -1,4 +1,10 @@
-global.ImageDictionary = (function() {
+global.ImageData = (function() {
+
+  // TODO: The ImageData doesn't work like the rest of the data classes, but
+  //       there's hardly anything here yet. May consider making image data
+  //       into a class at some point and register images individually.
+  //       Probably once we start tagging images with sex, species, lewdness
+  //       and such.
 
   const backgrounds = [
     { file:'battle-town-1',  forZones:['Wolgur']},
