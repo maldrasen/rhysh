@@ -18,7 +18,7 @@ describe('CharacterBuilder', function() {
     expect(main.getArchetype().code).to.equal('chosen');
     expect(main.getSpecies().code).to.equal('elf');
     expect(main.getSkill('intimidation').getLevel()).to.equal(2);
-    expect(mainHand.getBase()).to.equal(offHand.getBase());
+    expect(mainHand.getWeaponTypeCode()).to.equal(offHand.getWeaponTypeCode());
   });
 
   it('sets their starting equipment', function() {
@@ -26,7 +26,7 @@ describe('CharacterBuilder', function() {
     let equipped = Inventory.getEquippedBy(main);
 
     expect(equipped['head'].getArmorTypeCode()).to.equal('plate');
-    expect(equipped['mainHand'].getBase()).to.equal('longsword');
+    expect(equipped['mainHand'].getWeaponTypeCode()).to.equal('longsword');
     expect(equipped['offHand'].getEffects().armorClass).to.equal(2);
 
     let ac = main.getArmorClass('chest');

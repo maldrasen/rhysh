@@ -15,7 +15,7 @@ knight.addGnosis('subjugation');
 knight.addPower('aura-fear');
 
 knight.setStartingEquipment({
-  mainHand:  { type:'weapon', code:'longsword' },
+  mainHand:  { weaponType:_byCode, code:'longsword' },
   offHand:   { type:'shield' },
   head:      { slot:_head,  armorType:[_plate]},
   chest:     { slot:_chest, armorType:[_plate]},

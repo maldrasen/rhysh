@@ -50,31 +50,6 @@ global.WeaponType = class WeaponType {
     return WeaponDictionary[code];
   }
 
-  // Weapon search function. Options:
-  //   hands:['1','2','M','1/M']
-  //
-  // The "1/M" options return one handed or main handed weapons, they're
-  // normally mutually exclusive when searching, but can both be used in the
-  // main hand.
-  //
-  // Currently there's no exclusive 'off hand' weapons. I don't think it makes
-  // sense for there to be weapons you can't use main handed if needed, but
-  // some accessories (notibly shields) are off hand only, but then they can't
-  // be used as weapons.
-
-  static findAll(options) {
-    return ObjectHelper.select(WeaponDictionary, (code, weapon) => {
-      let valid = true;
-
-      if (options.hands) {
-        if (options.hands == '1/M' && ['1','M'].indexOf(weapon.hands) < 0) { valid = false; }
-        if (options.hands.length == 1 && options.hands != weapon.hands) { valid = false; }
-      }
-
-      return valid;
-    });
-  }
-
   #code;
   #name;
   #damage;
@@ -102,6 +77,39 @@ global.WeaponType = class WeaponType {
   get attribute() { return this.#attribute; }
 
   setAttribute(attribute) { this.#attribute = attribute; }
+
+  static getAllWeapons() { return Object.keys(WeaponDictionary); }
+
+  static getCloseRangeWeapons() {
+    return ArrayHelper.compact(WeaponType.getAllWeapons().map(code => {
+      return (WeaponType.lookup(code).range == _close) ? code : null;
+    }));
+  }
+
+  static getExtendedRangeWeapons() {
+    return ArrayHelper.compact(WeaponType.getAllWeapons().map(code => {
+      return (WeaponType.lookup(code).range == _extended) ? code : null;
+    }));
+  }
+
+  static getLongRangeWeapons() {
+    return ArrayHelper.compact(WeaponType.getAllWeapons().map(code => {
+      return (WeaponType.lookup(code).range == _long) ? code : null;
+    }));
+  }
+
+  // Very limited list of weapons. Small and simple to use. Subset of cultist
+  // weapons.
+  static getMageWeapons() {
+    return ['club','dagger','dirk','staff'];
+  }
+
+  // Kind of an arbritrary list of weapons that a cultist is allowed to use.
+  // Mostly blunt weapons like hammers and a few small edged weapons. No long
+  // range weapons, swords or axes.
+  static getCultWeapons() {
+    return ['club','dagger','dirk','flail','hammer','mace','maul','morningstar','sickle','warhammer','whip','staff'];
+  }
 
   pack() {
     return {

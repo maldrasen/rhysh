@@ -5,7 +5,7 @@ global.CombatResult = class CombatResult {
   #scrutinizer;
 
   #weapon;
-  #weaponCode;
+  #weaponTypeCode;
   #weaponMode;
 
   #attackRoll;
@@ -40,16 +40,13 @@ global.CombatResult = class CombatResult {
   getScrutinizer() { return this.#scrutinizer; }
 
   getWeapon() { return this.#weapon; }
-  getWeaponBase() { return this.#weaponCode; }
-
   setWeapon(weapon) {
     this.#weapon = weapon;
-    this.setWeaponCode(weapon.getBase());
+    this.setWeaponTypeCode(weapon.getWeaponTypeCode());
   }
-
-  setWeaponCode(code) {
+  setWeaponTypeCode(code) {
     WeaponType.lookup(code);
-    this.#weaponCode = code;
+    this.#weaponTypeCode = code;
   }
 
   getWeaponMode() { return this.#weaponMode; }
@@ -208,7 +205,7 @@ global.CombatResult = class CombatResult {
     let packed = {};
 
     if (this.#targetSlot) { packed.targetSlot = this.#targetSlot; }
-    if (this.#weaponCode) { packed.weaponCode = this.#weaponCode; }
+    if (this.#weaponTypeCode) { packed.weaponTypeCode = this.#weaponTypeCode; }
     if (this.#weaponMode) { packed.weaponMode = this.#weaponMode; }
     if (this.#attackRoll) { packed.attackRoll = this.#attackRoll; }
     if (this.#attackResult) { packed.attackResult = this.#attackResult; }

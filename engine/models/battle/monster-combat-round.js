@@ -60,7 +60,7 @@ global.MonsterCombatRound = class MonsterCombatRound {
   doSingleAttack(hitBonus, weapon, mode) {
     let result = new CombatResult(this);
 
-    result.setWeaponCode(weapon.code);
+    result.setWeaponTypeCode(weapon.code);
     result.setWeaponMode(mode);
     result.chooseTargetSlot();
 

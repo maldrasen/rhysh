@@ -15,7 +15,7 @@ dominatrix.addGnosis('carnage');
 dominatrix.addPower('aura-devotion');
 
 dominatrix.setStartingEquipment({
-  mainHand: { type:'weapon', code:'whip' },
+  mainHand: { weaponType:_byCode, code:'whip' },
   chest:    { slot:_chest, armorType:[_leather,_hide]},
   legs:     { slot:_legs,  armorType:[_leather,_hide]},
   hands:    { slot:_hands, armorType:[_leather,_hide]},

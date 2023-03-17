@@ -15,7 +15,7 @@ mindbender.addArcanum('domination');
 mindbender.addPower('aura-devotion-greater');
 
 mindbender.setStartingEquipment({
-  mainHand:  { weaponType:_mageWeapons, hands:'1' },
+  mainHand:  { weaponType:_mageWeapons },
   chest:     { slot:_chest, armorType:[_cloth]},
   legs:      { slot:_legs,  armorType:[_cloth]},
   hands:     { slot:_hands, armorType:[_cloth]},

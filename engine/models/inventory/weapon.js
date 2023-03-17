@@ -1,21 +1,21 @@
 global.Weapon = class Weapon {
 
   #id;
-  #base;
+  #weaponType;
   #name;
   #equippedBy;
 
-  constructor(base) {
-    this.#base = base;
-    this.#name = WeaponType.lookup(base).name;
+  constructor(code) {
+    this.#weaponType = code;
+    this.#name = WeaponType.lookup(code).name;
   }
 
   isWeapon() { return true; }
-  getBase() { return this.#base; }
-  getWeaponBase() { return WeaponType.lookup(this.#base); }
-  getDamage() { return this.getWeaponBase().damage; }
-  getHands() { return this.getWeaponBase().hands; }
-  getModes() { return this.getWeaponBase().modes; }
+  getWeaponTypeCode() { return this.#weaponType; }
+  getWeaponType() { return WeaponType.lookup(this.#weaponType); }
+  getDamage() { return this.getWeaponType().damage; }
+  getHands() { return this.getWeaponType().hands; }
+  getModes() { return this.getWeaponType().modes; }
   rollDamage() { return Random.rollDice(this.getDamage()) }
 
   getID() { return this.#id; }
@@ -47,7 +47,7 @@ global.Weapon = class Weapon {
   pack() {
     return {
       classname:  'Weapon',
-      base:       this.#base,
+      weaponType: this.#weaponType,
       id:         this.#id,
       name:       this.#name,
       equippedBy: this.#equippedBy,
@@ -55,7 +55,7 @@ global.Weapon = class Weapon {
   }
 
   static unpack(data) {
-    let weapon = new Weapon(data.base);
+    let weapon = new Weapon(data.weaponType);
         weapon.#id = data.id;
         weapon.#name = data.name;
         weapon.#equippedBy = data.equippedBy;

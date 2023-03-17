@@ -1,4 +1,4 @@
-describe('EquipmentBuilder', function() {
+describe('ArmorBuilder', function() {
 
   it("builds leather chest armor", function() {
     let armor = EquipmentBuilder.build({ slot:_chest, armorType:[_leather,_hide] });
@@ -65,11 +65,6 @@ describe('EquipmentBuilder', function() {
     let character = SpecHelper.randomMainCharacter({ archetype:_slaver, sex:_futa, species:_satyr });
     let armor = EquipmentBuilder.build({ slot:_hands, armorType:[_leather], for:character });
     expect(armor.getArmorTypeCode()).to.equal(_leather);
-  });
-
-  it("builds a close range, one handed weapon", function() {
-    let weapon = EquipmentBuilder.build({ weaponType:_closeWeapons, hands:'1' });
-    expect(WeaponType.lookup(weapon.getBase()).hands).to.equal('1');
   });
 
 });

@@ -152,9 +152,12 @@ global._slash = 'slash';
 global._thrust = 'thrust';
 
 // Weapon Type Classes for Generator and determining allowable weapons.
+global._byCode = 'byCode';
 global._anyWeapons = 'anyWeapons';
 global._cultWeapons = 'cultWeapons';
 global._closeWeapons = 'closeWeapons';
+global._extendedWeapons = 'extendedWeapons';
+global._longWeapons = 'longWeapons';
 global._mageWeapons = 'mageWeapons';
 
 // === Battle, Actions & Abilities =============================================

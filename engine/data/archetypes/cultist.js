@@ -15,7 +15,7 @@ cultist.addArcanum('suffering');
 cultist.addPower('aura-corruption');
 
 cultist.setStartingEquipment({
-  mainHand: { weaponType:_cultWeapons, hands:'2' },
+  mainHand: { weaponType:_cultWeapons },
   chest:    { slot:_chest, armorType:[_cloth]},
   legs:     { slot:_legs,  armorType:[_cloth]},
   hands:    { slot:_hands, armorType:[_cloth]},

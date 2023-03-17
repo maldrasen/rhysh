@@ -75,7 +75,7 @@ global.CharacterBuilder = (function() {
   }
 
   function addTwinWeapons(character, mainHand) {
-    let offHand = new Weapon(mainHand.getBase());
+    let offHand = new Weapon(mainHand.getWeaponTypeCode());
     Inventory.add(mainHand);
     Inventory.add(offHand);
     mainHand.setEquippedBy(character,'mainHand');

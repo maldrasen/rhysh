@@ -188,12 +188,12 @@ global.Character = class Character {
 
   getMainHandCode() {
     let weapon = this.getMainHand();
-    return weapon ? weapon.getBase() : null;
+    return weapon ? weapon.getWeaponTypeCode() : null;
   }
 
   getOffHandCode() {
     let weapon = this.getOffHand();
-    return weapon ? weapon.getBase() : null;
+    return weapon ? weapon.getWeaponTypeCode() : null;
   }
 
   // === Persistance ===========================================================

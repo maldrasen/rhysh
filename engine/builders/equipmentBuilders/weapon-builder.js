@@ -1,13 +1,51 @@
 EquipmentBuilder.WeaponBuilder = (function() {
 
+
   function build(options) {
-    let base = options.code || pickBase(options);
-    let weapon = new Weapon(base);
-    return weapon;
+    if (options.weaponType == null) { throw `A weaponType must be specified (currently)` }
+    if (options.weaponType == _byCode) { return buildSpecificWeapon(options.code); }
+
+    let possibleTypes = {
+      anyWeapons:      () => { return WeaponType.getAllWeapons() },
+      cultWeapons:     () => { return WeaponType.getCultWeapons() },
+      closeWeapons:    () => { return WeaponType.getCloseRangeWeapons() },
+      extendedWeapons: () => { return WeaponType.getExtendedRangeWeapons() },
+      longWeapons:     () => { return WeaponType.getLongRangeWeapons() },
+      mageWeapons:     () => { return WeaponType.getMageWeapons() },
+    }[options.weaponType]();
+
+    possibleTypes = filterByHands(possibleTypes,options.hands)
+    if (possibleTypes.length == 0) {
+      return console.error(`Warning: Unable to build a weapon given these options:`,options);
+    }
+
+    return new Weapon(Random.from(possibleTypes));
   }
 
-  function pickBase(options) {
-    return Random.from(ObjectHelper.values(WeaponType.findAll(options))).code;
+  function buildSpecificWeapon(code) {
+    if (code == null) { throw `Code is required`; }
+    return new Weapon(code);
+  }
+
+  // hands:['1','2','M','1/M']
+  //
+  // The "1/M" options return one handed or main handed weapons, they're
+  // normally mutually exclusive when searching, but can both be used in the
+  // main hand.
+  //
+  // Currently there's no exclusive 'off hand' weapons. I don't think it makes
+  // sense for there to be weapons you can't use main handed if needed, but
+  // some accessories (notibly shields) are off hand only, but then they can't
+  // be used as weapons.
+  function filterByHands(possibleTypes, hands) {
+    if (hands == null) { return possibleTypes; }
+
+    return ArrayHelper.compact(possibleTypes.map(code => {
+      let weaponType = WeaponType.lookup(code);
+
+      if (hands == '1/M' && ['1','M'].indexOf(weaponType.hands) >= 0) { return code; }
+      if (hands == weaponType.hands) { return code; }
+    }));
   }
 
   return { build };

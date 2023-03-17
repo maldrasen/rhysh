@@ -11,10 +11,10 @@ global.EquipmentBuilder = (function() {
     if (options.slot && ArrayHelper.contains(AccessorySlots, options.slot)) {
       return EquipmentBuilder.AccessoryBuilder.build(options);
     }
-    if (options.type == 'shield') { return
-      EquipmentBuilder.AccessoryBuilder.build(options);
+    if (options.type == 'shield') {
+      return EquipmentBuilder.AccessoryBuilder.build(options);
     }
-    if (options.weaponType || options.type == 'weapon') {
+    if (options.weaponType) {
       return EquipmentBuilder.WeaponBuilder.build(options);
     }
 
