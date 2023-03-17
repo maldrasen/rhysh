@@ -2,14 +2,14 @@ global.Armor = class Armor {
 
   #id;
   #slot;
-  #material;
+  #armorType;
   #name;
   #tags;
   #equippedBy;
 
-  constructor(slot, material) {
+  constructor(slot, armorType) {
     this.#slot = slot;
-    this.#material = material;
+    this.#armorType = armorType;
     this.#equippedBy = null;
   }
 
@@ -17,12 +17,12 @@ global.Armor = class Armor {
   setID(id) { this.#id = id; }
 
   getSlot() { return this.#slot; }
-  getMaterial() { return this.#material; }
-  getArmorBase() { return ArmorDictionary.lookup(this.#material); }
-  getArmorClass() { return this.getArmorBase().ac; }
-  getWeightClass() { return this.getArmorBase().weight; }
-  getMaxDex() { return this.getArmorBase().maxDex; }
-  getMinStr() { return this.getArmorBase().minStr; }
+  getArmorTypeCode() { return this.#armorType; }
+  getArmorType() { return ArmorType.lookup(this.#armorType); }
+  getArmorClass() { return this.getArmorType().ac; }
+  getWeightClass() { return this.getArmorType().weight; }
+  getMaxDex() { return this.getArmorType().maxDex; }
+  getMinStr() { return this.getArmorType().minStr; }
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
@@ -60,7 +60,7 @@ global.Armor = class Armor {
       classname:  'Armor',
       id:         this.#id,
       slot:       this.#slot,
-      material:   this.#material,
+      armorType:  this.#armorType,
       name:       this.#name,
       tags:       this.#tags,
       equippedBy: this.#equippedBy,
@@ -68,7 +68,7 @@ global.Armor = class Armor {
   }
 
   static unpack(data) {
-    let armor = new Armor(data.slot, data.material);
+    let armor = new Armor(data.slot, data.armorType);
         armor.#id = data.id;
         armor.#name = data.name;
         armor.#tags = data.tags;

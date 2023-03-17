@@ -41,12 +41,14 @@ global.BattleScrutinizer = (function() {
     let actor = context.get(parts[1] == 'target' ? 'target' : 'actor');
     let value = parts[2];
 
+console.log("TODO: Change these armor requirements:",value);
+
     if (value == 'exposed-cock') { return actor.isCockExposed(); }
     if (value == 'exposed-pussy') { return actor.isPussyExposed(); }
     if (value == 'exposed-tits') { return actor.areTitsExposed(); }
 
     if (value == 'has-tits') { return actor.hasTits(); }
-    if (value == 'not-male') { return actor.isNotMale(); }
+    if (value == _notMale) { return actor.isNotMale(); }
 
     throw `Unrecognized Actor Requirement Value: ${value}`;
   }

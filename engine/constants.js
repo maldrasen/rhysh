@@ -35,6 +35,35 @@ global.Sexes = [
   _nosex,
 ];
 
+// == Flags (Used on names, armor and monsters) ===
+global._lewd = 'lewd';
+global._roomy = 'roomy';
+global._notFemale = 'notFemale';
+global._notMale = 'notMale';
+global._hasScales = 'hasScales';
+global._hasFur = 'hasFur';
+global._hasSkin = 'hasSkin';
+
+// === Archetypes ===
+global._chosen = 'chosen';
+global._cultist = 'cultist';
+global._dominatrix = 'dominatrix';
+global._knight = 'knight';
+global._mindbender = 'mindbender';
+global._slaver = 'slaver';
+
+// === Species ===
+global._dragonkind = 'dragonkind';
+global._elf = 'elf';
+global._lupin = 'lupin';
+global._minotaur = 'minotaur';
+global._nymph = 'nymph';
+global._orc = 'orc';
+global._satyr = 'satyr';
+
+global._slowHitGrowth = 'slowHitGrowth';
+global._mediumHitGrowth = 'mediumHitGrowth';
+global._fastHitGrowth = 'fastHitGrowth';
 
 // === Statis & Conditions =====================================================
 
@@ -92,6 +121,32 @@ global.AccessorySlots = [
   _pussy,
   _ring,
 ];
+
+// Loot Rarities
+global._normalQuality = 'normalQuality'
+global._uncommonQuality = 'uncommonQuality'
+global._rareQuality = 'rareQuality'
+global._epicQuality = 'epicQuality'
+global._artifactQuality = 'artifactQuality'
+
+// Armor Types
+global._cloth = 'cloth';
+global._leather = 'leather';
+global._hide = 'hide';
+global._chain = 'chain';
+global._scale = 'scale';
+global._plate = 'plate';
+
+// Armor Weights
+global._lightArmor = 'lightArmor';
+global._mediumArmor = 'mediumArmor';
+global._heavyArmor = 'heavyArmor';
+
+// Weapon Type Classes for Generator and determining allowable weapons.
+global._anyWeapons = 'anyWeapons';
+global._cultWeapons = 'cultWeapons';
+global._closeWeapons = 'closeWeapons';
+global._mageWeapons = 'mageWeapons';
 
 // === Battle, Actions & Abilities =============================================
 
@@ -203,7 +258,6 @@ global.SquadRanks = [
 ];
 
 // Monster Flags
-global._lewd = 'lewd';
 global.MonsterFlags = [
   _lewd,
 ]

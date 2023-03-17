@@ -1,25 +1,25 @@
 
 const slaver = new Archetype('slaver',{
   name: 'Slaver',
-  availableSexes: ['male','female','futa'],
-  availableSpecies: ['elf','orc','lupin','satyr'],
+  availableSexes: [_male,_female,_futa],
+  availableSpecies: [_elf,_orc,_lupin,_satyr],
   attributeBonus: { str:2, dex:3 },
-  hitGrowth: 'fast',
+  hitGrowth: _fastHitGrowth,
   hitDice:   6,
-  armorType:  'medium',
-  weaponType: 'all',
+  armorType:  _mediumArmor,
+  weaponType: _anyWeapons,
 });
 
 slaver.addGnosis('carnage');
 slaver.addGnosis('venom');
 
 slaver.setStartingEquipment({
-  mainHand:  { rarity:'normal', type:'weapon', hands:'M' },
-  offHand:   { rarity:'normal', type:'weapon', hands:'1' },
-  chest:     { rarity:'normal', type:'chest',  material:['leather','hide']},
-  legs:      { rarity:'normal', type:'legs',   material:['leather','hide']},
-  hands:     { rarity:'normal', type:'hands',  material:['leather','hide']},
-  feet:      { rarity:'normal', type:'feet',   material:['leather','hide']},
+  mainHand:  { weaponType:_closeWeapons, hands:'M' },
+  offHand:   { weaponType:_closeWeapons, hands:'1' },
+  chest:     { slot:_chest, armorType:[_leather,_hide]},
+  legs:      { slot:_legs,  armorType:[_leather,_hide]},
+  hands:     { slot:_hands, armorType:[_leather,_hide]},
+  feet:      { slot:_feet,  armorType:[_leather,_hide]},
 });
 
 slaver.setStartingSkills({

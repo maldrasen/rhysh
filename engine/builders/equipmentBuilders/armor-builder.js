@@ -10,81 +10,81 @@ EquipmentBuilder.ArmorBuilder = (function() {
   };
 
   const HeadPieces = [
-    { name:'Armet',      materials:['plate']},
-    { name:'Barbute',    materials:['plate']},
-    { name:'Bascinet',   materials:['plate']},
-    { name:'Burgonet',   materials:['plate']},
-    { name:'Coif',       materials:['chain','scale']},
-    { name:'Cowl',       materials:['cloth','leather','hide']},
-    { name:'Great Helm', materials:['plate']},
-    { name:'Heaume',     materials:['plate']},
-    { name:'Helm',       materials:['plate']},
-    { name:'Hood',       materials:['cloth','leather','hide']},
-    { name:'Sallet',     materials:['plate']},
-    { name:'Tricorn',    materials:['leather']},
+    { name:'Armet',      types:[_plate]},
+    { name:'Barbute',    types:[_plate]},
+    { name:'Bascinet',   types:[_plate]},
+    { name:'Burgonet',   types:[_plate]},
+    { name:'Coif',       types:[_chain,_scale]},
+    { name:'Cowl',       types:[_cloth,_leather,_hide]},
+    { name:'Great Helm', types:[_plate]},
+    { name:'Heaume',     types:[_plate]},
+    { name:'Helm',       types:[_plate]},
+    { name:'Hood',       types:[_cloth,_leather,_hide]},
+    { name:'Sallet',     types:[_plate]},
+    { name:'Tricorn',    types:[_leather]},
   ];
 
   const ChestPieces = [
-    { name:'Armor',       materials:['chain','scale','plate']},
-    { name:'Breastplate', materials:['plate']},
-    { name:'Brigandine',  materials:['leather','hide']},
-    { name:'Bustier',     materials:['cloth'],                                  tags:['not-male','lewd']},
-    { name:'Cassock',     materials:['cloth']},
-    { name:'Coat',        materials:['cloth','leather']},
-    { name:'Corset',      materials:['leather','hide'],                         tags:['not-male','lewd']},
-    { name:'Cuirass',     materials:['plate']},
-    { name:'Doublet',     materials:['cloth','leather']},
-    { name:'Gambeson',    materials:['cloth']},
-    { name:'Gown',        materials:['cloth'],                                  tags:['not-male']},
-    { name:'Habergeon',   materials:['chain','scale']},
-    { name:'Harness',     materials:['leather','hide'],                         tags:['lewd']},
-    { name:'Hauberk',     materials:['chain','scale']},
-    { name:'Jacket',      materials:['cloth','leather']},
-    { name:'Jerkin',      materials:['cloth','leather']},
-    { name:'Overcoat',    materials:['cloth','leather']},
-    { name:'Robes',       materials:['cloth']},
-    { name:'Shirt',       materials:['chain']},
-    { name:'Tunic',       materials:['cloth']},
-    { name:'Vest',        materials:['cloth','leather']},
-    { name:'Vestment',    materials:['cloth']},
+    { name:'Armor',       types:[_chain,_scale,_plate]},
+    { name:'Breastplate', types:[_plate]},
+    { name:'Brigandine',  types:[_leather,_hide]},
+    { name:'Bustier',     types:[_cloth],                tags:['notMale',_lewd]},
+    { name:'Cassock',     types:[_cloth]},
+    { name:'Coat',        types:[_cloth,_leather]},
+    { name:'Corset',      types:[_leather,_hide],        tags:['notMale',_lewd]},
+    { name:'Cuirass',     types:[_plate]},
+    { name:'Doublet',     types:[_cloth,_leather]},
+    { name:'Gambeson',    types:[_cloth]},
+    { name:'Gown',        types:[_cloth],                tags:['notMale']},
+    { name:'Habergeon',   types:[_chain,_scale]},
+    { name:'Harness',     types:[_leather,_hide],        tags:[_lewd]},
+    { name:'Hauberk',     types:[_chain,_scale]},
+    { name:'Jacket',      types:[_cloth,_leather]},
+    { name:'Jerkin',      types:[_cloth,_leather]},
+    { name:'Overcoat',    types:[_cloth,_leather]},
+    { name:'Robes',       types:[_cloth]},
+    { name:'Shirt',       types:[_chain]},
+    { name:'Tunic',       types:[_cloth]},
+    { name:'Vest',        types:[_cloth,_leather]},
+    { name:'Vestment',    types:[_cloth]},
   ];
 
   const LegPieces = [
-    { name:'Britches',   materials:['cloth','leather','hide']},
-    { name:'Chaps',      materials:['leather','hide'],                          tags:['lewd','roomy']},
-    { name:'Chausses',   materials:['cloth','leather','hide','chain'],          tags:['lewd','roomy']},
-    { name:'Cockplate',  materials:['plate'],                                   tags:['lewd','roomy','not-female']},
-    { name:'Codpiece',   materials:['plate'],                                   tags:['lewd','roomy','not-female']},
-    { name:'Culottes',   materials:['cloth','leather','hide']},
-    { name:'Faulds',     materials:['scale','plate']},
-    { name:'Greaves',    materials:['scale','plate']},
-    { name:'Hosen',      materials:['leather','hide','chain','scale']},
-    { name:'Kilt',       materials:['cloth','leather','hide','chain'],          tags:['roomy']},
-    { name:'Legging',    materials:['cloth','leather','hide']},
-    { name:'Legplates',  materials:['plate'],                                   tags:['lewd','roomy']},
-    { name:'Loincloth',  materials:['cloth','leather','hide','chain','scale'],  tags:['lewd','roomy']},
-    { name:'Pantaloons', materials:['cloth']},
-    { name:'Pants',      materials:['cloth','leather','hide','chain']},
-    { name:'Sarong',     materials:['cloth'],                                   tags:['not-male','roomy']},
-    { name:'Sash',       materials:['cloth'],                                   tags:['lewd','roomy']},
-    { name:'Skirt',      materials:['cloth','leather'],                         tags:['not-male','roomy']},
-    { name:'Trousers',   materials:['cloth','leather','hide','chain']},
+    { name:'Britches',   types:[_cloth,_leather,_hide]},
+    { name:'Chaps',      types:[_leather,_hide],                       tags:[_lewd,_roomy]},
+    { name:'Chausses',   types:[_cloth,_leather,_hide,_chain],         tags:[_lewd,_roomy]},
+    { name:'Cockplate',  types:[_plate],                               tags:[_lewd,_roomy,_notFemale]},
+    { name:'Codpiece',   types:[_plate],                               tags:[_lewd,_roomy,_notFemale]},
+    { name:'Culottes',   types:[_cloth,_leather,_hide]},
+    { name:'Faulds',     types:[_scale,_plate]},
+    { name:'Greaves',    types:[_scale,_plate]},
+    { name:'Hosen',      types:[_leather,_hide,_chain,_scale]},
+    { name:'Kilt',       types:[_cloth,_leather,_hide,_chain],         tags:[_roomy]},
+    { name:'Legging',    types:[_cloth,_leather,_hide]},
+    { name:'Legplates',  types:[_plate],                               tags:[_lewd,_roomy]},
+    { name:'Loincloth',  types:[_cloth,_leather,_hide,_chain,_scale],  tags:[_lewd,_roomy]},
+    { name:'Pantaloons', types:[_cloth]},
+    { name:'Pants',      types:[_cloth,_leather,_hide,_chain]},
+    { name:'Sarong',     types:[_cloth],                               tags:[_notMale,_roomy]},
+    { name:'Sash',       types:[_cloth],                               tags:[_lewd,_roomy]},
+    { name:'Skirt',      types:[_cloth,_leather],                      tags:[_notMale,_roomy]},
+    { name:'Trousers',   types:[_cloth,_leather,_hide,_chain]},
   ];
 
   const HandPieces = [
-    { name:'Bracers',    materials:['scale','plate']},
-    { name:'Gauntlets',  materials:['plate']},
-    { name:'Gloves',     materials:['cloth','leather','hide','chain']},
-    { name:'Vambrances', materials:['leather','hide','chain','scale','plate']},
+    { name:'Bracers',    types:[_scale,_plate]},
+    { name:'Gauntlets',  types:[_plate]},
+    { name:'Gloves',     types:[_cloth,_leather,_hide,_chain]},
+    { name:'Vambrances', types:[_leather,_hide,_chain,_scale,_plate]},
   ];
 
   const FootPieces = [
-    { name:'Boots', materials:['leather','hide','chain','scale']},
-    { name:'Buskins', materials:['leather','hide']},
-    { name:'Greatboots', materials:['leather','hide','chain','scale','plate']},
-    { name:'Sabatons', materials:['plate']},
-    { name:'Slippers', materials:['cloth']},
-    { name:'Sollerets', materials:['plate']},
+    { name:'Boots',      types:[_leather,_hide,_chain,_scale]},
+    { name:'Buskins',    types:[_leather,_hide]},
+    { name:'Greatboots', types:[_leather,_hide,_chain,_scale,_plate]},
+    { name:'Sabatons',   types:[_plate]},
+    { name:'Slippers',   types:[_cloth]},
+    { name:'Sollerets',  types:[_plate]},
   ];
 
   // Just building normal rarity stuff for now. The rare armors will have more
@@ -92,18 +92,17 @@ EquipmentBuilder.ArmorBuilder = (function() {
   // work like character names where each word in the name effects the armor
   // somehow, but not for normal rarity armors.
   function build(options) {
-    options.material = materialValue(options.material);
-    options.materialName = Random.from(MaterialNames[options.material]);
-
+    options.armorType = armorTypeFrom(options);
+    options.materialName = Random.from(MaterialNames[options.armorType]);
 
     // If we're building armor for a character, and that charactor cannot wear
     // armor in the specified slot (or at all) the armor builder simply returns
     // null.
     if (options.for) {
       let species = options.for.getSpeciesCode();
-      if (species == 'nymph') { return null; }
-      if (species == 'dragonkind') { return null; }
-      if (species == 'satyr' && options.type == 'legs') { return null; }
+      if (species == _nymph) { return null; }
+      if (species == _dragonkind) { return null; }
+      if (species == _satyr && options.slot == _legs) { return null; }
     }
 
     let pieceList = {
@@ -112,10 +111,9 @@ EquipmentBuilder.ArmorBuilder = (function() {
       legs:  LegPieces,
       hands: HandPieces,
       feet:  FootPieces,
-    }[options.type];
+    }[options.slot];
 
-    let piece = pieceForMaterial(pieceList, options);
-
+    let piece = pieceForType(pieceList, options);
     if (piece == null) {
       console.error('=== Error ===')
       console.error('Cannot Build Armor With Options:',options);
@@ -123,26 +121,31 @@ EquipmentBuilder.ArmorBuilder = (function() {
       return null;
     }
 
-    let armor = new Armor(options.type, options.material);
+    let armor = new Armor(options.slot, options.armorType);
     armor.setName(`${options.materialName} ${piece.name}`);
     armor.setTags(piece.tags||[]);
 
     return armor;
   }
 
-  // Choose a specific armor material. If a material is specified we can use
-  // it to narrow down our choices, otherwise we can use the rarity to pick a
-  // random material of that rarity. The material parameter can be an array or
-  // a string. If it's an array we pick a string at random to use.
-  function materialValue(material) {
-    return (typeof material == 'object') ? Random.from(material) : material;
+  // Choose a specific armor type. If the armorType option is set we use it
+  // first. The options can be an array or a string. If it's an array we pick a
+  // string at random to use.
+  //
+  // TODO: When generating more randomized loot we can use the rarity to pick a
+  //       random material of that rarity.
+  function armorTypeFrom(options) {
+    if (options.armorType) {
+      return (typeof options.armorType == 'object') ? Random.from(options.armorType) : options.armorType;
+    }
+    throw `TODO: Get armor type from rarity.`
   }
 
   // === Select Armor Piece ====================================================
   // The first part of building even a standard piece of armor is determining
   // the material.
 
-  function pieceForMaterial(pieceList, options) {
+  function pieceForType(pieceList, options) {
     let available = [];
     let requireTags = [];
     let refuteTags = [];
@@ -158,25 +161,25 @@ EquipmentBuilder.ArmorBuilder = (function() {
     }
 
     // Some armor cannot be worn by men or women.
-    if (sex == 'male') { refuteTags.push('not-male'); }
-    if (sex == 'female') { refuteTags.push('not-female'); }
+    if (sex == _male) { refuteTags.push(_notMale); }
+    if (sex == _female) { refuteTags.push(_notFemale); }
 
     // The Dominatrix can only wear lewd chest and leg armor.
-    if (archetype == 'dominatrix') {
-      if (options.type == 'chest') { requireTags.push('lewd'); }
-      if (options.type == 'legs')  { requireTags.push('lewd'); }
+    if (archetype == _dominatrix) {
+      if (options.slot == _chest) { requireTags.push(_lewd); }
+      if (options.slot == _legs)  { requireTags.push(_lewd); }
     }
 
-    // Currently it's just the minotaur that needs 'roomy' pants, but
+    // Currently it's just the minotaur that needs _roomy pants, but
     // eventually we'll want to check to see if a character's cock has grown
     // too large to wear normal pants.
-    if (species == 'minotaur' && options.type == 'legs') {
-      requireTags.push('roomy');
+    if (species == _minotaur && options.slot == _legs) {
+      requireTags.push(_roomy);
     }
 
     for (let i=0; i<pieceList.length; i++) {
       let piece = pieceList[i];
-      if (requirePass(requireTags, piece) && refutePass(refuteTags, piece) && ArrayHelper.contains(piece.materials, options.material)) {
+      if (requirePass(requireTags, piece) && refutePass(refuteTags, piece) && ArrayHelper.contains(piece.types, options.armorType)) {
         available.push(piece);
       }
     }

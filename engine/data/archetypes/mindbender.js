@@ -1,13 +1,13 @@
 
 const mindbender = new Archetype('mindbender',{
   name: 'Mindbender',
-  availableSexes: ['male','female','futa'],
-  availableSpecies: ['elf','nymph','dragonkind','satyr'],
+  availableSexes: [_male,_female,_futa],
+  availableSpecies: [_elf,_nymph,_dragonkind,_satyr],
   attributeBonus: { int:3, cha:2 },
-  hitGrowth: 'slow',
+  hitGrowth: _slowHitGrowth,
   hitDice:   4,
-  armorType:  'light',
-  weaponType: 'mage',
+  armorType:  _lightArmor,
+  weaponType: _mageWeapons,
 });
 
 mindbender.addArcanum('force');
@@ -15,11 +15,11 @@ mindbender.addArcanum('domination');
 mindbender.addPower('aura-devotion-greater');
 
 mindbender.setStartingEquipment({
-  mainHand:  { rarity:'normal', type:'mageWeapon', hands:'1' },
-  chest:     { rarity:'normal', type:'chest',  material:['cloth']},
-  legs:      { rarity:'normal', type:'legs',   material:['cloth']},
-  hands:     { rarity:'normal', type:'hands',  material:['cloth']},
-  feet:      { rarity:'normal', type:'feet',   material:['cloth']},
+  mainHand:  { weaponType:_mageWeapons, hands:'1' },
+  chest:     { slot:_chest, armorType:[_cloth]},
+  legs:      { slot:_legs,  armorType:[_cloth]},
+  hands:     { slot:_hands, armorType:[_cloth]},
+  feet:      { slot:_feet,  armorType:[_cloth]},
 });
 
 mindbender.setStartingSkills({

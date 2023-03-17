@@ -1,6 +1,6 @@
 global.NameBuilder = (function() {
 
-  const NameRestrictions = ['male','female','not-male','not-female','has-cock','has-pussy','has-tits','has-scales'];
+  const NameRestrictions = [_male,_female,_notMale,_notFemale,_hasScales,_hasFur,_hasSkin];
 
   const Names = {
     DemonMale: [],
@@ -72,20 +72,18 @@ global.NameBuilder = (function() {
     };
   }
 
-
   // This will eventually need to be rewritten. It works for checking against a
   // sex option, but eventually we'll probably need to check against a
   // character to see if the name fits or not.
   function meetsRequirements(name, options) {
     if (name.restriction) {
-      if (name.restriction == 'male') { return options.sex == 'male'; }
-      if (name.restriction == 'female') { return options.sex == 'female'; }
-      if (name.restriction == 'not-male') { return options.sex != 'male';}
-      if (name.restriction == 'not-female') { return options.sex != 'female'; }
-      if (name.restriction == 'has-cock') { return options.sex != 'female'; }
-      if (name.restriction == 'has-pussy') { return options.sex != 'male'; }
-      if (name.restriction == 'has-tits') { return options.sex != 'male'; }
-      if (name.restriction == 'has-scales') { return false; }
+      if (name.restriction == _male) { return options.sex == _male; }
+      if (name.restriction == _female) { return options.sex == _female; }
+      if (name.restriction == _notMale) { return options.sex != _male; }
+      if (name.restriction == _notFemale) { return options.sex != _female; }
+      if (name.restriction == _hasFur) { return false; }
+      if (name.restriction == _hasScales) { return false; }
+      if (name.restriction == _hasSkin) { return false; }
     }
 
     return true;

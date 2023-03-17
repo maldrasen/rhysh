@@ -4,13 +4,21 @@ global.EquipmentBuilder = (function() {
   // builder type. If the equipment isn't armor or an accessory assume it's a
   // weapon.
   function build(options) {
-    if (options.type == null) { throw `EquipmentBuilder at least requires a type` }
-    if (options.type == 'shield') { return EquipmentBuilder.AccessoryBuilder.build(options); }
 
-    if (ArrayHelper.contains(ArmorSlots, options.type)) { return EquipmentBuilder.ArmorBuilder.build(options); }
-    if (ArrayHelper.contains(AccessorySlots, options.type)) { return EquipmentBuilder.AccessoryBuilder.build(options); }
+    if (options.slot && ArrayHelper.contains(ArmorSlots, options.slot)) {
+      return EquipmentBuilder.ArmorBuilder.build(options);
+    }
+    if (options.slot && ArrayHelper.contains(AccessorySlots, options.slot)) {
+      return EquipmentBuilder.AccessoryBuilder.build(options);
+    }
+    if (options.type == 'shield') { return
+      EquipmentBuilder.AccessoryBuilder.build(options);
+    }
+    if (options.weaponType || options.type == 'weapon') {
+      return EquipmentBuilder.WeaponBuilder.build(options);
+    }
 
-    return EquipmentBuilder.WeaponBuilder.build(options);
+    throw `Unrecognized EquipmentBuilder Options: ${JSON.stringify(options)}`
   }
 
   return { build };

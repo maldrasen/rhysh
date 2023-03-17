@@ -25,7 +25,7 @@ describe('CharacterBuilder', function() {
     let main = SpecHelper.randomMainCharacter({ archetype:'knight' });
     let equipped = Inventory.getEquippedBy(main);
 
-    expect(equipped['head'].getMaterial()).to.equal('plate');
+    expect(equipped['head'].getArmorTypeCode()).to.equal('plate');
     expect(equipped['mainHand'].getBase()).to.equal('longsword');
     expect(equipped['offHand'].getEffects().armorClass).to.equal(2);
 

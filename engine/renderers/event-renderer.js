@@ -177,7 +177,7 @@ global.EventRenderer = class EventRenderer {
   //    selections:[
   //      { text:'Befriend {{his}}', value:'befriend' },
   //      { text:'Torment {{him}}',  value:'torment',  effects:['player sadist 1']},
-  //      { text:'Fuck {{him}}',     value:'torment',  requires:'player.has-cock'},
+  //      { text:'Fuck {{him}}',     value:'fuck',     requires:'player.has-cock'},
   //    ]
   //
   renderSelectionStage(stage) {
