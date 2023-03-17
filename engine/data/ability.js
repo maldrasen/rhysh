@@ -102,7 +102,7 @@ global.Ability = class Ability {
   // addStatus can also have a duration set. If duration is null the status is
   // valid until something removes it.
   validateAddStatus() {
-    StatusDictionary.lookup(this.addStatus.status);
+    StatusType.lookup(this.addStatus.status);
     Validate.isIn('setStatus.on',this.addStatus.on, [_self,_single,_rank,_allMonsters,_allCharacters,_everyone]);
   }
 

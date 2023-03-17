@@ -82,7 +82,7 @@ global.Condition = class Condition {
   hasStatus(code) { return this.#statuses[code] != null; }
   removeStatus(code) { delete this.#statuses[code]; }
   setStatus(code, duration) {
-    StatusDictionary.lookup(code);
+    StatusType.lookup(code);
     this.#statuses[code] = duration;
   }
 
