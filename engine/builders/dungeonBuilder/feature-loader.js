@@ -1,14 +1,18 @@
 global.FeatureLoader = class FeatureLoader {
 
+  #filename;
+  #featureMap;
+  #featureData;
+
   constructor(name) {
-    this.filename = name;
+    this.#filename = name;
   }
 
   async loadFeatures() {
-    this.featureMap = await DungeonBuilder.loadFeatureMap(this.filename)
-    this.featureData = await DungeonBuilder.loadFeatureData(this.filename)
+    this.#featureMap = await DungeonBuilder.loadFeatureMap(this.#filename);
+    this.#featureData = await DungeonBuilder.loadFeatureData(this.#filename);
 
-    this.featureData.Features.forEach(info => {
+    this.#featureData.Features.forEach(info => {
       this.loadFeature(info);
     });
   }
@@ -17,8 +21,8 @@ global.FeatureLoader = class FeatureLoader {
     let tileData = this.loadTileData(featureInfo);
     let featureTemplate = new FeatureTemplate(featureInfo)
 
-    if (this.featureData["FeatureSet"]) {
-      DungeonBuilder.addTemplateToSet(this.featureData["FeatureSet"],featureInfo["Name"])
+    if (this.#featureData["FeatureSet"]) {
+      DungeonBuilder.addTemplateToSet(this.#featureData["FeatureSet"],featureInfo["Name"])
     }
 
     forUpTo(tileData.length, layerIndex => {
@@ -46,7 +50,7 @@ global.FeatureLoader = class FeatureLoader {
       dataLayers.push(new Array(featureInfo["Width"] * featureInfo["Height"]));
     });
 
-    this.featureMap.layers.forEach(mapLayer => {
+    this.#featureMap.layers.forEach(mapLayer => {
       let layerInfo = DungeonBuilder.parseLayerName(mapLayer.name);
 
       forEachTile(featureInfo, (x,y) => {
@@ -69,7 +73,7 @@ global.FeatureLoader = class FeatureLoader {
   // The mapLayer will have its tile data in either a 2D array of string if it's the regions layer, or as a 2D array of
   // numbers if it's one of the other layers.
   tileDataAt(mapLayer, layerType, point) {
-    let extensionLoader = new ExtensionLoader(this.featureData);
+    let extensionLoader = new ExtensionLoader(this.#featureData);
 
     // TODO: The features don't fo anything with the region layers. The ZoneLoader uses the regions to add to the
     //       supplementary data used by the biome builders. They could be used for something else in the features, but

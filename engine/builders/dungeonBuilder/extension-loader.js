@@ -14,7 +14,7 @@ global.ExtensionLoader = class ExtensionLoader {
   //       here and handle them when we're at a place where we know what to do with them.
   //
   adjustedLayerData(layerType, tileId, point) {
-    let layerData = { ...DungeonBuilder.lookupTile(layerType, tileId) };
+    let layerData = { ...Tilemap.lookupTile(layerType, tileId) };
 
     if (layerType != "extended") { return layerData; }
 

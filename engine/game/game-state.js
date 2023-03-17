@@ -125,6 +125,8 @@ global.GameState = (function() {
   // found in the zoneData for their current zone which should have a list of
   // places it's possible to come to the current zone from. (Or there should at
   // least be a "Default" value)
+  //
+  // TODO: This is enough to be moved into its own thing I think.
   function setCurrentZone(zoneName) {
     return new Promise(resolve => {
       ZoneLibrary.getZone(zoneName, async (zone) => {

@@ -26,12 +26,9 @@ global.GameBuilder = (function() {
 
       Settings.incWorldCounter();
       Settings.save();
-
-      ZoneLibrary.loadZone("Wolgur");
-      ZoneLibrary.loadZone("WolgurCleft");
-
       GameData.saveGame();
       GameRenderer.render();
+      DungeonBuilder.buildAllZones();
     });
   }
 

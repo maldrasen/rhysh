@@ -1,161 +1,122 @@
 
-let Tilemaps;
-let FeatureLibrary = {};
-let FeatureSets = {};
+const FeatureList = [
+  "Caves",
+  "Farms"
+]
+
+let $featureLibrary = {};
+let $featureSets = {};
 
 global.DungeonBuilder = (function() {
 
-  const FeatureList = [
-    "Caves",
-    "Farms"
-  ]
-
-  function load() {
-    loadTilemaps().then(() => {
-      loadFeatures();
-    });
+  function buildAllZones() {
+    console.log("OK, big refactor time...")
   }
 
-  // === Tilemaps ======================================================================================================
 
-  function loadTilemaps() {
-    return Promise.all([
-      parseTilemap(`${ROOT}/data/tilemaps/rhysh-root.json`),
-      parseTilemap(`${ROOT}/data/tilemaps/rhysh-extra.json`),
-      parseTilemap(`${ROOT}/data/tilemaps/rhysh-extended.json`),
-    ]).then(loaded => {
-      Tilemaps = {
-        root: loaded[0],
-        extra: loaded[1],
-        extended: loaded[2],
-      }
-    });
-  }
 
-  function parseTilemap(path) {
-    return new Promise(resolve => {
-      fs.readFile(path, (error, data) => {
-        if (error) throw error;
+  // === Features ==============================================================
 
-        let tilemap = {};
-        JSON.parse(data).tiles.forEach(tile => {
-          tilemap[tile.id] = tile;
-        })
+  // function loadFeatures() {
+  //   FeatureList.forEach(name => {
+  //     new FeatureLoader(name).loadFeatures();
+  //   });
+  // }
 
-        resolve(tilemap)
-      });
-    });
-  }
+  // function addTemplateToLibrary(template) {
+  //   $featureLibrary[template.getName()] = template;
+  // }
 
-  function lookupTile(type, id) {
-    let tile = Tilemaps[type.toLowerCase()][id];
-    return tile ? tile : console.error(`Error: Unknown Tile ${type}:${id}`);
-  }
+  // // Features also can belong to a feature set. These are used to select random
+  // // features when building the dungeon. Biomes can draw features from many
+  // // sets and sets may belong to many biomes.
+  // function addTemplateToSet(setName, templateName) {
+  //   if ($featureSets[setName] == null) { $featureSets[setName] = []; }
+  //   $featureSets[setName].push(templateName);
+  // }
 
-  // === Features ======================================================================================================
+  // function lookupFeatureTemplate(name) {
+  //   return $featureLibrary[name];
+  // }
 
-  function loadFeatures() {
-    FeatureList.forEach(name => {
-      new FeatureLoader(name).loadFeatures();
-    });
-  }
+  // function randomFeatureFromSet(name) {
+  //   return new Feature(Random.from($featureSets[name]));
+  // }
 
-  function addTemplateToLibrary(template) {
-    FeatureLibrary[template.getName()] = template;
-  }
+  // function randomFeatureFromSets(sets) {
+  //   let featureList = []
 
-  // Features also can belong to a feature set. These are used to select random features when building the dungeon.
-  // Biomes can draw features from many sets and sets may belong to many biomes.
-  function addTemplateToSet(setName, templateName) {
-    if (FeatureSets[setName] == null) { FeatureSets[setName] = []; }
-    FeatureSets[setName].push(templateName);
-  }
+  //   sets.forEach(setName => {
+  //     if ($featureSets[setName]) {
+  //       $featureSets[setName].forEach(featureName => {
+  //         featureList.push(featureName);
+  //       });
+  //     }
+  //   });
 
-  function lookupFeatureTemplate(name) {
-    return FeatureLibrary[name];
-  }
+  //   return new Feature(Random.from(featureList));
+  // }
 
-  function randomFeatureFromSet(name) {
-    return new Feature(Random.from(FeatureSets[name]));
-  }
+  // // === Map and Data Files ====================================================
 
-  function randomFeatureFromSets(sets) {
-    let featureList = []
+  // async function loadZoneMap(name) { return loadMap("zones",name); }
+  // async function loadFeatureMap(name) { return loadMap("features",name); }
+  // async function loadFeatureData(name) { return loadData("features",name); }
 
-    sets.forEach(setName => {
-      if (FeatureSets[setName]) {
-        FeatureSets[setName].forEach(featureName => {
-          featureList.push(featureName);
-        });
-      }
-    });
+  // async function loadMap(type, name) {
+  //   return new Promise(resolve => {
+  //     let path = `${ROOT}/data/${type}/${name}.json`;
 
-    return new Feature(Random.from(featureList));
-  }
+  //     fs.readFile(path, (error, data) => {
+  //       if (error) throw error;
 
-  // === Map and Data Files ============================================================================================
+  //       try {
+  //         resolve(JSON.parse(data));
+  //       } catch(error) {
+  //         console.error(`Cannor Parse JSON ${path}`);
+  //         console.error(error);
+  //       }
+  //     });
+  //   });
+  // }
 
-  async function loadZoneMap(name) { return loadMap("zones",name); }
-  async function loadZoneData(name) { return loadData("zones",name); }
-  async function loadFeatureMap(name) { return loadMap("features",name); }
-  async function loadFeatureData(name) { return loadData("features",name); }
+  // async function loadData(type, name) {
+  //   return new Promise(resolve => {
+  //     let path = `${ROOT}/data/${type}/${name}Data.json`;
 
-  async function loadMap(type, name) {
-    return new Promise(resolve => {
-      let path = `${ROOT}/data/${type}/${name}.json`;
+  //     fs.readFile(path, (error, data) => {
+  //       if (error) throw error;
 
-      fs.readFile(path, (error, data) => {
-        if (error) throw error;
+  //       try {
+  //         resolve(JSON.parse(data));
+  //       } catch(error) {
+  //         console.error(`Cannor Parse JSON ${path}`);
+  //         console.error(error);
+  //       }
+  //     });
+  //   });
+  // }
 
-        try {
-          resolve(JSON.parse(data));
-        } catch(error) {
-          console.error(`Cannor Parse JSON ${path}`);
-          console.error(error);
-        }
-      });
-    });
-  }
+  // function parseLayerName(name) {
+  //   const matches = name.match(/(\w+) (\d+)/);
 
-  async function loadData(type, name) {
-    return new Promise(resolve => {
-      let path = `${ROOT}/data/${type}/${name}Data.json`;
-
-      fs.readFile(path, (error, data) => {
-        if (error) throw error;
-
-        try {
-          resolve(JSON.parse(data));
-        } catch(error) {
-          console.error(`Cannor Parse JSON ${path}`);
-          console.error(error);
-        }
-      });
-    });
-  }
-
-  function parseLayerName(name) {
-    const matches = name.match(/(\w+) (\d+)/);
-
-    return {
-      type: matches[1].toLowerCase(),
-      index: parseInt(matches[2]) - 1,
-    };
-  }
+  //   return {
+  //     type: matches[1].toLowerCase(),
+  //     index: parseInt(matches[2]) - 1,
+  //   };
+  // }
 
   return {
-    load: load,
-    lookupTile: lookupTile,
-    addTemplateToLibrary: addTemplateToLibrary,
-    addTemplateToSet: addTemplateToSet,
-    lookupFeatureTemplate: lookupFeatureTemplate,
-    randomFeatureFromSet: randomFeatureFromSet,
-    randomFeatureFromSets: randomFeatureFromSets,
-    loadZoneMap: loadZoneMap,
-    loadZoneData: loadZoneData,
-    loadFeatureMap: loadFeatureMap,
-    loadFeatureData: loadFeatureData,
-    parseLayerName: parseLayerName,
+    buildAllZones,
+    // addTemplateToLibrary,
+    // addTemplateToSet,
+    // lookupFeatureTemplate: lookupFeatureTemplate,
+    // randomFeatureFromSet: randomFeatureFromSet,
+    // randomFeatureFromSets: randomFeatureFromSets,
+    // loadZoneMap,
+    // loadFeatureMap,
+    // loadFeatureData,
+    // parseLayerName,
   };
 
 })();

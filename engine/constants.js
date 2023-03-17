@@ -1,5 +1,11 @@
 
-// === Facings ===
+// === Dungeon =================================================================
+
+global._root = 'root';
+global._extra = 'extra';
+global._extended = 'extended';
+
+// Facings
 global._N = "N";
 global._S = "S";
 global._E = "E";
@@ -7,7 +13,7 @@ global._W = "W";
 global._U = "U";
 global._D = "D";
 
-// === Attributes ===
+// === Characters ==============================================================
 global._str = 'str';
 global._dex = 'dex';
 global._con = 'con';

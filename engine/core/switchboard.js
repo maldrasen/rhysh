@@ -10,7 +10,6 @@ global.Switchboard = (function() {
       Loader.loadDirectory(`${ROOT}/engine/controllers`);
       Loader.loadDirectory(`${ROOT}/engine/server`);
 
-      DungeonBuilder.load();
       Browser.init();
       Controllers.init();
     });
