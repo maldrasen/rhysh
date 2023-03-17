@@ -11,13 +11,13 @@ global.Power = class Power {
     return PowerDictionary[code];
   }
 
+  #code;
+  #name;
+
   constructor(code, options) {
     this.#code = code;
     this.#name = options.name;
   }
-
-  #code;
-  #name;
 
   get code() { return this.#code; }
   get name() { return this.#name; }
