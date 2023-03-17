@@ -20,12 +20,12 @@ window.MainMenu = (function() {
   }
 
   function showNewGame() {
-    MainContent.clear();
+    MainContent.reset();
     ClientCommands.send('game.new');
   }
 
   function continueGame() {
-    MainContent.clear();
+    MainContent.reset();
     ClientCommands.send('game.load', lastWorld.worldIndex);
   }
 
@@ -37,12 +37,12 @@ window.MainMenu = (function() {
   }
 
   function previewFeatures() {
-    MainContent.clear();
+    MainContent.reset();
     ClientCommands.send('dungeon-builder.show-debug-feature');
   }
 
   function previewZone() {
-    MainContent.clear();
+    MainContent.reset();
     ClientCommands.send('dungeon-builder.show-debug-zone');
   }
 

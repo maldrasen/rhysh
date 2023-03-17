@@ -8,6 +8,12 @@ window.BattlePlayer = (function() {
     X.onClick('#clickAdvance', clickAdvance);
   }
 
+  function reset() {
+    $eventList = null;
+    $eventIndex = null;
+    $segmentIndex = null;
+  }
+
   function start(events) {
     $eventList = events;
     $eventIndex = 0;
@@ -28,7 +34,6 @@ window.BattlePlayer = (function() {
 
     BattleView.startNewRound();
   }
-
 
   function currentEvent() { return $eventList[$eventIndex]; }
   function currentSegment() { return currentEvent() ? currentEvent().segments[$segmentIndex] : null; }
@@ -73,6 +78,6 @@ window.BattlePlayer = (function() {
     X.first('#battleText').appendChild(item);
   }
 
-  return { init, start }
+  return { init, reset, start };
 
 })();

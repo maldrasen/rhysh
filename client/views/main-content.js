@@ -1,23 +1,37 @@
 window.MainContent = (function() {
 
-  let currentStage;
-  let tween;
+  let $currentStage;
+  let $tween;
 
   // Wire the global event listeners.
   function init() {
     X.onClick('a.send-command', handleSendCommend);
-    X.onClick('a.clear-content', clear);
   }
 
-  function clear() {
-    showCover();
-    X.first('#mainContent').setHTML("");
+  function reset() {
+    console.log("--- Reset ---");
+
     BackgroundImage.removeBackground();
+    showCover();
+
+    X.first('#mainContent').setHTML("");
+    X.addClass('#clickAdvance','hide');
+
+    $currentStage = null;
+    $tween = null;
+
+    BattlePlayer.reset();
+    BattleView.reset();
+    Dungeon.reset();
+    EventView.reset();
+    NewGame.reset();
+    MapView.reset();
+    PartyPanel.reset();
   }
 
   // Views that can be used as stages will have a name and a show() function.
   function setStage(view, options={}) {
-    currentStage = view.name;
+    $currentStage = view.name;
     showCover();
     view.show(options);
   }
@@ -71,34 +85,34 @@ window.MainContent = (function() {
     const cover = X.first('#mainCover');
 
     const animate = () => {
-      if (tween) {
+      if ($tween) {
         requestAnimationFrame(animate);
         TWEEN.update();
       }
     }
 
-    tween = new TWEEN.Tween({ opacity:1 });
-    tween.to({ opacity:0 }, (properties.fadeTime || 500));
-    tween.easing(TWEEN.Easing.Quadratic.Out)
+    $tween = new TWEEN.Tween({ opacity:1 });
+    $tween.to({ opacity:0 }, (properties.fadeTime || 500));
+    $tween.easing(TWEEN.Easing.Quadratic.Out)
 
-    tween.onUpdate(t => {
+    $tween.onUpdate(t => {
       cover.setAttribute('style',`opacity:${t.opacity}`);
     });
 
-    tween.onComplete(()=>{
-      tween = null;
+    $tween.onComplete(()=>{
+      $tween = null;
       cover.removeAttribute('style');
       cover.setAttribute('class','hide');
     });
 
-    tween.start();
+    $tween.start();
     animate();
   }
 
   return {
     init,
+    reset,
     ready,
-    clear,
     setStage,
     showCover,
     hideCover,

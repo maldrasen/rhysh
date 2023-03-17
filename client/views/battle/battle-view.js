@@ -16,6 +16,13 @@ window.BattleView = (function() {
     });
   }
 
+  function reset() {
+    $battleState = null;
+    $activeCharacterCode = null;
+    $activeCharacter = null;
+    $committedActions = null;
+  }
+
   function show(state) {
     $battleState = state.battle;
 
@@ -60,6 +67,7 @@ window.BattleView = (function() {
 
   return {
     init,
+    reset,
     show,
     isOpen,
 

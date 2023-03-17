@@ -44,7 +44,6 @@
 
       // Components
       import('./components/attribute-control.js'),
-      import('./components/main-content.js'),
 
       // Elements
       import('./elements/alert.js'),
@@ -64,6 +63,7 @@
       import('./tools/exacto.js'),
 
       // Views
+      import('./views/main-content.js'),
       import('./views/battle/battle-controls.js'),
       import('./views/battle/battle-effects.js'),
       import('./views/battle/battle-player.js'),
@@ -80,8 +80,6 @@
       import('./views/mapView/map-view.js'),
       import('./views/mapView/tile-graphics.js'),
       import('./views/partyPanel/party-panel.js'),
-      import('./views/pauseMenu/pause-menu.js'),
-      import('./views/townView/town-view.js'),
 
       // Data
       import('../engine/data/archetypes/chosen.js'),

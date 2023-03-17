@@ -23,10 +23,6 @@ window.Renderer = (function() {
       Dungeon:        Dungeon.show,
       Event:          EventView.show,
       NewGame:        NewGame.show,
-      TownBlacksmith: TownView.showBlacksmith,
-      TownGuild:      TownView.showGuild,
-      TownStore:      TownView.showStore,
-      TownTavern:     TownView.showTavern,
       FeaturePreview: MapView.showFeaturePreview,
       ZonePreview:    MapView.showZonePreview,
     }[viewState.showView];

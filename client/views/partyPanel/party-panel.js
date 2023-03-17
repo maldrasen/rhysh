@@ -18,6 +18,11 @@ window.PartyPanel = (function () {
     });
   }
 
+  function reset() {
+    X.addClass('#partyPanel','hide');
+    $currentStatus = null;
+  }
+
   function show(status) {
     X.removeClass('#statusPanel','hide')
     X.removeClass('#partyPanel','hide')
@@ -64,6 +69,7 @@ window.PartyPanel = (function () {
 
   return {
     init,
+    reset,
     show,
     hide,
     update,

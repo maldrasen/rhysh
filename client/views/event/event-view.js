@@ -1,7 +1,9 @@
 window.EventView = (function() {
 
+  // TODO: Will be configurable and pulled from Settings
+  const SkipRate = 100;
+
   let $skipActive = false;
-  let $skipRate = 100;
   let $eventData;
   let $stageCounter;
   let $pageCounter;
@@ -9,6 +11,14 @@ window.EventView = (function() {
 
   function init() {
     X.onClick('#clickAdvance', clickAdvance);
+  }
+
+  function reset() {
+    $skipActive = false;
+    $eventData = null;
+    $stageCounter = null;
+    $pageCounter = null;
+    $layout = null;
   }
 
   function show(data) {
@@ -184,7 +194,7 @@ window.EventView = (function() {
         nextPage();
         doSkip();
       }
-    },$skipRate);
+    },SkipRate);
   }
 
   function nextStage() {
@@ -217,9 +227,8 @@ window.EventView = (function() {
   }
 
   function endEvent() {
-    X.addClass('#clickAdvance','hide');
-    MainContent.clear();
     ClientCommands.send('game.end-event',$eventData.state);
+    MainContent.reset();
   }
 
   // === Selection Stage =======================================================
@@ -261,6 +270,7 @@ window.EventView = (function() {
 
   return {
     init,
+    reset,
     show,
     isOpen,
     setTextWindowStyle,

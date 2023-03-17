@@ -21,6 +21,10 @@ window.MapView = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
+  function reset() {
+    MapCanvas.reset();
+  }
+
   function isOpen() {
     return X.hasClass('#mapCanvas','hide') == false;
   }
@@ -60,16 +64,15 @@ window.MapView = (function() {
   // non-map classes interacting with the canvas. Is there anything else the
   // view needs to do with these though?
   function move(response) { MapCanvas.move(response); }
-  function clear() { MapCanvas.clear(); }
 
   return {
     name: "MapView",
+    reset: reset,
     isOpen: isOpen,
     showDungeon: showDungeon,
     showFeaturePreview: showFeaturePreview,
     showZonePreview: showZonePreview,
     move: move,
-    clear: clear,
   }
 
 })();

@@ -1,11 +1,11 @@
 window.NewGame = (function() {
 
-  let selectedArchetype;
-  let selectedSex;
-  let selectedSpecies;
-  let attributeControl;
-  let attributes;
-  let randomNames;
+  let $selectedArchetype;
+  let $selectedSex;
+  let $selectedSpecies;
+  let $attributeControl;
+  let $attributes;
+  let $randomNames;
 
   function init() {
     X.onClick('#newGame .archetypes .button', e => { handleSelectArchetype(e.target); });
@@ -23,6 +23,15 @@ window.NewGame = (function() {
     X.onInput('#newGame input', e => { setTimeout(validateForm, 1); });
   }
 
+  function reset() {
+    $selectedArchetype = null;
+    $selectedSex = null;
+    $selectedSpecies = null;
+    $attributeControl = null;
+    $attributes = null;
+    $randomNames = null;
+  }
+
   function backToMain() {
     ClientCommands.send("game.abort");
     MainMenu.show();
@@ -30,15 +39,15 @@ window.NewGame = (function() {
 
   function show() {
     MainContent.show({ path:"client/views/mainMenu/new-game.html", classname:'new-game', background:'new-game-1' }).then(() => {
-      selectedArchetype = 'knight';
-      selectedSex = 'male';
-      selectedSpecies = 'elf';
+      $selectedArchetype = 'knight';
+      $selectedSex = 'male';
+      $selectedSpecies = 'elf';
 
       showArchetypeStep();
       MainContent.hideCover({ fadeTime:500 });
 
       ClientCommands.send('game.get-random-names').then((names) => {
-        randomNames = names;
+        $randomNames = names;
       });
     });
   }
@@ -46,19 +55,19 @@ window.NewGame = (function() {
   function handleSelectArchetype(target) {
     if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name != selectedArchetype) { selectArchetype(name); }
+    if (name != $selectedArchetype) { selectArchetype(name); }
   }
 
   function handleSelectSex(target) {
     if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name != selectedSex) { selectSex(name); }
+    if (name != $selectedSex) { selectSex(name); }
   }
 
   function handleSelectSpecies(target) {
     if (X.hasClass(target, 'drop')) { target = target.parentElement; }
     let name = X.classesExcept(target, ['button','selected'])[0];
-    if (name != selectedSpecies) { selectSpecies(name); }
+    if (name != $selectedSpecies) { selectSpecies(name); }
   }
 
   function selectArchetype(name) {
@@ -68,9 +77,9 @@ window.NewGame = (function() {
     X.removeClass('.archetype-step .archetypes .selected','selected');
     X.addClass(button,'selected');
 
-    selectedArchetype = name;
-    selectedSex = archetype.availableSexes[0];
-    selectedSpecies = archetype.availableSpecies[0];
+    $selectedArchetype = name;
+    $selectedSex = archetype.availableSexes[0];
+    $selectedSpecies = archetype.availableSpecies[0];
 
     showArchetypeDescription();
   }
@@ -81,11 +90,11 @@ window.NewGame = (function() {
     X.removeClass('.sexes .selected','selected');
     X.addClass(button,'selected');
 
-    selectedSex = name;
+    $selectedSex = name;
     updateSpeciesImages();
 
-    if (selectedSpecies == 'nymph' && selectedSex == 'male') { selectSpecies('elf'); }
-    if (selectedSpecies == 'minotaur' && selectedSex != 'male') { selectSpecies('elf'); }
+    if ($selectedSpecies == 'nymph' && $selectedSex == 'male') { selectSpecies('elf'); }
+    if ($selectedSpecies == 'minotaur' && $selectedSex != 'male') { selectSpecies('elf'); }
   }
 
   function selectSpecies(name) {
@@ -94,7 +103,7 @@ window.NewGame = (function() {
     X.removeClass('.species .selected','selected');
     X.addClass(button,'selected');
 
-    selectedSpecies = name;
+    $selectedSpecies = name;
 
     showSpeciesDescription();
   }
@@ -128,20 +137,20 @@ window.NewGame = (function() {
 
     X.each('.species-step .sexes a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSexes, name)) {
+      if (false == ArrayHelper.contains(Archetype.lookup($selectedArchetype).availableSexes, name)) {
         X.addClass(button,'hide');
       }
     });
 
     X.each('.species-step .species a.button', button => {
       let name = X.classesExcept(button, ['button','selected'])[0];
-      if (false == ArrayHelper.contains(Archetype.lookup(selectedArchetype).availableSpecies, name)) {
+      if (false == ArrayHelper.contains(Archetype.lookup($selectedArchetype).availableSpecies, name)) {
         X.addClass(button,'hide');
       }
     });
 
-    X.addClass(`.species-step .sexes a.${selectedSex}`,'selected');
-    X.addClass(`.species-step .species a.${selectedSpecies}`,'selected');
+    X.addClass(`.species-step .sexes a.${$selectedSex}`,'selected');
+    X.addClass(`.species-step .species a.${$selectedSpecies}`,'selected');
 
     updateSpeciesImages();
     showSpeciesDescription();
@@ -151,14 +160,14 @@ window.NewGame = (function() {
     hideAll();
 
     let baseAttributes = {};
-    let attributeBase = Species.lookup(selectedSpecies).baseAttributes;
-    let attributeBonus = Archetype.lookup(selectedArchetype).attributeBonus;
+    let attributeBase = Species.lookup($selectedSpecies).baseAttributes;
+    let attributeBonus = Archetype.lookup($selectedArchetype).attributeBonus;
     let firstNameInput = X.first('input#firstName');
     let lastNameInput = X.first('input#lastName');
 
     if (firstNameInput.value == '') {
-      firstNameInput.value = randomNames[selectedSex].first.name
-      lastNameInput.value = randomNames[selectedSex].last.name
+      firstNameInput.value = $randomNames[$selectedSex].first.name
+      lastNameInput.value = $randomNames[$selectedSex].last.name
     }
 
     ObjectHelper.each(attributeBase, name => {
@@ -172,17 +181,17 @@ window.NewGame = (function() {
     X.removeClass('.back-to-species-button','hide');
     X.removeClass('.begin-button','hide');
 
-    attributeControl = new AttributeControl();
-    attributeControl.setAttributes(baseAttributes);
-    attributes = baseAttributes;
+    $attributeControl = new AttributeControl();
+    $attributeControl.setAttributes(baseAttributes);
+    $attributes = baseAttributes;
 
-    X.fill('.attributes-container',attributeControl.getElement());
+    X.fill('.attributes-container',$attributeControl.getElement());
 
     updateSummary();
   }
 
   function updateSpeciesImages() {
-    let availableSpecies = Archetype.lookup(selectedArchetype).availableSpecies;
+    let availableSpecies = Archetype.lookup($selectedArchetype).availableSpecies;
 
     X.each('.species-step .species a', button => {
       X.removeClass(button, 'male');
@@ -190,18 +199,18 @@ window.NewGame = (function() {
     });
 
     X.each('.species-step .species a', button => {
-      X.addClass(button, (selectedSex == 'male') ? 'male' : 'female');
+      X.addClass(button, ($selectedSex == 'male') ? 'male' : 'female');
     });
 
     // Nymphs and minotaurs are special cases because there are only male
     // minotaurs and no male nymphs.
-    if (selectedSex == 'male') {
+    if ($selectedSex == 'male') {
       X.addClass('.species a.nymph','hide');
     } else if (ArrayHelper.contains(availableSpecies, 'nymph')) {
       X.removeClass('.species a.nymph','hide');
     }
 
-    if (selectedSex != 'male') {
+    if ($selectedSex != 'male') {
       X.addClass('.species a.minotaur','hide');
     } else if (ArrayHelper.contains(availableSpecies, 'minotaur')) {
       X.removeClass('.species a.minotaur','hide');
@@ -210,12 +219,12 @@ window.NewGame = (function() {
 
   function showArchetypeDescription() {
     X.addClass(`.archetype-step .descriptions > div`,'hide');
-    X.removeClass(`.archetype-step .descriptions .${selectedArchetype}`,'hide');
+    X.removeClass(`.archetype-step .descriptions .${$selectedArchetype}`,'hide');
   }
 
   function showSpeciesDescription() {
     X.addClass(`.species-step .descriptions > div`,'hide');
-    X.removeClass(`.species-step .descriptions .${selectedSpecies}`,'hide');
+    X.removeClass(`.species-step .descriptions .${$selectedSpecies}`,'hide');
   }
 
   // Called between steps to hide all the other steps and buttons.
@@ -234,14 +243,14 @@ window.NewGame = (function() {
   }
 
   function updateSummary() {
-    let archetype = Archetype.lookup(selectedArchetype);
+    let archetype = Archetype.lookup($selectedArchetype);
     let attributeList = X.first('.summary .attribute-list');
 
     X.empty(attributeList);
     X.addClass('.summary .archetype-list','hide');
     X.addClass('.summary .species-list','hide');
-    X.removeClass(`.summary .${selectedArchetype}-archetype-list`,'hide');
-    X.removeClass(`.summary .${selectedSpecies}-species-list`,'hide');
+    X.removeClass(`.summary .${$selectedArchetype}-archetype-list`,'hide');
+    X.removeClass(`.summary .${$selectedSpecies}-species-list`,'hide');
 
     const addSummaryItem = function(string) {
       attributeList.appendChild(X.createElement(`<li>${string}</li>`));
@@ -277,16 +286,16 @@ window.NewGame = (function() {
 
   function beginGame() {
     let parameters = {
-      archetype: selectedArchetype,
-      species: selectedSpecies,
-      sex: selectedSex,
+      archetype: $selectedArchetype,
+      species: $selectedSpecies,
+      sex: $selectedSex,
       firstName: X.first('input#firstName').value,
       lastName: X.first('input#lastName').value,
-      attributes: attributes,
+      attributes: $attributes,
     };
 
     ClientCommands.send('game.start', parameters).then(() => {
-      MainContent.clear();
+      MainContent.reset();
     });
   }
 
@@ -333,6 +342,6 @@ window.NewGame = (function() {
     },500);
   }
 
-  return { init, show, fadeIn }
+  return { init, reset, show, fadeIn };
 
 })();

@@ -49,7 +49,7 @@ window.LoadGame = (function() {
   function loadGame(event) {
     if (event.target.matches('.delete-game')) { return false; }
 
-    MainContent.clear();
+    MainContent.reset();
     ClientCommands.send('game.load', event.target.closest('.game').getAttribute('data-world-index'));
   }
 

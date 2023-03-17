@@ -40,7 +40,7 @@ global.MoveAction = class MoveAction {
     // be between the stairs and the party. If we are moving then we can also
     // change the z-level of the party and we change the move type to climb.
     if (this.response.action == 'move' && this.destinationTile.isStairs()) {
-      let dir = this.destinationTile.stairDirection == U ? U : D;
+      let dir = this.destinationTile.stairDirection == _U ? _U : _D;
       this.response.location = this.response.location.go(dir);
       this.response.action = 'climb';
     }

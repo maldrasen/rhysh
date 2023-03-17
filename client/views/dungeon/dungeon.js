@@ -1,17 +1,16 @@
 window.Dungeon = (function() {
 
-  let active;
-  let moving;
+  let $active;
+  let $moving;
 
   // I'm making the map view a child of the dungeon view. While this doesn't really seem nessessary now my intent is
   // for the Dungeon UI to also be a child of this view. This will include the character portraits and the buttons and
   // indicators and such that the previews didn't need.
   function init() {
-
     const when = (e) => {
       if (EscapeMenu.isOpen()) { return false; }
       if (OptionsOverlay.isOpen()) { return false; }
-      return active && MapCanvas.visible();
+      return $active && MapCanvas.visible();
     }
 
     X.onKeyDown('w', when, e => { requestMove('N'); });
@@ -26,11 +25,16 @@ window.Dungeon = (function() {
     X.onWheelDown(when,    e => { MapCanvas.zoomOut(); });
   }
 
-  function show(state) {
-    active = true;
+  function reset() {
+    $active = null;
+    $moving = null;
+  }
 
-    MainContent.clear();
+  function show(state) {
+    MainContent.reset();
     PartyPanel.show(state.status);
+
+    $active = true;
 
     MapView.showDungeon({
       location: state.location,
@@ -39,11 +43,11 @@ window.Dungeon = (function() {
   }
 
   function requestMove(direction) {
-    if (moving) { return; }
+    if ($moving) { return; }
 
-    moving = direction;
+    $moving = direction;
     ClientCommands.send('dungeon.request-move',{ direction }).then(response => {
-      moving = null;
+      $moving = null;
 
       if (response.action == 'changeZone') { return handleZoneChange(); }
       if (response.action != 'none') { MapView.move(response); }
@@ -52,8 +56,7 @@ window.Dungeon = (function() {
   }
 
   function handleZoneChange() {
-    MainContent.clear();
-    MapView.clear();
+    MainContent.reset();
     ClientCommands.send('game.render');
   }
 
@@ -63,6 +66,7 @@ window.Dungeon = (function() {
 
   return {
     init,
+    reset,
     show,
   };
 

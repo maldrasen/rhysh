@@ -64,8 +64,7 @@ window.EscapeMenu = (function() {
       text: `Quit to Main Menu? <br> Unsaved progress will be lost.`,
       onConfirm: () => {
         ClientCommands.send('game.quit');
-        MainContent.clear();
-        MapView.clear();
+        MainContent.reset();
         MainMenu.show();
       }
     });
