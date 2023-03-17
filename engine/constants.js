@@ -142,6 +142,15 @@ global._lightArmor = 'lightArmor';
 global._mediumArmor = 'mediumArmor';
 global._heavyArmor = 'heavyArmor';
 
+// Weapon Modes
+global._bash = 'bash';
+global._entangle = 'entangle';
+global._parry = 'parry';
+global._riposte = 'riposte';
+global._shoot = 'shoot';
+global._slash = 'slash';
+global._thrust = 'thrust';
+
 // Weapon Type Classes for Generator and determining allowable weapons.
 global._anyWeapons = 'anyWeapons';
 global._cultWeapons = 'cultWeapons';
