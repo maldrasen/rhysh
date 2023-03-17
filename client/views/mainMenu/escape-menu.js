@@ -85,7 +85,16 @@ window.EscapeMenu = (function() {
   }
 
   function quickLoad() {
-    console.log("Quick Load");
+    if (X.first('.save-game-alert') != null) { return; }
+
+    MainContent.reset();
+    ClientCommands.send('game.load',Renderer.getCurrentState().status.worldIndex).then(result => {
+      new Alert({
+        message: 'Game Loaded',
+        position: 'side',
+        classname: 'save-game-alert success'
+      }).display();
+    });
   }
 
   return {

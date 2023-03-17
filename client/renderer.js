@@ -1,21 +1,26 @@
-
 window.Renderer = (function() {
+
+  let $currentState;
 
   function init() {
     ServerEvents.onRender((payload, viewState) => {
-      render(viewState);
+      $currentState = viewState;
+      render();
     });
   }
 
-  function render(viewState) {
-    console.log("Render:",viewState);
+  function getCurrentState() {
+    return $currentState;
+  }
 
-    if (viewState.showView) {
-      return showView(viewState);
+  function render() {
+    console.log("Render:",$currentState);
+    if ($currentState.showView) {
+      return showView();
     }
   }
 
-  function showView(viewState) {
+  function showView() {
     PartyPanel.hide();
 
     let showFunction = {
@@ -25,15 +30,15 @@ window.Renderer = (function() {
       NewGame:        NewGame.show,
       FeaturePreview: MapView.showFeaturePreview,
       ZonePreview:    MapView.showZonePreview,
-    }[viewState.showView];
+    }[$currentState.showView];
 
     if (showFunction == null) {
-      return console.error(`Error: No view named "${viewState.showView}"`);
+      return console.error(`Error: No view named "${$currentState.showView}"`);
     }
 
-    showFunction(viewState);
+    showFunction($currentState);
   }
 
-  return { init }
+  return { init, getCurrentState };
 
 })();
