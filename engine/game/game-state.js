@@ -127,21 +127,19 @@ global.GameState = (function() {
   // least be a "Default" value)
   //
   // TODO: This is enough to be moved into its own thing I think.
-  function setCurrentZone(zoneName) {
+  function setCurrentZone(code) {
     return new Promise(resolve => {
-      ZoneLibrary.getZone(zoneCode, async (zone) => {
-
+      ZoneLibrary.getZone(code, async (zone) => {
         let previousZone = $currentZone;
-        let zoneData = await zone.getZoneData();
 
-        if (zoneData.origins.Default) { setPartyLocation(Vector.from(zoneData.origins.Default)); }
-        if (zoneData.origins[previousZone]) { setPartyLocation(Vector.from(zoneData.origins[previousZone])); }
+        if (zone.origins.Default) { setPartyLocation(Vector.from(zone.origins.Default)); }
+        if (zone.origins[previousZone]) { setPartyLocation(Vector.from(zone.origins[previousZone])); }
 
         if (getPartyLocation() == null) {
           throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
         }
 
-        $currentZone = zoneCode;
+        $currentZone = code;
         resolve();
       });
     });
