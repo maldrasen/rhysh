@@ -1,5 +1,7 @@
 global.ZoneLoader = class ZoneLoader {
 
+  // TODO: This will get moved into Zone maybe?
+
   constructor(zone) {
     this.zone = zone;
     this.zoneName = zone.getName();
@@ -16,7 +18,7 @@ global.ZoneLoader = class ZoneLoader {
     this.zoneMap = await DungeonBuilder.loadZoneMap(this.zoneName);
     this.zoneData = await DungeonBuilder.loadZoneData(this.zoneName);
     this.zoneInfo = ZoneInfo.build(this.zoneName, this.zoneData);
-    this.extensionLoader = new ExtensionLoader(this.zoneData);
+    this.extensionLoader = new ExtensionLoader(this.zoneData.extensions);
 
     this.layerSize = new Vector(this.zoneMap.layers[0].gridCellsX, this.zoneMap.layers[0].gridCellsY, 1);
     this.layers = [];

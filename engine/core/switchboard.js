@@ -10,6 +10,7 @@ global.Switchboard = (function() {
       Loader.loadDirectory(`${ROOT}/engine/controllers`);
       Loader.loadDirectory(`${ROOT}/engine/server`);
 
+      FeatureSet.init();
       Browser.init();
       Controllers.init();
     });
