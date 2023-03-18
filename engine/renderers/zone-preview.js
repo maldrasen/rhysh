@@ -11,7 +11,7 @@ global.ZonePreview = (function() {
 
     let origin = zone.origins[options.origin];
 
-    Messenger.publish("browser.render", {
+    Switchboard.render({
       showView: "ZonePreview",
       location: origin.pack(),
       zone: zone.forClient(),

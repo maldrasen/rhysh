@@ -1,6 +1,7 @@
 global.fs = require('fs');
 global.hash = require('object-hash');
 global.util = require('util');
+global.events = require('events');
 
 require(`${ROOT}/engine/environment`);
 require(`${ROOT}/engine/loader`);
@@ -25,3 +26,4 @@ require(`${ROOT}/engine/settings`);
 global.log = function(message) {
   if (Environment.verbose) { console.log(message) }
 }
+

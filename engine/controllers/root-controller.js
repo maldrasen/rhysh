@@ -8,7 +8,7 @@ global.RootController = (function() {
         lastValidGame: await GameData.getLastValidGame(),
       });
 
-      Messenger.publish('server.ready');
+      Switchboard.serverReady();
     });
 
     ipcMain.handle("client.loadTemplate", async (payload, path) => {

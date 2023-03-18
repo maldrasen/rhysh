@@ -11,7 +11,7 @@ global.GameRenderer = (function() {
   }
 
   function renderEvent(event) {
-    Messenger.publish("browser.render",{
+    Switchboard.render({
       showView: "Event",
       event: new EventRenderer(event).render(),
       status: getStatus(),
@@ -19,14 +19,14 @@ global.GameRenderer = (function() {
   }
 
   function renderView(stage) {
-    Messenger.publish("browser.render",{
+    Switchboard.render({
       showView: stage.view,
       status: getStatus(),
     });
   }
 
   function renderBattle() {
-    Messenger.publish("browser.render", {
+    Switchboard.render({
       showView: "Battle",
       background: ImageData.pickBattleBackground(),
       battle: GameState.getCurrentBattle().pack(),
@@ -36,7 +36,7 @@ global.GameRenderer = (function() {
 
   function renderDungeon() {
     ZoneLibrary.getZone(GameState.getCurrentZoneCode(), zone => {
-      Messenger.publish("browser.render", {
+      Switchboard.render({
         showView: "Dungeon",
         zone: zone.forClient(),
         location: GameState.getPartyLocation(),

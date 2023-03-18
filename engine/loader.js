@@ -1,35 +1,11 @@
 global.Loader = (function() {
 
-  const CoreModules = [
-    'core',
-    'helpers',
-  ];
-
-  const DataDirectories = [
-    'characters',
-    'equipment',
-    'events',
-    'names',
-  ];
-
-  const GameModules = [
-    'builders',
-    'data',
-    'dictionaries',
-    'game',
-    'members',
-    'models',
-    'renderers',
-    'scrutinizers',
-    'storyTellers',
-    'weavers',
-  ];
-
-  // Superclasses in load order.
+  // These are all the files where load order matter and should be loaded
+  // before anything else.
   const Preload = [
     'constants.js',
+
     'builders/equipmentBuilders/equipment-builder.js',
-    'core/messenger.js',
 
     'data/stage.js',
     'data/selection-stage.js',
@@ -47,13 +23,32 @@ global.Loader = (function() {
     'models/character.js',
     'models/monster.js',
     'models/dungeon/vector.js',
+
     'weavers/weaver.js',
+  ];
+
+  const CoreModules = [
+    'core',
+    'helpers',
+  ];
+
+  const GameModules = [
+    'builders',
+    'data',
+    'dictionaries',
+    'game',
+    'members',
+    'models',
+    'renderers',
+    'scrutinizers',
+    'storyTellers',
+    'weavers',
   ];
 
   let complete = [];
 
   function run() {
-    console.log(" - Loading core modules");
+    console.log("Loading Engine");
 
     Preload.forEach(script => {
       loadFile(`${ROOT}/engine/${script}`);
@@ -65,12 +60,6 @@ global.Loader = (function() {
 
     GameModules.forEach(directory => {
       loadDirectory(`${ROOT}/engine/${directory}`);
-    });
-
-    console.log(" - Loading data files");
-
-    DataDirectories.forEach(directory => {
-      loadDirectory(`${ROOT}/data/${directory}`);
     });
   }
 

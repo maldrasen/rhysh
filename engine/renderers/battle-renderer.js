@@ -13,7 +13,7 @@ global.BattleRenderer = (function() {
       renderCombatEvent(event, event.getActorType());
     });
 
-    Messenger.publish('browser.render-battle-round', {
+    Switchboard.renderBattleRound({
       battle: GameState.getCurrentBattle().pack(),
       events: $renderedEvents,
     });

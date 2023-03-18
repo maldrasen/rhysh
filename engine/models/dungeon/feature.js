@@ -115,7 +115,7 @@ global.Feature = class Feature {
   // === Preview ===============================================================
 
   static previewFeature() {
-    Messenger.publish("browser.render", {
+    Switchboard.render({
       showView: "FeaturePreview",
       feature: Feature.forPreview(),
     });
