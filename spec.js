@@ -5,6 +5,10 @@ global.DATA = `${ROOT}/test`
 
 require(`${ROOT}/engine/boot.js`);
 
+before(function() {
+  FeatureSet.init();
+});
+
 global.SpecHelper = {
 
   print(message) {

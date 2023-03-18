@@ -1,7 +1,20 @@
 global.Feature = class Feature {
 
+  // TODO: Redo this.
+  static randomFromSets(sets) {
+  //   let featureList = []
+
+  //   sets.forEach(setName => {
+  //     FeatureSet.lookup(setName).featureTemplates.forEach(template => {
+  //       featureList.push(template.name);
+  //     });
+  //   });
+
+  //   return new Feature(Random.from(featureList));
+  }
+
   constructor(name) {
-    const template = DungeonBuilder.lookupFeatureTemplate(name);
+    const template = FeatureTemplate.lookup(name);
     if (template == null) {
       throw `Error: No template named ${name}`
     }
