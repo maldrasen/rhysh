@@ -11,8 +11,13 @@ global.Zone = class Zone {
     return ZoneDictionary[code];
   }
 
+  static allCodes() {
+    return Object.keys(ZoneDictionary);
+  }
+
   #code;
   #name;
+  #mapFilePath;
 
   #biomes;
   #exits;
@@ -24,6 +29,7 @@ global.Zone = class Zone {
   constructor(code, options) {
     this.#code = code;
     this.#name = options.name;
+    this.#mapFilePath = options.mapFilePath;
 
     this.#biomes = {};
     this.#exits = {};
@@ -34,6 +40,7 @@ global.Zone = class Zone {
 
   get code() { return this.#code; }
   get name() { return this.#name; }
+  get mapFilePath() { return this.#mapFilePath; }
 
   get biomes() { return this.#biomes; }
   get exits() { return this.#exits; }
@@ -47,5 +54,5 @@ global.Zone = class Zone {
   setExtension(key,value) { this.#extensions[key] = value; }
   setLayers(layers) { this.#layers = layers; }
   addOrigin(code,vector) { this.#origins[code] = vector; }
-  setRegions(regions) { this.$regions = regions; }
+  setRegions(regions) { this.#regions = regions; }
 }

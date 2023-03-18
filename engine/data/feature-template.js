@@ -11,6 +11,12 @@ global.FeatureTemplate = class FeatureTemplate {
     return FeatureTemplateDictionary[name];
   }
 
+  static fromSet(setName) {
+    return ObjectHelper.select(FeatureTemplateDictionary, (code, template) => {
+      return template.setName == setName;
+    });
+  }
+
   #setName;
   #canFlip;
   #tileSource;

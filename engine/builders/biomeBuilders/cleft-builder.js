@@ -6,12 +6,15 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
   //       should loop through the cleft tiles for dead ends and randomly place interesting things there, especially
   //       for those dead ends that are looking off the side of the cliff.
 
-  placeFeatures() {
-    this.cleftSector_id = Sector.defineNextSector({ type:'outside' });
+  #cleftSector_id;
+  #cleftTile;
 
-    this.cleftTile = Tile.normal();
-    this.cleftTile.biome = this.biomeName;
-    this.cleftTile.sector_id = this.cleftSector_id;
+  placeFeatures() {
+    this.#cleftSector_id = Sector.defineNextSector({ type:'outside' });
+
+    this.#cleftTile = Tile.normal();
+    this.#cleftTile.biome = this.biomeName;
+    this.#cleftTile.sector_id = this.#cleftSector_id;
 
     new CrackDigger({
       "biomeBuilder": this,
@@ -30,7 +33,7 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
   }
 
   defaultTile() {
-    return this.cleftTile;
+    return this.#cleftTile;
   }
 
   fillSpace() {

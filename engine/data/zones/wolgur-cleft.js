@@ -1,6 +1,7 @@
 
 const wolgurCleft = new Zone('wolgur-cleft',{
-  name: 'The Wolgur Cleft'
+  name: 'The Wolgur Cleft',
+  mapFilePath:`${ROOT}/data/zones/WolgurCleft.json`,
 });
 
 wolgurCleft.setLayers([

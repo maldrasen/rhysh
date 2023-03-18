@@ -1,6 +1,7 @@
 
 const wolgur = new Zone('wolgur',{
-  name: 'Wolgur'
+  name: 'Wolgur',
+  mapFilePath:`${ROOT}/data/zones/Wolgur.json`,
 });
 
 wolgur.setLayers([

@@ -1,11 +1,14 @@
 global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
 
-  placeFeatures() {
-    this.farmSector_id = Sector.defineNextSector({ type:'outside' });
+  #farmSector_id;
+  #farmTile;
 
-    this.farmTile = Tile.normal();
-    this.farmTile.biome = this.biomeName;
-    this.farmTile.sector_id = this.farmSector_id;
+  placeFeatures() {
+    this.#farmSector_id = Sector.defineNextSector({ type:'outside' });
+
+    this.#farmTile = Tile.normal();
+    this.#farmTile.biome = this.biomeName;
+    this.#farmTile.sector_id = this.#farmSector_id;
 
     this.addHouses(this.biomeOptions.houseCount);
     this.addTrees(this.biomeOptions.treeCount);
@@ -14,7 +17,7 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
 
   addHouses(houseCount) {
     while (houseCount > 0) {
-      let feature = DungeonBuilder.randomFeatureFromSet("farms");
+      let feature = Feature.randomFrom(['farms']);
       feature.randomFlip();
 
       let dungeonIndex = this.freeTiles.getRandom();

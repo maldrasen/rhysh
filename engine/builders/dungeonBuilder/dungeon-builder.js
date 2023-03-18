@@ -1,7 +1,9 @@
 global.DungeonBuilder = (function() {
 
   function buildAllZones() {
-    console.log("OK, big refactor time...")
+    Zone.allCodes().forEach(code => {
+      new ZoneBuilder(code).buildZone();
+    });
   }
 
   return {

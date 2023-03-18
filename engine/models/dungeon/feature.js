@@ -98,13 +98,13 @@ global.Feature = class Feature {
     return this.tileSource.forClient();
   }
 
-  // === Broken?
+  // ===========================================================================
 
   static randomFrom(sets) {
     let featureList = []
 
     sets.forEach(setName => {
-      FeatureTemplate.fromSet(setName).forEach(template => {
+      ObjectHelper.each(FeatureTemplate.fromSet(setName), (code, template) => {
         featureList.push(template.name);
       });
     });

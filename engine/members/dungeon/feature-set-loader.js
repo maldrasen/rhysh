@@ -14,7 +14,7 @@ global.FeatureSetLoader = (function() {
 
   function loadFeature(spec) {
     let tileData = loadTileData(spec);
-    let featureTemplate = new FeatureTemplate($featureSet.name, spec);
+    let featureTemplate = new FeatureTemplate($featureSet.code, spec);
 
     forUpTo(tileData.length, layerIndex => {
       let layer = tileData[layerIndex];

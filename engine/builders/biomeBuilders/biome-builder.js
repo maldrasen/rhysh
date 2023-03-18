@@ -1,14 +1,29 @@
 global.BiomeBuilder = class BiomeBuilder {
 
+  #biomeName;
+  #biomeOptions;
+  #zone;
+  #tileSource;
+  #supplementaryData;
+  #freeTiles;
+  #usedTiles;
+
   constructor(properties) {
-    this.biomeName = properties.biomeName
-    this.biomeOptions = properties.biomeOptions
-    this.zoneInfo = properties.zoneInfo
-    this.zoneData = properties.zoneData
-    this.tileSource = properties.tileSource
-    this.supplementaryData = properties.supplementaryData
+    this.#biomeName = properties.biomeName;
+    this.#biomeOptions = properties.biomeOptions;
+    this.#zone = properties.zone;
+    this.#tileSource = properties.tileSource;
+    this.#supplementaryData = properties.supplementaryData;
     this.setFreeTiles(properties.freeTiles);
   }
+
+  get biomeName() { return this.#biomeName };
+  get biomeOptions() { return this.#biomeOptions };
+  get zone() { return this.#zone };
+  get tileSource() { return this.#tileSource };
+  get supplementaryData() { return this.#supplementaryData };
+  get freeTiles() { return this.#freeTiles };
+  get usedTiles() { return this.#usedTiles };
 
   fullBuild() {
     console.log(`  ${this.biomeName}: Starting full build on ${this.freeTiles.size()} tiles`)
@@ -31,8 +46,8 @@ global.BiomeBuilder = class BiomeBuilder {
   // When setting the free tiles array we want to force a copy because the builders mutate the free and used tile
   // arrays while building.
   setFreeTiles(tiles) {
-    this.freeTiles = tiles.copy();
-    this.usedTiles = new VectorArray();
+    this.#freeTiles = tiles.copy();
+    this.#usedTiles = new VectorArray();
   }
 
   // A zone can specify additional options for the biome builders to use. One of these is the "extraBuilders" option,
