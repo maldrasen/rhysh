@@ -1,77 +1,64 @@
 global.TileSource = class TileSource {
 
+  #name;
+  #size;
+  #layerOffset;
+  #layers;
+  #zMin;
+  #zMax;
+
   constructor(properties) {
-    this.name = properties.name;
-    this.size = properties.size;
-    this.layerOffset = (properties.layerOffset || 0);
-    this.layers = [];
+    this.#name = properties.name;
+    this.#size = properties.size;
+    this.#layerOffset = (properties.layerOffset || 0);
+    this.#layers = [];
 
-    this.zMin = this.layerOffset;
-    this.zMax = this.layerOffset + this.size.z
+    this.#zMin = this.#layerOffset;
+    this.#zMax = this.#layerOffset + this.#size.z
 
-    forUpTo(this.size.z, _ => {
-      this.layers.push(new Array(this.size.x * this.size.y));
+    forUpTo(this.#size.z, _ => {
+      this.#layers.push(new Array(this.#size.x * this.#size.y));
     });
   }
 
-  // Create a TileSource from raw JSON data.
-  static unpack(data) {
-    let tileSource = new TileSource({
-      name: data.name,
-      size: Vector.from(data.size),
-      layerOffset: data.layerOffset,
-    });
+  get name() { return this.#name; }
+  get size() { return this.#size; }
+  get layerOffset() { return this.#layerOffset; }
+  get layers() { return this.#layers; }
+  get zMin() { return this.#zMin; }
+  get zMax() { return this.#zMax; }
 
-    forUpTo(data.layers.length, layerIndex => {
-      let z = layerIndex + data.layerOffset;
-      let layer = data.layers[layerIndex];
+  setSize(size) { this.#size = size; }
 
-      forUpTo(layer.length, index => {
-        let x = index % data.size.x;
-        let y = Math.floor(index / data.size.x);
-        unpackTile(new Vector(x,y,z), layer[index], tileSource);
-      });
-    });
+  getTile(index) { return this.getLayer(index.z)[this.tileIndex(index.x,index.y)]; }
+  setTile(index, tile) { this.getLayer(index.z)[this.tileIndex(index.x,index.y)] = tile; }
 
-    return tileSource;
+  getLayer(z) { return this.#layers[z - this.#layerOffset]; }
+  setLayer(z,layer) { this.#layers[z - this.#layerOffset] = layer; }
+
+  // I'm storing the tiles in kind of a strange way. A FeatureTemplate has a
+  // 3D volume of tiles, though they'll usually only be a single z-level.
+  // There's a layer for each z level, and each layer has a 1D array of tiles
+  // which is indexed as a 2D plane.
+  tileIndex(x,y) { return x + (y * this.#size.x); }
+
+  inRange(index) {
+    if (index.x < 0 || index.x >= this.#size.x) { return false; }
+    if (index.y < 0 || index.y >= this.#size.y) { return false; }
+    if (index.z < this.#zMin || index.z >= this.#zMax) { return false; }
+    return true;
   }
 
   // Tile iterator
   each(callback) {
-    forRange(this.zMin, this.zMax, z => {
-      forUpTo(this.size.y, y => {
-        forUpTo(this.size.x, x => {
+    forRange(this.#zMin, this.#zMax, z => {
+      forUpTo(this.#size.y, y => {
+        forUpTo(this.#size.x, x => {
           let index = new Vector(x,y,z);
           callback(index, this.getTile(index));
         });
       });
     });
-  }
-
-  // I'm storing the tiles in kind of a strange way. A FeatureTemplate has a 3D volume of tiles, though they'll usually
-  // only be a single z-level. There's a layer for each z level, and each layer has a 1D array of tiles which is
-  // indexed as a 2D plane.
-  setTile(index, tile) {
-    this.getLayer(index.z)[this.tileIndex(index.x,index.y)] = tile;
-  }
-
-  getTile(index) {
-    return this.getLayer(index.z)[this.tileIndex(index.x,index.y)];
-  }
-
-  getLayer(z) {
-    return this.layers[z - this.layerOffset];
-  }
-
-  tileIndex(x,y) {
-    return x + (y * this.size.x);
-  }
-
-  inRange(index) {
-    if (index.x < 0 || index.x >= this.size.x) { return false; }
-    if (index.y < 0 || index.y >= this.size.y) { return false; }
-    if (index.z < this.zMin || index.z >= this.zMax) { return false; }
-    return true;
   }
 
   // Given a dungeon index get the neighboring tiles along with their indices. These indices could all be out of bounds
@@ -98,17 +85,19 @@ global.TileSource = class TileSource {
     return neighbors;
   }
 
-  // Because the feature will manipulate the tiles when it's built we need to provide a deep copy of the layers when
-  // building features. We can't use JSON serialization to do the deepcopy because we need the class objects intact.
+  // Because the feature will manipulate the tiles when it's built we need to
+  // provide a deep copy of the layers when building features. We can't use
+  // JSON serialization to do the deepcopy because we need the class objects
+  // intact.
   copy() {
     let source = new TileSource({
-      name: this.name,
-      size: this.size,
+      name: this.#name,
+      size: this.#size,
     });
 
-    source.layers = this.layers.map(layer => {
+    source.#layers = this.#layers.map(layer => {
       return layer.map(tile => {
-        return tile.copy();
+        return tile ? tile.copy() : null;
       });
     });
 
@@ -117,10 +106,10 @@ global.TileSource = class TileSource {
 
   forClient() {
     return {
-      name: this.name,
-      size: this.size,
-      layerOffset: this.layerOffset,
-      layers: this.layers.map(layer => {
+      name: this.#name,
+      size: this.#size,
+      layerOffset: this.#layerOffset,
+      layers: this.#layers.map(layer => {
         return layer.map(tile => {
           return tile ? tile.forClient() : null
         });
@@ -128,6 +117,26 @@ global.TileSource = class TileSource {
     };
   }
 
+  static unpack(data) {
+    let tileSource = new TileSource({
+      name: data.name,
+      size: Vector.from(data.size),
+      layerOffset: data.layerOffset,
+    });
+
+    forUpTo(data.layers.length, layerIndex => {
+      let z = layerIndex + data.layerOffset;
+      let layer = data.layers[layerIndex];
+
+      forUpTo(layer.length, index => {
+        let x = index % data.size.x;
+        let y = Math.floor(index / data.size.x);
+        unpackTile(new Vector(x,y,z), layer[index], tileSource);
+      });
+    });
+
+    return tileSource;
+  }
 }
 
 function unpackTile(dungeonIndex, tileData, tileSource) {
