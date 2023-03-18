@@ -55,4 +55,6 @@ global.Zone = class Zone {
   setLayers(layers) { this.#layers = layers; }
   addOrigin(code,vector) { this.#origins[code] = vector; }
   setRegions(regions) { this.#regions = regions; }
+
+  zoneFilePath() { return `${GameState.getWorldPath()}/Zone-${this.code}.cum` }
 }

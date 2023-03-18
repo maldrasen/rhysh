@@ -2,7 +2,7 @@ global.GameBuilder = (function() {
 
   const StartLocation = new Vector(61,59,102);
   const StartStage = "NewGame";
-  const StartZone = "Wolgur";
+  const StartZone = "wolgur";
 
   const StartDay = 69;
   const StartTime = 14 * RhyshCalendar.TicksPerHour;

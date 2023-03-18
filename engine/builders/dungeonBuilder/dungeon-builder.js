@@ -2,8 +2,21 @@ global.DungeonBuilder = (function() {
 
   function buildAllZones() {
     Zone.allCodes().forEach(code => {
-      new ZoneBuilder(code).buildZone();
+      let zone = Zone.lookup(code);
+      let builder = new ZoneBuilder(code);
+          builder.buildZone();
+
+      writeZoneFile(zone, builder.tileSource);
     });
+  }
+
+  // We only save the zone files if there is a current game.
+  function writeZoneFile(zone, tileSource) {
+    if (GameState.getWorldPath()) {
+      Kompressor.write(zone.zoneFilePath(), {
+        tileSource: tileSource,
+      });
+    }
   }
 
   return {

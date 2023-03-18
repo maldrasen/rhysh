@@ -7,17 +7,17 @@ global.ImageData = (function() {
   //       and such.
 
   const backgrounds = [
-    { file:'battle-town-1',  forZones:['Wolgur']},
-    { file:'battle-cleft-1', forZones:['WolgurCleft']},
-    { file:'battle-cleft-2', forZones:['WolgurCleft']},
-    { file:'battle-cleft-3', forZones:['WolgurCleft']},
-    { file:'battle-cleft-4', forZones:['WolgurCleft']},
-    { file:'battle-cleft-5', forZones:['WolgurCleft']},
-    { file:'battle-cleft-6', forZones:['WolgurCleft']},
-    { file:'battle-glade-1', forZones:['HowlingGlade']},
-    { file:'battle-glade-2', forZones:['HowlingGlade']},
-    { file:'battle-glade-3', forZones:['HowlingGlade']},
-    { file:'battle-glade-4', forZones:['HowlingGlade']},
+    { file:'battle-town-1',  forZones:['wolgur']},
+    { file:'battle-cleft-1', forZones:['wolgur-cleft']},
+    { file:'battle-cleft-2', forZones:['wolgur-cleft']},
+    { file:'battle-cleft-3', forZones:['wolgur-cleft']},
+    { file:'battle-cleft-4', forZones:['wolgur-cleft']},
+    { file:'battle-cleft-5', forZones:['wolgur-cleft']},
+    { file:'battle-cleft-6', forZones:['wolgur-cleft']},
+    { file:'battle-glade-1', forZones:['howling-glade']},
+    { file:'battle-glade-2', forZones:['howling-glade']},
+    { file:'battle-glade-3', forZones:['howling-glade']},
+    { file:'battle-glade-4', forZones:['howling-glade']},
   ]
 
   // TODO: Some zones like Wolgur are going to have interior and exterior
@@ -32,7 +32,7 @@ global.ImageData = (function() {
   //       now though.
   //
   function pickBattleBackground() {
-    let zone = GameState.getCurrentZoneName();
+    let zone = GameState.getCurrentZoneCode();
     let possible = [];
 
     backgrounds.forEach(background => {

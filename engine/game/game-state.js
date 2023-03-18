@@ -117,7 +117,7 @@ global.GameState = (function() {
 
   // === Location and Zone ===
 
-  function getCurrentZoneName() { return $currentZone; }
+  function getCurrentZoneCode() { return $currentZone; }
   function getCurrentZone() { return $currentZone ? ZoneLibrary.getCachedZone($currentZone) : null; }
 
   // Whenever the party moves from one zone into another we update the party
@@ -129,7 +129,7 @@ global.GameState = (function() {
   // TODO: This is enough to be moved into its own thing I think.
   function setCurrentZone(zoneName) {
     return new Promise(resolve => {
-      ZoneLibrary.getZone(zoneName, async (zone) => {
+      ZoneLibrary.getZone(zoneCode, async (zone) => {
 
         let previousZone = $currentZone;
         let zoneData = await zone.getZoneData();
@@ -141,7 +141,7 @@ global.GameState = (function() {
           throw `Cannot update origin. No origin point found for ${previousZone} and no default was set.`;
         }
 
-        $currentZone = zoneName;
+        $currentZone = zoneCode;
         resolve();
       });
     });
@@ -190,7 +190,7 @@ global.GameState = (function() {
     setCurrentEvent,
     endEvent,
 
-    getCurrentZoneName,
+    getCurrentZoneCode,
     getCurrentZone,
     setCurrentZone,
     getPartyLocation,

@@ -29,10 +29,10 @@ global.ZoneLibrary = (function() {
     console.log("Loading Zone:",name)
 
     return new Promise(resolve => {
-      new Zone(name).load().then(zone => {
-        $zoneCache[name] = zone;
-        resolve(zone);
-      });
+    //   new Zone(name).load().then(zone => {
+    //     $zoneCache[name] = zone;
+    //     resolve(zone);
+    //   });
     });
   }
 
@@ -49,12 +49,6 @@ global.ZoneLibrary = (function() {
 
 //   // === Persistance ===========================================================
 
-//   pack() {
-//     return {
-//       name: this.#name,
-//       tileSource: this.#tileSource,
-//     };
-//   }
 
 //   // Name is already set, so really the tile source is the only thing that
 //   // needs to be set.
@@ -71,20 +65,6 @@ global.ZoneLibrary = (function() {
 //     });
 //   }
 
-//   async createZone(callback) {
-//     const zoneLoader = new ZoneLoader(this);
-//     const properties = await zoneLoader.createZoneFromTemplate();
-
-//     this.#tileSource = properties.tileSource;
-//     this.#zoneData = properties.zoneData;
-
-//     // We can create a zone without saving it in a world.
-//     if (GameState.getWorldPath()) {
-//       Kompressor.write(this.filepath(), this.pack()).then(callback);
-//     }
-
-//     callback(this);
-//   }
 
 //   async getZoneData() {
 //     if (this.#zoneData != null) { return this.#zoneData }

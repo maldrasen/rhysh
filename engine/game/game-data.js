@@ -21,7 +21,7 @@ global.GameData = (function() {
       timeCount: GameState.getTimeCount(),
       dayCount: GameState.getDayCount(),
       stageName: GameState.getStageName(),
-      currentZone: GameState.getCurrentZoneName(),
+      currentZone: GameState.getCurrentZoneCode(),
       partyLocation: GameState.getPartyLocation(),
     }
 
@@ -60,7 +60,7 @@ global.GameData = (function() {
       GameState.setCurrentEvent(EventState.unpack(state.currentEvent));
     }
 
-    ZoneLibrary.loadZone(GameState.getCurrentZoneName());
+    ZoneLibrary.loadZone(GameState.getCurrentZoneCode());
 
     await CharacterLibrary.loadMainCharacter();
     await Inventory.load();
