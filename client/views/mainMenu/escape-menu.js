@@ -17,6 +17,7 @@ window.EscapeMenu = (function() {
   }
 
   function canSave() {
+    if (Renderer.getCurrentWorld() == null) { return false; }
     if (X.hasClass('#optionsOverlay','hide') == false) { return false; }
     if (X.hasClass('#escapeMenu','hide') == false) { return true; }
     if (X.hasClass('#mapCanvas','hide') == false) { return true; }
@@ -33,6 +34,8 @@ window.EscapeMenu = (function() {
   // We cannot quick load when on the main menu or on the new game page because
   // there's no valid game to load.
   function canLoad() {
+    if (Renderer.getCurrentWorld() == null) { return false; }
+
     let content = X.first("#mainContent > div");
     if (content) {
       return ['mainMenu','newGame'].indexOf(content.getAttribute('id')) < 0;
@@ -88,7 +91,7 @@ window.EscapeMenu = (function() {
     if (X.first('.save-game-alert') != null) { return; }
 
     MainContent.reset();
-    ClientCommands.send('game.load',Renderer.getCurrentState().status.worldIndex).then(result => {
+    ClientCommands.send('game.load',Renderer.getCurrentWorld()).then(result => {
       new Alert({
         message: 'Game Loaded',
         position: 'side',

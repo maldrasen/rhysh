@@ -13,6 +13,10 @@ window.Renderer = (function() {
     return $currentState;
   }
 
+  function getCurrentWorld() {
+    return ($currentState && $currentState.status) ? $currentState.status.worldIndex : null;
+  }
+
   function render() {
     console.log("Render:",$currentState);
     if ($currentState.showView) {
@@ -39,6 +43,10 @@ window.Renderer = (function() {
     showFunction($currentState);
   }
 
-  return { init, getCurrentState };
+  return {
+    init,
+    getCurrentState,
+    getCurrentWorld,
+  };
 
 })();
