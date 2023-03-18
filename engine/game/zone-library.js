@@ -8,83 +8,40 @@ global.ZoneLibrary = (function() {
   }
 
   // A zone is ready if it has already been put into the cache.
-  function isZoneReady(name) {
-    return $zoneCache[name] != null;
+  function isZoneReady(code) {
+    return $zoneCache[code] != null;
   }
 
   // If a zone is cached we can get it without a callback.
-  function getCachedZone(name) {
-    return $zoneCache[name];
+  function getCachedZone(code) {
+    return $zoneCache[code];
   }
 
   // This function will get the cached copy of the zone if it's already been
   // loaded. If it's already been built this will read the zone file first,
   // then return the zone. If the zone has never been built it will be created
   // first.
-  function getZone(name, callback) {
-    isZoneReady(name) ? callback($zoneCache[name]) : loadZone(name).then(zone => callback(zone));
+  function getZone(code, callback) {
+    isZoneReady(code) ? callback($zoneCache[code]) : loadZone(code).then(zone => callback(zone));
   }
 
-  function loadZone(name) {
-    console.log("Loading Zone:",name)
-
+  function loadZone(code) {
+    console.log("Loading Zone:",code)
     return new Promise(resolve => {
-    //   new Zone(name).load().then(zone => {
-    //     $zoneCache[name] = zone;
-    //     resolve(zone);
-    //   });
+      Zone.lookup(code).load(zone => {
+        console.log(" - loaded zone",zone)
+        $zoneCache[code] = zone;
+        resolve(zone);
+      });
     });
   }
 
+  return { clear, isZoneReady, getCachedZone, getZone, loadZone };
 
-// Zone cache just needs tile sources.
-//   #tileSource;
-//   forClient() {
-//     return {
-//       name: this.getName(),
-//       displayName: this.getDisplayName(),
-//       tileSource: this.#tileSource.forClient(),
-//     }
-//   }
-
-//   // === Persistance ===========================================================
+})();
 
 
-//   // Name is already set, so really the tile source is the only thing that
-//   // needs to be set.
-//   unpack(data) {
-//     this.#tileSource = TileSource.unpack(data.tileSource);
-//   }
-
-//   load() {
-//     return new Promise(async resolve => {
-//       await this.getZoneData();
-//       fs.access(this.filepath(), fs.constants.F_OK, notThere => {
-//         notThere ? this.createZone(resolve) : this.loadZone(resolve);
-//       });
-//     });
-//   }
-
-
-//   async getZoneData() {
-//     if (this.#zoneData != null) { return this.#zoneData }
-//     this.#zoneData = await DungeonBuilder.loadZoneData(this.#name);
-//     return this.#zoneData;
-//   }
-
-//   // We know the zone file exists so load and unpack the JSON.
-//   loadZone(callback) {
-//     Kompressor.read(this.filepath()).then(data => {
-//       this.unpack(data);
-//       callback(this);
-//     });
-//   }
-
-//   filepath() {
-//     return `${GameState.getWorldPath()}/${this.#name}.cum`;
-//   }
-
-//   // === Preview ===============================================================
+// TODO: This needs to go somplace...
 
 //   // Is broken...
 //   static previewZone() {
@@ -101,17 +58,3 @@ global.ZoneLibrary = (function() {
 //       });
 //     });
 //   }
-
-// }
-
-
-
-
-  return { clear, isZoneReady, getCachedZone, getZone, loadZone };
-
-})();
-
-
-
-
-

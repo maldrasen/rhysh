@@ -7,9 +7,9 @@ global.MoveAction = class MoveAction {
     this.direction = direction;
     this.location = GameState.getPartyLocation();
 
-    let neighbor = zone.getTileSource().getNeighborTiles(this.location)[this.direction];
+    let neighbor = zone.tileSource.getNeighborTiles(this.location)[this.direction];
 
-    this.sourceTile = zone.getTileSource().getTile(this.location);
+    this.sourceTile = zone.tileSource.getTile(this.location);
     this.destinationTile = neighbor ? neighbor.tile : null;
   }
 

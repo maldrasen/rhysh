@@ -6,7 +6,7 @@ global.DungeonBuilder = (function() {
       let builder = new ZoneBuilder(code);
           builder.buildZone();
 
-      writeZoneFile(zone, builder.tileSource);
+      writeZoneFile(zone, builder.getTileSource());
     });
   }
 

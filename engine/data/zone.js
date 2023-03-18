@@ -26,6 +26,8 @@ global.Zone = class Zone {
   #origins;
   #regions;
 
+  #tileSource;
+
   constructor(code, options) {
     this.#code = code;
     this.#name = options.name;
@@ -48,6 +50,7 @@ global.Zone = class Zone {
   get layers() { return this.#layers; }
   get origins() { return this.#origins; }
   get regions() { return this.#regions; }
+  get tileSource() { return this.#tileSource; }
 
   addBiome(code,options) { this.#biomes[code] = options; }
   addExit(code,options) { this.#exits[code] = options; }
@@ -57,4 +60,20 @@ global.Zone = class Zone {
   setRegions(regions) { this.#regions = regions; }
 
   zoneFilePath() { return `${GameState.getWorldPath()}/Zone-${this.code}.cum` }
+
+  load(callback) {
+    Kompressor.read(this.zoneFilePath()).then(data => {
+      this.#tileSource = TileSource.unpack(data.tileSource)
+      callback(this);
+    });
+  }
+
+  forClient() {
+    return {
+      name: this.name,
+      tileSource: this.tileSource.forClient(),
+    }
+  }
+
+
 }

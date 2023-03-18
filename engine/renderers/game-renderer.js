@@ -64,7 +64,7 @@ global.GameRenderer = (function() {
       dayCount: dayCount,
       dayName: RhyshCalendar.getDayName(dayCount),
       party: party,
-      location: zone ? zone.getDisplayName() : '',
+      location: zone ? zone.name : '',
     };
   }
 

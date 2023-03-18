@@ -5,7 +5,7 @@ describe('ZoneBuilder', function() {
     builder.buildZone();
   });
 
-  it.only('builds Wolgur Cleft', function() {
+  it('builds Wolgur Cleft', function() {
     let builder = new ZoneBuilder('wolgur-cleft');
     builder.buildZone();
   });

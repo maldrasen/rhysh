@@ -34,6 +34,10 @@ global.ZoneBuilder = class ZoneBuilder {
     this.generateBiomes();
   }
 
+  getTileSource() {
+    return this.#tileSource;
+  }
+
   // ==== Step 1 : Load Map Data ===============================================
 
   loadMapData() {
