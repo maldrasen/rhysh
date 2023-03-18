@@ -32,8 +32,8 @@ window.Renderer = (function() {
       Dungeon:        Dungeon.show,
       Event:          EventView.show,
       NewGame:        NewGame.show,
-      FeaturePreview: MapView.showFeaturePreview,
-      ZonePreview:    MapView.showZonePreview,
+      FeaturePreview: MapPreview.showFeaturePreview,
+      ZonePreview:    MapPreview.showZonePreview,
     }[$currentState.showView];
 
     if (showFunction == null) {

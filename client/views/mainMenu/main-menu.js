@@ -7,8 +7,8 @@ window.MainMenu = (function() {
     X.onClick('#mainMenu a.continue-button', continueGame);
     X.onClick('#mainMenu a.load-button', showLoadGame);
     X.onClick('#mainMenu a.options-button', OptionsOverlay.show);
-    X.onClick('#mainMenu a.preview-features', previewFeatures);
-    X.onClick('#mainMenu a.preview-zone', previewZone);
+    X.onClick('#mainMenu a.preview-features', MapPreview.previewFeature);
+    X.onClick('#mainMenu a.preview-zone', MapPreview.previewZone);
     X.onClick('#mainMenu a.warning-button', showWarnings);
     X.onClick('#contentWarnings a.close-button', hideWarnings);
 
@@ -34,16 +34,6 @@ window.MainMenu = (function() {
     ClientCommands.send('game.show-load').then(gameList => {
       LoadGame.show(gameList);
     });
-  }
-
-  function previewFeatures() {
-    MainContent.reset();
-    ClientCommands.send('dungeon-builder.show-debug-feature');
-  }
-
-  function previewZone() {
-    MainContent.reset();
-    ClientCommands.send('dungeon-builder.show-debug-zone');
   }
 
   function show() {

@@ -64,21 +64,28 @@
 
       // Views
       import('./views/main-content.js'),
+
       import('./views/battle/battle-controls.js'),
       import('./views/battle/battle-effects.js'),
       import('./views/battle/battle-player.js'),
       import('./views/battle/battle-view.js'),
       import('./views/battle/battlefield.js'),
+
       import('./views/dungeon/dungeon.js'),
+
       import('./views/event/event-view.js'),
+
       import('./views/mainMenu/escape-menu.js'),
       import('./views/mainMenu/load-game.js'),
       import('./views/mainMenu/main-menu.js'),
       import('./views/mainMenu/new-game.js'),
       import('./views/mainMenu/options-overlay.js'),
+
       import('./views/mapView/map-canvas.js'),
+      import('./views/mapView/map-preview.js'),
       import('./views/mapView/map-view.js'),
       import('./views/mapView/tile-graphics.js'),
+
       import('./views/partyPanel/party-panel.js'),
 
       // Data
