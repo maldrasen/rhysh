@@ -24,7 +24,7 @@ global.DungeonController = (function() {
     });
 
     ipcMain.handle("dungeon-builder.show-debug-zone", async (payload) => {
-      Zone.previewZone();
+      ZonePreview.render();
     });
   }
 

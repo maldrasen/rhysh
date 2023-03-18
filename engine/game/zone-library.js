@@ -39,22 +39,3 @@ global.ZoneLibrary = (function() {
   return { clear, isZoneReady, getCachedZone, getZone, loadZone };
 
 })();
-
-
-// TODO: This needs to go somplace...
-
-//   // Is broken...
-//   static previewZone() {
-//     let options = Environment.debugOptions.zonePreview;
-
-//     ZoneLibrary.getZone(options.zone, zone => {
-//       let origin = zone.zoneData.origins[options.origin];
-//       let location = { x:origin.x, y:origin.y, z:origin.z };
-
-//       Messenger.publish("browser.render", {
-//         showView: "ZonePreview",
-//         location: location,
-//         zone: zone.forClient(),
-//       });
-//     });
-//   }

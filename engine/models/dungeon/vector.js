@@ -38,4 +38,8 @@ global.Vector = class Vector {
     return `(${this.x},${this.y},${this.z})`;
   }
 
+  pack() {
+    return { x:this.x, y:this.y, z:this.z }
+  }
+
 }
