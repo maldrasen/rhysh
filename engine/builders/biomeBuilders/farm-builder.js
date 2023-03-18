@@ -37,7 +37,7 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
 
       let tile = Tile.normal();
           tile.biome = this.biomeName;
-          tile.sector_id = this.farmSector_id;
+          tile.sector_id = this.#farmSector_id;
           tile.fillWithTree();
 
       this.tileSource.setTile(dungeonIndex, tile);
@@ -49,7 +49,7 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
 
   fillSpace() {
     this.freeTiles.each(index => {
-      this.tileSource.setTile(index, this.farmTile.copy())
+      this.tileSource.setTile(index, this.#farmTile.copy())
     });
   }
 
