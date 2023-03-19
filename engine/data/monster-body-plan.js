@@ -34,7 +34,7 @@ global.MonsterBodyPlan = class MonsterBodyPlan {
 }
 
 MonsterBodyPlan.register(new MonsterBodyPlan('humanoid',{
-  slots:{ head:1, chest:4, legs:3, hands:1, feet:1 },
+  slots:{ head:1, chest:6, legs:4, hands:2, feet:2 },
   cock: {},   // TODO: Body Part Builder Options?
   pussy: {},  // TODO: Body Part Builder Options?
   tits: {},   // TODO: Body Part Builder Options?

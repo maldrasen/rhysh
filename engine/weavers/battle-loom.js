@@ -13,10 +13,13 @@ Weaver.BattleLoom = (function() {
   function getTargetSlotWord(context) {
     return Random.from({
       head:  ['head','head','face','neck','throat'],
-      chest: ['chest','chest','breast','torso','back'],
+      chest: ['chest','chest','torso','back'],
       hands: ['arm','arm','hand','wrist','shoulder'],
       feet:  ['foot','ankle'],
-      legs:  ['leg','leg','knee','ass','crotch','thigh','loin','hip'],
+      legs:  ['leg','leg','knee','thigh','hip'],
+      // Misc monster slots
+      back:  ['back'],
+      claws: ['claw'],
     }[context.get('combatResult').getTargetSlot()]);
   }
 

@@ -89,23 +89,37 @@ global.BattleRenderer = (function() {
     return {
       type: combatResult.getAttackResult(),
       attackRoll: combatResult.getAttackRoll(),
+      attackBonus: combatResult.getAttackBonus(),
       text: template ? Weaver.weave(template, context) : defaultText
     };
   }
 
   function renderSuccessSegment(combatResult, context) {
-    let hitStory = combatResult.getStory().hitText;
-
-    if (hitStory == null) {
-      hitStory = combatResult.isCriticalHit() ? 'Critical Hit!' : 'Hit!';
-    }
-
-    return {
+    let hitStory = combatResult.getStory().hitText || composeHitStory(combatResult, context);
+    let segment = {
       type: combatResult.getAttackResult(),
       attackRoll: combatResult.getAttackRoll(),
+      attackBonus: combatResult.getAttackBonus(),
       damage: combatResult.getAttackDamage(),
       text: Weaver.weave(hitStory, context),
     };
+
+    if (segment.damage > 0) {
+      let condition = combatResult.getTarget().getCondition();
+      segment.targetHitPoints = condition.getCurrentHitPoints();
+      segment.targetMaxHitPoints = condition.getMaxHitPoints();
+      segment.targetHealth = condition.getHealth();
+    }
+
+    return segment;
+  }
+
+  function composeHitStory(combatResult, context) {
+    let text = combatResult.isCriticalHit() ?
+      `{{T::Name's}} {{battle|target-slot-word}} was delt a critical blow!`:
+      `Hit {{T::name's}} {{battle|target-slot-word}}.`
+
+    return Weaver.weave(text,context);
   }
 
   function renderStatusSegment(statusChange, context) {

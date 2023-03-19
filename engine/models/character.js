@@ -33,6 +33,8 @@ global.Character = class Character {
     }
   }
 
+  get classname() { return _characterActor; }
+
   getCode() { return this.#code; }
   getLevel() { return this.#level; }
   getExperience() { return this.#experience; }

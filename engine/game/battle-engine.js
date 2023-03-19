@@ -89,16 +89,4 @@ global.BattleEngine = class BattleEngine {
     });
   }
 
-  // === Helpers ===============================================================
-
-  static randomSlot() {
-    return Random.fromFrequencyMap({
-      head:  1,
-      chest: 6,
-      legs:  4,
-      hands: 2,
-      feet:  2,
-    });
-  }
-
 }

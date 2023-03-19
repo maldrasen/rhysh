@@ -45,4 +45,16 @@ global.MonsterBody = class MonsterBody {
   briefDescriptionOfCock() { return this.hasCock() ? `TODO[Monster's Cock]` : `ERROR[No Cock]` }
   briefDescriptionOfPussy() { return this.hasPussy() ? `TODO[Monster's Pussy]` : `ERROR[No Pussy]` }
   briefDescriptionOfTits() { return this.hasTits() ? `TODO[Monster's Tits]` : `ERROR[No Tits]` }
+
+  pack() {
+    return {
+      sex:       this.#sex,
+      sizeClass: this.#sizeClass,
+      slots:     this.#slots,
+      cock:      this.#cock,
+      pussy:     this.#pussy,
+      tits:      this.#tits,
+    };
+  }
+
 }

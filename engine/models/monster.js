@@ -35,6 +35,8 @@ global.Monster = class Monster {
     this.#flags = {};
   }
 
+  get classname() { return _monsterActor; }
+
   // The monster ID will probably only be used by the battle state. This is how
   // we keep of which monster is which during a battle, but I don't think
   // there's any other use for it as they're only unique for that battle.

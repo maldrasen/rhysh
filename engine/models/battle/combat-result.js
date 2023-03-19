@@ -37,7 +37,6 @@ global.CombatResult = class CombatResult {
 
   getTargetSlot() { return this.#targetSlot; }
   setTargetSlot(slot) { this.#targetSlot = slot; }
-  chooseTargetSlot(slot) { this.#targetSlot = slot || BattleEngine.randomSlot(); }
   getScrutinizer() { return this.#scrutinizer; }
 
   getWeapon() { return this.#weapon; }
@@ -78,6 +77,20 @@ global.CombatResult = class CombatResult {
   isMiss() { return this.#attackResult == _miss; }
   isCriticalHit() { return this.#attackResult == _criticalHit; }
   isCriticalMiss() { return this.#attackResult == _criticalMiss; }
+
+  chooseTargetSlot(slot) {
+    let target = this.getTarget();
+
+    if (slot != null) {
+      this.#targetSlot = slot; return;
+    }
+    if (target.classname == _monsterActor) {
+      this.#targetSlot = Random.fromFrequencyMap(target.getBody().getSlots());
+    }
+    if (target.classname == _characterActor) {
+      this.#targetSlot = Random.fromFrequencyMap(MonsterBodyPlan.lookup('humanoid').slots);
+    }
+  }
 
   // Make an attack and determine the result. Hit bonus is 0 by default and
   // only applies to some abilities.
@@ -127,6 +140,9 @@ global.CombatResult = class CombatResult {
 
   // TODO: Adjust critical hit ranges and damage multipliers.
   rollDamage(damage, bonusDamage=0) {
+    if (this.isFailure()) { return; }
+    if (damage == null) { return; }
+
     if (this.#attackResult == _hit) { this.#attackDamage = this.getDamage(damage,bonusDamage); }
     if (this.#attackResult == _criticalHit) { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
 
@@ -135,9 +151,8 @@ global.CombatResult = class CombatResult {
     }
   }
 
-  // Damage can be null for an ability that does no damage.
   getDamage(damage, bonusDamage=0, multiplier=1) {
-    return (damage == null) ? 0 : Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;
+    return Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;;
   }
 
   useWeapon() {

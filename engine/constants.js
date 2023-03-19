@@ -14,6 +14,7 @@ global._U = "U";
 global._D = "D";
 
 // === Characters ==============================================================
+
 global._str = 'str';
 global._dex = 'dex';
 global._con = 'con';
