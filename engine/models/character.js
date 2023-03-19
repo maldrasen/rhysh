@@ -97,9 +97,9 @@ global.Character = class Character {
 
   getBaseHit() {
     let factor = {
-      slow:   3.0,
-      medium: 1.5,
-      fast:   1.0,
+      slowHitGrowth:   3.0,
+      mediumHitGrowth: 1.5,
+      fastHitGrowth:   1.0,
     }[this.getArchetype().hitGrowth];
 
     return Math.ceil(this.getLevel() / factor);

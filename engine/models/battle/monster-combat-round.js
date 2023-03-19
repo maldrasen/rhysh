@@ -98,13 +98,13 @@ global.MonsterCombatRound = class MonsterCombatRound {
   // TODO: Some abilities won't roll to hit.
   // TODO: Handle different ability types: attack, hold, coup-de-grace.
   doAbility() {
+    let result = new CombatResult(this);
     let ability = this.getAbility();
     let monster = this.getActor();
     let hit = (ability.hitBonus || 0) + monster.getBaseHit();
 
     monster.useAbility(ability.code);
 
-    let result = new CombatResult(this);
     result.chooseTargetSlot(ability.targetSlot);
     result.rollAttack(hit);
     result.rollDamage(ability.damage);
