@@ -64,12 +64,12 @@ window.TileGraphics = class TileGraphics {
     let floor = this.tileEntry.tile.floor;
     let fillColor = MapColor.floorStone;
 
-    if (floor && floor.type == "Water") {
+    if (floor && floor.type == _floorWater) {
       fillColor = MapColor.floorWater;
     }
     if (floor == null) {
-      if (this.tileEntry.tile.type == "Empty") { fillColor = MapColor.floorVoid; }
-      if (this.tileEntry.tile.type == "Solid") { fillColor = MapColor.solidStone; }
+      if (this.tileEntry.tile.type == _tileEmpty) { fillColor = MapColor.floorVoid; }
+      if (this.tileEntry.tile.type == _tileSolid) { fillColor = MapColor.solidStone; }
     }
 
     this.graphics.beginFill(fillColor);
@@ -81,7 +81,7 @@ window.TileGraphics = class TileGraphics {
     let g;
     let color;
 
-    if (wall.type == 'Fence') {
+    if (wall.type == _wallFence) {
       g = FenceGeometry[facing];
       color = MapColor.fence;
     } else {
@@ -93,7 +93,7 @@ window.TileGraphics = class TileGraphics {
     this.graphics.drawRect(g.x, g.y, g.width, g.height);
     this.graphics.endFill();
 
-    if (wall.type == "Door") {
+    if (wall.type == _wallDoor) {
       this.drawDoor(facing);
     }
   }
@@ -114,12 +114,15 @@ window.TileGraphics = class TileGraphics {
   }
 
   drawFill() {
-    if (this.tileEntry.tile.fillType == null) { return; }
+    const fillType = this.tileEntry.tile.fillType;
 
-    let drawFunction = {
-      Tree: 'drawTree',
-      Statue: 'drawStatue',
-    }[this.tileEntry.tile.fillType]
+    if (fillType == null) { return; }
+    if (fillType == _tileFillStone) { return; }
+
+    const drawFunction = {
+      tileFillTree: 'drawTree',
+      tileFillStatue: 'drawStatue',
+    }[fillType]
 
     if (drawFunction) {
       return this[drawFunction]();
@@ -157,7 +160,7 @@ window.TileGraphics = class TileGraphics {
 
   // The size of the sprite is adjusted so that the walls are visble.
   drawStairs() {
-    if (this.tileEntry.tile.type == "Stairs") {
+    if (this.tileEntry.tile.type == _tileStairs) {
       let direction = this.tileEntry.tile.stairDirection;
       let facing = this.tileEntry.tile.stairFacing;
       let walls = this.tileEntry.tile.walls;
@@ -238,6 +241,6 @@ function initDoorGeometry() {
 }
 
 function iconForStairs(direction, facing) {
-  let dir = direction == "U" ? "up" : "down";
+  let dir = direction == _U ? "up" : "down";
   return `../assets/icons/stairs-${dir}-${facing}.png`;
 }
