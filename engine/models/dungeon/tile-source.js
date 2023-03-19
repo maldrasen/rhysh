@@ -104,17 +104,21 @@ global.TileSource = class TileSource {
     return source;
   }
 
-  forClient() {
-    return {
+  pack() {
+    let packed = {
       name: this.#name,
-      size: this.#size,
+      size: this.#size.pack(),
       layerOffset: this.#layerOffset,
-      layers: this.#layers.map(layer => {
-        return layer.map(tile => {
-          return tile ? tile.forClient() : null
-        });
-      }),
+      layers: [],
     };
+
+    this.#layers.forEach(layer => {
+      packed.layers.push(layer.map(tile => {
+        return tile ? tile.pack() : null;
+      }));
+    });
+
+    return packed;
   }
 
   static unpack(data) {
@@ -143,8 +147,7 @@ function unpackTile(dungeonIndex, tileData, tileSource) {
   if (tileData == null) { return null; }
 
   try {
-    let tile = Tile.unpack(tileData);
-    tileSource.setTile(dungeonIndex, tile);
+    tileSource.setTile(dungeonIndex, Tile.unpack(tileData));
   }
   catch(error) {
     console.error(`Invalid Tile at ${dungeonIndex} > ${error}`);

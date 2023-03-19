@@ -14,7 +14,7 @@ global.ZonePreview = (function() {
     Switchboard.render({
       showView: "ZonePreview",
       location: origin.pack(),
-      zone: zone.forClient(),
+      zone: zone.pack(),
     });
   }
 

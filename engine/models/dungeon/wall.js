@@ -1,31 +1,33 @@
 global.Wall = class Wall {
 
-  static Type = {
-    Normal: 0,
-    Door: 1,
-    Fence: 2,
-  }
+  static normal() { return new Wall(_wallNormal); }
+  static door() { return new Wall(_wallDoor); }
 
-  static normal() { return new Wall(Wall.Type.Normal); }
-  static door() { return new Wall(Wall.Type.Door); }
-  static unpack(data) { return new Wall(data.type); }
+  #type;
 
   constructor(type) {
-    this.type = type;
+    this.#type = type;
   }
+
+  get type() { console.trace(); throw 'Use getType() instead.' }
+
+  getType() { return this.#type; }
+  isNormal() { return this.#type == _wallNormal; }
+  isDoor() { return this.#type == _wallDoor; }
+  isFence() { return this.#type == _wallFence; }
+
+  // === Persistance ===========================================================
 
   copy() {
-    return new Wall(this.type);
+    return new Wall(this.#type);
   }
 
-  isNormal() { return this.type == Wall.Type.Normal; }
-  isDoor() { return this.type == Wall.Type.Door; }
-  isFence() { return this.type == Wall.Type.Fence; }
+  pack() {
+    return { type: this.#type };
+  }
 
-  forClient() {
-    return {
-      type: ObjectHelper.reverseLookup(Wall.Type, this.type)
-    };
+  static unpack(data) {
+    return new Wall(data.type);
   }
 
 }

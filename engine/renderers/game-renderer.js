@@ -38,7 +38,7 @@ global.GameRenderer = (function() {
     ZoneLibrary.getZone(GameState.getCurrentZoneCode(), zone => {
       Switchboard.render({
         showView: "Dungeon",
-        zone: zone.forClient(),
+        zone: zone.pack(),
         location: GameState.getPartyLocation(),
         status: getStatus(),
       });

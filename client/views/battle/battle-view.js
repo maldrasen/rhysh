@@ -11,6 +11,7 @@ window.BattleView = (function() {
     }, debugBattleStart);
 
     ServerEvents.onRenderBattleRound((payload, data) => {
+      console.log("Current State:",data.battle)
       $battleState = data.battle;
       BattlePlayer.start(data.events);
     });

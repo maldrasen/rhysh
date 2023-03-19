@@ -69,10 +69,10 @@ global.Zone = class Zone {
     });
   }
 
-  forClient() {
+  pack() {
     return {
       name: this.name,
-      tileSource: this.tileSource.forClient(),
+      tileSource: this.tileSource.pack(),
     }
   }
 

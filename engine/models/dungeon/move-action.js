@@ -17,7 +17,6 @@ global.MoveAction = class MoveAction {
   //   action:[none, move, climb, warp]
   //   location: the location being moved to
   async getResponse() {
-
     // First make sure that the destination tile is a valid tile.
     if (this.destinationTile == null) { return this.response; }
     if (this.destinationTile.isSolid()) { return this.response; }
@@ -40,7 +39,7 @@ global.MoveAction = class MoveAction {
     // be between the stairs and the party. If we are moving then we can also
     // change the z-level of the party and we change the move type to climb.
     if (this.response.action == 'move' && this.destinationTile.isStairs()) {
-      let dir = this.destinationTile.stairDirection == _U ? _U : _D;
+      let dir = this.destinationTile.getStairDirection() == _U ? _U : _D;
       this.response.location = this.response.location.go(dir);
       this.response.action = 'climb';
     }
@@ -58,15 +57,15 @@ global.MoveAction = class MoveAction {
   // TODO: Eventually we'll need to handle trapped or locked doors but for now
   //       we assume that every door is unlocked and can be passed though.
   handleWall() {
-    let sourceType = this.sourceWall ? this.sourceWall.type : null;
-    let destinationType = this.destinationWall ? this.destinationWall.type : null;
+    let sourceType = this.sourceWall ? this.sourceWall.getType() : null;
+    let destinationType = this.destinationWall ? this.destinationWall.getType() : null;
 
-    if (sourceType == Wall.Type.Normal)      { return false; }
-    if (sourceType == Wall.Type.Fence)       { return false; }
-    if (destinationType == Wall.Type.Fence)  { return false; }
-    if (destinationType == Wall.Type.Normal) { return false; }
+    if (sourceType == _wallNormal)      { return false; }
+    if (sourceType == _wallFence)       { return false; }
+    if (destinationType == _wallFence)  { return false; }
+    if (destinationType == _wallNormal) { return false; }
 
-    if (sourceType == Wall.Type.Door) {
+    if (sourceType == _wallDoor) {
       this.response.location = this.location.go(this.direction);
       this.response.action = 'move';
       this.response.doorAction = 'opened';
@@ -105,7 +104,7 @@ global.MoveAction = class MoveAction {
   // happens the client only needs to know that the zone has been changed. The
   // client will then clear and reload the map with the current zone.
   async handleExit(trigger) {
-    await GameState.setCurrentZone(trigger.exitOptions.toZone);
+    await GameState.setCurrentZone(trigger.getExitOptions().toZone);
     this.response = { action:'changeZone' }
   }
 

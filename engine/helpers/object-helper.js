@@ -7,11 +7,6 @@ global.ObjectHelper = {
     }
   },
 
-  // Get the key in the map where the value can be found.
-  reverseLookup: function(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
-  },
-
   // The fetch function can be used to dive into an object to get nested
   // properties without worrying about null values along the way. This
   // function uses the varargs as keys. For instance:

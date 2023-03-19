@@ -26,8 +26,8 @@ global.Feature = class Feature {
     }
   }
 
-  forClient() {
-    return this.#tileSource.forClient();
+  pack() {
+    return this.#tileSource.pack();
   }
 
   // === Feature Preview =======================================================
@@ -38,7 +38,7 @@ global.Feature = class Feature {
 
     Switchboard.render({
       showView: "FeaturePreview",
-      feature: { tileSource:feature.forClient() },
+      feature: { tileSource:feature.pack() },
     });
   }
 

@@ -1,37 +1,44 @@
 global.Trigger = class Trigger {
 
-  static Type = {
-    Exit: 0,
-  }
-
-  constructor(options) {
-    this.type = options.type;
-    if (options.exitOptions) { this.exitOptions = options.exitOptions; }
-  }
-
   static exit(options) {
     return new Trigger({
-      type: Trigger.Type.Exit,
+      type: _triggerExit,
       exitOptions: options,
     });
   }
 
-  isExit() { return this.type == Trigger.Type.Exit }
+  #type;
+  #exitOptions;
 
-  static unpack(data) {
-    return new Trigger(data);
+  constructor(options) {
+    this.#type = options.type;
+    this.#exitOptions = options.exitOptions;
   }
 
-  forClient() {
-    let trigger = {
-      type: ObjectHelper.reverseLookup(Trigger.Type, this.type),
+  get type() { console.trace(); throw 'Use getType() instead.' }
+  get exitOptions() { console.trace(); throw 'Use getExitOptions() instead.' }
+
+  getType() { return this.#type; }
+  getExitOptions() { return this.#exitOptions; }
+  isExit() { return this.#type == _triggerExit }
+
+  // === Persistance ===========================================================
+
+  pack() {
+    const trigger = {
+      type: this.#type
     };
 
-    if (this.exitOptions) { trigger.exitOptions = this.exitOptions; }
+    if (this.#exitOptions) {
+      trigger.exitOptions = this.#exitOptions;
+    }
 
     return trigger;
   }
 
+  static unpack(data) {
+    return new Trigger(data);
+  }
 
 }
 

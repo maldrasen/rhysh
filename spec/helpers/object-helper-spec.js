@@ -12,10 +12,6 @@ describe('ObjectHelper', function() {
     expect(things).to.eql(['a',1,'b',2,'c',3]);
   });
 
-  it("Does a reverse lookup on an object", function() {
-    expect(ObjectHelper.reverseLookup({ key:'value' },'value')).to.equal('key');
-  });
-
   it("Fetches from an object", function() {
     let sample = { foo:{ bar:{ herp:{ derp:'X' }}}};
     expect(ObjectHelper.fetch(sample,'foo','bar','herp','derp')).to.equal('X');

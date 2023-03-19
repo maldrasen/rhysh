@@ -13,6 +13,24 @@ global._W = "W";
 global._U = "U";
 global._D = "D";
 
+// Tile Types
+global._tileEmpty = 'tileEmpty';
+global._tileSolid = 'tileSolid';
+global._tileStairs = 'tileStairs';
+
+global._tileFillStone = 'tileFillStone';
+global._tileFillTree = 'tileFillTree';
+global._tileFillStatue  = 'tileFillStatue';
+
+global._floorNormal = 'floorNormal';
+global._floorWater = 'floorWater';
+
+global._wallNormal = 'wallNormal';
+global._wallDoor = 'wallDoor';
+global._wallFence = 'wallFence';
+
+global._triggerExit = 'triggerExit';
+
 // === Characters ==============================================================
 
 global._str = 'str';

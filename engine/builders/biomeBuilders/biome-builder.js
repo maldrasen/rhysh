@@ -108,7 +108,7 @@ global.BiomeBuilder = class BiomeBuilder {
         let tileIndex = baseIndex.translate(new Vector(index.x, index.y, index.z));
 
         tile.biome = this.biomeName;
-        // tile.sector_id = null; // Fix
+        // tile.setSectorID(null); // Fix
 
         this.tileSource.setTile(tileIndex, tile);
         this.freeTiles.remove(tileIndex);

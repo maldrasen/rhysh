@@ -2,15 +2,15 @@ describe('Tile', function() {
 
   it("builds a normal tile", function() {
     let tile = Tile.normal();
-    expect(tile.type).to.equal(Tile.Type.Empty);
-    expect(tile.floor.type).to.equal(Floor.Type.Normal);
+    expect(tile.getType()).to.equal(_tileEmpty);
+    expect(tile.getFloor().getType()).to.equal(_floorNormal);
   });
 
   it("builds a solid tile", function() {
     let tile = Tile.solidStone();
-    expect(tile.type).to.equal(Tile.Type.Solid);
-    expect(tile.fillType).to.equal(Tile.FillType.Stone);
-    expect(tile.fillName).to.equal("dungeon");
+    expect(tile.getType()).to.equal(_tileSolid);
+    expect(tile.getFillType()).to.equal(_tileFillStone);
+    expect(tile.getFillName()).to.equal("dungeon");
   });
 
   it("Flips walls horizontally", function() {
@@ -51,7 +51,7 @@ describe('Tile', function() {
   it("sets the floor from a string", function() {
     let tile = Tile.normal();
     tile.setFloorFromString("Water");
-    expect(tile.floor.isWater()).to.be.true;
+    expect(tile.getFloor().isWater()).to.be.true;
   })
 
 });

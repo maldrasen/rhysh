@@ -55,7 +55,7 @@ global.TileFixer = class TileFixer {
   fixWall(tile, neighbor, direction) {
     if (tile.canHaveWalls() == false) { return; }
 
-    let tileWall = tile.walls[direction];
+    let tileWall = tile.wallAt(direction);
     let oppositeWall = this.getOppositeWall(neighbor, direction);
 
     // Make sure both sides of a tile have doors and walls.
@@ -73,7 +73,7 @@ global.TileFixer = class TileFixer {
   }
 
   getOppositeWall(neighbor, direction) {
-    return (neighbor == null) ? null : neighbor.walls[oppositeDirection(direction)];
+    return (neighbor == null) ? null : neighbor.wallAt(oppositeDirection(direction));
   }
 }
 

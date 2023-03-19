@@ -1,20 +1,8 @@
 global.Tile = class Tile {
 
-  static Type = {
-    Empty: 0,
-    Solid: 1,
-    Stairs: 2,
-  }
-
-  static FillType = {
-    Stone: 0,
-    Tree: 1,
-    Statue: 2,
-  }
-
   static normal() {
     return new Tile({
-      type: Tile.Type.Empty,
+      type: _tileEmpty,
       floor: Floor.normal(),
     });
   }
@@ -25,56 +13,90 @@ global.Tile = class Tile {
     return tile;
   }
 
+  #type;
+  #sector_id;
+  #biome_id;
+  #floor;
+  #walls;
+  #fillType;
+  #fillName;
+  #stairDirection;
+  #stairFacing;
+  #trigger;
+
   constructor(properties = {}) {
-    this.type = properties.type;
-    this.sector_id = properties.sector_id;
-    this.biome_id = properties.biome;
-    this.floor = properties.floor;
-    this.walls = { N:null, S:null, E:null, W:null };
-    this.fillType = properties.fillType;
-    this.fillName = properties.fillName;
-    this.stairDirection = properties.stairDirection;
-    this.stairFacing = properties.stairFacing;
+    this.#type = properties.type;
+    this.#sector_id = properties.sector_id;
+    this.#biome_id = properties.biome;
+    this.#floor = properties.floor;
+    this.#walls = { N:null, S:null, E:null, W:null };
+    this.#fillType = properties.fillType;
+    this.#fillName = properties.fillName;
+    this.#stairDirection = properties.stairDirection;
+    this.#stairFacing = properties.stairFacing;
   }
 
+  get type()           { console.trace(); throw "=== No type property ===" }
+  get sector_id()      { console.trace(); throw "=== No sector_id property ===" }
+  get biome_id()       { console.trace(); throw "=== No biome_id property ===" }
+  get floor()          { console.trace(); throw "=== No floor property ===" }
+  get walls()          { console.trace(); throw "=== No walls property ===" }
+  get fillType()       { console.trace(); throw "=== No fillType property ===" }
+  get fillName()       { console.trace(); throw "=== No fillName property ===" }
+  get stairDirection() { console.trace(); throw "=== No stairDirection property ===" }
+  get stairFacing()    { console.trace(); throw "=== No stairFacing property ===" }
+  get trigger()        { console.trace(); throw "=== No trigger property ===" }
+
+  getType() { return this.#type; }
+  getFillType() { return this.#fillType; }
+  getFillName() { return this.#fillName; }
+  getFloor() { return this.#floor; }
+  getStairDirection() { return this.#stairDirection; }
+
+  getBiomeID() { return this.#biome_id; }
+  setBiomeID(id) { this.#biome_id = id; }
+
+  getSectorID() { return this.#sector_id; }
+  setSectorID(id) { this.#sector_id = id; }
+
   copy() {
-    let tile = new Tile({
-      type: this.type,
-      sector_id: this.sector_id,
-      biome: this.biome_id,
-      floor: (this.floor ? this.floor.copy() : null),
-      fillType: this.fillType,
-      fillName: this.fillName,
-      stairDirection: this.stairDirection,
-      stairFacing: this.stairFacing,
+    const tile = new Tile({
+      type: this.#type,
+      sector_id: this.#sector_id,
+      biome: this.#biome_id,
+      floor: (this.#floor ? this.#floor.copy() : null),
+      fillType: this.#fillType,
+      fillName: this.#fillName,
+      stairDirection: this.#stairDirection,
+      stairFacing: this.#stairFacing,
     });
 
     NSEW(facing => {
-      tile.walls[facing] = (this.walls[facing] ? this.walls[facing].copy() : null)
+      tile.#walls[facing] = (this.#walls[facing] ? this.#walls[facing].copy() : null)
     });
 
     return tile;
   }
 
-  isEmpty() { return this.type == Tile.Type.Empty; }
-  isSolid() { return this.type == Tile.Type.Solid; }
-  isStairs() { return this.type == Tile.Type.Stairs; }
-  isStone() { return this.isSolid() && this.fillType == Tile.FillType.Stone; }
-  isStatue() { return this.isSolid() && this.fillType == Tile.FillType.Statue; }
-  isTree() { return this.isSolid() && this.fillType == Tile.FillType.Tree; }
+  isEmpty() { return this.#type == _tileEmpty; }
+  isSolid() { return this.#type == _tileSolid; }
+  isStairs() { return this.#type == _tileStairs; }
+  isStone() { return this.isSolid() && this.#fillType == _tileFillStone; }
+  isStatue() { return this.isSolid() && this.#fillType == _tileFillStatue; }
+  isTree() { return this.isSolid() && this.#fillType == _tileFillTree; }
 
-  setFloor(floor) { this.floor = floor; }
-  hasFloor() { return this.floor != null && this.floor.isNormal(); }
+  setFloor(floor) { this.#floor = floor; }
+  hasFloor() { return this.#floor != null && this.#floor.isNormal(); }
 
-  wallAt(facing) { return this.walls[facing]; }
-  setWall(facing, wall) { this.walls[facing] = wall; }
-  placeWall(facing) { this.walls[facing] = Wall.normal(); }
-  placeDoor(facing) { this.walls[facing] = Wall.door(); }
-  removeWall(facing) { this.walls[facing] = null; }
+  wallAt(facing) { return this.#walls[facing]; }
+  setWall(facing, wall) { this.#walls[facing] = wall; }
+  placeWall(facing) { this.#walls[facing] = Wall.normal(); }
+  placeDoor(facing) { this.#walls[facing] = Wall.door(); }
+  removeWall(facing) { this.#walls[facing] = null; }
 
-  setTrigger(trigger) { this.trigger = trigger; }
-  hasTrigger() { return this.trigger != null; }
-  getTrigger() { return this.trigger; }
+  setTrigger(trigger) { this.#trigger = trigger; }
+  hasTrigger() { return this.#trigger != null; }
+  getTrigger() { return this.#trigger; }
 
   // A tile can have walls if it's empty, stairs, or is filled with something that can be seen around like a tree or a
   // statue.
@@ -92,40 +114,67 @@ global.Tile = class Tile {
   //   tree:   random
   // If no fill is specified and we have a solid tile, assume it's filled with generic dungeon stone.
   fillWith(fillType, fillName) {
-    this.type = Tile.Type.Solid;
-    this.fillType = fillType;
-    this.fillName = fillName;
+    this.#type = _tileSolid;
+    this.#fillType = fillType;
+    this.#fillName = fillName;
   }
 
-  fillWithStone(name = "dungeon") { this.fillWith(Tile.FillType.Stone, name); }
-  fillWithTree(name = "random")   { this.fillWith(Tile.FillType.Tree, name); }
-  fillWithStatue(name = "random") { this.fillWith(Tile.FillType.Statue, name); }
+  fillWithStone(name = "dungeon") { this.fillWith(_tileFillStone, name); }
+  fillWithTree(name = "random")   { this.fillWith(_tileFillTree, name); }
+  fillWithStatue(name = "random") { this.fillWith(_tileFillStatue, name); }
 
   makeEmpty() {
-    this.type = Tile.Type.Empty;
-    this.fillType = null
-    this.fillName = null
+    this.#type = _tileEmpty;
+    this.#fillType = null
+    this.#fillName = null
   }
 
   makeStairs(direction, facing) {
     if (ArrayHelper.contains([_N,_S,_E,_W],facing) == false) { throw `Bad facing for stairs: ${facing}`; }
     if (ArrayHelper.contains([_U,_D],direction) == false) { throw `Bad direction for stairs: ${direction}`; }
 
-    this.type = Tile.Type.Stairs;
-    this.stairDirection = direction;
-    this.stairFacing = facing;
+    this.#type = _tileStairs;
+    this.#stairDirection = direction;
+    this.#stairFacing = facing;
   }
 
-  flipH() { [this.walls.W, this.walls.E] = [this.walls.E, this.walls.W] }
-  flipV() { [this.walls.N, this.walls.S] = [this.walls.S, this.walls.N] }
+  flipH() { [this.#walls.W, this.#walls.E] = [this.#walls.E, this.#walls.W] }
+  flipV() { [this.#walls.N, this.#walls.S] = [this.#walls.S, this.#walls.N] }
 
   flipD() {
-    this.walls = {
-      N: this.walls.E,
-      S: this.walls.W,
-      E: this.walls.N,
-      W: this.walls.S,
+    this.#walls = {
+      N: this.#walls.E,
+      S: this.#walls.W,
+      E: this.#walls.N,
+      W: this.#walls.S,
     };
+  }
+
+  // === Persistance ===========================================================
+
+  pack() {
+    const tile = {
+      type: this.#type,
+      floor: (this.#floor ? this.#floor.pack() : null),
+      trigger: (this.#trigger ? this.#trigger.pack() : null),
+      walls: {},
+    };
+
+    if (this.#fillType) {
+      tile.fillType = this.#fillType;
+      tile.fillName = this.#fillName;
+    }
+
+    if (this.#stairDirection) {
+      tile.stairDirection = this.#stairDirection;
+      tile.stairFacing = this.#stairFacing;
+    }
+
+    NSEW(facing => {
+      tile.walls[facing] = this.#walls[facing] ? this.#walls[facing].pack() : null;
+    })
+
+    return tile
   }
 
   // === Tile Loading ==========================================================
@@ -141,8 +190,8 @@ global.Tile = class Tile {
   // because the zoneData is used to lookup event points and such, which
   // shouldn't apply to plain features.
   static fromTileData(tileData, zoneData, index) {
-    let tile = new Tile();
-    let root = tileData.root;
+    const tile = new Tile();
+    const root = tileData.root;
 
     if (root == null) {
       return console.error('No Root in:',tileData);
@@ -164,7 +213,7 @@ global.Tile = class Tile {
   static unpack(tileData) {
     if (tileData.type == null) { throw `No Type.` }
 
-    let tile = new Tile({
+    const tile = new Tile({
       type: tileData.type,
       sector_id: tileData.sector_id,
       biome_id: tileData.biome_id,
@@ -194,9 +243,9 @@ global.Tile = class Tile {
   }
 
   setTypeFromString(string) {
-    this.type = {
-      "Empty": Tile.Type.Empty,
-      "Solid":  Tile.Type.Solid,
+    this.#type = {
+      "Empty": _tileEmpty,
+      "Solid": _tileSolid,
     }[string];
   }
 
@@ -209,7 +258,7 @@ global.Tile = class Tile {
   }
 
   setFloorFromString(floorString) {
-    this.floor = Floor.fromString(floorString);
+    this.#floor = Floor.fromString(floorString);
   }
 
   setFill(fill) {
@@ -246,10 +295,10 @@ global.Tile = class Tile {
   setFenceExtra(extra) {
     NSEW(facing => {
       if (extra.facing.indexOf(facing) >= 0) {
-        if (this.walls[facing] != null) {
+        if (this.#walls[facing] != null) {
           console.error("Error: Trying to set a fence where a wall has already been placed.");
         } else {
-          this.walls[facing] = new Wall(Wall.Type.Fence);
+          this.#walls[facing] = new Wall(_wallFence);
         }
       }
     });
@@ -274,33 +323,6 @@ global.Tile = class Tile {
         }
       });
     });
-  }
-
-  // === For Client ====================================================================================================
-
-  forClient() {
-    let tile = {
-      type: ObjectHelper.reverseLookup(Tile.Type, this.type),
-      floor: (this.floor ? this.floor.forClient() : null),
-      trigger: (this.trigger ? this.trigger.forClient() : null),
-      walls: {},
-    };
-
-    if (this.fillType) {
-      tile.fillType = ObjectHelper.reverseLookup(Tile.FillType, this.fillType);
-      tile.fillName = this.fillName;
-    }
-
-    if (this.stairDirection) {
-      tile.stairDirection = this.stairDirection;
-      tile.stairFacing = this.stairFacing;
-    }
-
-    NSEW(facing => {
-      tile.walls[facing] = this.walls[facing] ? this.walls[facing].forClient() : null;
-    })
-
-    return tile
   }
 
 }

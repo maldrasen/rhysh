@@ -4,7 +4,14 @@ global.DungeonBuilder = (function() {
     Zone.allCodes().forEach(code => {
       let zone = Zone.lookup(code);
       let builder = new ZoneBuilder(code);
-          builder.buildZone();
+
+      try {
+        builder.buildZone();
+      } catch(error) {
+        console.error("=== Error Building Zone ===");
+        console.error(error);
+        console.trace();
+      }
 
       writeZoneFile(zone, builder.getTileSource());
     });
@@ -12,9 +19,9 @@ global.DungeonBuilder = (function() {
 
   // We only save the zone files if there is a current game.
   function writeZoneFile(zone, tileSource) {
-    if (GameState.getWorldPath()) {
+    if (tileSource && GameState.getWorldPath()) {
       Kompressor.write(zone.zoneFilePath(), {
-        tileSource: tileSource,
+        tileSource: tileSource.pack(),
       });
     }
   }

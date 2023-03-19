@@ -31,7 +31,7 @@ global.Bulldozer = class Bulldozer {
     let nextPoint = point.go(direction);
     let nextTile = this.tileSource.getTile(nextPoint);
 
-    if (nextTile == null || nextTile.sector_id == this.defaultTile.sector_id || nextTile.isSolid()) {
+    if (nextTile == null || nextTile.getSectorID() == this.defaultTile.getSectorID() || nextTile.isSolid()) {
       this.carve(nextPoint);
     }
   }

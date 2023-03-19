@@ -7,8 +7,8 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
     this.#farmSector_id = Sector.defineNextSector({ type:'outside' });
 
     this.#farmTile = Tile.normal();
-    this.#farmTile.biome = this.biomeName;
-    this.#farmTile.sector_id = this.#farmSector_id;
+    this.#farmTile.setBiomeID(this.biomeName);
+    this.#farmTile.setSectorID(this.#farmSector_id);
 
     this.addHouses(this.biomeOptions.houseCount);
     this.addTrees(this.biomeOptions.treeCount);
@@ -36,8 +36,8 @@ global.FarmBuilder = class FarmBuilder extends BiomeBuilder {
       let dungeonIndex = this.freeTiles.getRandom();
 
       let tile = Tile.normal();
-          tile.biome = this.biomeName;
-          tile.sector_id = this.#farmSector_id;
+          tile.setBiomeID(this.biomeName);
+          tile.setSectorID(this.#farmSector_id);
           tile.fillWithTree();
 
       this.tileSource.setTile(dungeonIndex, tile);

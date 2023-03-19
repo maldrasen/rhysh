@@ -13,8 +13,8 @@ global.CleftBuilder = class CleftBuilder extends BiomeBuilder {
     this.#cleftSector_id = Sector.defineNextSector({ type:'outside' });
 
     this.#cleftTile = Tile.normal();
-    this.#cleftTile.biome = this.biomeName;
-    this.#cleftTile.sector_id = this.#cleftSector_id;
+    this.#cleftTile.setBiomeID(this.biomeName);
+    this.#cleftTile.setSectorID(this.#cleftSector_id);
 
     new CrackDigger({
       "biomeBuilder": this,
