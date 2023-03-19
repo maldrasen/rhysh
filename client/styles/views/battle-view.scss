@@ -53,11 +53,12 @@
 
   .monster-card {
     border: $border-light;
-    background-image: url('../assets/portraits/goblin-h-01.jpg');
     background-size: contain;
-    box-shadow: 2px 2px 15px 5px rgb(0 0 0) inset, 0px 0px 5px rgb(0 0 0) inset;
+    box-shadow:
+      2px 2px 15px 5px rgb(0 0 0) inset,
+      0px 0px 5px rgb(0 0 0) inset,
+      5px 5px 10px rgba(0,0,0,0.8),
   }
-
 }
 
 #controlPanel {

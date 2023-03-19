@@ -53,7 +53,12 @@ global.Character = class Character {
   setFirstName(name) { this.#firstName = name; }
   setLastName(name) { this.#lastName = name; }
 
-  getPortrait() { return 'portraits/ass-m-15' }
+  getPortrait() {
+    if (this.#speciesCode == _minotaur) { return `portraits/minotaur-01` }
+    if (this.#speciesCode == _nymph) { return `portraits/nymph-01` }
+    let sex = (this.#sex == _male) ? 'm' : 'f'
+    return `portraits/${this.#speciesCode}-${sex}-01`
+  }
 
   getSex(sex) { return this.#sex; }
   setSex(sex) {

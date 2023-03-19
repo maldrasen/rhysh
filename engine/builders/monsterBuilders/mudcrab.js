@@ -27,5 +27,7 @@ MonsterBuilder.register('mudcrab', options => {
   crab.addAbility('crab-arm-crush');
   crab.addAbility('crab-brutalize');
 
+  crab.setPortrait(`monsters/crab-0${Random.between(1,4)}`);
+
   return crab;
 });

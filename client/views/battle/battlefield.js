@@ -28,6 +28,10 @@ window.Battlefield = (function() {
       <div class='monster-card'>
         <div class='name'>${monster.name}</div>
       </div>`);
+
+    monsterCard.style['background-image'] = `url('../assets/${monster.portrait}.jpg')`
+
+
     return monsterCard;
   }
 

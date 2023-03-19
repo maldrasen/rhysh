@@ -3,6 +3,8 @@ global.Monster = class Monster {
   #id;
   #name;
   #body;
+  #portrait;
+
   #abilities = [];
   #attributes;
   #condition;
@@ -42,6 +44,9 @@ global.Monster = class Monster {
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
   getStoryName() { return `the ${this.#name}`; }
+
+  getPortrait() { return this.#portrait; }
+  setPortrait(portrait) { this.#portrait = portrait; }
 
   getBaseArmorClass() { return this.#baseArmorClass; }
   setBaseArmorClass(armorClass) { this.#baseArmorClass = armorClass; }
@@ -213,6 +218,7 @@ global.Monster = class Monster {
       condition: this.#condition.getCondition(),
       statuses: this.#condition.getStatuses(),
       size: this.getSizeClass(),
+      portrait: this.#portrait,
     };
   }
 

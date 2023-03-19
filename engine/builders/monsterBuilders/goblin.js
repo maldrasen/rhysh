@@ -46,8 +46,16 @@ MonsterBuilder.register('goblin', options => {
   goblin.addAbility('bad-idea');
   goblin.makeLewd();
 
+  setPortrait(goblin);
+
   return goblin;
 });
+
+function setPortrait(goblin) {
+  if (goblin.getSex() == _female) { goblin.setPortrait(`monsters/goblin-f-01`); }
+  if (goblin.getSex() == _futa)   { goblin.setPortrait(`monsters/goblin-h-0${Random.between(1,2)}`); }
+  if (goblin.getSex() == _male)   { goblin.setPortrait(`monsters/goblin-m-0${Random.between(1,3)}`); }
+}
 
 // TODO:
 //   Goblins should have a hide and sneak attack skill. The monster manual
