@@ -43,10 +43,10 @@ const grabLegs = new Ability('crab-grab-legs',{
   targetSlot: _legs,
   hitBonus: -2,
   cooldown: 5,
-});
-grabLegs.addStory(new Story({
   setCondition: { on:_self, condition:_holdingLegs, when:_success },
   addStatus: { on:_single, status:_boundLegs, when:_success },
+});
+grabLegs.addStory(new Story({
   tryText:`{{A::Name}} lunges for {{T::name's}} legs.`,
   hitText:`{{A::He}} grabs on to both of {{T::his}} legs holding them tightly in {{A::his}} claws.`,
 }));
@@ -57,10 +57,10 @@ const grabArms = new Ability('crab-grab-arms',{
   targetSlot: _hands,
   hitBonus: -2,
   cooldown: 5,
-});
-grabArms.addStory(new Story({
   setCondition: { on:_self, condition:_holdingArms, when:_success },
   addStatus: { on:_single, status:_boundArms, when:_success },
+});
+grabArms.addStory(new Story({
   tryText:`{{A::Name}} lunges for {{T::name's}} arms.`,
   hitText:`{{A::He}} grabs on to both of {{T::his}} wrists holding them tightly in {{A::his}} claws.`,
 }));
@@ -89,7 +89,7 @@ armCrush.addStory(new Story({
 const brutalize = new Ability('crab-brutalize',{
   type: _coupDeGrace,
   name: 'Brutalize',
-  requires: ['target.status=bound-arms','target.status=bound-legs'],
+  requires: ['target.status=boundArms','target.status=boundLegs'],
   damage: { d:4, p:8 },
   storyTeller: 'MudcrabBrutalizer'
 });

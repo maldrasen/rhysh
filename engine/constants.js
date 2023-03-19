@@ -119,6 +119,13 @@ global._holdingLegs = 'holdingLegs';
 // Status
 global._boundLegs = 'boundLegs';
 global._boundArms = 'boundArms';
+global._boundBody = 'boundBody';
+
+global._groinExposed = 'groinExposed';
+global._chestExposed = 'chestExposed';
+
+global._defensive = 'defensive';
+global._riposte = 'riposte';
 
 // === Items & Equipment =======================================================
 global._mainHand = 'mainHand';

@@ -52,7 +52,7 @@ global.CombatResult = class CombatResult {
   getWeaponMode() { return this.#weaponMode; }
   setWeaponMode(mode) { this.#weaponMode = mode; }
   isWeaponAttackMode() {
-    return (this.#weaponMode) ? (['parry','riposte','entangle'].indexOf(this.#weaponMode) < 0) : false;
+    return (this.#weaponMode) ? ([_parry,_riposte,_entangle].indexOf(this.#weaponMode) < 0) : false;
   }
 
   getAttackRoll() { return this.#attackRoll; }
@@ -89,21 +89,21 @@ global.CombatResult = class CombatResult {
 
     this.#attackRoll = Random.rollDice({ d:20 })
 
-    if (this.#attackRoll == 1)  { this.#attackResult = 'critical-miss'; return; }
-    if (this.#attackRoll == 20) { this.#attackResult = 'critical-hit';  return; }
+    if (this.#attackRoll == 1)  { this.#attackResult = _criticalMiss; return; }
+    if (this.#attackRoll == 20) { this.#attackResult = _criticalHit;  return; }
 
     let targetArmorClass = this.getTarget().getArmorClass(this.#targetSlot);
     let adjustedHit = this.#attackRoll + this.getActor().getBaseHit() + hitBonus + modeHit;
 
-    this.#attackResult = (adjustedHit >= targetArmorClass) ? 'hit' : 'miss';
+    this.#attackResult = (adjustedHit >= targetArmorClass) ? _hit : _miss;
   }
 
   // TODO: Adjust critical hit ranges and damage multipliers.
   rollDamage(damage, bonusDamage=0) {
-    if (this.#attackResult == 'hit') { this.#attackDamage = this.getDamage(damage,bonusDamage); }
-    if (this.#attackResult == 'critical-hit') { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
+    if (this.#attackResult == _hit) { this.#attackDamage = this.getDamage(damage,bonusDamage); }
+    if (this.#attackResult == _criticalHit) { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
 
-    if (this.#attackResult == 'critical-miss') {
+    if (this.#attackResult == _criticalMiss) {
       // TODO: Determine critical failure result for monster. We could do a few
       //       interesting things here. Add a prone condition, have them hit an
       //       ally instead.
@@ -116,14 +116,14 @@ global.CombatResult = class CombatResult {
   }
 
   useWeapon() {
-    if (this.#weaponMode == 'parry') {
-      this.getActor().getCondition().setStatus('defensive');
+    if (this.#weaponMode == _parry) {
+      this.getActor().getCondition().setStatus(_defensive);
       this.setStory({ text:`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.` })
       return;
     }
 
-    if (this.#weaponMode == 'riposte') {
-      this.getActor().getCondition().setStatus('riposte');
+    if (this.#weaponMode == _riposte) {
+      this.getActor().getCondition().setStatus(_riposte);
       this.setStory({ text:`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a counter attack.` })
       return;
     }
@@ -163,9 +163,9 @@ global.CombatResult = class CombatResult {
   }
 
   isValidWhen(when) {
-    if (when == 'always')  { return true; }
-    if (when == 'success') { return this.isSuccess(); }
-    if (then == 'failure') { return this.isFailure(); }
+    if (when == _always)  { return true; }
+    if (when == _success) { return this.isSuccess(); }
+    if (then == _failure) { return this.isFailure(); }
   }
 
   selectStory() {

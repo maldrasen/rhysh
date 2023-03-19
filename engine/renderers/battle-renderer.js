@@ -112,12 +112,12 @@ global.BattleRenderer = (function() {
     let text;
     let severity;
 
-    if (statusChange.on == 'target') {
-      if (statusChange.add == 'bound-legs') {
+    if (statusChange.on == _single) {
+      if (statusChange.add == _boundLegs) {
         text = `{{T::name's}} legs are bound.`;
         severity = 'bad';
       }
-      if (statusChange.add == 'bound-arms') {
+      if (statusChange.add == _boundArms) {
         text = `{{T::name's}} arms are bound.`;
         severity = 'bad';
       }
@@ -138,15 +138,15 @@ global.BattleRenderer = (function() {
     let text;
     let severity;
 
-    if (conditionChange.on == 'self') {
-      if (conditionChange.set == 'prone') {
+    if (conditionChange.on == _self) {
+      if (conditionChange.set == _prone) {
         text = `{{A::Name}} falls prone.`
         severity = 'bad'
       }
 
       // No need to mention holds as that would be redundant.
-      if (conditionChange.set == 'holdingLegs') { return null; }
-      if (conditionChange.set == 'holdingArms') { return null; }
+      if (conditionChange.set == _holdingLegs) { return null; }
+      if (conditionChange.set == _holdingArms) { return null; }
     }
 
     if (text == null) {
