@@ -77,13 +77,13 @@ global.BattleRenderer = (function() {
 
   function renderAttemptSegment(combatResult, context) {
     let story = combatResult.getStory()
-    let text = Weaver.weave((story.text || story.attempt), context);
+    let text = Weaver.weave((story.text || story.tryText), context);
 
     return { type:_attempt, text:text };
   }
 
   function renderFailureSegment(combatResult, context) {
-    let template = combatResult.getStory().miss;
+    let template = combatResult.getStory().missText;
     let defaultText = combatResult.isCriticalMiss() ? `Fumbles!` : `Miss`;
 
     return {
@@ -94,7 +94,7 @@ global.BattleRenderer = (function() {
   }
 
   function renderSuccessSegment(combatResult, context) {
-    let hitStory = combatResult.getStory().hit;
+    let hitStory = combatResult.getStory().hitText;
 
     if (hitStory == null) {
       hitStory = combatResult.isCriticalHit() ? 'Critical Hit!' : 'Hit!';

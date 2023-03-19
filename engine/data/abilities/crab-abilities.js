@@ -8,14 +8,14 @@ const cockClaw = new Ability('crab-cock-claw',{
   cooldown: 5,
 });
 cockClaw.addStory(new Story({
-  tryText: `{{M::Name}} snaps at {{T::name's}} crotch with its claws.`,
-  hitText: `{{M::He}} somehow manages to grab onto {{T::name's}} dangling ballsack and pinches down hard, almost
+  tryText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
+  hitText: `{{A::He}} somehow manages to grab onto {{T::name's}} dangling ballsack and pinches down hard, almost
     crushing one of {{T::his}} balls.`,
 }));
 cockClaw.addStory(new Story({
-  tryText: `{{M::Name}} snaps at {{T::name's}} crotch with its claws.`,
-  hitText: `{{M::He}} grabs onto {{T::name's}} exposed cock and pinches down hard, {{T::his}} {{T::bigCock}} in its
-    sharp claws.`,
+  tryText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
+  hitText: `{{A::He}} grabs onto {{T::name's}} exposed cock and pinches down hard, crushing {{T::his}} {{T::bigCock}}
+    in its sharp claws.`,
 }));
 
 
@@ -28,12 +28,12 @@ const titClaw = new Ability('crab-tit-claw',{
   cooldown: 5,
 });
 titClaw.addStory(new Story({
-  tryText: `{{M::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
-  hitText: `{{M::His}} claws dig into {{T::his}} {{T::tits}}, pinching them painfully.`,
+  tryText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
+  hitText: `{{A::His}} claws dig into {{T::his}} {{T::tits}}, pinching them painfully.`,
 }));
 titClaw.addStory(new Story({
-  tryText: `{{M::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
-  hitText: `{{M::He}} grabs onto both of {{T::his}} breasts and pinches down hard, leaving dark bruises on both of
+  tryText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
+  hitText: `{{A::He}} grabs onto both of {{T::his}} breasts and pinches down hard, leaving dark bruises on both of
     {{T::his}} tits..`,
 }));
 
@@ -47,8 +47,8 @@ const grabLegs = new Ability('crab-grab-legs',{
 grabLegs.addStory(new Story({
   setCondition: { on:_self, condition:_holdingLegs, when:_success },
   addStatus: { on:_single, status:_boundLegs, when:_success },
-  tryText:`{{M::Name}} lunges for {{T::name's}} legs.`,
-  hitText:`{{M::He}} grabs on to both of {{T::his}} legs holding them tightly in {{M::his}} claws.`,
+  tryText:`{{A::Name}} lunges for {{T::name's}} legs.`,
+  hitText:`{{A::He}} grabs on to both of {{T::his}} legs holding them tightly in {{A::his}} claws.`,
 }));
 
 
@@ -61,8 +61,8 @@ const grabArms = new Ability('crab-grab-arms',{
 grabArms.addStory(new Story({
   setCondition: { on:_self, condition:_holdingArms, when:_success },
   addStatus: { on:_single, status:_boundArms, when:_success },
-  tryText:`{{M::Name}} lunges for {{T::name's}} arms.`,
-  hitText:`{{M::He}} grabs on to both of {{T::his}} wrists holding them tightly in {{M::his}} claws.`,
+  tryText:`{{A::Name}} lunges for {{T::name's}} arms.`,
+  hitText:`{{A::He}} grabs on to both of {{T::his}} wrists holding them tightly in {{A::his}} claws.`,
 }));
 
 
@@ -72,7 +72,7 @@ const legCrush = new Ability('crab-leg-crush',{
   damage:{ d:4, p:2 },
 });
 legCrush.addStory(new Story({
-  hitText:`{{M::Name}} squeezes {{T::name's}} ankles, crushing them painfully in {{M::his}} sharp claws.`
+  hitText:`{{A::Name}} squeezes {{T::name's}} ankles, crushing them painfully in {{A::his}} sharp claws.`
 }));
 
 
@@ -82,7 +82,7 @@ const armCrush = new Ability('crab-arm-crush',{
   damage:{ d:4, p:2 },
 });
 armCrush.addStory(new Story({
-  hitText:`{{M::Name}} squeezes {{T::name's}} wrists, crushing them painfully in {{M::his}} sharp claws.`
+  hitText:`{{A::Name}} squeezes {{T::name's}} wrists, crushing them painfully in {{A::his}} sharp claws.`
 }));
 
 

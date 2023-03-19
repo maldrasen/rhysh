@@ -43,7 +43,7 @@ global.Weaver = (function() {
       if (subject == 'A') { actor = context.get('actor'); }
     }
 
-    if (actor == null) { throw `Cannot determine actor.` }
+    if (actor == null) { throw `Cannot determine actor in ${subject}::${token}` }
 
     if (token.startsWith('balls'))   { return Weaver.BallsLoom.findValue(actor, token, context);   }
     if (token.startsWith('body'))    { return Weaver.BodyLoom.findValue(actor, token, context);    }
