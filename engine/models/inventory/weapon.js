@@ -5,6 +5,8 @@ global.Weapon = class Weapon {
   #name;
   #equippedBy;
 
+  #magicalBonus;
+
   constructor(code) {
     this.#weaponType = code;
     this.#name = WeaponType.lookup(code).name;
@@ -23,6 +25,9 @@ global.Weapon = class Weapon {
 
   getName() { return this.#name; }
   setName(name) { this.#name = name; }
+
+  getMagicalBonus() { return this.#magicalBonus || 0; }
+  setMagicalBonus(bonus) { this.#magicalBonus = bonus; }
 
   // === Equipment =============================================================
 
