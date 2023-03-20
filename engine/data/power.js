@@ -7,7 +7,7 @@ global.Power = class Power {
   }
 
   static lookup(code) {
-    if (PowerDictionary[code] == null) { throw `Unknown Power (${code})` }
+    if (PowerDictionary[code] == null) { console.trace(); throw `Unknown Power (${code})` }
     return PowerDictionary[code];
   }
 

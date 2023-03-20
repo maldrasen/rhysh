@@ -36,8 +36,12 @@ global.Character = class Character {
   get classname() { return _characterActor; }
 
   getCode() { return this.#code; }
+
   getLevel() { return this.#level; }
+  setLevel(level) { this.#level = level; }
+
   getExperience() { return this.#experience; }
+  setExperience(experience) { this.#experience = experience; }
 
   getAttributes() { return this.#attributes; }
   setAttributes(attributesObject) { this.#attributes = attributesObject; }
@@ -147,6 +151,12 @@ global.Character = class Character {
     return 'tits'
   }
 
+  save() { CharacterLibrary.saveCharacter(this); }
+  pack() { return CharacterPacker.pack(this); }
+  packForBattle() { return CharacterPacker.packForBattle(this); }
+  packForStatus() { return CharacterPacker.packForStatus(this); }
+  static unpack(data) { return CharacterPacker.unpack(data); }
+
   // === Abilities =============================================================
 
   onBattleStart() {
@@ -172,6 +182,16 @@ global.Character = class Character {
     });
 
     return abilities;
+  }
+
+  getSpells() {
+    let spells = []
+
+    ObjectHelper.each(this.getArcanumMap(), (arcanumCode, arcanumLevel) => {
+      arcanumLevel.getAbilityCodes().forEach(ability => { abilities.push(ability); });
+    });
+
+    return spells;
   }
 
   // === Experience ============================================================
@@ -218,125 +238,6 @@ global.Character = class Character {
   getOffHandCode() {
     let weapon = this.getOffHand();
     return weapon ? weapon.getWeaponTypeCode() : null;
-  }
-
-  // === Persistance ===========================================================
-
-  save() {
-    CharacterLibrary.saveCharacter(this);
-  }
-
-  pack() {
-    let data = {
-      code: this.#code,
-      level: this.#level,
-      experience: this.#experience,
-      attributes: this.#attributes.pack(),
-      condition: this.#condition.pack(),
-
-      firstName: this.#firstName,
-      lastName: this.#lastName,
-      sex: this.#sex,
-
-      archetypeCode: this.#archetypeCode,
-      speciesCode: this.#speciesCode,
-
-      arcanumMap: {},
-      gnosisMap: {},
-      powerMap: {},
-      skillMap: {},
-    }
-
-    ObjectHelper.each(this.#arcanumMap, (code, arcanum) => {
-      data.arcanumMap[code] = arcanum.pack();
-    });
-
-    ObjectHelper.each(this.#gnosisMap, (code, gnosis) => {
-      data.gnosisMap[code] = gnosis.pack();
-    });
-
-    ObjectHelper.each(this.#powerMap, (code, power) => {
-      data.powerMap[code] = power.pack();
-    });
-
-    ObjectHelper.each(this.#skillMap, (code, skill) => {
-      data.skillMap[code] = skill.pack();
-    });
-
-    return data;
-  }
-
-  static unpack(data) {
-    let character = new Character(data.code);
-    character.#level = data.level;
-    character.#experience = data.experience;
-    character.#attributes = Attributes.unpack(data.attributes);
-    character.#condition = Condition.unpack(data.condition);
-
-    character.#firstName = data.firstName;
-    character.#lastName = data.lastName;
-    character.#sex = data.sex;
-
-    character.#archetypeCode = data.archetypeCode;
-    character.#speciesCode = data.speciesCode;
-
-    ObjectHelper.each(data.arcanumMap, (code, arcanumData) => {
-      character.addArcanum(ArcanumLevel.unpack(arcanumData));
-    });
-
-    ObjectHelper.each(data.gnosisMap, (code, gnosisData) => {
-      character.addGnosis(GnosisLevel.unpack(gnosisData));
-    });
-
-    ObjectHelper.each(data.powerMap, (code, powerData) => {
-      character.addPower(PowerLevel.unpack(powerData));
-    });
-
-    ObjectHelper.each(data.skillMap, (code, skillData) => {
-      character.addSkill(SkillLevel.unpack(skillData));
-    });
-
-    return character;
-  }
-
-  // TODO: We also need to include a list of spells and abilities.
-  packForBattle() {
-    let abilityList = [];
-    let spellList = [];
-
-    let packed = {
-      code: this.#code,
-      condition: this.#condition.pack(),
-      fullName: this.getFullName(),
-      abilityList: abilityList,
-      spellList: spellList,
-    };
-
-    if (this.#code == 'Main') {
-      packed.orders = this.packOrders();
-    }
-
-    let equipped = Inventory.getEquippedBy(this);
-    let mainHand = equipped['mainHand'];
-    let offHand = equipped['offHand'];
-
-    if (mainHand) { packed.mainHand = mainHand.packForBattle(); }
-    if (offHand) { packed.offHand = offHand.packForBattle(); }
-
-    return packed;
-  }
-
-  packOrders() {
-    return [{ name:"Retreat", code:'retreat' }];
-  }
-
-  packForStatus() {
-    return {
-      code: this.#code,
-      portrait: this.getPortrait(),
-      firstName: this.#firstName,
-      condition: this.#condition.pack(),
-    };
   }
 
 }

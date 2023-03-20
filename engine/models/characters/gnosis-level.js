@@ -5,6 +5,8 @@ global.GnosisLevel = class GnosisLevel {
   #experience;
 
   constructor(code) {
+    Gnosis.lookup(code);
+
     this.#code = code;
     this.#level = 0;
     this.#experience = 0;

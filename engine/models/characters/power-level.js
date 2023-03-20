@@ -5,6 +5,8 @@ global.PowerLevel = class PowerLevel {
   #experience;
 
   constructor(code) {
+    Power.lookup(code);
+
     this.#code = code;
     this.#level = 0;
     this.#experience = 0;
