@@ -110,7 +110,7 @@ global.ZoneBuilder = class ZoneBuilder {
           this.saveAsFreeTile(dungeonIndex, tileData);
         }
         if (tileData.root.tile) {
-          this.#tileSource.setTile(dungeonIndex, Tile.fromTileData(tileData, this.#zone, dungeonIndex));
+          this.#tileSource.setTile(dungeonIndex, TileLoader.fromTileData(tileData, this.#zone, dungeonIndex));
         }
       }
     });

@@ -40,18 +40,4 @@ describe('Tile', function() {
     expect(tile.wallAt(_E).isNormal()).to.be.true;
   });
 
-  it("sets walls from a string", function() {
-    let tile = Tile.normal();
-    tile.setWallsFromString("SEX");
-    expect(tile.wallAt(_S).isNormal()).to.be.true;
-    expect(tile.wallAt(_E).isNormal()).to.be.true;
-    expect(tile.wallAt(_W)).to.be.null;
-  });
-
-  it("sets the floor from a string", function() {
-    let tile = Tile.normal();
-    tile.setFloorFromString("Water");
-    expect(tile.getFloor().isWater()).to.be.true;
-  })
-
 });

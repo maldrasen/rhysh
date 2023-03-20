@@ -23,7 +23,7 @@ global.FeatureSetLoader = (function() {
           let tileIndex = x + (y * spec.width);
           if (layer[tileIndex]) {
             let dungeonIndex = new Vector(x,y,layerIndex);
-            featureTemplate.setTile(dungeonIndex, Tile.fromTileData(layer[tileIndex], null, dungeonIndex));
+            featureTemplate.setTile(dungeonIndex, TileLoader.fromTileData(layer[tileIndex], null, dungeonIndex));
           }
         });
       });
