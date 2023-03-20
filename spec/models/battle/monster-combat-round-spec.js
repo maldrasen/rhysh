@@ -10,7 +10,7 @@ describe('MonsterCombatRound', function() {
     let action = new CombatAction({
       action: _ability,
       actorClassname: _monsterActor,
-      actorItentifier: $monster.getID(), // FIXME
+      actorItentifier: crab.getID(), // FIXME
       ability: 'crab-grab-legs',
       targetType: _single,
       targetIdentifier: 'Main',
@@ -33,7 +33,7 @@ describe('MonsterCombatRound', function() {
     let action = new CombatAction({
       action: _attack,
       actorClassname: _monsterActor,
-      actorItentifier: $monster.getID(), // FIXME
+      actorItentifier: gobbo.getID(), // FIXME
       targetType: _single,
       targetIdentifier: 'Main',
     });

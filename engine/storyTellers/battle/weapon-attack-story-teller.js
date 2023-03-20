@@ -1,23 +1,23 @@
 
 const BashStories = [
-  new Story({ tryText: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} in a wide arc at {{T::name}}.` }),
-  new Story({ tryText: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  new BattleStory({ actionText: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+  new BattleStory({ actionText: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
 ];
 
 const ShootStories = [
-  new Story({ tryText:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new Story({ tryText:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
 ];
 
 const SlashStories = [
-  new Story({ tryText:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new Story({ tryText:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
 ];
 
 const ThrustStories = [
-  new Story({ tryText:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new Story({ tryText:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-  new Story({ tryText:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  new BattleStory({ actionText:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
 ];
 
 global.WeaponAttackStoryTeller = class WeaponAttackStoryTeller {

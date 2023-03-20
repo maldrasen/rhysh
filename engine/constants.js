@@ -136,6 +136,13 @@ global._holdingBody = 'holdingBody';
 global._holdingLegs = 'holdingLegs';
 
 // Status
+
+global._afraid = 'afraid';
+global._berserk = 'berserk';
+global._blind = 'blind';
+global._paralyzed = 'paralyzed';
+global._poison = 'poison';
+
 global._boundLegs = 'boundLegs';
 global._boundArms = 'boundArms';
 global._boundBody = 'boundBody';
@@ -145,6 +152,9 @@ global._chestExposed = 'chestExposed';
 
 global._defensive = 'defensive';
 global._riposte = 'riposte';
+
+// Saving Throw Categories
+global._fear = 'fear';
 
 // === Items & Equipment =======================================================
 global._mainHand = 'mainHand';
@@ -165,6 +175,7 @@ global._neck = 'neck';
 global._nipple = 'nipple';
 global._pussy = 'pussy';
 global._ring = 'ring';
+global._mouth = 'mouth';
 
 global.ArmorSlots = [
   _head,
@@ -185,6 +196,7 @@ global.AccessorySlots = [
   _offHand,
   _pussy,
   _ring,
+  _mouth,
 ];
 
 // Loot Rarities
@@ -252,18 +264,21 @@ global.ActionTypes = [
   _nothing,
 ];
 
+global._coupDeGrace = 'coupDeGrace';
 global._grapple = 'grapple';
 global._hold = 'hold';
-global._coupDeGrace = 'coupDeGrace';
+global._spell = 'spell';
 global.AbilityTypes = [
   _attack,
+  _coupDeGrace,
   _grapple,
   _hold,
-  _coupDeGrace
+  _spell,
 ];
 
 global._self = 'self';
 global._single = 'single';
+global._random = 'random';
 global._rank = 'rank';
 global._allMonsters = 'allMonsters';
 global._allCharacters = 'allCharacters';
@@ -272,6 +287,7 @@ global._none = 'none';
 global.TargetTypes = [
   _self,
   _single,
+  _random,
   _rank,
   _allMonsters,
   _allCharacters,

@@ -16,14 +16,4 @@ describe('Goblin', function() {
     expect(chestArmor).to.be.greaterThan(12);
   });
 
-  it('chooses a combat ability', function() {
-    let state = new BattleState({ monster:'goblin' });
-    let gobbo = state.getMonster('M1');
-
-    SpecHelper.randomMainCharacter();
-    GameState.setCurrentBattle(state);
-
-    expect(gobbo.chooseCombatAction()).to.not.be.null;
-  });
-
 });

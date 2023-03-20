@@ -81,9 +81,9 @@ global.Condition = class Condition {
   getStatuses() { return { ...this.#statuses }; }
   hasStatus(code) { return this.#statuses[code] != null; }
   removeStatus(code) { delete this.#statuses[code]; }
-  setStatus(code, duration) {
+  setStatus(code, options) {
     StatusType.lookup(code);
-    this.#statuses[code] = duration;
+    this.#statuses[code] = options;
   }
 
   // === Persistance ===========================================================

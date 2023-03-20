@@ -15,6 +15,7 @@ global.Ability = class Ability {
   #type;
   #name;
 
+  #uses;
   #range;
   #targetType;
   #targetSlot;
@@ -24,6 +25,7 @@ global.Ability = class Ability {
   #requires;
   #setCondition;
   #addStatus;
+  #savingThrow;
 
   #stories;
   #storyTeller;
@@ -35,6 +37,7 @@ global.Ability = class Ability {
     this.#type = options.type;
     this.#name = options.name;
 
+    this.#uses = options.uses || [];
     this.#range = options.range;
     this.#targetType = options.targetType;
     this.#targetSlot = options.targetSlot;
@@ -44,6 +47,7 @@ global.Ability = class Ability {
     this.#requires = options.requires;
     this.#setCondition = options.setCondition;
     this.#addStatus = options.addStatus;
+    this.#savingThrow = options.savingThrow;
 
     this.#stories = [];
     this.#storyTeller = options.storyTeller;
@@ -55,6 +59,7 @@ global.Ability = class Ability {
   get type() { return this.#type; }
   get name() { return this.#name; }
 
+  get uses() { return this.#uses; }
   get range() { return this.#range; }
   get targetType() { return this.#targetType; }
   get targetSlot() { return this.#targetSlot; }
@@ -64,6 +69,7 @@ global.Ability = class Ability {
   get requires() { return this.#requires; }
   get setCondition() { return this.#setCondition; }
   get addStatus() { return this.#addStatus; }
+  get savingThrow() { return this.#savingThrow; }
 
   get stories() { return this.#stories; }
   get storyTeller() { return this.#storyTeller; }
@@ -110,6 +116,7 @@ global.Ability = class Ability {
     let packed = {
       code: this.#code,
       type: this.#type,
+      uses: this.#uses,
     };
 
     if (this.#name) { packed.name = this.#name; }
@@ -122,6 +129,7 @@ global.Ability = class Ability {
     if (this.#requires) { packed.requires = this.#requires; }
     if (this.#setCondition) { packed.setCondition = this.#setCondition; }
     if (this.#addStatus) { packed.addStatus = this.#addStatus; }
+    if (this.#savingThrow) { packed.savingThrow = this.#savingThrow; }
 
     return packed;
   }
