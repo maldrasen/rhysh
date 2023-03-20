@@ -7,7 +7,7 @@ global.Arcanum = class Arcanum {
   }
 
   static lookup(code) {
-    if (ArcanumDictionary[code] == null) { throw `Unknown Arcanum (${code})` }
+    if (ArcanumDictionary[code] == null) { console.trace(); throw `Unknown Arcanum (${code})` }
     return ArcanumDictionary[code];
   }
 

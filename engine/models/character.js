@@ -83,22 +83,22 @@ global.Character = class Character {
   getArcanumMap() { return this.#arcanumMap; }
   getArcanum(code) { return this.#arcanumMap[code]; }
   hasArcanum(code) { return this.#arcanumMap[code] != null; }
-  addArcanum(arcanumCode) { this.#arcanumMap[arcanumCode] = new ArcanumLevel(arcanumCode); }
+  addArcanum(arcanumLevel) { this.#arcanumMap[arcanumLevel.getCode()] = arcanumLevel; }
 
   getGnosisMap() { return this.#gnosisMap; }
   getGnosis(code) { return this.#gnosisMap[code]; }
   hasGnosis(code) { return this.#gnosisMap[code] != null; }
-  addGnosis(gnosisCode) { this.#gnosisMap[gnosisCode] = new GnosisLevel(gnosisCode); }
+  addGnosis(gnosisLevel) { this.#gnosisMap[gnosisLevel.getCode()] = gnosisLevel; }
 
   getPowerMap() { return this.#powerMap; }
   getPower(code) { return this.#powerMap[code]; }
   hasPower(code) { return this.#powerMap[code] != null; }
-  addPower(powerCode) { this.#powerMap[powerCode] = new PowerLevel(powerCode); }
+  addPower(powerLevel) { this.#powerMap[powerLevel.getCode()] = powerLevel; }
 
   getSkillMap() { return this.#skillMap; }
   getSkill(code) { return this.#skillMap[code]; }
   hasSkill(code) { return this.#skillMap[code] != null; }
-  addSkill(skill) { this.#skillMap[skill.getCode()] = skill; }
+  addSkill(skillLevel) { this.#skillMap[skillLevel.getCode()] = skillLevel; }
 
   // === Calculated Values =====================================================
 

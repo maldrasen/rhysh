@@ -6,7 +6,7 @@ const satyr = new Species('satyr',{
   baseHitPoints: 10,
 });
 
-satyr.addArcanum('deep-wood');
+satyr.addArcanum('thorns');
 satyr.addPower('aura-lust');
 
 Species.register(satyr);

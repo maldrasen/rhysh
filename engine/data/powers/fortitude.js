@@ -1,3 +1,4 @@
+
 let fortitude = new Power('fortitude',{
   name: 'Fortitude',
   abilityCode: 'fortitude',

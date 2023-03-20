@@ -9,7 +9,7 @@ const lupin = new Species('lupin',{
 
 lupin.addArcanum('dreams');
 lupin.addGnosis('strife');
-lupin.addGnosis('claw');
+lupin.addGnosis('claws');
 lupin.addPower('regeneration');
 
 Species.register(lupin);

@@ -1,3 +1,4 @@
+
 let fear = new Power('aura-fear',{
   name: 'Fear Aura',
   abilityCode: 'terrify',
