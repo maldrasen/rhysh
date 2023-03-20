@@ -1,5 +1,7 @@
 window.BattleControls = (function() {
 
+  let $selectedAbility;
+
   function init() {
     X.onClick('#actionTabs .attack-button',    selectAttackTab);
     X.onClick('#actionTabs .abilities-button', selectAbilityTab);
@@ -12,7 +14,16 @@ window.BattleControls = (function() {
       nextCharacter();
     });
 
+    X.onClick('#abilityOptions .commit-ability-button', event => {
+      commitAbility();
+      nextCharacter();
+    })
+
     X.onResize(BattleView.isOpen, moveActiveCharacterGlow)
+  }
+
+  function reset() {
+    $selectedAbility = null;
   }
 
   function startControlPhase() {
@@ -39,57 +50,26 @@ window.BattleControls = (function() {
       X.removeClass('#actionTabs .attack-button','disabled');
     }
     if (character.abilityList.length > 0) {
-      X.removeClass('#actionTabs .attack-button','disabled');
+      X.removeClass('#actionTabs .abilities-button','disabled');
     }
     if (character.spellList.length > 0) {
-      X.removeClass('#actionTabs .attack-button','disabled');
+      X.removeClass('#actionTabs .spells-button','disabled');
     }
+
+    buildAttackTab();
+    buildAbilitiesTab();
 
     selectAttackTab();
     moveActiveCharacterGlow();
   }
 
-  function selectAttackTab() {
-    let character = BattleView.getActiveCharacter();
-    let mainHand = character.mainHand;
-    let offHand = character.offHand;
-    let mainModes = X.first('#attackOptions .main-hand .modes');
-    let offModes = X.first('#attackOptions .off-hand .modes');
 
+  // === Selecting =============================================================
+
+  function selectAttackTab() {
     hideActionTabs();
-    X.empty(mainModes);
-    X.empty(offModes);
     X.addClass('#actionTabs .attack-button','highlight');
     X.removeClass('#attackOptions','hide');
-    X.first('#attackOptions .main-hand .name').innerHTML = mainHand.name;
-    X.first('#attackOptions .off-hand .name').innerHTML = (offHand ? offHand.name : `<span class='empty'>(Empty)</span>`);
-
-    mainHand.modes.forEach(mode => {
-      mainModes.appendChild(buildModeButton('main',mode));
-    });
-
-    (offHand ? offHand.modes : []).forEach(mode => {
-      offModes.appendChild(buildModeButton('off',mode))
-    });
-
-    let firstMain = mainModes.querySelector(':first-child');
-    let firstOff = offModes.querySelector(':first-child');
-
-    if (firstMain) { X.addClass(firstMain,'highlight'); }
-    if (firstOff)  { X.addClass(firstOff,'highlight'); }
-  }
-
-  function buildModeButton(hand, mode) {
-    let button = X.createElement(`<a class='button'>${TextHelper.titlecase(mode)}</a>`);
-
-    button.setAttribute('data-hand',hand);
-    button.setAttribute('data-mode',mode);
-    button.addEventListener('click', event => {
-      X.removeClass(event.target.closest('.weapon').querySelector('.highlight'),'highlight');
-      X.addClass(event.target,'highlight');
-    });
-
-    return button;
   }
 
   function selectAbilityTab() {
@@ -125,6 +105,82 @@ window.BattleControls = (function() {
     X.addClass('#orderOptions','hide');
   }
 
+  // === Building ==============================================================
+
+  function buildModeButton(hand, mode) {
+    let button = X.createElement(`<a class='button'>${TextHelper.titlecase(mode)}</a>`);
+
+    button.setAttribute('data-hand',hand);
+    button.setAttribute('data-mode',mode);
+    button.addEventListener('click', event => {
+      X.removeClass(event.target.closest('.weapon').querySelector('.highlight'),'highlight');
+      X.addClass(event.target,'highlight');
+    });
+
+    return button;
+  }
+
+  function buildAttackTab() {
+    let character = BattleView.getActiveCharacter();
+
+    let mainHand = character.mainHand;
+    let mainModes = X.first('#attackOptions .main-hand .modes');
+
+    let offHand = character.offHand;
+    let offModes = X.first('#attackOptions .off-hand .modes');
+    let offHandName = offHand ? offHand.name : `<span class='empty'>(Empty)</span>`;
+
+    X.empty(mainModes);
+    X.empty(offModes);
+    X.first('#attackOptions .main-hand .name').innerHTML = mainHand.name;
+    X.first('#attackOptions .off-hand .name').innerHTML = offHandName;
+
+    mainHand.modes.forEach(mode => {
+      mainModes.appendChild(buildModeButton('main',mode));
+    });
+
+    (offHand ? offHand.modes : []).forEach(mode => {
+      offModes.appendChild(buildModeButton('off',mode))
+    });
+
+    let firstMain = mainModes.querySelector(':first-child');
+    let firstOff = offModes.querySelector(':first-child');
+
+    if (firstMain) { X.addClass(firstMain,'highlight'); }
+    if (firstOff)  { X.addClass(firstOff,'highlight'); }
+  }
+
+  function buildAbilitiesTab() {
+    $selectedAbility = null;
+
+    let character = BattleView.getActiveCharacter();
+    let listElement = X.first('#abilityOptions .ability-list');
+
+    X.addClass('#abilityOptions .commit-ability-button','disabled');
+
+    listElement.innerHTML = '';
+    character.abilityList.forEach(ability => {
+      listElement.appendChild(buildAbilityButton(ability));
+    });
+  }
+
+  function buildAbilityButton(ability) {
+    let element = X.createElement(`<a href='#' class='ability-button'></a>`);
+        element.style['background-image'] = `url(${ability.icon})`;
+
+    element.addEventListener('click', event => {
+      X.removeClass('#abilityOptions .commit-ability-button','disabled');
+      X.removeClass('#abilityOptions .highlight','highlight');
+      X.addClass(element, 'highlight');
+
+      $selectedAbility = ability;
+    });
+
+    return element;
+  }
+
+  // ===========================================================================
+
   function moveActiveCharacterGlow(code) {
     let portrait = X.first('#partyPanel .main-character');
     let position = X.getPosition(portrait);
@@ -149,6 +205,16 @@ window.BattleControls = (function() {
     });
   }
 
+  // TODO: Still not handling setting the target, but I think we're going to be
+  //       redoing this view entirely anyway, so no point in doing that now. If
+  //       an ability requires a target, just always assume rank_1 for now.
+  function commitAbility() {
+    BattleView.commitAction({
+      action: 'ability',
+      abilityCode: $selectedAbility.code,
+    });
+  }
+
   function nextCharacter() {
     let state = BattleView.getBattleState();
     let allComplete = true;
@@ -163,7 +229,7 @@ window.BattleControls = (function() {
       return showConfirm();
     }
 
-    console.log("TODO: Go to next character.");
+    // TODO: Show next character.
   }
 
   // TODO: Right now, there's only the main character. We'll need to figure out
@@ -192,6 +258,7 @@ window.BattleControls = (function() {
 
   return {
     init,
+    reset,
     startControlPhase,
   }
 

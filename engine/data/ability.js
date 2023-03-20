@@ -58,6 +58,7 @@ global.Ability = class Ability {
   get code() { return this.#code; }
   get type() { return this.#type; }
   get name() { return this.#name; }
+  get icon() { return this.#icon; }
 
   get uses() { return this.#uses; }
   get range() { return this.#range; }
