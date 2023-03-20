@@ -14,6 +14,9 @@ global.PowerLevel = class PowerLevel {
   getLevel() { return this.#level; }
   getExperience() { return this.#experience; }
 
+  getPower() { return Power.lookup(this.#code); }
+  getAbilityCode() { return this.getPower().abilityCode; }
+
   // TODO: I think powers should gain experience when you use them as well as
   //       get some experience when the character gains experience. This will
   //       still allow mostly passive skills to level. Leveling a power is

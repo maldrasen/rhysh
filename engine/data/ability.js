@@ -14,6 +14,7 @@ global.Ability = class Ability {
   #code;
   #type;
   #name;
+  #icon;
 
   #uses;
   #range;
@@ -36,6 +37,7 @@ global.Ability = class Ability {
     this.#code = code;
     this.#type = options.type;
     this.#name = options.name;
+    this.#icon = options.icon;
 
     this.#uses = options.uses || [];
     this.#range = options.range;
@@ -51,8 +53,6 @@ global.Ability = class Ability {
 
     this.#stories = [];
     this.#storyTeller = options.storyTeller;
-
-    this.validate();
   }
 
   get code() { return this.#code; }
@@ -83,33 +83,6 @@ global.Ability = class Ability {
   // default value though because some abilities don't have ranges.
   shouldHaveRangeSet(type) {
     return ArrayHelper.contains([_attack,_grapple,_coupDeGrace], type);
-  }
-
-  validate() {
-    try {
-      Validate.isIn('abilityType',this.type, AbilityTypes);
-      if (this.range) { Validate.isIn('range',this.range, [_close,_extended,_long]); }
-      if (this.targetSlot) { Validate.isIn('targetSlot',this.targetSlot, ArmorSlots); }
-      if (this.setCondition) { this.validateSetCondition(); }
-      if (this.addStatus) { this.validateAddStatus(); }
-    } catch(error) {
-      console.error(`Ability(${this.code}) [${error}]`);
-    }
-  }
-
-  // Validate both the condition and the condition target (on value).
-  validateSetCondition() {
-    ConditionType.lookup(this.setCondition.condition);
-    Validate.isIn('setCondition.on',this.setCondition.on, [_self,_single]);
-    Validate.isIn('setCondition.when',this.setCondition.when, [_always,_success,_failure]);
-  }
-
-  // Validate both the status and the status target (on value).
-  // addStatus can also have a duration set. If duration is null the status is
-  // valid until something removes it.
-  validateAddStatus() {
-    StatusType.lookup(this.addStatus.status);
-    Validate.isIn('setStatus.on',this.addStatus.on, [_self,_single,_rank,_allMonsters,_allCharacters,_everyone]);
   }
 
   pack() {

@@ -7,7 +7,7 @@ let fear = new Power('aura-fear',{
 fear.addPassiveEffect({
   type: 'savingThrowAdjustment',
   effects: _allMonsters,
-  savingThrowCategory: 'fear',
+  savingThrowCategory: _saveFear,
   adjustment: -2,
 });
 

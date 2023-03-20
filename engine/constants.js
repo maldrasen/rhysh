@@ -154,7 +154,8 @@ global._defensive = 'defensive';
 global._riposte = 'riposte';
 
 // Saving Throw Categories
-global._fear = 'fear';
+global._saveAll = 'saveAll';
+global._saveFear = 'saveFear';
 
 // === Items & Equipment =======================================================
 global._mainHand = 'mainHand';

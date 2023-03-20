@@ -79,17 +79,17 @@ global.Character = class Character {
   getArcanumMap() { return this.#arcanumMap; }
   getArcanum(code) { return this.#arcanumMap[code]; }
   hasArcanum(code) { return this.#arcanumMap[code] != null; }
-  addArcanum(arcanum) { this.#arcanumMap[arcanum.getCode()] = arcanum; }
+  addArcanum(arcanumCode) { this.#arcanumMap[arcanumCode] = new ArcanumLevel(arcanumCode); }
 
   getGnosisMap() { return this.#gnosisMap; }
   getGnosis(code) { return this.#gnosisMap[code]; }
   hasGnosis(code) { return this.#gnosisMap[code] != null; }
-  addGnosis(gnosis) { this.#gnosisMap[gnosis.getCode()] = gnosis; }
+  addGnosis(gnosisCode) { this.#gnosisMap[gnosisCode] = new GnosisLevel(gnosisCode); }
 
   getPowerMap() { return this.#powerMap; }
   getPower(code) { return this.#powerMap[code]; }
   hasPower(code) { return this.#powerMap[code] != null; }
-  addPower(power) { this.#powerMap[power.getCode()] = power; }
+  addPower(powerCode) { this.#powerMap[powerCode] = new PowerLevel(powerCode); }
 
   getSkillMap() { return this.#skillMap; }
   getSkill(code) { return this.#skillMap[code]; }
@@ -155,6 +155,23 @@ global.Character = class Character {
 
   reduceCooldowns() {
     this.#cooldownTable.reduce();
+  }
+
+  // Return a list of ability codes that the character has access too. This
+  // needs to look in the power and gnosis levels because some abilities have
+  // to be unlocked.
+  getAbilities() {
+    let abilities = []
+
+    ObjectHelper.each(this.getGnosisMap(), (gnosisCode, gnosisLevel) => {
+      gnosisLevel.getAbilityCodes().forEach(ability => { abilities.push(ability); });
+    });
+
+    ObjectHelper.each(this.getPowerMap(), (powerCode, powerLevel) => {
+      abilities.push(powerLevel.getAbilityCode());
+    });
+
+    return abilities;
   }
 
   // === Experience ============================================================

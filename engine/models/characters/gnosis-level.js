@@ -18,6 +18,12 @@ global.GnosisLevel = class GnosisLevel {
   //       used.
   addExperience() {}
 
+  // TODO: The Gnosis level will determine which abilities are currently
+  //       unlocked. This will need to return an array of ability codes.
+  getAbilityCodes() {
+    return [];
+  }
+
   // === Persistance ===========================================================
 
   pack() {

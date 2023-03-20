@@ -36,15 +36,15 @@ global.CharacterBuilder = (function() {
     let species = character.getSpecies();
 
     [...(archetype.arcanumList), ...(species.arcanumList)].forEach(code => {
-      character.addArcanum(new ArcanumLevel(code));
+      character.addArcanum(code);
     });
 
     [...(archetype.gnosisList), ...(species.gnosisList)].forEach(code => {
-      character.addGnosis(new GnosisLevel(code));
+      character.addGnosis(code);
     });
 
     [...(archetype.powerList), ...(species.powerList)].forEach(code => {
-      character.addPower(new PowerLevel(code));
+      character.addPower(code);
     });
   }
 
