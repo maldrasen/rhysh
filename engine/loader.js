@@ -5,7 +5,7 @@ global.Loader = (function() {
   const Preload = [
     'constants.js',
 
-    'builders/equipmentBuilders/equipment-builder.js',
+    'builders/equipment-builder.js',
 
     'data/stage.js',
     'data/selection-stage.js',
