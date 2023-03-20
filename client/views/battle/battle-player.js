@@ -21,16 +21,15 @@ window.BattlePlayer = (function() {
 
     X.removeClass('#clickAdvance','hide');
     X.removeClass('#battleText','hide');
+    X.addClass('#activeCharacterGlow','hide');
 
-    addBattleText();
+    addBattleText(currentSegment());
   }
 
   function stop() {
-    console.log("No more events. Start Next Round");
-
-
     X.addClass('#clickAdvance','hide');
     X.addClass('#battleText','hide');
+    X.removeClass('#activeCharacterGlow','hide');
 
     BattleView.startNewRound();
   }
@@ -41,7 +40,14 @@ window.BattlePlayer = (function() {
   function clickAdvance() {
     if (BattleView.isOpen()) {
       advanceSegment();
-      addBattleText();
+
+      if (currentEvent() == null) { return stop(); }
+
+      let segment = currentSegment();
+      if (segment) {
+        addBattleText(segment);
+        applyDamage(segment);
+      }
     }
   }
 
@@ -55,13 +61,7 @@ window.BattlePlayer = (function() {
     }
   }
 
-  function addBattleText() {
-    let event = currentEvent();
-    if (event == null) { stop(); }
-
-    let segment = currentSegment();
-    if (segment == null) { return; }
-
+  function addBattleText(segment) {
     let item = X.createElement(`<div class='${segment.type}'></div>`);
 
     if (segment.attackRoll) {
@@ -76,6 +76,18 @@ window.BattlePlayer = (function() {
     }
 
     X.first('#battleText').appendChild(item);
+  }
+
+  function applyDamage(segment) {
+    if (segment.damage > 0) {
+      if (segment.targetClassname.match(/character/)) { PartyPanel.applyCharacterDamage(segment) }
+      if (segment.targetClassname.match(/monster/)) { applyMonsterDamage(segment) }
+      console.log("Apply Damage from:",segment)
+    }
+  }
+
+  function applyMonsterDamage(segment) {
+    console.log("Apply Monster Damage from:",segment)
   }
 
   return { init, reset, start };

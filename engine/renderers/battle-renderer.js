@@ -96,19 +96,28 @@ global.BattleRenderer = (function() {
 
   function renderSuccessSegment(combatResult, context) {
     let hitStory = combatResult.getStory().hitText || composeHitStory(combatResult, context);
+
     let segment = {
       type: combatResult.getAttackResult(),
+      targetClassname: combatResult.getTarget().classname,
       attackRoll: combatResult.getAttackRoll(),
       attackBonus: combatResult.getAttackBonus(),
       damage: combatResult.getAttackDamage(),
       text: Weaver.weave(hitStory, context),
     };
 
+    if (segment.targetClassname == _characterActor) {
+      segment.characterPosition = CharacterLibrary.getCharacterPosition(combatResult.getTargetIdentifier());
+    }
+
     if (segment.damage > 0) {
       let condition = combatResult.getTarget().getCondition();
       segment.targetHitPoints = condition.getCurrentHitPoints();
       segment.targetMaxHitPoints = condition.getMaxHitPoints();
       segment.targetHealth = condition.getHealth();
+
+      if (condition.hasCondition(_dead)) { segment.targetCondition = _dead; }
+      if (condition.hasCondition(_fainted)) {  segment.targetCondition = _fainted; }
     }
 
     return segment;

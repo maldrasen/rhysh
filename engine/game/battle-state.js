@@ -25,6 +25,8 @@ global.BattleState = class BattleState {
   getMonsters() { return this.#monsters; }
   getMonster(id) { return this.#monsters[id]; }
 
+  // === Squad Functions =======================================================
+
   // Add a squad of monsters to the battle. The battle state needs to make a
   // squad, assign it an id, and assign each monster a unique id for the
   // battle.

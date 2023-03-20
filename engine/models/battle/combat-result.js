@@ -32,11 +32,15 @@ global.CombatResult = class CombatResult {
   }
 
   getActor() { return this.#combatRound.getActor(); }
+  getActorType() { return this.#combatRound.getActorType(); }
   getTarget() { return this.#combatRound.getTarget(); }
+  getTargetType() { return this.#combatRound.getTargetType() }
+  getTargetIdentifier() { return this.#combatRound.getTargetIdentifier() }
   getAbility() { return this.#combatRound.getAbility(); }
 
   getTargetSlot() { return this.#targetSlot; }
   setTargetSlot(slot) { this.#targetSlot = slot; }
+
   getScrutinizer() { return this.#scrutinizer; }
 
   getWeapon() { return this.#weapon; }

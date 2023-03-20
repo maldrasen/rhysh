@@ -24,14 +24,14 @@ window.PartyPanel = (function () {
   }
 
   function show(status) {
-    X.removeClass('#statusPanel','hide')
-    X.removeClass('#partyPanel','hide')
+    X.removeClass('#statusPanel','hide');
+    X.removeClass('#partyPanel','hide');
     update(status);
   }
 
   function hide() {
-    X.addClass('#statusPanel','hide')
-    X.addClass('#partyPanel','hide')
+    X.addClass('#statusPanel','hide');
+    X.addClass('#partyPanel','hide');
   }
 
   function update(status) {
@@ -58,14 +58,41 @@ window.PartyPanel = (function () {
     let hitPercent = Math.ceil(100 * (hpCurrent / hpMax));
 
     element.querySelector('.portrait').style['background-image'] = `url('../assets/${status.portrait}.jpg')`;
-    element.querySelector('.health-bar .bar').style['width'] = `${hitPercent}%`;
     element.querySelector('.name').innerHTML = status.firstName;
 
-    Tooltip.register(`PartyPanel_Status_${element.id}`, {
+    updateHealthBar(element, hitPercent)
+    updateStatusTooltip(element.id, hpCurrent, hpMax);
+  }
+
+  function applyCharacterDamage(segment) {
+    let element = X.first(`#partyPanel #${segment.characterPosition}`);
+
+    updateHealthBar(element, segment.targetHealth);
+    updateStatusTooltip(element.id, segment.targetHitPoints, segment.targetMaxHitPoints);
+
+    if (segment.targetCondition == _fainted) { playFaintEffect(element); }
+    if (segment.targetCondition == _dead) { playDeathEffect(element); }
+  }
+
+  function updateHealthBar(element, percent) {
+    element.querySelector('.health-bar .bar').style['width'] = `${percent}%`;
+  }
+
+  function updateStatusTooltip(id, hpCurrent, hpMax) {
+    Tooltip.register(`PartyPanel_Status_${id}`, {
       content: `Health(${hpCurrent}/${hpMax}) Mana(TODO)`,
       position: 'top',
     });
   }
+
+  function playFaintEffect(element) {
+    console.log("Play Faint Effect");
+  }
+
+  function playDeathEffect(element) {
+    console.log("Play Death Effect");
+  }
+
 
   return {
     init,
@@ -73,6 +100,7 @@ window.PartyPanel = (function () {
     show,
     hide,
     update,
+    applyCharacterDamage,
   }
 
 })();

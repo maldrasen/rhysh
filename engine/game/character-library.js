@@ -44,6 +44,24 @@ global.CharacterLibrary = (function() {
     };
   }
 
+  // Maybe temp? There will probable be a better way to determine character
+  // position in the future.
+  function getCharacterPosition(code) {
+    let currentPosition;
+
+    CharacterLibrary.eachActivePartyMember((position, character) => {
+      if (character.getCode() == code) {
+        currentPosition = position;
+      }
+    });
+
+    if (currentPosition == null) {
+      throw `Character(${code}) is not in party.`
+    }
+
+    return currentPosition;
+  }
+
   function eachActivePartyMember(callback) {
     ObjectHelper.each(getParty(), (position, character) => {
       if (character) { callback(position, character); }
@@ -94,6 +112,7 @@ global.CharacterLibrary = (function() {
     getCachedCharacter,
     getMainCharacter,
     getParty,
+    getCharacterPosition,
     eachActivePartyMember,
     saveCharacter,
     saveAll,
