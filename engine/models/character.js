@@ -159,13 +159,9 @@ global.Character = class Character {
 
   // === Abilities =============================================================
 
-  onBattleStart() {
-    this.#cooldownTable = new CooldownTable();
-  }
-
-  reduceCooldowns() {
-    this.#cooldownTable.reduce();
-  }
+  getCooldown(abilityCode) { return this.#cooldownTable.get(abilityCode); }
+  onBattleStart() { this.#cooldownTable = new CooldownTable(); }
+  reduceCooldowns() { this.#cooldownTable.reduce(); }
 
   // Return a list of ability codes that the character has access too. This
   // needs to look in the power and gnosis levels because some abilities have
@@ -181,7 +177,7 @@ global.Character = class Character {
       abilities.push(powerLevel.getAbilityCode());
     });
 
-    return abilities;
+    return ArrayHelper.compact(abilities);
   }
 
   getSpells() {

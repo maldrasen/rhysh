@@ -53,11 +53,11 @@ global.CharacterPacker = (function() {
 
   function packForBattle(character) {
     let abilityList = character.getAbilities().map(code => {
-      return packAbility(code);
+      return packAbility(code, character);
     });
 
     let spellList = character.getSpells().map(code => {
-      return packSpell(code);
+      return packSpell(code, character);
     });
 
     let packed = {
@@ -82,11 +82,24 @@ global.CharacterPacker = (function() {
     return packed;
   }
 
-  function packAbility(code) {
-    return { code:code }
+  function packAbility(code, character) {
+    let ability = Ability.lookup(code);
+    let packed = {
+      code: code,
+      name: ability.name,
+      icon: ability.icon,
+      targetType: ability.targetType,
+      range: ability.range,
+    }
+
+    if (character.getCooldown(code)) {
+      packed.cooldownRemaining = character.getCooldown(code);
+    }
+
+    return packed;
   }
 
-  function packSpell(code) {
+  function packSpell(code, character) {
     return { code:code }
   }
 
