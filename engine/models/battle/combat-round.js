@@ -25,6 +25,14 @@ global.CombatRound = class CombatRound {
     throw `Unhandled action type: ${this.#action.getActionType()}`;
   }
 
+  // === Ability Round =========================================================
+
+  doAbility() {
+
+  }
+
+  // === Atack Round ===========================================================
+
   doAttack() {
     const action = this.getAction();
     const actor = action.getActor();
@@ -67,14 +75,49 @@ global.CombatRound = class CombatRound {
     }));
 
     this.rollAttack(currentHit, event);
+    this.rollDamage(event);
 
-    //   result.rollDamage(weapon.getDamage(), this.getActor().getAttributes().strModifier());
     //   result.setStory(new WeaponAttackStoryTeller(result).tellStory());
 
     // result.commitDamage();
     // this.checkCondition();
     // return result;
     console.log("Event:",event.pack());
+  }
+
+  useEquipment(equipment, mode) {
+    if (mode == _block) { return; }
+
+    if (mode == _parry) {
+      this.getActor().getCondition().setStatus(_defensive);
+      this.getResult().setActionStory(`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.`);
+      return;
+    }
+
+    if (mode == _riposte) {
+      this.getActor().getCondition().setStatus(_riposte);
+      this.getResult().setActionStory(`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a
+        counter attack.`);
+      return;
+    }
+
+    throw `TODO: Implement using ${equipment.getName()} in ${mode} mode.`
+  }
+
+  isWeaponAttackMode(mode) {
+    return (mode) ? ([_block,_parry,_riposte,_entangle].indexOf(mode) < 0) : false;
+  }
+
+  // === Shared ================================================================
+
+  chooseTargetSlot() {
+    let target = this.getTarget();
+    if (target.classname == _monsterActor) {
+      return Random.fromFrequencyMap(target.getBody().getSlots());
+    }
+    if (target.classname == _characterActor) {
+      return Random.fromFrequencyMap(MonsterBodyPlan.lookup('humanoid').slots);
+    }
   }
 
   // Make an attack and determine the result. The current hit property should
@@ -129,59 +172,23 @@ global.CombatRound = class CombatRound {
     return 0;
   }
 
-/*
-  // TODO: Adjust critical hit ranges and damage multipliers.
-  rollDamage(damage, bonusDamage=0) {
-    if (this.isFailure()) { return; }
+  rollDamage(attackEvent, bonusDamage=0) {
+    if (attackEvent.isCriticalMiss()) { return; } // and apply critical miss penalty.
+    if (attackEvent.isMiss()) { return; }
+
+    let damage;
+    if (attackEvent.getWeapon()) { damage = attackEvent.getWeapon().getDamage(); }
+    // Some abilities will not do damage.
     if (damage == null) { return; }
 
-    if (this.#attackResult == _hit) { this.#attackDamage = this.getDamage(damage,bonusDamage); }
-    if (this.#attackResult == _criticalHit) { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
+    let rawDamage = Random.rollDice(damage);
+    let critMultiplier = 2;
 
-    if (this.#attackResult == _criticalMiss) {
-      // TODO: Randomly determine critical failure result
+    if (attackEvent.isCriticalHit()) {
+      attackEvent.setAttackDamage(Math.floor(rawDamage * critMultiplier) + bonusDamage);
     }
-  }
-
-  getDamage(damage, bonusDamage=0, multiplier=1) {
-    return Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;;
-  }
-*/
-
-  useEquipment(equipment, mode) {
-    if (mode == _block) { return; }
-
-    if (mode == _parry) {
-      this.getActor().getCondition().setStatus(_defensive);
-      this.getResult().setActionStory(`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.`);
-      return;
-    }
-
-    if (mode == _riposte) {
-      this.getActor().getCondition().setStatus(_riposte);
-      this.getResult().setActionStory(`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a
-        counter attack.`);
-      return;
-    }
-
-    throw `TODO: Implement using ${equipment.getName()} in ${mode} mode.`
-  }
-
-  doAbility() {
-
-  }
-
-  isWeaponAttackMode(mode) {
-    return (mode) ? ([_block,_parry,_riposte,_entangle].indexOf(mode) < 0) : false;
-  }
-
-  chooseTargetSlot() {
-    let target = this.getTarget();
-    if (target.classname == _monsterActor) {
-      return Random.fromFrequencyMap(target.getBody().getSlots());
-    }
-    if (target.classname == _characterActor) {
-      return Random.fromFrequencyMap(MonsterBodyPlan.lookup('humanoid').slots);
+    if (attackEvent.isHit()) {
+      attackEvent.setAttackDamage(rawDamage + bonusDamage);
     }
   }
 

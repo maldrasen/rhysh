@@ -31,6 +31,12 @@ global.AttackEvent = class AttackEvent {
 
   getAttackResult() { return this.#attackResult; }
   setAttackResult(result) { this.#attackResult = result; }
+  isSuccess() { return [_hit,_criticalHit].indexOf(this.#attackResult) >= 0; }
+  isFailure() { return [_miss,_criticalMiss].indexOf(this.#attackResult) >= 0; }
+  isHit() { return this.#attackResult == _hit; }
+  isMiss() { return this.#attackResult == _miss; }
+  isCriticalHit() { return this.#attackResult == _criticalHit; }
+  isCriticalMiss() { return this.#attackResult == _criticalMiss; }
 
   getAttackDamage() { return this.#attackDamage; }
   setAttackDamage(damage) { this.#attackDamage = damage; }
