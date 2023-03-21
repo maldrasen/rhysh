@@ -1,9 +1,9 @@
 
 const cockClaw = new Ability('crab-cock-claw',{
   type: _attack,
-  requires:['target.exposed-cock'],
-  uses:[_hands],
   targetSlot: _legs,
+  uses:[_hands],
+  requires:['target.exposed-cock'],
   hitBonus: -2,
   damage:{ d:4, p:4 },
   cooldown: 5,
@@ -22,9 +22,9 @@ cockClaw.addStory(new BattleStory({
 
 const titClaw = new Ability('crab-tit-claw',{
   type: _attack,
-  requires:['target.exposed-tits'],
-  uses:[_hands],
   targetSlot: _chest,
+  uses:[_hands],
+  requires:['target.exposed-tits'],
   hitBonus: -2,
   damage:{ d:4, p:4 },
   cooldown: 5,
@@ -42,8 +42,8 @@ titClaw.addStory(new BattleStory({
 
 const grabLegs = new Ability('crab-grab-legs',{
   type: _attack,
-  uses:[_hands],
   targetSlot: _legs,
+  uses:[_hands],
   hitBonus: -2,
   cooldown: 5,
   setCondition: { on:_self, condition:_holdingLegs, when:_success },
@@ -57,8 +57,8 @@ grabLegs.addStory(new BattleStory({
 
 const grabArms = new Ability('crab-grab-arms',{
   type: _attack,
-  uses:[_hands],
   targetSlot: _hands,
+  uses:[_hands],
   hitBonus: -2,
   cooldown: 5,
   setCondition: { on:_self, condition:_holdingArms, when:_success },

@@ -23,7 +23,6 @@ global.MonsterAI = (function() {
         action:_nothing,
         actorClassname: _monsterActor,
         actorItentifier: $monster.getID(),
-        targetType:_none
       });
     }
 

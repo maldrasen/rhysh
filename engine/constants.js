@@ -222,6 +222,7 @@ global._heavyArmor = 'heavyArmor';
 
 // Weapon Modes
 global._bash = 'bash';
+global._block = 'block';
 global._entangle = 'entangle';
 global._parry = 'parry';
 global._riposte = 'riposte';

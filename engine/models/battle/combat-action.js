@@ -27,6 +27,13 @@ global.CombatAction = class CombatAction {
     if (options.ability) { this.setAbilityCode(options.ability); }
     if (options.mainMode) { this.#mainMode = options.mainMode; }
     if (options.offMode) { this.#offMode = options.offMode; }
+
+    if (this.#targetType == null) {
+      if (this.isNothing()) { this.setTargetType(_none); }
+      if (this.isAbility()) { this.setTargetType(this.getAbility().targetType || _single); }
+    }
+
+    if (this.#targetType == null) { console.trace(); throw `Target type should have been set.` }
   }
 
   getActionType() { return this.#actionType; }
@@ -39,7 +46,7 @@ global.CombatAction = class CombatAction {
   getActor() {
     return (this.#actorClassname == _monsterActor) ?
         GameState.getCurrentBattle().getMonster(this.#actorItentifier) :
-        CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
+        CharacterLibrary.getCachedCharacter(this.#actorItentifier);
   }
 
   // === Targets ===============================================================
@@ -52,14 +59,15 @@ global.CombatAction = class CombatAction {
   // Need to add an ability that targets a group to make sure that's
   // implemented correctly.
   getTarget() {
+    if (this.#targetType == _rank) { return this.#targetRank; }
+    if (this.#targetType == _self) { return this.getActor(); }
+
     if (this.#targetType == _single) {
       return (this.#targetClassname == _monsterActor) ?
           GameState.getCurrentBattle().getMonster(this.#targetIdentifier) :
           CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
     }
-    if (this.#targetType == _rank) {
-      return this.#targetRank;
-    }
+
     throw `TODO: Implement this target type: ${this.#targetType}`
   }
 
@@ -81,7 +89,16 @@ global.CombatAction = class CombatAction {
 
   // === Attacks & Abilities ===================================================
 
+  getAbilityCode() { return this.#abilityCode; }
   getAbility() { return Ability.lookup(this.#abilityCode); }
+
+  getAbilityLevel() {
+    let ability = this.getAbility();
+    if (this.#actorClassname == _monsterActor) { return null; }
+    if (ability.fromPower) { return this.getActor().getPower(ability.code); }
+    if (ability.fromGnosis) { return this.getActor().getGnosis(ability.code); }
+  }
+
   setAbilityCode(code) {
     Ability.lookup(code);
     this.#abilityCode = code;

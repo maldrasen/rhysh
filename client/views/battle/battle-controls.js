@@ -211,7 +211,7 @@ window.BattleControls = (function() {
   function commitAbility() {
     BattleView.commitAction({
       action: 'ability',
-      abilityCode: $selectedAbility.code,
+      ability: $selectedAbility.code,
     });
   }
 

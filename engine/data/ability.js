@@ -13,6 +13,8 @@ global.Ability = class Ability {
 
   #code;
   #type;
+  #fromPower;
+  #fromGnosis;
   #name;
   #icon;
 
@@ -36,6 +38,8 @@ global.Ability = class Ability {
 
     this.#code = code;
     this.#type = options.type;
+    this.#fromPower = options.fromPower;
+    this.#fromGnosis = options.fromGnosis;
     this.#name = options.name;
     this.#icon = options.icon;
 
@@ -57,6 +61,8 @@ global.Ability = class Ability {
 
   get code() { return this.#code; }
   get type() { return this.#type; }
+  get fromPower() { return this.#fromPower; }
+  get fromGnosis() { return this.#fromGnosis; }
   get name() { return this.#name; }
   get icon() { return this.#icon; }
 
@@ -93,6 +99,8 @@ global.Ability = class Ability {
       uses: this.#uses,
     };
 
+    if (this.#fromPower) { packed.fromPower = this.#fromPower; }
+    if (this.#fromGnosis) { packed.fromGnosis = this.#fromGnosis; }
     if (this.#name) { packed.name = this.#name; }
     if (this.#range) { packed.range = this.#range; }
     if (this.#targetType) { packed.targetType = this.#targetType; }

@@ -1,6 +1,8 @@
 const terrify = new Ability('terrify',{
   type: _spell,
-  name: 'All Hope is Lost',
+  fromPower: 'aura-fear',
+  name: 'Horrifying Presence',
+
   targetType: _allMonsters,
   cooldown: 8,
   savingThrow: { category:_saveFear, dc:10 },
