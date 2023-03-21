@@ -65,7 +65,7 @@ global.CombatAction = class CombatAction {
     if (this.#targetType == _self) { return this.getActor(); }
 
     if (this.#targetType == _single) {
-      return (this.isMonster()) ?
+      return (this.#targetClassname == _monsterActor) ?
           GameState.getCurrentBattle().getMonster(this.#targetIdentifier) :
           CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
     }

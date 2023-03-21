@@ -47,6 +47,7 @@ global.TargetComputer = class TargetComputer {
     action.setTargetType(_single);
     action.setTargetRank(null);
     action.setTargetIdentifier(monsterID);
+    action.setTargetClassname(_monsterActor);
   }
 
 }

@@ -66,7 +66,7 @@ describe.only('CombatRound', function() {
     let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
         round.execute();
 
-    // console.log(round.pack());
+    console.log(round.pack());
   });
 
   it('builds and executes a character ability combat round', function() {
@@ -84,7 +84,7 @@ describe.only('CombatRound', function() {
     let round = new CombatRound(gobbo, action);
         round.execute();
 
-    // console.log(round.pack());
+    console.log(round.pack());
   });
 
   it('builds and executes a monster ability combat round', function() {

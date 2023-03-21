@@ -36,64 +36,6 @@ global.MonsterCombatRound = class MonsterCombatRound {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
   }
 
-  doAttack() {
-    let result
-
-    let weapons = this.lookupWeapons()
-    let mainMode = (weapons.main) ? Random.from(weapons.main.modes) : null;
-    let offMode = (weapons.off) ? Random.from(weapons.off.modes) : null;
-    let hit = this.getActor().getBaseHit();
-
-    while(hit > 0) {
-      if (mainMode) {
-        result = this.doSingleAttack(hit, weapons.main, mainMode);
-      }
-      if (offMode && hit-2 >= 0) {
-        result = this.doSingleAttack(hit-2, weapons.off, offMode);
-      }
-
-      hit = (result.isCriticalMiss()) ? -1 : hit - 5;
-      this.#combatResults.push(result);
-    }
-  }
-
-  doSingleAttack(hitBonus, weapon, mode) {
-    let result = new CombatResult(this);
-
-    result.setWeaponTypeCode(weapon.code);
-    result.setWeaponMode(mode);
-    result.chooseTargetSlot();
-
-    if (result.isWeaponAttackMode()) {
-      result.rollAttack(hitBonus);
-      result.rollDamage(weapon.damage, this.getActor().getAttributes().strModifier());
-      // result.setStory(new WeaponAttackStoryTeller(result).tellStory());
-    } else {
-      result.useWeapon();
-    }
-
-    result.commitDamage();
-    this.checkCondition();
-    return result;
-  }
-
-  // If the off hand weapon is null, it's probably a shield or something that
-  // we don't need to worry about.
-  lookupWeapons() {
-    let mainCode = this.getActor().getMainHandCode()
-    let offCode = this.getActor().getOffHandCode()
-    let offHand
-
-    if (offCode) {
-      try { offHand = WeaponType.lookup(); } catch(error) {}
-    }
-
-    return {
-      main: (mainCode ? WeaponType.lookup(mainCode) : null),
-      off: offHand
-    };
-  }
-
   // TODO: Some abilities won't have a target.
   // TODO: Some abilities won't roll to hit.
   // TODO: Handle different ability types: attack, hold, coup-de-grace.
@@ -127,15 +69,4 @@ global.MonsterCombatRound = class MonsterCombatRound {
     }
   }
 
-  pack() {
-    let packed = {
-      monsterID: this.getActor().getID(),
-      action: this.#action.pack(),
-      results: this.#combatResults.map(combatResult => { return combatResult.pack(); }),
-    };
-
-    if (this.#triggers) { packed.triggers = this.#triggers; }
-
-    return packed;
-  }
 }

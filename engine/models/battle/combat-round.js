@@ -3,23 +3,15 @@ global.CombatRound = class CombatRound {
   #action;
   #result;
 
-  #actionStory;
-  #triggers;
-
   constructor(actor, action) {
     this.#action = action;
     this.#result = new CombatResult(this);
-    this.#triggers = [];
   }
 
   getAction() { return this.#action; }
+  getActor() { return this.#action.getActor(); }
+  getTarget() { return this.#action.getTarget(); }
   getResult() { return this.#result; }
-
-  getActionStory() { return this.#actionStory; }
-  setActionStory(story) { this.#actionStory = story; }
-
-  getTriggers() { return this.#triggers; }
-  addTrigger(trigger) { this.#triggers.push(trigger); }
 
   execute() {
     // TODO: If all monsters are dead then we do nothing.
@@ -47,30 +39,82 @@ global.CombatRound = class CombatRound {
     if (mainHand && mainMode == null) { mainMode = mainHand.getRandomMode() }
     if (offHand && offMode == null) { offMode = offHand.getRandomMode() }
 
+    const mainIsAttack = this.isWeaponAttackMode(mainMode)
+    const offIsAttack = this.isWeaponAttackMode(offMode)
+
+    if (mainMode && mainIsAttack == false) { this.useEquipment(mainHand, mainMode); }
+    if (offMode && offIsAttack == false) { this.useEquipment(offHand, offMode); }
+
     while(hit >= 0 && this.#result.canContinueAttacking()) {
-      if (mainMode) { this.doSingleAttack(hit, mainHand, mainMode); }
-      if (offMode && offHand.isWeapon()) { this.doSingleAttack(hit + offHandPenalty, offHand, offMode); }
+      if (mainIsAttack) { this.doSingleAttack(hit, mainHand, mainMode); }
+      if (offIsAttack) { this.doSingleAttack(hit + offHandPenalty, offHand, offMode); }
       hit = hit - 5;
     }
   }
 
-  doSingleAttack(hit, weapon, mode) {
-    console.log("Do single attack",hit,weapon.getWeaponTypeCode(),mode);
+  doSingleAttack(currentHit, weapon, mode) {
+
+    const event = new AttackEvent({
+      weapon: weapon,
+      weaponMode: mode,
+      targetSlot: this.chooseTargetSlot(),
+    })
+
+    console.log("Event:",event.pack());
+
+    //   result.rollAttack(currentHit);
+    //   result.rollDamage(weapon.getDamage(), this.getActor().getAttributes().strModifier());
+    //   result.setStory(new WeaponAttackStoryTeller(result).tellStory());
+
+    // result.commitDamage();
+    // this.checkCondition();
+    // return result;
+  }
+
+  useEquipment(equipment, mode) {
+    if (mode == _block) { return; }
+
+    if (mode == _parry) {
+      this.getActor().getCondition().setStatus(_defensive);
+      this.getResult().setActionStory(`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.`);
+      return;
+    }
+
+    if (mode == _riposte) {
+      this.getActor().getCondition().setStatus(_riposte);
+      this.getResult().setActionStory(`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a
+        counter attack.`);
+      return;
+    }
+
+    throw `TODO: Implement using ${equipment.getName()} in ${mode} mode.`
   }
 
   doAbility() {
 
   }
 
+  isWeaponAttackMode(mode) {
+    return (mode) ? ([_block,_parry,_riposte,_entangle].indexOf(mode) < 0) : false;
+  }
+
+  chooseTargetSlot() {
+    let target = this.getTarget();
+    if (target.classname == _monsterActor) {
+      return Random.fromFrequencyMap(target.getBody().getSlots());
+    }
+    if (target.classname == _characterActor) {
+      return Random.fromFrequencyMap(MonsterBodyPlan.lookup('humanoid').slots);
+    }
+  }
+
   // ===========================================================================
 
   pack() {
-    let packed = {
+    return {
       action: this.#action.pack(),
-      actionStory: this.#actionStory,
+      result: this.#result.pack(),
     };
-    if (this.#triggers.length > 0) { packed.triggers = this.#triggers; }
-    return packed;
   }
 
 }
