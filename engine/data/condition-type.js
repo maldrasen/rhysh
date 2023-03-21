@@ -12,24 +12,13 @@ global.ConditionType = class Condition {
   }
 
   #code;
-  #type;
+  #category;
 
   constructor(code, options) {
     this.#code = code;
-    this.#type = options.type;
+    this.#category = options.category;
   }
 
   get code() { return this.#code; }
-  get type() { return this.#type; }
+  get category() { return this.#category; }
 }
-
-ConditionType.register(new ConditionType(_normal,  {}));
-ConditionType.register(new ConditionType(_fainted, {}));
-ConditionType.register(new ConditionType(_dead,    {}));
-
-ConditionType.register(new ConditionType(_prone,   { type:'stun' }));
-ConditionType.register(new ConditionType(_stunned, { type:'stun' }));
-
-ConditionType.register(new ConditionType(_holdingArms, { type:'hold' }));
-ConditionType.register(new ConditionType(_holdingBody, { type:'hold' }));
-ConditionType.register(new ConditionType(_holdingLegs, { type: 'hold' }));

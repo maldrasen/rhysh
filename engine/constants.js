@@ -128,19 +128,28 @@ global.Skills = {
 global._normal = 'normal';
 global._fainted = 'fainted';
 global._dead = 'dead';
-
 global._prone = 'prone';
 global._stunned = 'stunned';
+global._paralyzed = 'paralyzed';
 global._holdingArms = 'holdingArms';
 global._holdingBody = 'holdingBody';
 global._holdingLegs = 'holdingLegs';
+
+global._fallen = 'fallen';
+global._hold = 'hold';
+global._helpless = 'helpless';
+global.ConditionCategories = [
+  _normal,
+  _fallen,
+  _hold,
+  _helpless,
+];
 
 // Status
 
 global._afraid = 'afraid';
 global._berserk = 'berserk';
 global._blind = 'blind';
-global._paralyzed = 'paralyzed';
 global._poison = 'poison';
 
 global._boundLegs = 'boundLegs';
@@ -268,7 +277,6 @@ global.ActionTypes = [
 
 global._coupDeGrace = 'coupDeGrace';
 global._grapple = 'grapple';
-global._hold = 'hold';
 global._spell = 'spell';
 global.AbilityTypes = [
   _attack,
