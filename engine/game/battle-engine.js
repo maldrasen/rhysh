@@ -26,6 +26,8 @@ global.BattleEngine = class BattleEngine {
           let monster = state.getMonster(initiative.id);
           let action = MonsterAI.chooseCombatAction(monster);
 
+          let round = new CombatRound(monster, action);
+
           // let round = new MonsterCombatRound(monster, action);
           //     round.execute();
 
@@ -39,6 +41,8 @@ global.BattleEngine = class BattleEngine {
         if (initiative.type == _characterInitiative) {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
+
+          let round = new CombatRound(character, action);
 
           // let round = new CharacterCombatRound(character, action);
           //     round.execute();

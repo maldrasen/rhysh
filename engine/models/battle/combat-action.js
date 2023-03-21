@@ -42,9 +42,11 @@ global.CombatAction = class CombatAction {
   isAbility() { return this.#actionType == _ability; }
 
   getActorType() { return this.#actorClassname; }
+  isMonster() { return this.#actorClassname == _monsterActor; }
+  isCharacter() { return this.#actorClassname == _characterActor; }
   getActorIdentifier() { return this.#actorItentifier; }
   getActor() {
-    return (this.#actorClassname == _monsterActor) ?
+    return (this.isMonster()) ?
         GameState.getCurrentBattle().getMonster(this.#actorItentifier) :
         CharacterLibrary.getCachedCharacter(this.#actorItentifier);
   }
@@ -63,7 +65,7 @@ global.CombatAction = class CombatAction {
     if (this.#targetType == _self) { return this.getActor(); }
 
     if (this.#targetType == _single) {
-      return (this.#targetClassname == _monsterActor) ?
+      return (this.isMonster()) ?
           GameState.getCurrentBattle().getMonster(this.#targetIdentifier) :
           CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
     }
@@ -94,7 +96,7 @@ global.CombatAction = class CombatAction {
 
   getAbilityLevel() {
     let ability = this.getAbility();
-    if (this.#actorClassname == _monsterActor) { return null; }
+    if (this.isMonster()) { return null; }
     if (ability.fromPower) { return this.getActor().getPower(ability.code); }
     if (ability.fromGnosis) { return this.getActor().getGnosis(ability.code); }
   }
