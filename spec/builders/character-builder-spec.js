@@ -34,4 +34,16 @@ describe('CharacterBuilder', function() {
     expect(ac).to.be.greaterThan(15);
   });
 
+  it('sets their starting abilities', function() {
+    let main = SpecHelper.randomMainCharacter({ archetype:'knight', species:'minotaur' });
+    let fear = main.getPower('aura-fear');
+    let fort = main.getPower('fortitude');
+    let abilities = main.getAbilities();
+
+    expect(fort.getCode()).to.equal('fortitude');
+    expect(fear.getCode()).to.equal('aura-fear');
+    expect(fear.getLevel()).to.equal(0);
+    expect(abilities).to.eql(['terrify','fortitude']);
+  });
+
 });

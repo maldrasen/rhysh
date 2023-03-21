@@ -76,7 +76,7 @@ global.CharacterCombatRound = class CharacterCombatRound {
     if (result.isWeaponAttackMode()) {
       result.rollAttack(hitBonus);
       result.rollDamage(weapon.getDamage(), this.getTarget().getAttributes().strModifier());
-      result.setStory(new WeaponAttackStoryTeller(result).tellStory());
+      // result.setStory(new WeaponAttackStoryTeller(result).tellStory());
     } else {
       result.useWeapon();
     }

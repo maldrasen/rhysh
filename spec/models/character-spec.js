@@ -10,7 +10,8 @@ describe('Character', function() {
       attributes: { str:14, dex:14, con:12, int:14, wis:12, cha:12 },
     });
 
-    let jada = Character.unpack(character.pack());
+    let packed = character.pack();
+    let jada = Character.unpack(packed);
 
     expect(jada.getAttributes().strModifier()).to.equal(2);
   });

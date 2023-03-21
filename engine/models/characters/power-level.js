@@ -5,6 +5,8 @@ global.PowerLevel = class PowerLevel {
   #experience;
 
   constructor(code) {
+    Power.lookup(code);
+
     this.#code = code;
     this.#level = 0;
     this.#experience = 0;
@@ -13,6 +15,9 @@ global.PowerLevel = class PowerLevel {
   getCode() { return this.#code; }
   getLevel() { return this.#level; }
   getExperience() { return this.#experience; }
+
+  getPower() { return Power.lookup(this.#code); }
+  getAbilityCode() { return this.getPower().abilityCode; }
 
   // TODO: I think powers should gain experience when you use them as well as
   //       get some experience when the character gains experience. This will

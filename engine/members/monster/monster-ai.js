@@ -19,7 +19,11 @@ global.MonsterAI = (function() {
     // If they have no attacks or abilities that are off cooldown or are
     // currently in range, then there's nothing they can do.
     if (canAttack == false && availableAbilities.length == 0) {
-      return new CombatAction({ action:_nothing, targetType:_none });
+      return new CombatAction({
+        action:_nothing,
+        actorClassname: _monsterActor,
+        actorItentifier: $monster.getID(),
+      });
     }
 
     // Ability can be null here if they can make a regular melee attack, but
@@ -31,6 +35,8 @@ global.MonsterAI = (function() {
 
     return new CombatAction({
       action: _attack,
+      actorClassname: _monsterActor,
+      actorItentifier: $monster.getID(),
       targetType: _single,
       targetIdentifier: $targetCode,
     });
@@ -42,6 +48,8 @@ global.MonsterAI = (function() {
 
     let action = new CombatAction({
       action: _ability,
+      actorClassname: _monsterActor,
+      actorItentifier: $monster.getID(),
       ability: abilityCode,
       targetType: targetType,
     });

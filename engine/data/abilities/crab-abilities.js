@@ -1,94 +1,100 @@
 
 const cockClaw = new Ability('crab-cock-claw',{
   type: _attack,
-  requires:['target.exposed-cock'],
   targetSlot: _legs,
+  uses:[_hands],
+  requires:['target.exposed-cock'],
   hitBonus: -2,
   damage:{ d:4, p:4 },
   cooldown: 5,
 });
-cockClaw.addStory(new Story({
-  tryText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
-  hitText: `{{A::He}} somehow manages to grab onto {{T::name's}} dangling ballsack and pinches down hard, almost
-    crushing one of {{T::his}} balls.`,
+cockClaw.addStory(new BattleStory({
+  actionText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
+  successText: `{{A::He}} somehow manages to grab onto {{T::name's}} dangling ballsack and pinches down hard,
+    almost crushing one of {{T::his}} balls.`,
 }));
-cockClaw.addStory(new Story({
-  tryText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
-  hitText: `{{A::He}} grabs onto {{T::name's}} exposed cock and pinches down hard, crushing {{T::his}} {{T::bigCock}}
-    in its sharp claws.`,
+cockClaw.addStory(new BattleStory({
+  actionText: `{{A::Name}} snaps at {{T::name's}} crotch with its claws.`,
+  successText: `{{A::He}} grabs onto {{T::name's}} exposed cock and pinches down hard, crushing {{T::his}}
+    {{T::bigCock}} in its sharp claws.`,
 }));
 
 
 const titClaw = new Ability('crab-tit-claw',{
   type: _attack,
-  requires:['target.exposed-tits'],
   targetSlot: _chest,
+  uses:[_hands],
+  requires:['target.exposed-tits'],
   hitBonus: -2,
   damage:{ d:4, p:4 },
   cooldown: 5,
 });
-titClaw.addStory(new Story({
-  tryText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
-  hitText: `{{A::His}} claws dig into {{T::his}} {{T::tits}}, pinching them painfully.`,
+titClaw.addStory(new BattleStory({
+  actionText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
+  successText: `{{A::His}} claws dig into {{T::his}} {{T::tits}}, pinching them painfully.`,
 }));
-titClaw.addStory(new Story({
-  tryText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
-  hitText: `{{A::He}} grabs onto both of {{T::his}} breasts and pinches down hard, leaving dark bruises on both of
-    {{T::his}} tits..`,
+titClaw.addStory(new BattleStory({
+  actionText: `{{A::Name}} snaps at {{T::name's}} {{T::bigTits}} with its claws.`,
+  successText: `{{A::He}} grabs onto both of {{T::his}} breasts and pinches down hard, leaving dark bruises on both
+    of {{T::his}} tits..`,
 }));
 
 
 const grabLegs = new Ability('crab-grab-legs',{
   type: _attack,
   targetSlot: _legs,
+  uses:[_hands],
   hitBonus: -2,
   cooldown: 5,
   setCondition: { on:_self, condition:_holdingLegs, when:_success },
   addStatus: { on:_single, status:_boundLegs, when:_success },
 });
-grabLegs.addStory(new Story({
-  tryText:`{{A::Name}} lunges for {{T::name's}} legs.`,
-  hitText:`{{A::He}} grabs on to both of {{T::his}} legs holding them tightly in {{A::his}} claws.`,
+grabLegs.addStory(new BattleStory({
+  actionText:`{{A::Name}} lunges for {{T::name's}} legs.`,
+  successText:`{{A::He}} grabs on to both of {{T::his}} legs holding them tightly in {{A::his}} claws.`,
 }));
 
 
 const grabArms = new Ability('crab-grab-arms',{
   type: _attack,
   targetSlot: _hands,
+  uses:[_hands],
   hitBonus: -2,
   cooldown: 5,
   setCondition: { on:_self, condition:_holdingArms, when:_success },
   addStatus: { on:_single, status:_boundArms, when:_success },
 });
-grabArms.addStory(new Story({
-  tryText:`{{A::Name}} lunges for {{T::name's}} arms.`,
-  hitText:`{{A::He}} grabs on to both of {{T::his}} wrists holding them tightly in {{A::his}} claws.`,
+grabArms.addStory(new BattleStory({
+  actionText:`{{A::Name}} lunges for {{T::name's}} arms.`,
+  successText:`{{A::He}} grabs on to both of {{T::his}} wrists holding them tightly in {{A::his}} claws.`,
 }));
 
 
 const legCrush = new Ability('crab-leg-crush',{
   type: _hold,
+  uses:[_hands],
   requires: ['monster.condition=holdingLegs'],
   damage:{ d:4, p:2 },
 });
-legCrush.addStory(new Story({
-  hitText:`{{A::Name}} squeezes {{T::name's}} ankles, crushing them painfully in {{A::his}} sharp claws.`
+legCrush.addStory(new BattleStory({
+  successText:`{{A::Name}} squeezes {{T::name's}} ankles, crushing them painfully in {{A::his}} sharp claws.`
 }));
 
 
 const armCrush = new Ability('crab-arm-crush',{
   type: _hold,
+  uses:[_hands],
   requires: ['monster.condition=holdingArms'],
   damage:{ d:4, p:2 },
 });
-armCrush.addStory(new Story({
-  hitText:`{{A::Name}} squeezes {{T::name's}} wrists, crushing them painfully in {{A::his}} sharp claws.`
+armCrush.addStory(new BattleStory({
+  successText:`{{A::Name}} squeezes {{T::name's}} wrists, crushing them painfully in {{A::his}} sharp claws.`
 }));
 
 
 const brutalize = new Ability('crab-brutalize',{
   type: _coupDeGrace,
-  name: 'Brutalize',
+  uses:[_hands],
   requires: ['target.status=boundArms','target.status=boundLegs'],
   damage: { d:4, p:8 },
   storyTeller: 'MudcrabBrutalizer'

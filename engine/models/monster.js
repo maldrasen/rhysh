@@ -80,7 +80,6 @@ global.Monster = class Monster {
 
   // === Members ===============================================================
 
-  chooseCombatAction() { return MonsterAI.chooseCombatAction(this); }
   rollForInitiative() { return RollsInitiative.rollFor(this); }
 
   // === Flags =================================================================

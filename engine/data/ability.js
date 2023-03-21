@@ -13,8 +13,12 @@ global.Ability = class Ability {
 
   #code;
   #type;
+  #fromPower;
+  #fromGnosis;
   #name;
+  #icon;
 
+  #uses;
   #range;
   #targetType;
   #targetSlot;
@@ -24,6 +28,7 @@ global.Ability = class Ability {
   #requires;
   #setCondition;
   #addStatus;
+  #savingThrow;
 
   #stories;
   #storyTeller;
@@ -33,8 +38,12 @@ global.Ability = class Ability {
 
     this.#code = code;
     this.#type = options.type;
+    this.#fromPower = options.fromPower;
+    this.#fromGnosis = options.fromGnosis;
     this.#name = options.name;
+    this.#icon = options.icon;
 
+    this.#uses = options.uses || [];
     this.#range = options.range;
     this.#targetType = options.targetType;
     this.#targetSlot = options.targetSlot;
@@ -44,17 +53,20 @@ global.Ability = class Ability {
     this.#requires = options.requires;
     this.#setCondition = options.setCondition;
     this.#addStatus = options.addStatus;
+    this.#savingThrow = options.savingThrow;
 
     this.#stories = [];
     this.#storyTeller = options.storyTeller;
-
-    this.validate();
   }
 
   get code() { return this.#code; }
   get type() { return this.#type; }
+  get fromPower() { return this.#fromPower; }
+  get fromGnosis() { return this.#fromGnosis; }
   get name() { return this.#name; }
+  get icon() { return this.#icon; }
 
+  get uses() { return this.#uses; }
   get range() { return this.#range; }
   get targetType() { return this.#targetType; }
   get targetSlot() { return this.#targetSlot; }
@@ -64,6 +76,7 @@ global.Ability = class Ability {
   get requires() { return this.#requires; }
   get setCondition() { return this.#setCondition; }
   get addStatus() { return this.#addStatus; }
+  get savingThrow() { return this.#savingThrow; }
 
   get stories() { return this.#stories; }
   get storyTeller() { return this.#storyTeller; }
@@ -79,39 +92,15 @@ global.Ability = class Ability {
     return ArrayHelper.contains([_attack,_grapple,_coupDeGrace], type);
   }
 
-  validate() {
-    try {
-      Validate.isIn('abilityType',this.type, AbilityTypes);
-      if (this.range) { Validate.isIn('range',this.range, [_close,_extended,_long]); }
-      if (this.targetSlot) { Validate.isIn('targetSlot',this.targetSlot, ArmorSlots); }
-      if (this.setCondition) { this.validateSetCondition(); }
-      if (this.addStatus) { this.validateAddStatus(); }
-    } catch(error) {
-      console.error(`Ability(${this.code}) [${error}]`);
-    }
-  }
-
-  // Validate both the condition and the condition target (on value).
-  validateSetCondition() {
-    ConditionType.lookup(this.setCondition.condition);
-    Validate.isIn('setCondition.on',this.setCondition.on, [_self,_single]);
-    Validate.isIn('setCondition.when',this.setCondition.when, [_always,_success,_failure]);
-  }
-
-  // Validate both the status and the status target (on value).
-  // addStatus can also have a duration set. If duration is null the status is
-  // valid until something removes it.
-  validateAddStatus() {
-    StatusType.lookup(this.addStatus.status);
-    Validate.isIn('setStatus.on',this.addStatus.on, [_self,_single,_rank,_allMonsters,_allCharacters,_everyone]);
-  }
-
   pack() {
     let packed = {
       code: this.#code,
       type: this.#type,
+      uses: this.#uses,
     };
 
+    if (this.#fromPower) { packed.fromPower = this.#fromPower; }
+    if (this.#fromGnosis) { packed.fromGnosis = this.#fromGnosis; }
     if (this.#name) { packed.name = this.#name; }
     if (this.#range) { packed.range = this.#range; }
     if (this.#targetType) { packed.targetType = this.#targetType; }
@@ -122,6 +111,7 @@ global.Ability = class Ability {
     if (this.#requires) { packed.requires = this.#requires; }
     if (this.#setCondition) { packed.setCondition = this.#setCondition; }
     if (this.#addStatus) { packed.addStatus = this.#addStatus; }
+    if (this.#savingThrow) { packed.savingThrow = this.#savingThrow; }
 
     return packed;
   }

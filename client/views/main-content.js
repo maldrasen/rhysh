@@ -20,6 +20,7 @@ window.MainContent = (function() {
     $currentStage = null;
     $tween = null;
 
+    BattleControls.reset();
     BattlePlayer.reset();
     BattleView.reset();
     Dungeon.reset();

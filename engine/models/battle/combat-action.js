@@ -1,22 +1,39 @@
 global.CombatAction = class CombatAction {
 
   #actionType;
+  #actionStory;
+
+  #actorClassname;
+  #actorItentifier;
   #targetType;
   #targetRank;
+  #targetClassname;
   #targetIdentifier;
+
   #abilityCode;
   #mainMode;
   #offMode;
 
   constructor(options) {
     this.#actionType = options.action;
+    this.#actorClassname = options.actorClassname;
+    this.#actorItentifier = options.actorItentifier;
 
     if (options.targetType) { this.setTargetType(options.targetType); }
     if (options.targetRank) { this.setTargetRank(options.targetRank); }
+    if (options.targetClassname) { this.setTargetClassname(options.targetClassname); }
     if (options.targetIdentifier) { this.setTargetIdentifier(options.targetIdentifier); }
+
     if (options.ability) { this.setAbilityCode(options.ability); }
     if (options.mainMode) { this.#mainMode = options.mainMode; }
     if (options.offMode) { this.#offMode = options.offMode; }
+
+    if (this.#targetType == null) {
+      if (this.isNothing()) { this.setTargetType(_none); }
+      if (this.isAbility()) { this.setTargetType(this.getAbility().targetType || _single); }
+    }
+
+    if (this.#targetType == null) { console.trace(); throw `Target type should have been set.` }
   }
 
   getActionType() { return this.#actionType; }
@@ -24,21 +41,36 @@ global.CombatAction = class CombatAction {
   isAttack() { return this.#actionType == _attack; }
   isAbility() { return this.#actionType == _ability; }
 
+  getActorType() { return this.#actorClassname; }
+  isMonster() { return this.#actorClassname == _monsterActor; }
+  isCharacter() { return this.#actorClassname == _characterActor; }
+  getActorIdentifier() { return this.#actorItentifier; }
+  getActor() {
+    return (this.isMonster()) ?
+        GameState.getCurrentBattle().getMonster(this.#actorItentifier) :
+        CharacterLibrary.getCachedCharacter(this.#actorItentifier);
+  }
+
   // === Targets ===============================================================
 
   getTargetType() { return this.#targetType; }
   getTargetRank() { return this.#targetRank; }
   getTargetIdentifier() { return this.#targetIdentifier; }
+  setTargetClassname(classname) { this.#targetClassname = classname; }
 
+  // Need to add an ability that targets a group to make sure that's
+  // implemented correctly.
   getTarget() {
-    if (this.#targetIdentifier == null) { throw `A target identifier has not been set.`; }
-    if (this.#targetIdentifier == 'Main') { return CharacterLibrary.getMainCharacter(); }
+    if (this.#targetType == _rank) { return this.#targetRank; }
+    if (this.#targetType == _self) { return this.getActor(); }
 
-    if (this.#targetIdentifier.match(/M\d+/)) {
-      return GameState.getCurrentBattle().getMonster(this.#targetIdentifier);
+    if (this.#targetType == _single) {
+      return (this.isMonster()) ?
+          GameState.getCurrentBattle().getMonster(this.#targetIdentifier) :
+          CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
     }
 
-    return CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
+    throw `TODO: Implement this target type: ${this.#targetType}`
   }
 
   setTargetType(type) {
@@ -59,7 +91,15 @@ global.CombatAction = class CombatAction {
 
   // === Attacks & Abilities ===================================================
 
+  getAbilityCode() { return this.#abilityCode; }
   getAbility() { return Ability.lookup(this.#abilityCode); }
+
+  getAbilityLevel() {
+    let ability = this.getAbility();
+    if (this.isMonster()) { return null; }
+    if (ability.fromPower) { return this.getActor().getPower(ability.code); }
+    if (ability.fromGnosis) { return this.getActor().getGnosis(ability.code); }
+  }
 
   setAbilityCode(code) {
     Ability.lookup(code);
@@ -67,41 +107,28 @@ global.CombatAction = class CombatAction {
   }
 
   getMainMode() { return this.#mainMode; }
+  setMainMode(mode) { this.#mainMode = mode; }
+
   getOffMode() { return this.#offMode; }
+  setOffMode(mode) { this.#offMode = mode; }
 
-  // Make any character specific adjustments needed for the action. When a
-  // character is attacking with a short range weapon they don't need to
-  // specify that they're targeting the front rank, but the battle engine does
-  // need to know that.
-  adjustForCharacter(code) {
-    let character = CharacterLibrary.getCachedCharacter(code);
-    let mainHand = character.getMainHand();
-    let offHand = character.getOffHand();
-
-    if (this.#actionType == _attack) {
-      if (this.#targetType == null) { this.#targetType = _rank }
-      if (this.#targetRank == null) { this.#targetRank = _rank_1 }
-
-      if (this.#mainMode == 'random') {
-        this.#mainMode = (mainHand && mainHand.isWeapon()) ? Random.from(mainHand.getModes()) : null;
-      }
-      if (this.#offMode == 'random') {
-        this.#offMode = (offHand && offHand.isWeapon()) ? Random.from(offHand.getModes()) : null;
-      }
-    }
-  }
+  // ===========================================================================
 
   pack() {
     let packed = {
       actionType: this.#actionType,
+      actorClassname: this.#actorClassname,
+      actorItentifier: this.#actorItentifier,
       targetType: this.#targetType,
     };
 
     if (this.#targetRank)       { packed.targetRank = this.#targetRank; }
+    if (this.#targetClassname)  { packed.targetClassname = this.#targetClassname; }
     if (this.#targetIdentifier) { packed.targetIdentifier = this.#targetIdentifier; }
     if (this.#abilityCode)      { packed.abilityCode = this.#abilityCode; }
     if (this.#mainMode)         { packed.mainMode = this.#mainMode; }
     if (this.#offMode)          { packed.offMode = this.#offMode; }
+    if (this.#actionStory)      { packed.actionStory = this.#actionStory; }
 
     return packed;
   }

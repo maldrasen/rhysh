@@ -110,7 +110,9 @@
     .back { background-color: rgba(60,170,250,0.1); }
   }
 
-  .off { height:0; }
+  .off {
+    .status-bar { opacity:0; }
+  }
 
   .side-panel {
     position: absolute;

@@ -5,6 +5,8 @@ global.ArcanumLevel = class ArcanumLevel {
   #experience;
 
   constructor(code) {
+    Arcanum.lookup(code);
+
     this.#code = code;
     this.#level = 0;
     this.#experience = 0;
@@ -16,6 +18,11 @@ global.ArcanumLevel = class ArcanumLevel {
 
   // TODO: Arcanum will gain experience when spells from that arcanum are cast
   addExperience() {}
+
+  // TODO: The Arcanum level will determine which spells (which I'm assuming
+  //       we'll just implement as abilities) are currently unlocked. This will
+  //       need to return an array of ability codes.
+  getAbilityCodes() { return []; }
 
   // === Persistance ===========================================================
 

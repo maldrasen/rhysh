@@ -124,6 +124,25 @@
   }
 }
 
+#abilityOptions {
+  margin-left: 10px;
+
+  .ability-button {
+    height: 64px;
+    width: 64px;
+    margin-right: 5px;
+    display: inline-block;
+    background-size: cover;
+    border: 1px solid #000;
+  }
+  .ability-button:hover {
+    border: 1px solid #000;
+  }
+  .ability-button.highlight {
+    box-shadow: $shadow-glow-frame;
+  }
+}
+
 #targetFrame {
   position: absolute;
 

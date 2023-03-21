@@ -9,6 +9,8 @@ describe('MonsterCombatRound', function() {
     let crab = MonsterBuilder.build('mudcrab');
     let action = new CombatAction({
       action: _ability,
+      actorClassname: _monsterActor,
+      actorItentifier: crab.getID(), // FIXME
       ability: 'crab-grab-legs',
       targetType: _single,
       targetIdentifier: 'Main',
@@ -30,6 +32,8 @@ describe('MonsterCombatRound', function() {
     let gobbo = MonsterBuilder.build('goblin');
     let action = new CombatAction({
       action: _attack,
+      actorClassname: _monsterActor,
+      actorItentifier: gobbo.getID(), // FIXME
       targetType: _single,
       targetIdentifier: 'Main',
     });

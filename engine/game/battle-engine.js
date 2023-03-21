@@ -10,8 +10,7 @@ global.BattleEngine = class BattleEngine {
     this.#characterActions = {};
 
     ObjectHelper.each(orders.actions, (code, actionOptions) => {
-      this.#characterActions[code] = new CombatAction(actionOptions);
-      this.#characterActions[code].adjustForCharacter(code);
+      this.#characterActions[code] = this.buildCharacterCombatAction(code, actionOptions);
     });
   }
 
@@ -25,22 +24,34 @@ global.BattleEngine = class BattleEngine {
 
         if (initiative.type == _monsterInitiative) {
           let monster = state.getMonster(initiative.id);
-          let action = monster.chooseCombatAction();
+          let action = MonsterAI.chooseCombatAction(monster);
 
-          let round = new MonsterCombatRound(monster, action);
-              round.execute();
+          let round = new CombatRound(monster, action);
 
-          this.#battleEvents.push(round);
+          // let round = new MonsterCombatRound(monster, action);
+          //     round.execute();
+
+          this.#battleEvents.push({
+            actorType: _monsterActor,
+            action: action,
+            result: null,
+          });
         }
 
         if (initiative.type == _characterInitiative) {
           let character = CharacterLibrary.getCachedCharacter(initiative.id);
           let action = this.#characterActions[initiative.id];
 
-          let round = new CharacterCombatRound(character, action);
-              round.execute();
+          let round = new CombatRound(character, action);
 
-          this.#battleEvents.push(round);
+          // let round = new CharacterCombatRound(character, action);
+          //     round.execute();
+
+          this.#battleEvents.push({
+            actorType: _characterActor,
+            action: action,
+            result: null,
+          });
         }
       });
 
@@ -87,6 +98,38 @@ global.BattleEngine = class BattleEngine {
     ObjectHelper.each(GameState.getCurrentBattle().getMonsters(), (id, monster) => {
       add(_monsterInitiative,id,monster.rollForInitiative());
     });
+  }
+
+  // ===========================================================================
+
+  // Build a CombatAction for the character and make any character specific
+  // adjustments needed for the action. When a character is attacking with a
+  // short range weapon they don't need to specify that they're targeting the
+  // front rank, but the battle engine does need to know that.
+  buildCharacterCombatAction(code, actionOptions) {
+    let combatAction = new CombatAction({
+      actorClassname: _characterActor,
+      actorItentifier: code,
+      ...actionOptions,
+    });
+
+    let character = CharacterLibrary.getCachedCharacter(code);
+    let mainHand = character.getMainHand();
+    let offHand = character.getOffHand();
+
+    if (combatAction.isAttack()) {
+      if (combatAction.getTargetType() == null) { combatAction.setTargetType(_rank); }
+      if (combatAction.getTargetRank() == null) { combatAction.setTargetRank(_rank_1); }
+
+      if (combatAction.getMainMode() == 'random') {
+        combatAction.setMainMode((mainHand && mainHand.isWeapon()) ? Random.from(mainHand.getModes()) : null);
+      }
+      if (combatAction.getOffMode() == 'random') {
+        combatAction.setOffMode((offHand && offHand.isWeapon()) ? Random.from(offHand.getModes()) : null);
+      }
+    }
+
+    return combatAction;
   }
 
 }
