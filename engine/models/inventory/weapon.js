@@ -29,6 +29,10 @@ global.Weapon = class Weapon {
   getMagicalBonus() { return this.#magicalBonus || 0; }
   setMagicalBonus(bonus) { this.#magicalBonus = bonus; }
 
+  getRandomMode() {
+    return Random.from(this.getWeaponType().modes);
+  }
+
   // === Equipment =============================================================
 
   getEquippedBy() { return { ...this.#equippedBy }; }

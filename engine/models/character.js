@@ -116,6 +116,9 @@ global.Character = class Character {
     return Math.ceil(this.getLevel() / factor);
   }
 
+  // TODO: This can be adjusted by an ability.
+  getOffHandAttackPenalty() { return -2; }
+
   isFemale() { return this.#sex == 'female'; }
   isFuta() { return this.#sex == 'futa'; }
   isMale() { return this.#sex == 'male'; }

@@ -192,6 +192,8 @@ window.BattleControls = (function() {
     glow.style['width'] = `${position.width}px`;
   }
 
+  // TODO: If a character has a ranged weapon equipped then they'll need to
+  //       select a rank to attack.
   function commitAttack() {
     let main = X.first('#attackOptions .main-hand .highlight');
     let off = X.first('#attackOptions .off-hand .highlight');
@@ -200,6 +202,8 @@ window.BattleControls = (function() {
 
     BattleView.commitAction({
       action: 'attack',
+      targetType: _rank,
+      targetRank: _rank_1,
       mainMode: mainMode,
       offMode: offMode,
     });

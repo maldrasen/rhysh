@@ -17,6 +17,7 @@ global.Monster = class Monster {
 
   #basicAttackDamage;
   #basicAttackText;
+
   #mainHand;
   #offHand;
   #armor;
@@ -153,15 +154,23 @@ global.Monster = class Monster {
 
   // === Weapons and Armor =====================================================
 
-  // This is probably feature creep, but I think some monsters will have a
-  // slimmed down version of equipment that adds some variety to the
-  // encounters. While this is mostly noticible with the weapons, we might as
-  // well allow adjustments to the armor too.
-  getMainHandCode() { return this.#mainHand; }
-  setMainHandCode(code) { this.#mainHand = code; }
+  getMainHand() { return this.#mainHand; }
+  getMainHandType() { return this.#mainHand ? this.getMainHand().getWeaponType() : null; }
+  getMainHandCode() { return this.#mainHand ? this.getMainHandType().code : null; }
 
-  getOffHandCode() { return this.#offHand; }
-  setOffHandCode(code) { this.#offHand = code; }
+  getOffHand() { return this.#offHand; }
+  getOffHandType() { return this.#offHand ? this.getOffHand().getWeaponType() : null; }
+  getOffHandCode() { return this.#offHand ? this.getOffHandType().code : null; }
+  getOffHandAttackPenalty() { return -2; }
+
+  setMainHandCode(code) { this.#mainHand = new Weapon(code); }
+
+  // TODO: Equip shields. Right now the accessory class is kind of broken. We
+  //       need to make it work more like weapon where there's an accessory
+  //       type class that we can build a basic shield from.
+  setOffHandCode(code) {
+    if (WeaponType.isWeapon(code)) { this.#offHand = new Weapon(code); }
+  }
 
   getArmorMaterial(slot) { return this.#armor[slot]; }
   setArmorMaterial(slot, code) {

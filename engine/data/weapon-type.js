@@ -46,8 +46,12 @@ global.WeaponType = class WeaponType {
   }
 
   static lookup(code) {
-    if (WeaponDictionary[code] == null) { throw `Unknown Weapon Type: ${code}` }
+    if (WeaponDictionary[code] == null) { console.trace(); throw `Unknown Weapon Type: ${code}` }
     return WeaponDictionary[code];
+  }
+
+  static isWeapon(code) {
+    return WeaponDictionary[code] != null;
   }
 
   #code;
