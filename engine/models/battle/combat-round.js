@@ -66,38 +66,41 @@ global.CombatRound = class CombatRound {
       mode: mode,
     }));
 
-    console.log("Event:",event.pack());
+    this.rollAttack(currentHit, event);
 
-    //   result.rollAttack(currentHit);
     //   result.rollDamage(weapon.getDamage(), this.getActor().getAttributes().strModifier());
     //   result.setStory(new WeaponAttackStoryTeller(result).tellStory());
 
     // result.commitDamage();
     // this.checkCondition();
     // return result;
+    console.log("Event:",event.pack());
   }
 
-/*
   // Make an attack and determine the result. The current hit property should
   // be the character's base hit but if this is a weapon attack it will be
   // reduced on subsequent attacks and has to be sent as a parameter.
-  rollAttack(currentHit=0) {
-    let targetArmorClass = this.getTarget().getArmorClass(this.#targetSlot);
-    let modeBonus = this.#weaponMode ? WeaponModes[this.#weaponMode].hit : 0;
-    let attributeBonus = this.getAttributeBonus();
-    let magicalBonus = this.getMagicalBonus()
+  rollAttack(currentHit, attackEvent) {
+    const targetArmorClass = this.getTarget().getArmorClass(attackEvent.getTargetSlot());
+    const modeBonus = this.getModeBonus(attackEvent);
+    const attributeBonus = this.getAttributeBonus(attackEvent);
+    const magicalBonus = this.getMagicalBonus(attackEvent);
 
-    this.#attackRoll = Random.rollDice({ d:20 });
-    this.#attackBonus = currentHit + modeBonus + attributeBonus + magicalBonus + this.getActor().getBaseHit();
+    attackEvent.setAttackRoll(Random.rollDice({ d:20 }));
+    attackEvent.setAttackBonus(currentHit + modeBonus + attributeBonus + magicalBonus);
 
-    if (this.#attackRoll == 1)  { this.#attackResult = _criticalMiss; return; }
-    if (this.#attackRoll == 20) { this.#attackResult = _criticalHit;  return; }
+    if (attackEvent.getAttackRoll() == 1)  { return attackEvent.setAttackResult(_criticalMiss); }
+    if (attackEvent.getAttackRoll() == 20) { return attackEvent.setAttackResult(_criticalHit); }
 
-    this.#attackResult = (this.#attackRoll + this.#attackBonus >= targetArmorClass) ? _hit : _miss;
+    attackEvent.setAttackResult((attackEvent.getAttackTotal() >= targetArmorClass) ? _hit : _miss);
   }
 
-  getMagicalBonus() {
-    return this.#weapon ? this.#weapon.getMagicalBonus() : 0;
+  getModeBonus(attackEvent) {
+    return attackEvent.getWeaponMode() ? WeaponModes[attackEvent.getWeaponMode()].hit : 0;
+  }
+
+  getMagicalBonus(attackEvent) {
+    return attackEvent.getWeapon() ? attackEvent.getWeapon().getMagicalBonus() : 0;
   }
 
   // If the character is attacking with a weapon then that weapon governs what
@@ -108,23 +111,25 @@ global.CombatRound = class CombatRound {
   // attack they still use their dex bonus. If that's insufficient I could
   // optionally add an attribute property to the ability that takes precedence
   // over the range.
-  getAttributeBonus() {
+  getAttributeBonus(attackEvent) {
     let attributes = this.getActor().getAttributes();
+    let weapon = attackEvent.getWeapon();
 
-    if (this.#weaponTypeCode) {
-      let weaponType = WeaponType.lookup(this.#weaponTypeCode);
-      return attributes.getModifier(weaponType.attribute);
+    if (weapon) {
+      return attributes.getModifier(weapon.getWeaponType().attribute);
     }
 
-    let ability = this.getAbility();
-    if (ability && ability.type == _attack) {
-      let attribute = (ability.range == _long) ? _dex : _str;
-      return attributes.getModifier(attribute);
-    }
+    // TODO Reimplement Ability attribute bonus
+    // let ability = this.getAbility();
+    // if (ability && ability.type == _attack) {
+    //   let attribute = (ability.range == _long) ? _dex : _str;
+    //   return attributes.getModifier(attribute);
+    // }
 
     return 0;
   }
 
+/*
   // TODO: Adjust critical hit ranges and damage multipliers.
   rollDamage(damage, bonusDamage=0) {
     if (this.isFailure()) { return; }
@@ -142,22 +147,6 @@ global.CombatRound = class CombatRound {
     return Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;;
   }
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   useEquipment(equipment, mode) {
     if (mode == _block) { return; }

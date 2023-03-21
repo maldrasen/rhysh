@@ -41,8 +41,6 @@ global.OLDCombatResult = class CombatResult {
 
   getAttackRoll() { return this.#attackRoll; }
   getAttackBonus() { return this.#attackBonus; }
-  getAttackResult() { return this.#attackResult; }
-  getAttackDamage() { return this.#attackDamage; }
 
   getStory() { return this.#story; }
   setStory(story) { this.#story = story; }
