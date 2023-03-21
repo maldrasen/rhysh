@@ -58,7 +58,13 @@ global.CombatRound = class CombatRound {
       weapon: weapon,
       weaponMode: mode,
       targetSlot: this.chooseTargetSlot(),
-    })
+    });
+
+    event.setActionStory(WeaponAttackStoryTeller.tellActionStory({
+      context: this.getResult().getContext(),
+      weapon: weapon,
+      mode: mode,
+    }));
 
     console.log("Event:",event.pack());
 
@@ -70,6 +76,88 @@ global.CombatRound = class CombatRound {
     // this.checkCondition();
     // return result;
   }
+
+/*
+  // Make an attack and determine the result. The current hit property should
+  // be the character's base hit but if this is a weapon attack it will be
+  // reduced on subsequent attacks and has to be sent as a parameter.
+  rollAttack(currentHit=0) {
+    let targetArmorClass = this.getTarget().getArmorClass(this.#targetSlot);
+    let modeBonus = this.#weaponMode ? WeaponModes[this.#weaponMode].hit : 0;
+    let attributeBonus = this.getAttributeBonus();
+    let magicalBonus = this.getMagicalBonus()
+
+    this.#attackRoll = Random.rollDice({ d:20 });
+    this.#attackBonus = currentHit + modeBonus + attributeBonus + magicalBonus + this.getActor().getBaseHit();
+
+    if (this.#attackRoll == 1)  { this.#attackResult = _criticalMiss; return; }
+    if (this.#attackRoll == 20) { this.#attackResult = _criticalHit;  return; }
+
+    this.#attackResult = (this.#attackRoll + this.#attackBonus >= targetArmorClass) ? _hit : _miss;
+  }
+
+  getMagicalBonus() {
+    return this.#weapon ? this.#weapon.getMagicalBonus() : 0;
+  }
+
+  // If the character is attacking with a weapon then that weapon governs what
+  // attribute is used for the attack bonus. If the monster is using an attack
+  // ability it uses the ability's range to determine if it's a strength or a
+  // dexterity based attack. The actual range doesn't matter, it's the range on
+  // the ability, so that if a monster in close range attacks with a ranged
+  // attack they still use their dex bonus. If that's insufficient I could
+  // optionally add an attribute property to the ability that takes precedence
+  // over the range.
+  getAttributeBonus() {
+    let attributes = this.getActor().getAttributes();
+
+    if (this.#weaponTypeCode) {
+      let weaponType = WeaponType.lookup(this.#weaponTypeCode);
+      return attributes.getModifier(weaponType.attribute);
+    }
+
+    let ability = this.getAbility();
+    if (ability && ability.type == _attack) {
+      let attribute = (ability.range == _long) ? _dex : _str;
+      return attributes.getModifier(attribute);
+    }
+
+    return 0;
+  }
+
+  // TODO: Adjust critical hit ranges and damage multipliers.
+  rollDamage(damage, bonusDamage=0) {
+    if (this.isFailure()) { return; }
+    if (damage == null) { return; }
+
+    if (this.#attackResult == _hit) { this.#attackDamage = this.getDamage(damage,bonusDamage); }
+    if (this.#attackResult == _criticalHit) { this.#attackDamage = this.getDamage(damage,bonusDamage,2); }
+
+    if (this.#attackResult == _criticalMiss) {
+      // TODO: Randomly determine critical failure result
+    }
+  }
+
+  getDamage(damage, bonusDamage=0, multiplier=1) {
+    return Math.floor(Random.rollDice(damage) * multiplier) + bonusDamage;;
+  }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   useEquipment(equipment, mode) {
     if (mode == _block) { return; }

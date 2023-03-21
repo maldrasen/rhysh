@@ -1,75 +1,54 @@
 
-const BashStories = [
-  new BattleStory({ actionText: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new BattleStory({ actionText: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-];
+global.WeaponAttackStoryTeller = (function() {
 
-const ShootStories = [
-  new BattleStory({ actionText:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new BattleStory({ actionText:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-];
+  const BashStories = [
+    new BattleStory({ actionText: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+    new BattleStory({ actionText: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  ];
 
-const SlashStories = [
-  new BattleStory({ actionText:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new BattleStory({ actionText:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-];
+  const ShootStories = [
+    new BattleStory({ actionText:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+    new BattleStory({ actionText:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  ];
 
-const ThrustStories = [
-  new BattleStory({ actionText:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-  new BattleStory({ actionText:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-  new BattleStory({ actionText:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-];
+  const SlashStories = [
+    new BattleStory({ actionText:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+    new BattleStory({ actionText:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  ];
 
-global.WeaponAttackStoryTeller = class WeaponAttackStoryTeller {
+  const ThrustStories = [
+    new BattleStory({ actionText:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
+    new BattleStory({ actionText:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+    new BattleStory({ actionText:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  ];
 
-  #result
-  #scrutinizer;
+  // Get an action story given a weapon mode and the context. The weapon object
+  // is optional, and isn't currently used for anything. We may someday have
+  // more interesting stories for special weapons at some point though which
+  // will probably be saved on the weapon itself. A bit up in the air still,
+  // but as we should have easy access to the weapon might as well include it.
+  //
+  // Options:
+  //   mode: weapon mode
+  //   weapon: weapon object
+  //
+  function tellActionStory(options) {
+    const scrutinizer = new Scrutinizer(options.context);
 
-  constructor(result) {
-    this.#result = result;
-    this.#scrutinizer = result.getScrutinizer();
+    const storyList = {
+      bash: BashStories,
+      shoot: ShootStories,
+      slash: SlashStories,
+      thrust: ThrustStories,
+    }[options.mode];
+
+    const validStories = ArrayHelper.compact(storyList.map(story => {
+      return scrutinizer.meetsRequirements(story.requires) ? story : null;
+    }));
+
+    return Weaver.weave(Random.from(validStories).actionText, options.context);
   }
 
-  tellStory() {
-    try {
-      return {
-        bash: () =>   { return this.tellBashStory() },
-        shoot: () =>  { return this.tellShootStory() },
-        slash: () =>  { return this.tellSlashStory() },
-        thrust: () => { return this.tellThrustStory() },
-      }[this.#result.getWeaponMode()]();
-    }
-    catch(error) {
-      console.error(`[Story Teller Error : ${error}]`);
-      console.error(this.#result.pack());
-      console.trace();
+  return { tellActionStory }
 
-      return { text:`[Story Teller Error: ${error}]` };
-    }
-  }
-
-  tellBashStory() {
-    return Random.from(ArrayHelper.compact(BashStories.map(story => {
-      return this.#scrutinizer.meetsRequirements(story.requires) ? story : null;
-    })));
-  }
-
-  tellShootStory() {
-    return Random.from(ArrayHelper.compact(ShootStories.map(story => {
-      return this.#scrutinizer.meetsRequirements(story.requires) ? story : null;
-    })));
-  }
-
-  tellSlashStory() {
-    return Random.from(ArrayHelper.compact(SlashStories.map(story => {
-      return this.#scrutinizer.meetsRequirements(story.requires) ? story : null;
-    })));
-  }
-
-  tellThrustStory() {
-    return Random.from(ArrayHelper.compact(ThrustStories.map(story => {
-      return this.#scrutinizer.meetsRequirements(story.requires) ? story : null;
-    })));
-  }
-
-}
+})();

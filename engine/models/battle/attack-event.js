@@ -4,24 +4,27 @@ global.AttackEvent = class AttackEvent {
   #weapon;
   #weaponMode;
 
+  #actionStory;
+
   constructor(options) {
     this.#targetSlot = options.targetSlot;
     this.#weapon = options.weapon;
     this.#weaponMode = options.weaponMode;
-
   }
 
+  getTargetSlot() { return this.#targetSlot; }
   getWeaponMode() { return this.#weaponMode; }
-  setWeaponMode(mode) { this.#weaponMode = mode; }
-
   getWeapon() { return this.#weapon; }
-  setWeapon(weapon) { this.#weapon = weapon; }
+
+  getActionStory() { return this.#actionStory; }
+  setActionStory(story) { this.#actionStory = story; }
 
   pack() {
     return {
       targetSlot: this.#targetSlot,
       weapon: this.#weapon,
       weaponMode: this.#weaponMode,
+      actionStory: this.#actionStory,
     };
   }
 
