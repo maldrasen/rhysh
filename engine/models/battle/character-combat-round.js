@@ -39,10 +39,5 @@ global.CharacterCombatRound = class CharacterCombatRound {
     if (this.#triggers.indexOf(trigger) < 0) { this.#triggers.push(trigger); }
   }
 
-  // TODO: Check condition. I think we need to add triggers for when monsters
-  //       die or other things happen.
-  checkCondition() {
-    let condition = this.getTarget().getCondition();
-  }
 
 }

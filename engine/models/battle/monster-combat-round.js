@@ -59,14 +59,5 @@ global.MonsterCombatRound = class MonsterCombatRound {
     this.checkCondition();
   }
 
-  checkCondition() {
-    let target = this.getTarget();
-    let condition = target.getCondition();
-
-    if (target.getCode() == 'Main') {
-      if (condition.hasCondition('fainted')) { this.addTrigger('main-character-fainted'); }
-      if (condition.hasCondition('dead')) { this.addTrigger('main-character-killed'); }
-    }
-  }
 
 }

@@ -89,11 +89,6 @@ global.OLDCombatResult = class CombatResult {
     this.#attackDamage += (this.#story.bonusDamage || 0);
   }
 
-  commitDamage() {
-    if (this.#attackDamage > 0) {
-      this.getTarget().doDamage(this.#attackDamage);
-    }
-  }
 
 */
 }

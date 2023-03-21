@@ -61,6 +61,7 @@ global.CombatRound = class CombatRound {
   }
 
   doSingleAttack(currentHit, weapon, mode) {
+    const context = this.getResult().getContext();
 
     const event = new AttackEvent({
       weapon: weapon,
@@ -69,20 +70,22 @@ global.CombatRound = class CombatRound {
     });
 
     event.setActionStory(WeaponAttackStoryTeller.tellActionStory({
-      context: this.getResult().getContext(),
+      context: context,
       weapon: weapon,
       mode: mode,
     }));
 
     this.rollAttack(currentHit, event);
     this.rollDamage(event);
+    this.commitDamage(event);
+    this.checkCondition(event);
 
-    //   result.setStory(new WeaponAttackStoryTeller(result).tellStory());
+    event.setResultStory(WeaponAttackStoryTeller.tellResultStory({
+      context: context,
+      attackEvent: event,
+    }));
 
-    // result.commitDamage();
-    // this.checkCondition();
-    // return result;
-    console.log("Event:",event.pack());
+    this.getResult().addAttackEvent(event);
   }
 
   useEquipment(equipment, mode) {
@@ -190,6 +193,19 @@ global.CombatRound = class CombatRound {
     if (attackEvent.isHit()) {
       attackEvent.setAttackDamage(rawDamage + bonusDamage);
     }
+  }
+
+  commitDamage(attackEvent) {
+    if (attackEvent.getAttackDamage() > 0) {
+      this.getTarget().doDamage(attackEvent.getAttackDamage());
+    }
+  }
+
+  checkCondition(attackEvent) {
+    let target = this.getTarget();
+    let condition = target.getCondition();
+
+    if (condition.hasConditionInCategory(_fallen)) { attackEvent.setTargetFallen(); }
   }
 
   // ===========================================================================

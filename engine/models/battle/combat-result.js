@@ -1,9 +1,9 @@
 global.CombatResult = class CombatResult {
 
   #combatRound;
-  #attackEvents;
 
   #actionStory;
+  #attackEvents;
 
   constructor(round) {
     this.#combatRound = round
@@ -12,6 +12,10 @@ global.CombatResult = class CombatResult {
 
   setActionStory(text) {
     this.#actionStory = Weaver.weave(text, this.getContext());
+  }
+
+  addAttackEvent(event) {
+    this.#attackEvents.push(event);
   }
 
   // Fixme: These old properties may not work now that this class is completely

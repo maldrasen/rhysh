@@ -49,6 +49,38 @@ global.WeaponAttackStoryTeller = (function() {
     return Weaver.weave(Random.from(validStories).actionText, options.context);
   }
 
-  return { tellActionStory }
+  // TODO: Keeping the result stories for weapon attacks simple for now.
+  //       Eventually I'd like to tell more involved stories for critical hits
+  //       and misses. I need to implement the critical miss concequences first
+  //       in order to know what happens. Critical hits will mostly be a lot of
+  //       dick stabbing and such I think.
+  function tellResultStory(options) {
+    let text;
+
+    if (options.attackEvent.isMiss()) { text = tellMissStory(options.attackEvent); }
+    if (options.attackEvent.isHit()) { text = tellHitStory(options.attackEvent); }
+    if (options.attackEvent.isCriticalMiss()) { text = tellCriticalMissStory(options.attackEvent); }
+    if (options.attackEvent.isCriticalHit()) { text = tellCriticalHitStory(options.attackEvent); }
+
+    return Weaver.weave(text, options.context);
+  }
+
+  function tellMissStory(event) {
+    return '(TODO:Miss)';
+  }
+
+  function tellHitStory(event) {
+    return '(TODO:Hit)';
+  }
+
+  function tellCriticalMissStory(event) {
+    return '(TODO:Critical Miss)';
+  }
+
+  function tellCriticalHitStory(event) {
+    return '(TODO:Critical Hit)';
+  }
+
+  return { tellActionStory, tellResultStory }
 
 })();

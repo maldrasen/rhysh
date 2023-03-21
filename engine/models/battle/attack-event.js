@@ -12,10 +12,14 @@ global.AttackEvent = class AttackEvent {
   #actionStory;
   #resultStory;
 
+  #isTargetFallen;
+
   constructor(options) {
     this.#targetSlot = options.targetSlot;
     this.#weapon = options.weapon;
     this.#weaponMode = options.weaponMode;
+
+    this.#isTargetFallen = false;
   }
 
   getTargetSlot() { return this.#targetSlot; }
@@ -47,6 +51,9 @@ global.AttackEvent = class AttackEvent {
   getResultStory() { return this.#resultStory; }
   setResultStory(story) { this.#resultStory = story; }
 
+  setTargetFallen() { this.#isTargetFallen = true; }
+  isTargetFallen() { return this.#isTargetFallen; }
+
   pack() {
     let packed = {
       targetSlot: this.#targetSlot,
@@ -60,6 +67,8 @@ global.AttackEvent = class AttackEvent {
     if (this.#attackDamage) { packed.attackDamage = this.#attackDamage; }
     if (this.#actionStory) { packed.actionStory = this.#actionStory; }
     if (this.#resultStory) { packed.resultStory = this.#resultStory; }
+
+    if (this.isTargetFallen()) { packed.isTargetFallen = true; }
 
     return packed;
   }

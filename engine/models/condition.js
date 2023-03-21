@@ -58,8 +58,8 @@ global.Condition = class Condition {
     let hp = this.getCurrentHitPoints();
     let max = this.getMaxHitPoints();
 
-    if (hp <= 0 && hp > -max) { this.setCondition('fainted'); }
-    if (hp <= -max) { this.setCondition('dead'); }
+    if (hp <= 0 && hp > -max) { this.setCondition(_fainted); }
+    if (hp <= -max) { this.setCondition(_dead); }
   }
 
   // === TODO ===
@@ -71,7 +71,10 @@ global.Condition = class Condition {
   // class, and made it work the same for monsters and normal characters.
 
   getCondition() { return this.#condition; }
+  getConditionType() { return ConditionType.lookup(this.#condition); }
+
   hasCondition(code) { return this.#condition == code; }
+  hasConditionInCategory(category) { return this.getConditionType().category == category; }
 
   setCondition(code) {
     ConditionType.lookup(code);
