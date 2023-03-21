@@ -1,6 +1,12 @@
 describe.only('CombatRound', function() {
 
+  const setup = function() {
+    GameState.setCurrentBattle(new BattleState());
+  }
+
   const knightSetup = function() {
+    setup();
+
     SpecHelper.randomMainCharacter({ archetype:'knight' });
 
     let combatAction = new CombatAction({
