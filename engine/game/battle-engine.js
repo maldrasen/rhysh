@@ -15,6 +15,10 @@ global.BattleEngine = class BattleEngine {
   execute() {
     const combatRounds = [];
 
+    if (Environment.verbose) {
+      console.log(`=== Execute Round (${GameState.getCurrentBattle().getRoundNumber()}) ===`);
+    }
+
     try {
       let state = GameState.getCurrentBattle();
           state.startRound();
@@ -29,7 +33,9 @@ global.BattleEngine = class BattleEngine {
           let round = new CombatRound(monster, action);
               round.execute();
 
-          combatRounds.push(CombatRoundRenderer.render(round));
+          if (round.hasResult()) {
+            combatRounds.push(CombatRoundRenderer.render(round));
+          }
         }
 
         if (initiative.type == _characterInitiative) {
@@ -39,7 +45,9 @@ global.BattleEngine = class BattleEngine {
           let round = new CombatRound(character, action);
               round.execute();
 
-          combatRounds.push(CombatRoundRenderer.render(round));
+          if (round.hasResult()) {
+            combatRounds.push(CombatRoundRenderer.render(round));
+          }
         }
       });
 
@@ -48,6 +56,10 @@ global.BattleEngine = class BattleEngine {
     catch(error) {
       console.error("=== Battle Engine Error ===")
       console.error(error);
+    }
+
+    if (Environment.verbose) {
+      combatRounds.forEach(round => { console.log(round); })
     }
 
     return combatRounds;

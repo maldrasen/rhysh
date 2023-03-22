@@ -12,6 +12,7 @@ global.CombatRound = class CombatRound {
   getActor() { return this.#action.getActor(); }
   getTarget() { return this.#action.getTarget(); }
   getResult() { return this.#result; }
+  hasResult() { return this.#result.hasAttackEvents() || this.#result.getActionStory() != null; }
 
   execute() {
     // TODO: If all monsters are dead then we do nothing.
