@@ -8,8 +8,6 @@ const fortitude = new Ability('fortitude',{
   icon: `../assets/icons/ability-fortitude.png`,
 });
 
-fortitude.addStory(new BattleStory({
-  actionText: `{{A::Name}} throbs with virile strength.`,
-}));
+fortitude.addActionStory({ text:`{{A::Name}} throbs with virile strength.` });
 
 Ability.register(fortitude);

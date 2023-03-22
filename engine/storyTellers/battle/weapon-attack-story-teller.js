@@ -1,25 +1,25 @@
 
 global.WeaponAttackStoryTeller = (function() {
 
-  const BashStories = [
-    new BattleStory({ actionText: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-    new BattleStory({ actionText: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  const BashActionStories = [
+    { text: `{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` },
+    { text: `{{A::Name}} swings at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` },
   ];
 
-  const ShootStories = [
-    new BattleStory({ actionText:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-    new BattleStory({ actionText:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  const ShootActionStories = [
+    { text:`{{A::Name}} shoots {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` },
+    { text:`{{A::Name}} shoots at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` },
   ];
 
-  const SlashStories = [
-    new BattleStory({ actionText:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-    new BattleStory({ actionText:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  const SlashActionStories = [
+    { text:`{{A::Name}} swings {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` },
+    { text:`{{A::Name}} slashes at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` },
   ];
 
-  const ThrustStories = [
-    new BattleStory({ actionText:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` }),
-    new BattleStory({ actionText:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
-    new BattleStory({ actionText:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` }),
+  const ThrustActionStories = [
+    { text:`{{A::Name}} thrusts {{A::his}} {{A::weapon.main-hand.name}} at {{T::name}}.` },
+    { text:`{{A::Name}} lunges at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` },
+    { text:`{{A::Name}} stabs at {{T::name}} with {{A::his}} {{A::weapon.main-hand.name}}.` },
   ];
 
   // Get an action story given a weapon mode and the context. The weapon object
@@ -36,17 +36,17 @@ global.WeaponAttackStoryTeller = (function() {
     const scrutinizer = new Scrutinizer(options.context);
 
     const storyList = {
-      bash: BashStories,
-      shoot: ShootStories,
-      slash: SlashStories,
-      thrust: ThrustStories,
+      bash: BashActionStories,
+      shoot: ShootActionStories,
+      slash: SlashActionStories,
+      thrust: ThrustActionStories,
     }[options.mode];
 
     const validStories = ArrayHelper.compact(storyList.map(story => {
       return scrutinizer.meetsRequirements(story.requires) ? story : null;
     }));
 
-    return Weaver.weave(Random.from(validStories).actionText, options.context);
+    return Weaver.weave(Random.from(validStories).text, options.context);
   }
 
   // TODO: Keeping the result stories for weapon attacks simple for now.
@@ -65,9 +65,8 @@ global.WeaponAttackStoryTeller = (function() {
     return Weaver.weave(text, options.context);
   }
 
-
-      // `{{T::Name's}} {{battle|target-slot-word}} was delt a critical blow!`:
-      // `Hit {{T::name's}} {{battle|target-slot-word}}.`
+  // `{{T::Name's}} {{battle|target-slot-word}} was delt a critical blow!`:
+  // `Hit {{T::name's}} {{battle|target-slot-word}}.`
 
   function tellMissStory(event) {
     return '(TODO:Miss)';

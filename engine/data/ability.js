@@ -30,7 +30,10 @@ global.Ability = class Ability {
   #addStatus;
   #savingThrow;
 
-  #stories;
+  #actionStories;
+  #successStories;
+  #failureStories;
+
   #storyTeller;
 
   constructor(code, options) {
@@ -55,8 +58,10 @@ global.Ability = class Ability {
     this.#addStatus = options.addStatus;
     this.#savingThrow = options.savingThrow;
 
-    this.#stories = [];
     this.#storyTeller = options.storyTeller;
+    this.#actionStories = [];
+    this.#successStories = [];
+    this.#failureStories = [];
   }
 
   get code() { return this.#code; }
@@ -78,12 +83,14 @@ global.Ability = class Ability {
   get addStatus() { return this.#addStatus; }
   get savingThrow() { return this.#savingThrow; }
 
-  get stories() { return this.#stories; }
   get storyTeller() { return this.#storyTeller; }
+  get actionStories() { return this.#actionStories; }
+  get successStories() { return this.#successStories; }
+  get failureStories() { return this.#failureStories; }
 
-  addStory(story) {
-    this.#stories.push(story);
-  }
+  addActionStory(story) { this.#actionStories.push(story); }
+  addSuccessStory(story) { this.#successStories.push(story); }
+  addFailureStory(story) { this.#failureStories.push(story); }
 
   // Ability types that use the attack range. We keep track of these because if
   // a range isn't specified we use close range by default. This isn't a normal

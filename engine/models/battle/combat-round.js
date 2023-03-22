@@ -41,10 +41,7 @@ global.CombatRound = class CombatRound {
 
   doAttackAbility() {
     const action = this.getAction();
-    const result = this.getResult();
     const actor = this.getActor();
-    const target = this.getTarget();
-
     const ability = action.getAbility();
     const abilityLevel = action.getAbilityLevel();
 
@@ -54,9 +51,14 @@ global.CombatRound = class CombatRound {
       targetSlot: (ability.targetSlot || this.chooseTargetSlot()),
     });
 
-    console.log("=== Do Attack Ability ===");
-    console.log('Action',action.pack());
-    console.log('Ability',ability.pack());
+    const context = this.getResult().getContext();
+          context.set('attackEvent',attackEvent);
+
+    attackEvent.setActionStory(AbilityStoryTeller.tellActionStory({
+      context: context,
+      ability: ability,
+      abilityLevel: abilityLevel,
+    }));
 
     this.rollAttack((ability.hitBonus || 0) + actor.getBaseHit(), attackEvent);
     this.rollDamage(attackEvent);
@@ -65,10 +67,16 @@ global.CombatRound = class CombatRound {
     this.commitDamage(attackEvent);
     this.checkCondition(attackEvent);
 
-  //   result.selectStory();
+    attackEvent.setResultStory(AbilityStoryTeller.tellResultStory({
+      context: context,
+      ability: ability,
+      abilityLevel: abilityLevel,
+      attackEvent: attackEvent,
+    }));
+
     actor.useAbility(ability.code, attackEvent);
 
-    console.log(attackEvent.pack());
+    this.getResult().addAttackEvent(attackEvent);
   }
 
   // === Atack Round ===========================================================

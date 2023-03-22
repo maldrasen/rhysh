@@ -13,7 +13,6 @@ global.Loader = (function() {
     'data/ability.js',
     'data/arcanum.js',
     'data/archetype.js',
-    'data/battle-story.js',
     'data/condition-type.js',
     'data/event.js',
     'data/gnosis.js',
