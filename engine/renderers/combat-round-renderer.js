@@ -3,6 +3,7 @@ global.CombatRoundRenderer = (function() {
   function render(combatRound) {
     const action = combatRound.getAction();
     const result = combatRound.getResult();
+    const target = combatRound.getTarget();
 
     const rendered = {
       actor: renderActor(action),
@@ -19,9 +20,10 @@ global.CombatRoundRenderer = (function() {
       });
     }
 
-    const targetCondition = combatRound.getTarget().getCondition();
-    if (targetCondition.hasCondition(_dead)) { rendered.targetCondition = _dead; }
-    if (targetCondition.hasCondition(_fainted)) {  rendered.targetCondition = _fainted; }
+    if (target) {
+      if (target.getCondition().hasCondition(_dead)) { rendered.targetCondition = _dead; }
+      if (target.getCondition().hasCondition(_fainted)) {  rendered.targetCondition = _fainted; }
+    }
 
     return rendered;
   }
@@ -148,6 +150,6 @@ global.CombatRoundRenderer = (function() {
   }
 */
 
-  return { render };
+  return { render, renderActor };
 
 })();

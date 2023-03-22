@@ -55,6 +55,7 @@ describe('CombatRound', function() {
       actorItentifier: 'M1',
       action: _ability,
       ability: 'crab-grab-legs',
+      targetIdentifier: 'Main',
     });
 
     return combatAction;
@@ -99,18 +100,17 @@ describe('CombatRound', function() {
     console.log(rendered);
   });
 
-  // it('builds and executes a monster ability combat round', function() {
-  //   let action = crabboSetup();
-  //   let crabbo = GameState.getCurrentBattle().getMonster('M1');
+  it.only('builds and executes a monster ability combat round', function() {
+    let action = crabboSetup();
+    let crabbo = GameState.getCurrentBattle().getMonster('M1');
 
-  //   let round = new CombatRound(crabbo, action);
-  //       round.execute();
+    let round = new CombatRound(crabbo, action);
+        round.execute();
 
-  //   let rendered = CombatRoundRenderer.render(round);
+    let rendered = CombatRoundRenderer.render(round);
 
-  //   console.log("=== Rendered ===")
-  //   console.log(rendered);
-  // });
-
+    console.log("=== Rendered ===")
+    console.log(rendered);
+  });
 
 });

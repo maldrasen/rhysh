@@ -6,8 +6,8 @@ start.setAttributeChecks({
 })
 
 start.setSpeakers({
-  woman:{ portrait:'characters/character-khatria' },
-  Khatria:{ portrait:'characters/character-khatria', label:'Khatria' },
+  woman:{ portrait:'characters/khatria' },
+  Khatria:{ portrait:'characters/khatria', label:'Khatria' },
 });
 
 start.setOnFinish(choices => {

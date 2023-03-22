@@ -27,9 +27,48 @@ global.CombatRound = class CombatRound {
   }
 
   // === Ability Round =========================================================
+  // TODO: Some abilities won't have a target.
+  // TODO: Some abilities won't roll to hit.
+  // TODO: Handle different ability types: attack, hold, coup-de-grace.
 
   doAbility() {
+    const ability = this.getAction().getAbility();
 
+    if (ability.type == _attack) { return this.doAttackAbility(); }
+
+    throw `TODO: Execute ability type ${ability.type}`;
+  }
+
+  doAttackAbility() {
+    const action = this.getAction();
+    const result = this.getResult();
+    const actor = this.getActor();
+    const target = this.getTarget();
+
+    const ability = action.getAbility();
+    const abilityLevel = action.getAbilityLevel();
+
+    const attackEvent = new AttackEvent({
+      ability: ability,
+      abilityLevel: abilityLevel,
+      targetSlot: (ability.targetSlot || this.chooseTargetSlot()),
+    });
+
+    console.log("=== Do Attack Ability ===");
+    console.log('Action',action.pack());
+    console.log('Ability',ability.pack());
+
+    this.rollAttack((ability.hitBonus || 0) + actor.getBaseHit(), attackEvent);
+    this.rollDamage(attackEvent);
+    this.updateCondition(attackEvent);
+    this.updateStatus(attackEvent);
+    this.commitDamage(attackEvent);
+    this.checkCondition(attackEvent);
+
+  //   result.selectStory();
+    actor.useAbility(ability.code, attackEvent);
+
+    console.log(attackEvent.pack());
   }
 
   // === Atack Round ===========================================================
@@ -160,29 +199,29 @@ global.CombatRound = class CombatRound {
   // over the range.
   getAttributeBonus(attackEvent) {
     let attributes = this.getActor().getAttributes();
+    let ability = attackEvent.getAbility();
     let weapon = attackEvent.getWeapon();
 
     if (weapon) {
       return attributes.getModifier(weapon.getWeaponType().attribute);
     }
 
-    // TODO Reimplement Ability attribute bonus
-    // let ability = this.getAbility();
-    // if (ability && ability.type == _attack) {
-    //   let attribute = (ability.range == _long) ? _dex : _str;
-    //   return attributes.getModifier(attribute);
-    // }
+    if (ability) {
+      return attributes.getModifier(ability.range == _long ? _dex : _str)
+    }
 
     return 0;
   }
 
+  // TODO: Apply critical miss penaltys.
+  // TODO: attackEvent.getAbilityLevel() will sometimes modify ability damage.
   rollDamage(attackEvent, bonusDamage=0) {
-    if (attackEvent.isCriticalMiss()) { return; } // and apply critical miss penalty.
+    if (attackEvent.isCriticalMiss()) { return; }
     if (attackEvent.isMiss()) { return; }
 
     let damage;
     if (attackEvent.getWeapon()) { damage = attackEvent.getWeapon().getDamage(); }
-    // Some abilities will not do damage.
+    if (attackEvent.getAbility()) { damage = attackEvent.getAbility().damage; }
     if (damage == null) { return; }
 
     let rawDamage = Random.rollDice(damage);
@@ -199,6 +238,36 @@ global.CombatRound = class CombatRound {
   commitDamage(attackEvent) {
     if (attackEvent.getAttackDamage() > 0) {
       this.getTarget().doDamage(attackEvent.getAttackDamage());
+    }
+  }
+
+  updateCondition(attackEvent) {
+    let ability = attackEvent.getAbility();
+
+    if (ability.setCondition && attackEvent.isValidWhen(ability.setCondition.when)) {
+      attackEvent.addConditionChange({ on:ability.setCondition.on, set:ability.setCondition.condition });
+      if (ability.setCondition.on == _self) {
+        return this.getActor().getCondition().setCondition(ability.setCondition.condition);
+      }
+      if (ability.setCondition.on == _single) {
+        return this.getTarget().getCondition().setCondition(ability.setCondition.condition);
+      }
+      throw `TODO: Handle ability.setCondition.on=${ability.setCondition.on}`
+    }
+  }
+
+  updateStatus(attackEvent) {
+    let ability = attackEvent.getAbility();
+
+    if (ability.addStatus && attackEvent.isValidWhen(ability.addStatus.when)) {
+      attackEvent.addStatusChange({ on:ability.addStatus.on, add:ability.addStatus.status });
+      if (ability.addStatus.on == _self) {
+        return this.getActor().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
+      }
+      if (ability.addStatus.on == _single) {
+        return this.getTarget().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
+      }
+      throw `TODO: Handle ability.addStatus.on=${ability.addStatus.on}`
     }
   }
 

@@ -1,6 +1,8 @@
 global.AttackEvent = class AttackEvent {
 
   #targetSlot;
+  #ability;
+  #abilityLevel;
   #weapon;
   #weaponMode;
 
@@ -9,6 +11,9 @@ global.AttackEvent = class AttackEvent {
   #attackResult;
   #attackDamage;
 
+  #conditionChanges;
+  #statusChanges;
+
   #actionStory;
   #resultStory;
 
@@ -16,13 +21,20 @@ global.AttackEvent = class AttackEvent {
 
   constructor(options) {
     this.#targetSlot = options.targetSlot;
+    this.#ability = options.ability;
+    this.#abilityLevel = options.abilityLevel;
     this.#weapon = options.weapon;
     this.#weaponMode = options.weaponMode;
+
+    this.#conditionChanges = [];
+    this.#statusChanges = [];
 
     this.#isTargetFallen = false;
   }
 
   getTargetSlot() { return this.#targetSlot; }
+  getAbility() { return this.#ability; }
+  getAbilityLevel() { return this.#abilityLevel; }
   getWeaponMode() { return this.#weaponMode; }
   getWeapon() { return this.#weapon; }
 
@@ -54,19 +66,40 @@ global.AttackEvent = class AttackEvent {
   setTargetFallen() { this.#isTargetFallen = true; }
   isTargetFallen() { return this.#isTargetFallen; }
 
-  pack() {
-    let packed = {
-      targetSlot: this.#targetSlot,
-      weapon: this.#weapon.getName(),
-      weaponMode: this.#weaponMode,
-    };
+  // === Status & Conditions ===================================================
 
+  isConditionChanged() { return this.#conditionChanges.length > 0; }
+  getConditionChanges() { return this.#conditionChanges; }
+  addConditionChange(change) { this.#conditionChanges.push(change); }
+
+  isStatusChanged() { return this.#statusChanges.length > 0; }
+  getStatusChanges() { return this.#statusChanges; }
+  addStatusChange(change) { this.#statusChanges.push(change); }
+
+  isValidWhen(when) {
+    if (when == _always)  { return true; }
+    if (when == _success) { return this.isSuccess(); }
+    if (then == _failure) { return this.isFailure(); }
+  }
+
+  // ===========================================================================
+
+  pack() {
+    let packed = { targetSlot:this.#targetSlot };
+
+    if (this.#ability)      { packed.ability = this.#ability;           }
+    if (this.#abilityLevel) { packed.abilityLevel = this.#abilityLevel; }
+    if (this.#weapon)       { packed.weapon = this.#weapon.getName();   }
+    if (this.#weaponMode)   { packed.weaponMode = this.#weaponMode;     }
     if (this.#attackResult) { packed.attackResult = this.#attackResult; }
-    if (this.#attackRoll)   { packed.attackRoll = this.#attackRoll; }
-    if (this.#attackBonus)  { packed.attackBonus = this.#attackBonus; }
+    if (this.#attackRoll)   { packed.attackRoll = this.#attackRoll;     }
+    if (this.#attackBonus)  { packed.attackBonus = this.#attackBonus;   }
     if (this.#attackDamage) { packed.attackDamage = this.#attackDamage; }
-    if (this.#actionStory)  { packed.actionStory = this.#actionStory; }
-    if (this.#resultStory)  { packed.resultStory = this.#resultStory; }
+    if (this.#actionStory)  { packed.actionStory = this.#actionStory;   }
+    if (this.#resultStory)  { packed.resultStory = this.#resultStory;   }
+
+    if (this.#conditionChanges.length > 0) { packed.conditionChanges = this.#conditionChanges; }
+    if (this.#statusChanges.length > 0)    { packed.statusChanges = this.#statusChanges;       }
 
     if (this.isTargetFallen()) { packed.isTargetFallen = true; }
 

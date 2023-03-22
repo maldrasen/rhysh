@@ -17,7 +17,7 @@ global.ArcanumLevel = class ArcanumLevel {
   getExperience() { return this.#experience; }
 
   // TODO: Arcanum will gain experience when spells from that arcanum are cast
-  addExperience() {}
+  addExperience(info) {}
 
   // TODO: The Arcanum level will determine which spells (which I'm assuming
   //       we'll just implement as abilities) are currently unlocked. This will

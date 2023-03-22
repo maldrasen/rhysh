@@ -26,7 +26,7 @@ global.PowerLevel = class PowerLevel {
   //       skill tree that you can add points into. A lot like WoW, but with a
   //       tree for each power like ability.
   //
-  addExperience() {}
+  addExperience(info) {}
 
   // === Persistance ===========================================================
 

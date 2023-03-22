@@ -193,6 +193,13 @@ global.Character = class Character {
     return spells;
   }
 
+  useAbility(code, info) {
+    let ability = Ability.lookup(code);
+    if (ability.cooldown) { this.#cooldownTable.set(code,ability.cooldown); }
+    if (ability.fromPower) { this.getPower(ability.fromPower).addExperience(info); }
+    if (ability.fromGnosis) { this.getGnosis(ability.fromGnosis).addExperience(info); }
+  }
+
   // === Experience ============================================================
 
   gainExperience(points) {}

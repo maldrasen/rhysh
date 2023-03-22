@@ -137,7 +137,7 @@ global.Monster = class Monster {
   // This should be called every time an ability is used in order to set the
   // ability cooldown if the ability has a cooldown. This may do other things
   // as well.
-  useAbility(code) {
+  useAbility(code, _) {
     let ability = Ability.lookup(code);
     if (ability.cooldown) {
       this.#cooldownTable.set(code,ability.cooldown);

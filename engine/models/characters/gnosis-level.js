@@ -18,7 +18,7 @@ global.GnosisLevel = class GnosisLevel {
 
   // TODO: Gnosis will gain experience when abilities within the gnosis are
   //       used.
-  addExperience() {}
+  addExperience(info) {}
 
   // TODO: The Gnosis level will determine which abilities are currently
   //       unlocked. This will need to return an array of ability codes.
