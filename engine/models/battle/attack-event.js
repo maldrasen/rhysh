@@ -61,12 +61,12 @@ global.AttackEvent = class AttackEvent {
       weaponMode: this.#weaponMode,
     };
 
-    if (this.#attackRoll) { packed.attackRoll = this.#attackRoll; }
-    if (this.#attackBonus) { packed.attackBonus = this.#attackBonus; }
     if (this.#attackResult) { packed.attackResult = this.#attackResult; }
+    if (this.#attackRoll)   { packed.attackRoll = this.#attackRoll; }
+    if (this.#attackBonus)  { packed.attackBonus = this.#attackBonus; }
     if (this.#attackDamage) { packed.attackDamage = this.#attackDamage; }
-    if (this.#actionStory) { packed.actionStory = this.#actionStory; }
-    if (this.#resultStory) { packed.resultStory = this.#resultStory; }
+    if (this.#actionStory)  { packed.actionStory = this.#actionStory; }
+    if (this.#resultStory)  { packed.resultStory = this.#resultStory; }
 
     if (this.isTargetFallen()) { packed.isTargetFallen = true; }
 

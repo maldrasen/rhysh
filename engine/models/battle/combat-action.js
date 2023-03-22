@@ -56,6 +56,9 @@ global.CombatAction = class CombatAction {
   getTargetType() { return this.#targetType; }
   getTargetRank() { return this.#targetRank; }
   getTargetIdentifier() { return this.#targetIdentifier; }
+  getTargetClassname() { return this.#targetClassname; }
+  isTargetMonster() { return this.#targetClassname == _monsterActor; }
+  isTargetCharacter() { return this.#targetClassname == _characterActor; }
   setTargetClassname(classname) { this.#targetClassname = classname; }
 
   // Need to add an ability that targets a group to make sure that's

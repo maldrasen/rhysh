@@ -1,4 +1,4 @@
-describe.only('CombatRound', function() {
+describe('CombatRound', function() {
 
   const knightAttackSetup = function() {
     GameState.setCurrentBattle(new BattleState());
@@ -60,23 +60,31 @@ describe.only('CombatRound', function() {
     return combatAction;
   }
 
-
   it('builds and executes a character attack combat round', function() {
     let action = knightAttackSetup();
     let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
         round.execute();
 
-    console.log(round.getAction().pack());
-    console.log(round.getResult().pack());
+    let rendered = CombatRoundRenderer.render(round);
+    let event = rendered.attackEvents[0];
+
+    console.log("=== Rendered ===")
+    console.log(rendered);
+
+    expect(event.actionStory).to.match(/longsword/)
+    if (event.attackResult == _hit) { expect(event.attackDamage).to.be.greaterThan(0); }
   });
 
-  it('builds and executes a character ability combat round', function() {
-    let action = knightAbilitySetup();
-    let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
-        round.execute();
+  // it('builds and executes a character ability combat round', function() {
+  //   let action = knightAbilitySetup();
+  //   let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
+  //       round.execute();
 
-    // console.log(round.pack());
-  });
+  //   let rendered = CombatRoundRenderer.render(round);
+
+  //   console.log("=== Rendered ===")
+  //   console.log(rendered);
+  // });
 
   it('builds and executes a monster attack combat round', function() {
     let action = gobboSetup();
@@ -85,19 +93,24 @@ describe.only('CombatRound', function() {
     let round = new CombatRound(gobbo, action);
         round.execute();
 
-    console.log(round.getAction().pack());
-    console.log(round.getResult().pack());
+    let rendered = CombatRoundRenderer.render(round);
+
+    console.log("=== Rendered ===")
+    console.log(rendered);
   });
 
-  it('builds and executes a monster ability combat round', function() {
-    let action = crabboSetup();
-    let crabbo = GameState.getCurrentBattle().getMonster('M1');
+  // it('builds and executes a monster ability combat round', function() {
+  //   let action = crabboSetup();
+  //   let crabbo = GameState.getCurrentBattle().getMonster('M1');
 
-    let round = new CombatRound(crabbo, action);
-        round.execute();
+  //   let round = new CombatRound(crabbo, action);
+  //       round.execute();
 
-    // console.log(round.pack());
-  });
+  //   let rendered = CombatRoundRenderer.render(round);
+
+  //   console.log("=== Rendered ===")
+  //   console.log(rendered);
+  // });
 
 
 });

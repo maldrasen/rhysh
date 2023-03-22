@@ -22,15 +22,8 @@ global.BattleRenderer = (function() {
   function renderCombatEvent(event) {
     if (event.action.isNothing()) { return; }
 
-    const context = new Context({
-    //   combatResult: combatResult,
-    //   combatRound: combatRound,
-      actor: event.action.getActor(),
-      target: event.action.getTarget(),
-    });
-
     const renderedEvent = {
-      actorType: event.actorType,
+
     };
 
     console.log("=== Render Event ===");
@@ -39,13 +32,7 @@ global.BattleRenderer = (function() {
 
 
 
-    //   const rendered = {
-    //     actorType: combatRound.getActorType(),
-    //     segments: []
-    //   };
 
-    //   if (rendered.actorType == _characterActor) { rendered.characterCode = combatRound.getActor().getCode(); }
-    //   if (rendered.actorType == _monsterActor) { rendered.monsterID = combatRound.getActor().getID(); }
 
     //   rendered.segments.push(renderAttemptSegment(combatResult, context));
 
@@ -81,13 +68,6 @@ global.BattleRenderer = (function() {
         console.log(' - ',JSON.stringify(segment));
       });
     }
-  }
-
-  function renderAttemptSegment(combatResult, context) {
-    let story = combatResult.getStory()
-    let text = Weaver.weave(story.actionText, context);
-
-    return { type:_attempt, text:text };
   }
 
   function renderFailureSegment(combatResult, context) {

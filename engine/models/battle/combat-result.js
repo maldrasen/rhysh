@@ -6,17 +6,16 @@ global.CombatResult = class CombatResult {
   #attackEvents;
 
   constructor(round) {
-    this.#combatRound = round
+    this.#combatRound = round;
     this.#attackEvents = [];
   }
 
-  setActionStory(text) {
-    this.#actionStory = Weaver.weave(text, this.getContext());
-  }
+  getActionStory() { return this.#actionStory; }
+  setActionStory(text) { this.#actionStory = Weaver.weave(text, this.getContext()); }
 
-  addAttackEvent(event) {
-    this.#attackEvents.push(event);
-  }
+  hasAttackEvents() { return this.#attackEvents.length > 0; }
+  getAttackEvents() { return this.#attackEvents; }
+  addAttackEvent(event) { this.#attackEvents.push(event); }
 
   // Fixme: These old properties may not work now that this class is completely
   //        different.
