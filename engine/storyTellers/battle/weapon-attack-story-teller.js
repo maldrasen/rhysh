@@ -65,6 +65,10 @@ global.WeaponAttackStoryTeller = (function() {
     return Weaver.weave(text, options.context);
   }
 
+
+      // `{{T::Name's}} {{battle|target-slot-word}} was delt a critical blow!`:
+      // `Hit {{T::name's}} {{battle|target-slot-word}}.`
+
   function tellMissStory(event) {
     return '(TODO:Miss)';
   }

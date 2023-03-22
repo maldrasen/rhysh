@@ -81,6 +81,73 @@ global.CombatRoundRenderer = (function() {
     return rendered;
   }
 
+  /* --- From old renderer ---
+
+  function renderStatusSegment(statusChange, context) {
+    let text;
+    let severity;
+
+    if (statusChange.on == _single) {
+      if (statusChange.add == _boundLegs) {
+        text = `{{T::name's}} legs are bound.`;
+        severity = 'bad';
+      }
+      if (statusChange.add == _boundArms) {
+        text = `{{T::name's}} arms are bound.`;
+        severity = 'bad';
+      }
+    }
+
+    if (text == null) {
+      throw `TODO: Render this condition ${statusChange.on}:${statusChange.add}`;
+    }
+
+    return {
+      type: _statusChange,
+      text: Weaver.weave(text, context),
+      severity: severity
+    };
+  }
+
+  function renderConditionSegment(conditionChange, context) {
+    let text;
+    let severity;
+
+    if (conditionChange.on == _self) {
+      if (conditionChange.set == _prone) {
+        text = `{{A::Name}} falls prone.`
+        severity = 'bad'
+      }
+
+      // No need to mention holds as that would be redundant.
+      if (conditionChange.set == _holdingLegs) { return null; }
+      if (conditionChange.set == _holdingArms) { return null; }
+    }
+
+    if (text == null) {
+      throw `TODO: Render this condition ${conditionChange.on}:${conditionChange.set}`;
+    }
+
+    return {
+      type: _conditionChange,
+      text: Weaver.weave(text, context),
+      severity: severity
+    };
+  }
+
+  function renderTriggerSegment(trigger, context) {
+    if (trigger == 'main-character-fainted') {
+      let text =`<span class='main-character-faints'>{{T::name}} faints!</span>`;
+      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
+    }
+    if (trigger == 'main-character-killed') {
+      let text = `<span class='main-character-killed'>{{T::name}} was killed!</span>`;
+      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
+    }
+    throw `TODO: Implement trigger ${trigger}`;
+  }
+*/
+
   return { render };
 
 })();

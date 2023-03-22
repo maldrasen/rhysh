@@ -1,11 +1,9 @@
 global.BattleEngine = class BattleEngine {
 
-  #battleEvents;
   #initiativeOrder;
   #characterActions;
 
   constructor(orders) {
-    this.#battleEvents = [];
     this.#initiativeOrder = {};
     this.#characterActions = {};
 
@@ -15,6 +13,8 @@ global.BattleEngine = class BattleEngine {
   }
 
   execute() {
+    const combatRounds = [];
+
     try {
       let state = GameState.getCurrentBattle();
           state.startRound();
@@ -27,15 +27,9 @@ global.BattleEngine = class BattleEngine {
           let action = MonsterAI.chooseCombatAction(monster);
 
           let round = new CombatRound(monster, action);
+              round.execute();
 
-          // let round = new MonsterCombatRound(monster, action);
-          //     round.execute();
-
-          this.#battleEvents.push({
-            actorType: _monsterActor,
-            action: action,
-            result: null,
-          });
+          combatRounds.push(CombatRoundRenderer.render(round));
         }
 
         if (initiative.type == _characterInitiative) {
@@ -43,15 +37,9 @@ global.BattleEngine = class BattleEngine {
           let action = this.#characterActions[initiative.id];
 
           let round = new CombatRound(character, action);
+              round.execute();
 
-          // let round = new CharacterCombatRound(character, action);
-          //     round.execute();
-
-          this.#battleEvents.push({
-            actorType: _characterActor,
-            action: action,
-            result: null,
-          });
+          combatRounds.push(CombatRoundRenderer.render(round));
         }
       });
 
@@ -62,7 +50,7 @@ global.BattleEngine = class BattleEngine {
       console.error(error);
     }
 
-    return this.#battleEvents;
+    return combatRounds;
   }
 
   // === Initiative ============================================================
@@ -131,5 +119,4 @@ global.BattleEngine = class BattleEngine {
 
     return combatAction;
   }
-
 }
