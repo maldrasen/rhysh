@@ -3,7 +3,6 @@ global.CombatRoundRenderer = (function() {
   function render(combatRound) {
     const action = combatRound.getAction();
     const result = combatRound.getResult();
-    const target = combatRound.getTarget();
 
     const rendered = {
       actor: renderActor(action),
@@ -20,7 +19,8 @@ global.CombatRoundRenderer = (function() {
       });
     }
 
-    if (target) {
+    if (action.isSingleTarget()) {
+      const target = combatRound.getTarget();
       if (target.getCondition().hasCondition(_dead)) { rendered.targetCondition = _dead; }
       if (target.getCondition().hasCondition(_fainted)) {  rendered.targetCondition = _fainted; }
     }
@@ -46,8 +46,15 @@ global.CombatRoundRenderer = (function() {
   function renderTarget(action) {
     const rendered = { targetType:action.getTargetType() };
 
-    if (rendered.targetType == _single) {
-      console.log("Wat?",action.getTargetIdentifier(),action.getTargetClassname());
+    // We shouldn't need any more details if the target is one of these.
+    if (rendered.targetType == _none) { return rendered; }
+    if (rendered.targetType == _allMonsters) { return rendered; }
+    if (rendered.targetType == _allCharacters) { return rendered; }
+    if (rendered.targetType == _everyone) { return rendered; }
+
+    // If the combat round has a single target include their id or code and
+    // position. Self target should be both target and actor.
+    if (action.isSingleTarget()) {
       if (action.isTargetMonster()) {
         rendered.monsterID = action.getTargetIdentifier();
       }
@@ -58,7 +65,13 @@ global.CombatRoundRenderer = (function() {
       return rendered;
     }
 
-    throw `Render Target Type: ${rendered.targetType}`;
+    if (rendered.targetType == _rank) {
+      return { ...rendered, targetRank:action.getTargetRank() };
+    }
+
+    // A target type like random should have been turned into something else by
+    // now.
+    throw `Unsupported Target Type: ${rendered.targetType}`;
   }
 
   function renderAttackEvent(event, combatRound) {

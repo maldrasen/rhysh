@@ -35,6 +35,7 @@ global.CombatRound = class CombatRound {
     const ability = this.getAction().getAbility();
 
     if (ability.type == _attack) { return this.doAttackAbility(); }
+    if (ability.type == _spell) { return this.doSpellAbility(); }
 
     throw `TODO: Execute ability type ${ability.type}`;
   }
@@ -77,6 +78,10 @@ global.CombatRound = class CombatRound {
     actor.useAbility(ability.code, attackEvent);
 
     this.getResult().addAttackEvent(attackEvent);
+  }
+
+  doSpellAbility() {
+
   }
 
   // === Atack Round ===========================================================

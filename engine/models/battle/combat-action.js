@@ -69,6 +69,8 @@ global.CombatAction = class CombatAction {
   getTargetClassname() { return this.#targetClassname; }
   setTargetClassname(classname) { this.#targetClassname = classname; }
 
+  isSingleTarget() { return [_single,_self].indexOf(this.#targetType) >= 0; }
+
   // Need to add an ability that targets a group to make sure that's
   // implemented correctly.
   getTarget() {

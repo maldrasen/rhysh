@@ -95,16 +95,18 @@ describe('CombatRound', function() {
     if (event.attackResult == _hit) { expect(event.attackDamage).to.be.greaterThan(0); }
   });
 
-  // it('builds and executes a character ability combat round', function() {
-  //   let action = knightAbilitySetup();
-  //   let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
-  //       round.execute();
+  it.only('builds and executes a character ability combat round', function() {
+    let action = knightAbilitySetup();
+    let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
+        round.execute();
 
-  //   let rendered = CombatRoundRenderer.render(round);
+    let rendered = CombatRoundRenderer.render(round);
 
-  //   console.log("=== Rendered ===")
-    // console.log(JSON.stringify(rendered));
-  // });
+    console.log("=== Round ===")
+    console.log(round.pack());
+    console.log("=== Rendered ===")
+    console.log(JSON.stringify(rendered));
+  });
 
   it('builds and executes a monster attack combat round', function() {
     let action = gobboAttackSetup();
