@@ -11,4 +11,6 @@ const terrify = new Ability('terrify',{
   icon: `../assets/icons/ability-terrify.png`,
 });
 
+terrify.addActionStory({ text:`{{A::Name}} unleashes {{A::his}} horrifying presence!` });
+
 Ability.register(terrify);

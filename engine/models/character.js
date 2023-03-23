@@ -132,7 +132,8 @@ global.Character = class Character {
 
   // === Members ===============================================================
 
-  rollForInitiative() { return RollsInitiative.rollFor(this); }
+  rollSavingThrow(save) { return RollSavingThrow.roll(this, save) }
+  rollForInitiative() { return RollInitiative.rollFor(this); }
   isCockExposed() { return CheckEquipment.isCockExposed(this); }
   isPussyExposed() { return CheckEquipment.isPussyExposed(this); }
   areTitsExposed() { return CheckEquipment.areTitsExposed(this); }

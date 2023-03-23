@@ -1,4 +1,4 @@
-global.RollsInitiative = (function() {
+global.RollInitiative = (function() {
 
   // And add character modifiers. Are
   function rollFor(character) {

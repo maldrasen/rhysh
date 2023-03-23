@@ -10,6 +10,7 @@ global.CombatResult = class CombatResult {
     this.#combatEvents = [];
   }
 
+  getCombatRound() { return this.#combatRound; }
   getActionStory() { return this.#actionStory; }
   setActionStory(text) { this.#actionStory = Weaver.weave(text, this.getContext()); }
 
@@ -17,17 +18,17 @@ global.CombatResult = class CombatResult {
   getCombatEvents() { return this.#combatEvents; }
   addCombatEvent(event) { this.#combatEvents.push(event); }
 
-  // Fixme: These old properties may not work now that this class is completely
-  //        different.
-  //
-  // combatResult: this,
-  // combatRound: this.#combatRound,
-  //
+  // The context will only have a target if this is a single target action.
   getContext() {
-    return new Context({
-      actor: this.#combatRound.getActor(),
-      target: this.#combatRound.getTarget(),
-    });
+    const round = this.getCombatRound();
+    const action = round.getAction();
+    const context = new Context({ actor:round.getActor() });
+
+    if (action.isSingleTarget()) {
+      context.set('target',round.getTarget());
+    }
+
+    return context;
   }
 
   // TODO: If the target dies or the attacker critically fails then they stop

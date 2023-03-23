@@ -85,9 +85,10 @@ global.CombatEvent = class CombatEvent {
   // ===========================================================================
 
   pack() {
-    let packed = { targetSlot:this.#targetSlot };
+    let packed = {};
 
-    if (this.#ability)      { packed.ability = this.#ability;           }
+    if (this.#targetSlot)   { packed.targetSlot = this.#targetSlot;     }
+    if (this.#ability)      { packed.ability = this.#ability.code;      }
     if (this.#abilityLevel) { packed.abilityLevel = this.#abilityLevel; }
     if (this.#weapon)       { packed.weapon = this.#weapon.getName();   }
     if (this.#weaponMode)   { packed.weaponMode = this.#weaponMode;     }
