@@ -12,14 +12,25 @@ global.RollSavingThrow = (function() {
   function roll(roller, save) {
     $roller = roller;
     $save = save;
+    $category = SavingThrows[save.category];
 
-    let bonus = ($roller.classname == _characterActor) ?
+    if ($save.dc == null) { throw `A save DC is required.` }
+    if ($category == null) { throw `A save category is required.` }
+
+    const result = {
+      label: $category.label,
+      attribute: $category.attribute,
+      roll: Random.rollDice({ d:20 }),
+    }
+
+    result.bonus = ($roller.classname == _characterActor) ?
       calculateChatacterBonus():
       calculateMonsterBonus();
 
-    console.log("Roll Saving Throw",$save);
-  }
+    result.result = (result.roll + result.bonus >= save.dc) ? _savePassed : _saveFailed;
 
+    return result;
+  }
 
   // TODO: It's safe to leave this unimplemented for now. At the very least
   //       I'm going to need to look at the main character, see if they have an
