@@ -250,32 +250,70 @@ global.CombatRound = class CombatRound {
   }
 
   updateCondition(attackEvent) {
-    let ability = attackEvent.getAbility();
+    const ability = attackEvent.getAbility();
+    let changed;
 
     if (ability.setCondition && attackEvent.isValidWhen(ability.setCondition.when)) {
-      attackEvent.addConditionChange({ on:ability.setCondition.on, set:ability.setCondition.condition });
+
       if (ability.setCondition.on == _self) {
-        return this.getActor().getCondition().setCondition(ability.setCondition.condition);
+        changed = this.getActor();
+        changed.getCondition().setCondition(ability.setCondition.condition);
       }
       if (ability.setCondition.on == _single) {
-        return this.getTarget().getCondition().setCondition(ability.setCondition.condition);
+        changed = this.getTarget();
+        changed.getCondition().setCondition(ability.setCondition.condition);
       }
-      throw `TODO: Handle ability.setCondition.on=${ability.setCondition.on}`
+
+      const conditionChange = {
+        condition: ability.setCondition.condition,
+        story: ConditionStoryTeller.tellConditionChangeStory({
+          changed: changed,
+          context: this.getResult().getContext(),
+        }),
+      };
+
+      this.setChangedActor(conditionChange, changed)
+      attackEvent.addConditionChange(conditionChange);
     }
   }
 
   updateStatus(attackEvent) {
-    let ability = attackEvent.getAbility();
+    const ability = attackEvent.getAbility();
+    let changed;
 
     if (ability.addStatus && attackEvent.isValidWhen(ability.addStatus.when)) {
-      attackEvent.addStatusChange({ on:ability.addStatus.on, add:ability.addStatus.status });
+
       if (ability.addStatus.on == _self) {
-        return this.getActor().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
+        changed = this.getActor();
+        changed.getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
       }
       if (ability.addStatus.on == _single) {
-        return this.getTarget().getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
+        changed = this.getTarget();
+        changed.getCondition().setStatus(ability.addStatus.status, ability.addStatus.duration);
       }
-      throw `TODO: Handle ability.addStatus.on=${ability.addStatus.on}`
+
+      const statusChange = {
+        status: ability.addStatus.status,
+        story: StatusStoryTeller.tellStatusChangeStory({
+          changed: changed,
+          context: this.getResult().getContext(),
+        }),
+      };
+
+      this.setChangedActor(statusChange, changed)
+      attackEvent.addStatusChange(statusChange);
+    }
+  }
+
+  setChangedActor(change, changed) {
+    if (changed.classname == _monsterActor) {
+      change.changedType = _monsterActor;
+      change.changedID = changed.getID();
+    }
+    if (changed.classname == _characterActor) {
+      change.changedType = _characterActor;
+      change.changedCode = changed.getCode();
+      change.changedPosition = changed.getPosition();
     }
   }
 

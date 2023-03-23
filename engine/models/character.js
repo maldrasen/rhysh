@@ -102,9 +102,8 @@ global.Character = class Character {
 
   // === Calculated Values =====================================================
 
-  getBaseArmorClass() {
-    return this.getSpecies().baseArmorClass;
-  }
+  getBaseArmorClass() { return this.getSpecies().baseArmorClass; }
+  getPosition() { return CharacterLibrary.getCharacterPosition(this.#code); }
 
   getBaseHit() {
     let factor = {

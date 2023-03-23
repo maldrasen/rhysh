@@ -54,23 +54,22 @@ global.CombatRoundRenderer = (function() {
         rendered.characterCode = action.getTargetIdentifier();
         rendered.characterPosition = CharacterLibrary.getCharacterPosition(action.getTargetIdentifier());
       }
+      return rendered;
     }
 
-    // TODO: Render other target types...
-
-    return rendered;
+    throw `Render Target Type: ${rendered.targetType}`;
   }
 
-  function renderAttackEvent(action, combatRound) {
+  function renderAttackEvent(event, combatRound) {
     const condition = combatRound.getTarget().getCondition();
     const rendered = {};
 
-    if (action.getAttackResult()) { rendered.attackResult = action.getAttackResult(); }
-    if (action.getAttackRoll())   { rendered.attackRoll =   action.getAttackRoll();   }
-    if (action.getAttackBonus())  { rendered.attackBonus =  action.getAttackBonus();  }
-    if (action.getAttackDamage()) { rendered.attackDamage = action.getAttackDamage(); }
-    if (action.getActionStory())  { rendered.actionStory =  action.getActionStory();  }
-    if (action.getResultStory())  { rendered.resultStory =  action.getResultStory();  }
+    if (event.getAttackResult()) { rendered.attackResult = event.getAttackResult(); }
+    if (event.getAttackRoll())   { rendered.attackRoll =   event.getAttackRoll();   }
+    if (event.getAttackBonus())  { rendered.attackBonus =  event.getAttackBonus();  }
+    if (event.getAttackDamage()) { rendered.attackDamage = event.getAttackDamage(); }
+    if (event.getActionStory())  { rendered.actionStory =  event.getActionStory();  }
+    if (event.getResultStory())  { rendered.resultStory =  event.getResultStory();  }
 
     if (rendered.attackDamage) {
       rendered.targetHitPoints = condition.getCurrentHitPoints();
@@ -78,78 +77,29 @@ global.CombatRoundRenderer = (function() {
       rendered.targetHealth = condition.getHealth();
     }
 
-    if (action.isTargetFallen()) { rendered.targetFallen = true; }
+    if (event.isStatusChanged()) { rendered.statusChanges = renderStatusChanges(event, combatRound); }
+    if (event.isConditionChanged()) { rendered.conditionChanges = renderConditionChanges(event, combatRound); }
+    if (event.isTargetFallen()) { rendered.targetFallen = true; }
 
     return rendered;
   }
 
-  /* --- From old renderer ---
-
-  function renderStatusSegment(statusChange, context) {
-    let text;
-    let severity;
-
-    if (statusChange.on == _single) {
-      if (statusChange.add == _boundLegs) {
-        text = `{{T::name's}} legs are bound.`;
-        severity = 'bad';
-      }
-      if (statusChange.add == _boundArms) {
-        text = `{{T::name's}} arms are bound.`;
-        severity = 'bad';
-      }
-    }
-
-    if (text == null) {
-      throw `TODO: Render this condition ${statusChange.on}:${statusChange.add}`;
-    }
-
-    return {
-      type: _statusChange,
-      text: Weaver.weave(text, context),
-      severity: severity
-    };
+  function renderConditionChanges(event, combatRound) {
+    return event.getConditionChanges().map(change => renderConditionChange(change, event, combatRound));
   }
 
-  function renderConditionSegment(conditionChange, context) {
-    let text;
-    let severity;
-
-    if (conditionChange.on == _self) {
-      if (conditionChange.set == _prone) {
-        text = `{{A::Name}} falls prone.`
-        severity = 'bad'
-      }
-
-      // No need to mention holds as that would be redundant.
-      if (conditionChange.set == _holdingLegs) { return null; }
-      if (conditionChange.set == _holdingArms) { return null; }
-    }
-
-    if (text == null) {
-      throw `TODO: Render this condition ${conditionChange.on}:${conditionChange.set}`;
-    }
-
-    return {
-      type: _conditionChange,
-      text: Weaver.weave(text, context),
-      severity: severity
-    };
+  function renderStatusChanges(event, combatRound) {
+    return event.getStatusChanges().map(change => renderStatusChange(change, event, combatRound));
   }
 
-  function renderTriggerSegment(trigger, context) {
-    if (trigger == 'main-character-fainted') {
-      let text =`<span class='main-character-faints'>{{T::name}} faints!</span>`;
-      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
-    }
-    if (trigger == 'main-character-killed') {
-      let text = `<span class='main-character-killed'>{{T::name}} was killed!</span>`;
-      return { type:_trigger, triggers:'game-over', text:Weaver.weave(text,context)};
-    }
-    throw `TODO: Implement trigger ${trigger}`;
+  function renderConditionChange(change, event, combatRound) {
+    console.log("Render Condition Change:",change)
   }
-*/
 
-  return { render, renderActor };
+  function renderStatusChange(change, event, combatRound) {
+    console.log("Render Condition Change:",change)
+  }
+
+  return { render };
 
 })();

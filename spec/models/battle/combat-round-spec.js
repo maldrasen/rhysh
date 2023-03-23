@@ -138,8 +138,8 @@ describe('CombatRound', function() {
 
     let rendered = CombatRoundRenderer.render(round);
 
-    // console.log("=== Rendered ===")
-    // console.log(rendered);
+    console.log("=== Rendered ===")
+    console.log(rendered);
   });
 
 });
