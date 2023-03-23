@@ -21,148 +21,22 @@ global.CombatRound = class CombatRound {
     new TargetComputer(this).updateTarget();
 
     if (this.#action.isNothing()) { return; }
-    if (this.#action.isAttack()) { return this.doAttack(); }
-    if (this.#action.isAbility()) { return this.doAbility(); }
+    if (this.#action.isAttack()) { return AttackWithWeapon.execute(this); }
+    if (this.#action.isAbility()) { return this.executeAbility(); }
+
     throw `Unhandled action type: ${this.#action.getActionType()}`;
   }
 
-  // === Ability Round =========================================================
-  // TODO: Some abilities won't have a target.
-  // TODO: Some abilities won't roll to hit.
-  // TODO: Handle different ability types: attack, hold, coup-de-grace.
-
-  doAbility() {
+  executeAbility() {
     const ability = this.getAction().getAbility();
 
-    if (ability.type == _attack) { return this.doAttackAbility(); }
-    if (ability.type == _spell) { return this.doSpellAbility(); }
+    if (ability.type == _attack) { return AttackWithAbility.execute(this); }
+    if (ability.type == _spell) {
+      if (ability.spellType == _areaOfEffect) { return CastAreaOfEffect.execute(this); }
+      if (ability.spellType == _selfBuff) { return CastSelfBuff.execute(this); }
+    }
 
     throw `TODO: Execute ability type ${ability.type}`;
-  }
-
-  doAttackAbility() {
-    const action = this.getAction();
-    const actor = this.getActor();
-    const ability = action.getAbility();
-    const abilityLevel = action.getAbilityLevel();
-
-    const event = new CombatEvent({
-      ability: ability,
-      abilityLevel: abilityLevel,
-      targetSlot: (ability.targetSlot || this.chooseTargetSlot()),
-    });
-
-    const context = this.getResult().getContext();
-          context.set('combatEvent',event);
-
-    event.setActionStory(AbilityStoryTeller.tellActionStory({
-      context: context,
-      ability: ability,
-      abilityLevel: abilityLevel,
-    }));
-
-    this.rollAttack((ability.hitBonus || 0) + actor.getBaseHit(), event);
-    this.rollDamage(event);
-    this.updateCondition(event);
-    this.updateStatus(event);
-    this.commitDamage(event);
-    this.checkCondition(event);
-
-    event.setResultStory(AbilityStoryTeller.tellResultStory({
-      context: context,
-      ability: ability,
-      abilityLevel: abilityLevel,
-      combatEvent: event,
-    }));
-
-    actor.useAbility(ability.code, event);
-
-    this.getResult().addCombatEvent(event);
-  }
-
-  doSpellAbility() {
-    const action = this.getAction();
-    const ability = action.getAbility();
-  }
-
-  // === Atack Round ===========================================================
-
-  doAttack() {
-    const action = this.getAction();
-    const actor = action.getActor();
-    const mainHand = actor.getMainHand();
-    const offHand = actor.getOffHand();
-    const offHandPenalty = actor.getOffHandAttackPenalty();
-
-    let hit = actor.getBaseHit();
-    let mainMode = action.getMainMode();
-    let offMode = action.getOffMode();
-
-    if (mainHand && mainMode == null) { mainMode = mainHand.getRandomMode() }
-    if (offHand && offMode == null) { offMode = offHand.getRandomMode() }
-
-    const mainIsAttack = this.isWeaponAttackMode(mainMode)
-    const offIsAttack = this.isWeaponAttackMode(offMode)
-
-    if (mainMode && mainIsAttack == false) { this.useEquipment(mainHand, mainMode); }
-    if (offMode && offIsAttack == false) { this.useEquipment(offHand, offMode); }
-
-    while(hit >= 0 && this.#result.canContinueAttacking()) {
-      if (mainIsAttack) { this.doSingleAttack(hit, mainHand, mainMode); }
-      if (offIsAttack) { this.doSingleAttack(hit + offHandPenalty, offHand, offMode); }
-      hit = hit - 5;
-    }
-  }
-
-  doSingleAttack(currentHit, weapon, mode) {
-    const context = this.getResult().getContext();
-
-    const event = new CombatEvent({
-      weapon: weapon,
-      weaponMode: mode,
-      targetSlot: this.chooseTargetSlot(),
-    });
-
-    event.setActionStory(WeaponAttackStoryTeller.tellActionStory({
-      context: context,
-      weapon: weapon,
-      mode: mode,
-    }));
-
-    this.rollAttack(currentHit, event);
-    this.rollDamage(event);
-    this.commitDamage(event);
-    this.checkCondition(event);
-
-    event.setResultStory(WeaponAttackStoryTeller.tellResultStory({
-      context: context,
-      combatEvent: event,
-    }));
-
-    this.getResult().addCombatEvent(event);
-  }
-
-  useEquipment(equipment, mode) {
-    if (mode == _block) { return; }
-
-    if (mode == _parry) {
-      this.getActor().getCondition().setStatus(_defensive);
-      this.getResult().setActionStory(`{{A::Name}} parries with {{A::his}} {{A::weapon.main-hand.name}}.`);
-      return;
-    }
-
-    if (mode == _riposte) {
-      this.getActor().getCondition().setStatus(_riposte);
-      this.getResult().setActionStory(`{{A::Name}} readies {{A::his}} {{A::weapon.main-hand.name}} for a
-        counter attack.`);
-      return;
-    }
-
-    throw `TODO: Implement using ${equipment.getName()} in ${mode} mode.`
-  }
-
-  isWeaponAttackMode(mode) {
-    return (mode) ? ([_block,_parry,_riposte,_entangle].indexOf(mode) < 0) : false;
   }
 
   // === Shared ================================================================

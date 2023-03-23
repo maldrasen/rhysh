@@ -1,5 +1,6 @@
 const fortitude = new Ability('fortitude',{
   type: _spell,
+  spellType: _selfBuff,
   fromPower: 'fortitude',
   name: 'Testicular Fortitude',
 

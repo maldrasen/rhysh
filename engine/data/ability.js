@@ -13,6 +13,7 @@ global.Ability = class Ability {
 
   #code;
   #type;
+  #spellType;
   #fromPower;
   #fromGnosis;
   #name;
@@ -41,6 +42,7 @@ global.Ability = class Ability {
 
     this.#code = code;
     this.#type = options.type;
+    this.#spellType = options.spellType;
     this.#fromPower = options.fromPower;
     this.#fromGnosis = options.fromGnosis;
     this.#name = options.name;
@@ -66,6 +68,7 @@ global.Ability = class Ability {
 
   get code() { return this.#code; }
   get type() { return this.#type; }
+  get spellType() { return this.#spellType; }
   get fromPower() { return this.#fromPower; }
   get fromGnosis() { return this.#fromGnosis; }
   get name() { return this.#name; }

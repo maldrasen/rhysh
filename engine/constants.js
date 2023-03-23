@@ -286,6 +286,13 @@ global.AbilityTypes = [
   _spell,
 ];
 
+global._areaOfEffect = 'areaOfEffect';
+global._selfBuff = 'selfBuff';
+global.SpellTypes = [
+  _areaOfEffect,
+  _selfBuff,
+]
+
 global._self = 'self';
 global._single = 'single';
 global._random = 'random';
