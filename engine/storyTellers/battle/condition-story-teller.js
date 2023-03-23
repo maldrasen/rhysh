@@ -1,24 +1,19 @@
 global.ConditionStoryTeller = (function() {
 
   function tellConditionChangeStory(options) {
-    return '(condition change story)';
+    const condition = options.ability.setCondition.condition
+    const context = options.context;
+          context.set('C',options.changed);
+
+    if (condition == _prone) { return Weaver.weave(`{{C::Name}} falls prone.`,context); }
+
+    // No need to mention holds from the holder side as that would be redundant.
+    if (condition == _holdingLegs) { return null; }
+    if (condition == _holdingArms) { return null; }
+
+    throw `TODO: Story for condition:${condition}`;
   }
 
   return { tellConditionChangeStory };
 
 })();
-
-
-    // if (conditionChange.on == _self) {
-    //   if (conditionChange.set == _prone) {
-    //     text = `{{A::Name}} falls prone.`
-    //   }
-
-    //   // No need to mention holds as that would be redundant.
-    //   if (conditionChange.set == _holdingLegs) { return null; }
-    //   if (conditionChange.set == _holdingArms) { return null; }
-    // }
-
-    // if (text == null) {
-    //   throw `TODO: Render this condition ${conditionChange.on}:${conditionChange.set}`;
-    // }

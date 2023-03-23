@@ -41,6 +41,7 @@ describe('CombatRound', function() {
       action: _attack,
       targetType: _single,
       targetIdentifier: 'Main',
+      targetClassname: _characterActor,
     });
 
     return combatAction;
@@ -56,6 +57,7 @@ describe('CombatRound', function() {
       action: _ability,
       ability: 'bad-idea',
       targetIdentifier: 'Main',
+      targetClassname: _characterActor,
     });
 
     return combatAction;
@@ -72,6 +74,7 @@ describe('CombatRound', function() {
       action: _ability,
       ability: 'crab-grab-legs',
       targetIdentifier: 'Main',
+      targetClassname: _characterActor,
     });
 
     return combatAction;
@@ -86,7 +89,7 @@ describe('CombatRound', function() {
     let event = rendered.attackEvents[0];
 
     // console.log("=== Rendered ===")
-    // console.log(rendered);
+    // console.log(JSON.stringify(rendered));
 
     expect(event.actionStory).to.match(/longsword/)
     if (event.attackResult == _hit) { expect(event.attackDamage).to.be.greaterThan(0); }
@@ -100,7 +103,7 @@ describe('CombatRound', function() {
   //   let rendered = CombatRoundRenderer.render(round);
 
   //   console.log("=== Rendered ===")
-  //   console.log(rendered);
+    // console.log(JSON.stringify(rendered));
   // });
 
   it('builds and executes a monster attack combat round', function() {
@@ -113,7 +116,7 @@ describe('CombatRound', function() {
     let rendered = CombatRoundRenderer.render(round);
 
     // console.log("=== Rendered ===")
-    // console.log(rendered);
+    // console.log(JSON.stringify(rendered));
   });
 
   it('builds and executes a monster ability combat round (with damage)', function() {
@@ -126,7 +129,7 @@ describe('CombatRound', function() {
     let rendered = CombatRoundRenderer.render(round);
 
     // console.log("=== Rendered ===")
-    // console.log(rendered);
+    // console.log(JSON.stringify(rendered));
   });
 
   it('builds and executes a monster ability combat round (with status effect)', function() {
@@ -138,8 +141,8 @@ describe('CombatRound', function() {
 
     let rendered = CombatRoundRenderer.render(round);
 
-    console.log("=== Rendered ===")
-    console.log(rendered);
+    // console.log("=== Rendered ===")
+    // console.log(JSON.stringify(rendered));
   });
 
 });

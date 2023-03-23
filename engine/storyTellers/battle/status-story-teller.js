@@ -1,33 +1,16 @@
 global.StatusStoryTeller = (function() {
 
   function tellStatusChangeStory(options) {
-    return '(status change story)';
+    const status = options.ability.addStatus.status;
+    const context = options.context;
+          context.set('C',options.changed);
+
+    if (status == _boundLegs) { return Weaver.weave(`{{C::name's}} legs are bound.`,context); }
+    if (status == _boundArms) { return Weaver.weave(`{{C::name's}} arms are bound.`,context); }
+
+    throw `TODO: Story for status:${status}`;
   }
 
   return { tellStatusChangeStory };
 
 })();
-
-    // let text;
-    // let severity;
-
-    // if (statusChange.on == _single) {
-    //   if (statusChange.add == _boundLegs) {
-    //     text = `{{T::name's}} legs are bound.`;
-    //     severity = 'bad';
-    //   }
-    //   if (statusChange.add == _boundArms) {
-    //     text = `{{T::name's}} arms are bound.`;
-    //     severity = 'bad';
-    //   }
-    // }
-
-    // if (text == null) {
-    //   throw `TODO: Render this condition ${statusChange.on}:${statusChange.add}`;
-    // }
-
-    // return {
-    //   type: _statusChange,
-    //   text: Weaver.weave(text, context),
-    //   severity: severity
-    // };

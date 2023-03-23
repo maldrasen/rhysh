@@ -41,14 +41,24 @@ global.CombatAction = class CombatAction {
   isAttack() { return this.#actionType == _attack; }
   isAbility() { return this.#actionType == _ability; }
 
+  // === Actors ================================================================
+
   getActorType() { return this.#actorClassname; }
-  isMonster() { return this.#actorClassname == _monsterActor; }
-  isCharacter() { return this.#actorClassname == _characterActor; }
   getActorIdentifier() { return this.#actorItentifier; }
   getActor() {
     return (this.isMonster()) ?
         GameState.getCurrentBattle().getMonster(this.#actorItentifier) :
         CharacterLibrary.getCachedCharacter(this.#actorItentifier);
+  }
+
+  isMonster() {
+    if (this.#actorClassname == null) { throw `Actor classname is null`; }
+    return this.#actorClassname == _monsterActor;
+  }
+
+  isCharacter() {
+    if (this.#actorClassname == null) { throw `Actor classname is null`; }
+    return this.#actorClassname == _characterActor;
   }
 
   // === Targets ===============================================================
@@ -57,8 +67,6 @@ global.CombatAction = class CombatAction {
   getTargetRank() { return this.#targetRank; }
   getTargetIdentifier() { return this.#targetIdentifier; }
   getTargetClassname() { return this.#targetClassname; }
-  isTargetMonster() { return this.#targetClassname == _monsterActor; }
-  isTargetCharacter() { return this.#targetClassname == _characterActor; }
   setTargetClassname(classname) { this.#targetClassname = classname; }
 
   // Need to add an ability that targets a group to make sure that's
@@ -74,6 +82,16 @@ global.CombatAction = class CombatAction {
     }
 
     throw `TODO: Implement this target type: ${this.#targetType}`
+  }
+
+  isTargetMonster() {
+    if (this.#targetClassname == null) { throw `Target classname is null`; }
+    return this.#targetClassname == _monsterActor;
+  }
+
+  isTargetCharacter() {
+    if (this.#targetClassname == null) { throw `Target classname is null`; }
+    return this.#targetClassname == _characterActor;
   }
 
   setTargetType(type) {

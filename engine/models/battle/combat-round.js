@@ -267,6 +267,7 @@ global.CombatRound = class CombatRound {
       const conditionChange = {
         condition: ability.setCondition.condition,
         story: ConditionStoryTeller.tellConditionChangeStory({
+          ability: ability,
           changed: changed,
           context: this.getResult().getContext(),
         }),
@@ -295,6 +296,7 @@ global.CombatRound = class CombatRound {
       const statusChange = {
         status: ability.addStatus.status,
         story: StatusStoryTeller.tellStatusChangeStory({
+          ability: ability,
           changed: changed,
           context: this.getResult().getContext(),
         }),

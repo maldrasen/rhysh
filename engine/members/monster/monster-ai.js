@@ -38,6 +38,7 @@ global.MonsterAI = (function() {
       actorClassname: _monsterActor,
       actorItentifier: $monster.getID(),
       targetType: _single,
+      targetClassname: _characterActor,
       targetIdentifier: $targetCode,
     });
   }
@@ -54,8 +55,11 @@ global.MonsterAI = (function() {
       targetType: targetType,
     });
 
+    // TODO: But not always, becayse sometimes a monster ability may target
+    //       another monster
     if (targetType == _single) {
       action.setTargetIdentifier($targetCode);
+      action.setTargetClassname(_characterActor);
     }
 
     return action;

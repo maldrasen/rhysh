@@ -47,6 +47,7 @@ global.CombatRoundRenderer = (function() {
     const rendered = { targetType:action.getTargetType() };
 
     if (rendered.targetType == _single) {
+      console.log("Wat?",action.getTargetIdentifier(),action.getTargetClassname());
       if (action.isTargetMonster()) {
         rendered.monsterID = action.getTargetIdentifier();
       }
@@ -77,27 +78,26 @@ global.CombatRoundRenderer = (function() {
       rendered.targetHealth = condition.getHealth();
     }
 
-    if (event.isStatusChanged()) { rendered.statusChanges = renderStatusChanges(event, combatRound); }
-    if (event.isConditionChanged()) { rendered.conditionChanges = renderConditionChanges(event, combatRound); }
+    const statusChanges = renderStatusChanges(event);
+    const conditionChanges = renderConditionChanges(event);
+
+    if (statusChanges.length > 0) { rendered.statusChanges = statusChanges; }
+    if (conditionChanges.length > 0) { rendered.conditionChanges = conditionChanges; }
     if (event.isTargetFallen()) { rendered.targetFallen = true; }
 
     return rendered;
   }
 
-  function renderConditionChanges(event, combatRound) {
-    return event.getConditionChanges().map(change => renderConditionChange(change, event, combatRound));
+  function renderConditionChanges(event) {
+    return ArrayHelper.compact(event.getConditionChanges().map(change => {
+      if (change.story) { return change; }
+    }));
   }
 
-  function renderStatusChanges(event, combatRound) {
-    return event.getStatusChanges().map(change => renderStatusChange(change, event, combatRound));
-  }
-
-  function renderConditionChange(change, event, combatRound) {
-    console.log("Render Condition Change:",change)
-  }
-
-  function renderStatusChange(change, event, combatRound) {
-    console.log("Render Condition Change:",change)
+  function renderStatusChanges(event) {
+    return ArrayHelper.compact(event.getStatusChanges().map(change => {
+      if (change.story) { return change; }
+    }));
   }
 
   return { render };
