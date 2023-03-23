@@ -32,8 +32,9 @@ global.CombatRound = class CombatRound {
 
     if (ability.type == _attack) { return AttackWithAbility.execute(this); }
     if (ability.type == _spell) {
-      if (ability.spellType == _areaOfEffect) { return CastAreaOfEffect.execute(this); }
-      if (ability.spellType == _selfBuff) { return CastSelfBuff.execute(this); }
+      if (ability.spellType == _globalEffect) { return CastGlobalEffect.execute(this); }
+      if (ability.spellType == _groupEffect) { return CastGroupEffect.execute(this); }
+      if (ability.spellType == _singleEffect) { return CastSingleEffect.execute(this); }
     }
 
     throw `TODO: Execute ability type ${ability.type}`;

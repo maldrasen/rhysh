@@ -1,4 +1,4 @@
-global.CastAreaOfEffect = (function() {
+global.CastGroupEffect = (function() {
 
   let $action;
   let $actor;

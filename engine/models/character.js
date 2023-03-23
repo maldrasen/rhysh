@@ -193,6 +193,8 @@ global.Character = class Character {
     return spells;
   }
 
+  // TODO: If this is a spell like ability it needs to apply the mana cost and
+  //       add arcana experience as well.
   useAbility(code, info) {
     let ability = Ability.lookup(code);
     if (ability.cooldown) { this.#cooldownTable.set(code,ability.cooldown); }

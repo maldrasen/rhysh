@@ -1,6 +1,6 @@
 const terrify = new Ability('terrify',{
   type: _spell,
-  spellType: _areaOfEffect,
+  spellType: _groupEffect,
   fromPower: 'aura-fear',
   name: 'Horrifying Presence',
 

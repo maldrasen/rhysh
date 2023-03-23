@@ -136,8 +136,9 @@ global.Monster = class Monster {
   }
 
   // This should be called every time an ability is used in order to set the
-  // ability cooldown if the ability has a cooldown. This may do other things
-  // as well.
+  // ability cooldown if the ability has a cooldown.
+  //
+  // TODO: If this is a spell like ability it needs to apply the mana cost.
   useAbility(code, _) {
     let ability = Ability.lookup(code);
     if (ability.cooldown) {

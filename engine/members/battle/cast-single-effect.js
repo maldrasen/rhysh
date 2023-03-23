@@ -1,4 +1,4 @@
-global.CastSelfBuff = (function() {
+global.CastSingleEffect = (function() {
 
   function execute(combatRound) {
 

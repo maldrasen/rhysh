@@ -165,6 +165,18 @@ global._riposte = 'riposte';
 // Saving Throw Categories
 global._saveAll = 'saveAll';
 global._saveFear = 'saveFear';
+global._saveLust = 'saveLust';
+global._savePoison = 'savePoison';
+
+global.SavingThrows = {
+  saveFear:   { label:'Fear', attribute:_wis },
+  saveLust:   { label:'Lust', attribute:_cha },
+  savePoison: { label:'Poison', attribute:_con },
+}
+
+// Saving Throw Results
+global._savePassed = 'savePassed';
+global._saveFailed = 'saveFailed';
 
 // === Items & Equipment =======================================================
 global._mainHand = 'mainHand';
@@ -286,11 +298,13 @@ global.AbilityTypes = [
   _spell,
 ];
 
-global._areaOfEffect = 'areaOfEffect';
-global._selfBuff = 'selfBuff';
+global._globalEffect = 'globalEffect';
+global._groupEffect = 'groupEffect';
+global._singleEffect = 'singleEffect';
 global.SpellTypes = [
-  _areaOfEffect,
-  _selfBuff,
+  _globalEffect,
+  _groupEffect,
+  _singleEffect,
 ]
 
 global._self = 'self';
