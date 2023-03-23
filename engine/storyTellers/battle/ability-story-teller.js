@@ -14,8 +14,13 @@ global.AbilityStoryTeller = (function() {
     });
 
     if (validStories.length == 0) {
-      console.error('There are no valid stories for a MonsterCombatRound with the following state:')
-      console.error(this.pack());
+      if (storyType == 'successStories') { return { text:`` }; }
+      if (storyType == 'failureStories') { return { text:`Miss` }; }
+    }
+
+    if (validStories.length == 0) {
+      console.error(`There are no valid stories. Ability(${ability.code}) Type(${ability.type})`)
+      console.trace();
       throw `No valid stories`;
     }
 
