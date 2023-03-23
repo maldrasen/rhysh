@@ -86,7 +86,7 @@ describe('CombatRound', function() {
         round.execute();
 
     let rendered = CombatRoundRenderer.render(round);
-    let event = rendered.attackEvents[0];
+    let event = rendered.combatEvents[0];
 
     // console.log("=== Rendered ===")
     // console.log(JSON.stringify(rendered));
@@ -95,7 +95,7 @@ describe('CombatRound', function() {
     if (event.attackResult == _hit) { expect(event.attackDamage).to.be.greaterThan(0); }
   });
 
-  it.only('builds and executes a character ability combat round', function() {
+  it('builds and executes a character ability combat round', function() {
     let action = knightAbilitySetup();
     let round = new CombatRound(CharacterLibrary.getMainCharacter(), action);
         round.execute();

@@ -12,7 +12,7 @@ global.CombatRound = class CombatRound {
   getActor() { return this.#action.getActor(); }
   getTarget() { return this.#action.getTarget(); }
   getResult() { return this.#result; }
-  hasResult() { return this.#result.hasAttackEvents() || this.#result.getActionStory() != null; }
+  hasResult() { return this.#result.hasCombatEvents() || this.#result.getActionStory() != null; }
 
   execute() {
     // TODO: If all monsters are dead then we do nothing.
@@ -46,42 +46,43 @@ global.CombatRound = class CombatRound {
     const ability = action.getAbility();
     const abilityLevel = action.getAbilityLevel();
 
-    const attackEvent = new AttackEvent({
+    const event = new CombatEvent({
       ability: ability,
       abilityLevel: abilityLevel,
       targetSlot: (ability.targetSlot || this.chooseTargetSlot()),
     });
 
     const context = this.getResult().getContext();
-          context.set('attackEvent',attackEvent);
+          context.set('combatEvent',event);
 
-    attackEvent.setActionStory(AbilityStoryTeller.tellActionStory({
+    event.setActionStory(AbilityStoryTeller.tellActionStory({
       context: context,
       ability: ability,
       abilityLevel: abilityLevel,
     }));
 
-    this.rollAttack((ability.hitBonus || 0) + actor.getBaseHit(), attackEvent);
-    this.rollDamage(attackEvent);
-    this.updateCondition(attackEvent);
-    this.updateStatus(attackEvent);
-    this.commitDamage(attackEvent);
-    this.checkCondition(attackEvent);
+    this.rollAttack((ability.hitBonus || 0) + actor.getBaseHit(), event);
+    this.rollDamage(event);
+    this.updateCondition(event);
+    this.updateStatus(event);
+    this.commitDamage(event);
+    this.checkCondition(event);
 
-    attackEvent.setResultStory(AbilityStoryTeller.tellResultStory({
+    event.setResultStory(AbilityStoryTeller.tellResultStory({
       context: context,
       ability: ability,
       abilityLevel: abilityLevel,
-      attackEvent: attackEvent,
+      combatEvent: event,
     }));
 
-    actor.useAbility(ability.code, attackEvent);
+    actor.useAbility(ability.code, event);
 
-    this.getResult().addAttackEvent(attackEvent);
+    this.getResult().addCombatEvent(event);
   }
 
   doSpellAbility() {
-
+    const action = this.getAction();
+    const ability = action.getAbility();
   }
 
   // === Atack Round ===========================================================
@@ -116,7 +117,7 @@ global.CombatRound = class CombatRound {
   doSingleAttack(currentHit, weapon, mode) {
     const context = this.getResult().getContext();
 
-    const event = new AttackEvent({
+    const event = new CombatEvent({
       weapon: weapon,
       weaponMode: mode,
       targetSlot: this.chooseTargetSlot(),
@@ -135,10 +136,10 @@ global.CombatRound = class CombatRound {
 
     event.setResultStory(WeaponAttackStoryTeller.tellResultStory({
       context: context,
-      attackEvent: event,
+      combatEvent: event,
     }));
 
-    this.getResult().addAttackEvent(event);
+    this.getResult().addCombatEvent(event);
   }
 
   useEquipment(equipment, mode) {
@@ -179,27 +180,27 @@ global.CombatRound = class CombatRound {
   // Make an attack and determine the result. The current hit property should
   // be the character's base hit but if this is a weapon attack it will be
   // reduced on subsequent attacks and has to be sent as a parameter.
-  rollAttack(currentHit, attackEvent) {
-    const targetArmorClass = this.getTarget().getArmorClass(attackEvent.getTargetSlot());
-    const modeBonus = this.getModeBonus(attackEvent);
-    const attributeBonus = this.getAttributeBonus(attackEvent);
-    const magicalBonus = this.getMagicalBonus(attackEvent);
+  rollAttack(currentHit, combatEvent) {
+    const targetArmorClass = this.getTarget().getArmorClass(combatEvent.getTargetSlot());
+    const modeBonus = this.getModeBonus(combatEvent);
+    const attributeBonus = this.getAttributeBonus(combatEvent);
+    const magicalBonus = this.getMagicalBonus(combatEvent);
 
-    attackEvent.setAttackRoll(Random.rollDice({ d:20 }));
-    attackEvent.setAttackBonus(currentHit + modeBonus + attributeBonus + magicalBonus);
+    combatEvent.setAttackRoll(Random.rollDice({ d:20 }));
+    combatEvent.setAttackBonus(currentHit + modeBonus + attributeBonus + magicalBonus);
 
-    if (attackEvent.getAttackRoll() == 1)  { return attackEvent.setAttackResult(_criticalMiss); }
-    if (attackEvent.getAttackRoll() == 20) { return attackEvent.setAttackResult(_criticalHit); }
+    if (combatEvent.getAttackRoll() == 1)  { return combatEvent.setAttackResult(_criticalMiss); }
+    if (combatEvent.getAttackRoll() == 20) { return combatEvent.setAttackResult(_criticalHit); }
 
-    attackEvent.setAttackResult((attackEvent.getAttackTotal() >= targetArmorClass) ? _hit : _miss);
+    combatEvent.setAttackResult((combatEvent.getAttackTotal() >= targetArmorClass) ? _hit : _miss);
   }
 
-  getModeBonus(attackEvent) {
-    return attackEvent.getWeaponMode() ? WeaponModes[attackEvent.getWeaponMode()].hit : 0;
+  getModeBonus(combatEvent) {
+    return combatEvent.getWeaponMode() ? WeaponModes[combatEvent.getWeaponMode()].hit : 0;
   }
 
-  getMagicalBonus(attackEvent) {
-    return attackEvent.getWeapon() ? attackEvent.getWeapon().getMagicalBonus() : 0;
+  getMagicalBonus(combatEvent) {
+    return combatEvent.getWeapon() ? combatEvent.getWeapon().getMagicalBonus() : 0;
   }
 
   // If the character is attacking with a weapon then that weapon governs what
@@ -210,10 +211,10 @@ global.CombatRound = class CombatRound {
   // attack they still use their dex bonus. If that's insufficient I could
   // optionally add an attribute property to the ability that takes precedence
   // over the range.
-  getAttributeBonus(attackEvent) {
+  getAttributeBonus(combatEvent) {
     let attributes = this.getActor().getAttributes();
-    let ability = attackEvent.getAbility();
-    let weapon = attackEvent.getWeapon();
+    let ability = combatEvent.getAbility();
+    let weapon = combatEvent.getWeapon();
 
     if (weapon) {
       return attributes.getModifier(weapon.getWeaponType().attribute);
@@ -227,38 +228,38 @@ global.CombatRound = class CombatRound {
   }
 
   // TODO: Apply critical miss penaltys.
-  // TODO: attackEvent.getAbilityLevel() will sometimes modify ability damage.
-  rollDamage(attackEvent, bonusDamage=0) {
-    if (attackEvent.isCriticalMiss()) { return; }
-    if (attackEvent.isMiss()) { return; }
+  // TODO: combatEvent.getAbilityLevel() will sometimes modify ability damage.
+  rollDamage(combatEvent, bonusDamage=0) {
+    if (combatEvent.isCriticalMiss()) { return; }
+    if (combatEvent.isMiss()) { return; }
 
     let damage;
-    if (attackEvent.getWeapon()) { damage = attackEvent.getWeapon().getDamage(); }
-    if (attackEvent.getAbility()) { damage = attackEvent.getAbility().damage; }
+    if (combatEvent.getWeapon()) { damage = combatEvent.getWeapon().getDamage(); }
+    if (combatEvent.getAbility()) { damage = combatEvent.getAbility().damage; }
     if (damage == null) { return; }
 
     let rawDamage = Random.rollDice(damage);
     let critMultiplier = 2;
 
-    if (attackEvent.isCriticalHit()) {
-      attackEvent.setAttackDamage(Math.floor(rawDamage * critMultiplier) + bonusDamage);
+    if (combatEvent.isCriticalHit()) {
+      combatEvent.setAttackDamage(Math.floor(rawDamage * critMultiplier) + bonusDamage);
     }
-    if (attackEvent.isHit()) {
-      attackEvent.setAttackDamage(rawDamage + bonusDamage);
-    }
-  }
-
-  commitDamage(attackEvent) {
-    if (attackEvent.getAttackDamage() > 0) {
-      this.getTarget().doDamage(attackEvent.getAttackDamage());
+    if (combatEvent.isHit()) {
+      combatEvent.setAttackDamage(rawDamage + bonusDamage);
     }
   }
 
-  updateCondition(attackEvent) {
-    const ability = attackEvent.getAbility();
+  commitDamage(combatEvent) {
+    if (combatEvent.getAttackDamage() > 0) {
+      this.getTarget().doDamage(combatEvent.getAttackDamage());
+    }
+  }
+
+  updateCondition(combatEvent) {
+    const ability = combatEvent.getAbility();
     let changed;
 
-    if (ability.setCondition && attackEvent.isValidWhen(ability.setCondition.when)) {
+    if (ability.setCondition && combatEvent.isValidWhen(ability.setCondition.when)) {
 
       if (ability.setCondition.on == _self) {
         changed = this.getActor();
@@ -279,15 +280,15 @@ global.CombatRound = class CombatRound {
       };
 
       this.setChangedActor(conditionChange, changed)
-      attackEvent.addConditionChange(conditionChange);
+      combatEvent.addConditionChange(conditionChange);
     }
   }
 
-  updateStatus(attackEvent) {
-    const ability = attackEvent.getAbility();
+  updateStatus(combatEvent) {
+    const ability = combatEvent.getAbility();
     let changed;
 
-    if (ability.addStatus && attackEvent.isValidWhen(ability.addStatus.when)) {
+    if (ability.addStatus && combatEvent.isValidWhen(ability.addStatus.when)) {
 
       if (ability.addStatus.on == _self) {
         changed = this.getActor();
@@ -308,7 +309,7 @@ global.CombatRound = class CombatRound {
       };
 
       this.setChangedActor(statusChange, changed)
-      attackEvent.addStatusChange(statusChange);
+      combatEvent.addStatusChange(statusChange);
     }
   }
 
@@ -324,11 +325,11 @@ global.CombatRound = class CombatRound {
     }
   }
 
-  checkCondition(attackEvent) {
+  checkCondition(combatEvent) {
     let target = this.getTarget();
     let condition = target.getCondition();
 
-    if (condition.hasConditionInCategory(_fallen)) { attackEvent.setTargetFallen(); }
+    if (condition.hasConditionInCategory(_fallen)) { combatEvent.setTargetFallen(); }
   }
 
   // ===========================================================================

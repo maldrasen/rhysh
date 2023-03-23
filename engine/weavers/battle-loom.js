@@ -11,10 +11,10 @@ Weaver.BattleLoom = (function() {
   }
 
   function getTargetSlotWord(context) {
-    let attackEvent = context.get('attackEvent');
+    let combatEvent = context.get('combatEvent');
 
-    if (attackEvent == null) {
-      throw `Context should have contained an attackEvent.`
+    if (combatEvent == null) {
+      throw `Context should have contained a combatEvent.`
     }
 
     return Random.from({
@@ -26,7 +26,7 @@ Weaver.BattleLoom = (function() {
       // Misc monster slots
       back:  ['back'],
       claws: ['claw'],
-    }[attackEvent.getTargetSlot()]);
+    }[combatEvent.getTargetSlot()]);
   }
 
   return { findValue };

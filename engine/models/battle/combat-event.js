@@ -1,4 +1,4 @@
-global.AttackEvent = class AttackEvent {
+global.CombatEvent = class CombatEvent {
 
   #targetSlot;
   #ability;

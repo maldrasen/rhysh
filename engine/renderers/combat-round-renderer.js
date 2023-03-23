@@ -13,9 +13,9 @@ global.CombatRoundRenderer = (function() {
       rendered.actionStory = result.getActionStory();
     }
 
-    if (result.hasAttackEvents()) {
-      rendered.attackEvents = result.getAttackEvents().map(event => {
-        return renderAttackEvent(event, combatRound);
+    if (result.hasCombatEvents()) {
+      rendered.combatEvents = result.getCombatEvents().map(event => {
+        return renderCombatEvent(event, combatRound);
       });
     }
 
@@ -74,7 +74,7 @@ global.CombatRoundRenderer = (function() {
     throw `Unsupported Target Type: ${rendered.targetType}`;
   }
 
-  function renderAttackEvent(event, combatRound) {
+  function renderCombatEvent(event, combatRound) {
     const condition = combatRound.getTarget().getCondition();
     const rendered = {};
 

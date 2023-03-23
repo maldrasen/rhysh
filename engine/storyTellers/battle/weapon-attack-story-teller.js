@@ -57,10 +57,10 @@ global.WeaponAttackStoryTeller = (function() {
   function tellResultStory(options) {
     let text;
 
-    if (options.attackEvent.isMiss()) { text = tellMissStory(options.attackEvent); }
-    if (options.attackEvent.isHit()) { text = tellHitStory(options.attackEvent); }
-    if (options.attackEvent.isCriticalMiss()) { text = tellCriticalMissStory(options.attackEvent); }
-    if (options.attackEvent.isCriticalHit()) { text = tellCriticalHitStory(options.attackEvent); }
+    if (options.combatEvent.isMiss()) { text = tellMissStory(options.combatEvent); }
+    if (options.combatEvent.isHit()) { text = tellHitStory(options.combatEvent); }
+    if (options.combatEvent.isCriticalMiss()) { text = tellCriticalMissStory(options.combatEvent); }
+    if (options.combatEvent.isCriticalHit()) { text = tellCriticalHitStory(options.combatEvent); }
 
     return Weaver.weave(text, options.context);
   }

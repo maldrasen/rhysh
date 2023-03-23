@@ -3,19 +3,19 @@ global.CombatResult = class CombatResult {
   #combatRound;
 
   #actionStory;
-  #attackEvents;
+  #combatEvents;
 
   constructor(round) {
     this.#combatRound = round;
-    this.#attackEvents = [];
+    this.#combatEvents = [];
   }
 
   getActionStory() { return this.#actionStory; }
   setActionStory(text) { this.#actionStory = Weaver.weave(text, this.getContext()); }
 
-  hasAttackEvents() { return this.#attackEvents.length > 0; }
-  getAttackEvents() { return this.#attackEvents; }
-  addAttackEvent(event) { this.#attackEvents.push(event); }
+  hasCombatEvents() { return this.#combatEvents.length > 0; }
+  getCombatEvents() { return this.#combatEvents; }
+  addCombatEvent(event) { this.#combatEvents.push(event); }
 
   // Fixme: These old properties may not work now that this class is completely
   //        different.
@@ -43,8 +43,8 @@ global.CombatResult = class CombatResult {
 
     if (this.#actionStory) { packed.actionStory = this.#actionStory; }
 
-    if (this.#attackEvents.length > 0) {
-      packed.attackEvents = this.#attackEvents.map(event => { return event.pack(); })
+    if (this.#combatEvents.length > 0) {
+      packed.combatEvents = this.#combatEvents.map(event => { return event.pack(); })
     }
 
     return packed;

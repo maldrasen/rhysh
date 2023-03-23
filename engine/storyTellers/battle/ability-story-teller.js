@@ -33,7 +33,7 @@ global.AbilityStoryTeller = (function() {
   }
 
   function tellResultStory(options) {
-    let story = pickStory(options, options.attackEvent.isSuccess() ? 'successStories' : 'failureStories');
+    let story = pickStory(options, options.combatEvent.isSuccess() ? 'successStories' : 'failureStories');
     return Weaver.weave(story.text, options.context);
   }
 
