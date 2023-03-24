@@ -23,7 +23,7 @@ global.Weaver = (function() {
       } else if (shortcutMatch) {
         text = text.replace(shortcutMatch[0], shortcutValue(shortcutMatch[1].trim(), context));
       } else if (simpleMatch) {
-        text = text.replace(simpleMatch[0], simpleValue(simpleMatch[1].trim()));
+        text = text.replace(simpleMatch[0], simpleValue(simpleMatch[1].trim(), context));
       } else {
         working = false;
       }
@@ -65,7 +65,7 @@ global.Weaver = (function() {
 
   // Find a simple loom matches a single word and shouldn't have to rely on
   // anything in the context.
-  function simpleValue(token) {
+  function simpleValue(token, context) {
     if (token == 'ballsack')  { return Random.from(['ballsack','ballsack','scrotum']); }
     if (token == 'cock')      { return Random.from(['cock','cock','dick']); }
     if (token == 'pussy')     { return Random.from(['pussy','pussy','cunt']); }
@@ -77,7 +77,16 @@ global.Weaver = (function() {
     if (token == 'throbbing') { return Random.from(['throbbing','pulsing']); }
     if (token == 'wide')      { return Random.from(['wide','thick']); }
 
+    if (token.startsWith('weapon')) { return weaponProperty(token, context); }
+
     return error(`Bad Simple Token(${token})`);
+  }
+
+  function weaponProperty(token, context) {
+    let weapon = context.get('weapon');
+    if (weapon == null) { throw `Context needs a weapon set.`; }
+    if (token == 'weapon.name') { return weapon.getName(); }
+    throw `Unknown weapon property ${token}`;
   }
 
   function error(message) {

@@ -13,7 +13,7 @@ window.BattleView = (function() {
     ServerEvents.onRenderBattleRound((payload, data) => {
       console.log("Current State:",data.battle)
       $battleState = data.battle;
-      BattlePlayer.start(data.events);
+      BattlePlayer.start(data.combatRounds);
     });
   }
 

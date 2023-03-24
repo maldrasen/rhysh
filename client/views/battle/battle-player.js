@@ -1,29 +1,30 @@
 window.BattlePlayer = (function() {
 
-  let $eventList;
-  let $eventIndex;
-  let $segmentIndex;
+  let $battleRounds;
+  let $battleRoundIndex;
+  let $combatEventIndex;
+  let $segment;
 
   function init() {
     X.onClick('#clickAdvance', clickAdvance);
   }
 
   function reset() {
-    $eventList = null;
-    $eventIndex = null;
-    $segmentIndex = null;
+    $battleRounds = null;
+    $battleRoundIndex = null;
+    $segment = null;
   }
 
-  function start(events) {
-    $eventList = events;
-    $eventIndex = 0;
-    $segmentIndex = 0;
+  function start(rounds) {
+    $battleRounds = rounds;
+    $battleRoundIndex = 0;
+    $combatEventIndex = 0;
 
     X.removeClass('#clickAdvance','hide');
     X.removeClass('#battleText','hide');
     X.addClass('#activeCharacterGlow','hide');
 
-    addBattleText(currentSegment());
+    showActionText();
   }
 
   function stop() {
@@ -34,61 +35,97 @@ window.BattlePlayer = (function() {
     BattleView.startNewRound();
   }
 
-  function currentEvent() { return $eventList[$eventIndex]; }
-  function currentSegment() { return currentEvent() ? currentEvent().segments[$segmentIndex] : null; }
+  function currentRound() { return $battleRounds[$battleRoundIndex]; }
 
-  function clickAdvance() {
-    if (BattleView.isOpen()) {
-      advanceSegment();
-
-      if (currentEvent() == null) { return stop(); }
-
-      let segment = currentSegment();
-      if (segment) {
-        addBattleText(segment);
-        applyDamage(segment);
-      }
+  function currentEvent() {
+    if (currentRound() && currentRound().combatEvents) {
+      return currentRound().combatEvents[$combatEventIndex];
     }
   }
 
-  function advanceSegment() {
-    $segmentIndex += 1;
+  function clickAdvance() {
+    if (BattleView.isOpen() == false) { return; }
+    if (currentRound() == null) { return stop(); }
 
-    if ($segmentIndex >= currentEvent().segments.length) {
-      X.empty('#battleText');
-      $segmentIndex = 0;
-      $eventIndex += 1;
+    if (currentRound().combatEvents == null) {
+      throw 'TODO: Handle a combat round with no combat events.';
     }
+
+    if (currentEvent()) {
+      if ($segment == 'action') { return showResultText(); }
+      if ($segment == 'result' && eventHasExtraText()) { return showExtraText(); }
+
+      X.empty('#battleText');
+      advanceEvent();
+
+      return (currentEvent() == null) ? stop() : showActionText();
+    }
+  }
+
+  function advanceEvent() {
+    $combatEventIndex += 1;
+    if ($combatEventIndex >= currentRound().combatEvents.length) {
+      $combatEventIndex = 0;
+      $battleRoundIndex += 1;
+    }
+  }
+
+  function showActionText() {
+    $segment = 'action';
+
+    let event = currentEvent();
+    addBattleText({ text:event.actionStory });
+  }
+
+  function showResultText() {
+    $segment = 'result';
+
+    let event = currentEvent();
+    addBattleText({ ...event, text:event.resultStory });
+  }
+
+  function showExtraText() {
+    $segment = 'extra';
+
   }
 
   function addBattleText(segment) {
-    let item = X.createElement(`<div class='${segment.type}'></div>`);
+    let item = X.createElement(`<div></div>`);
 
-    if (segment.attackRoll) {
-      item.appendChild(X.createElement(`<span class='roll'>(Roll ${segment.attackRoll})</span>`));
+    if (segment.attackRoll && segment.attackBonus) {
+      item.appendChild(X.createElement(`<span class='roll'>
+        Roll(${segment.attackRoll}) +
+        Bonus(${segment.attackBonus}) =
+        Total(${segment.attackRoll + segment.attackBonus})
+      </span>`));
     }
     if (segment.text) {
-      let severityClass = segment.severity ? `severity-${segment.severity}` : ''
-      item.appendChild(X.createElement(`<span class='text ${severityClass}'>${segment.text}</span>`));
+      item.appendChild(X.createElement(`<span class='text'>${segment.text}</span>`));
     }
     if (segment.damage) {
-      item.appendChild(X.createElement(`<span class='damage'>${segment.damage} Damage</span>`));
+      console.log("DAMAGE:",segment.damage);
+    //   item.appendChild(X.createElement(`<span class='damage'>${segment.damage} Damage</span>`));
     }
 
     X.first('#battleText').appendChild(item);
   }
 
-  function applyDamage(segment) {
-    if (segment.damage > 0) {
-      if (segment.targetClassname.match(/character/)) { PartyPanel.applyCharacterDamage(segment) }
-      if (segment.targetClassname.match(/monster/)) { applyMonsterDamage(segment) }
-      console.log("Apply Damage from:",segment)
-    }
+
+  function eventHasExtraText() {
+    return false;
   }
 
-  function applyMonsterDamage(segment) {
-    console.log("Apply Monster Damage from:",segment)
-  }
+  // function applyDamage(segment) {
+  //   if (segment.damage > 0) {
+  //     if (segment.targetClassname.match(/character/)) { PartyPanel.applyCharacterDamage(segment) }
+  //     if (segment.targetClassname.match(/monster/)) { applyMonsterDamage(segment) }
+  //     console.log("Apply Damage from:",segment)
+  //   }
+  // }
+
+  // function applyMonsterDamage(segment) {
+  //   console.log("Apply Monster Damage from:",segment)
+  // }
 
   return { init, reset, start };
 

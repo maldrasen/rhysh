@@ -102,10 +102,8 @@ describe('CombatRound', function() {
 
     let rendered = CombatRoundRenderer.render(round);
 
-    console.log("=== Round ===")
-    console.log(round.pack());
-    console.log("=== Rendered ===")
-    console.log(JSON.stringify(rendered));
+    // console.log("=== Rendered ===")
+    // console.log(JSON.stringify(rendered));
   });
 
   it('builds and executes a monster attack combat round', function() {

@@ -30,6 +30,7 @@ global.AttackWithWeapon = (function() {
   function doSingleAttack(combatRound, currentHit, weapon, mode) {
     const result = combatRound.getResult();
     const context = result.getContext();
+          context.set('weapon',weapon);
 
     const event = new CombatEvent({
       weapon: weapon,
