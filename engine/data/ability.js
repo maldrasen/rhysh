@@ -102,6 +102,10 @@ global.Ability = class Ability {
     return ArrayHelper.contains([_attack,_grapple,_coupDeGrace], type);
   }
 
+  isDamageAbility()    { return this.#damage != null && this.#addStatus == null && this.#setCondition == null; }
+  isStatusAbility()    { return this.#damage == null && this.#addStatus != null && this.#setCondition == null; }
+  isConditionAbility() { return this.#damage == null && this.#addStatus == null && this.#setCondition != null; }
+
   pack() {
     let packed = {
       code: this.#code,

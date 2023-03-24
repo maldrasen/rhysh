@@ -7,7 +7,7 @@ const terrify = new Ability('terrify',{
   targetType: _allMonsters,
   cooldown: 8,
   savingThrow: { category:_saveFear, dc:10 },
-  addStatus: { on:_allMonsters, status:_afraid, when:_success },
+  addStatus: { status:_afraid },
   icon: `../assets/icons/ability-terrify.png`,
 });
 

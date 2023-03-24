@@ -10,12 +10,13 @@ global.CombatEvent = class CombatEvent {
   #attackBonus;
   #attackResult;
   #attackDamage;
-
-  #conditionChanges;
-  #statusChanges;
+  #groupEffects;
 
   #actionStory;
   #resultStory;
+
+  #conditionChanges;
+  #statusChanges;
 
   #isTargetFallen;
 
@@ -57,6 +58,9 @@ global.CombatEvent = class CombatEvent {
   getAttackDamage() { return this.#attackDamage; }
   setAttackDamage(damage) { this.#attackDamage = damage; }
 
+  getGroupEffects() { return this.#groupEffects; }
+  setGroupEffects(effects) { this.#groupEffects = effects; }
+
   getActionStory() { return this.#actionStory; }
   setActionStory(story) { this.#actionStory = story; }
 
@@ -96,6 +100,7 @@ global.CombatEvent = class CombatEvent {
     if (this.#attackRoll)   { packed.attackRoll = this.#attackRoll;     }
     if (this.#attackBonus)  { packed.attackBonus = this.#attackBonus;   }
     if (this.#attackDamage) { packed.attackDamage = this.#attackDamage; }
+    if (this.#groupEffects) { packed.groupEffects = this.#groupEffects; }
     if (this.#actionStory)  { packed.actionStory = this.#actionStory;   }
     if (this.#resultStory)  { packed.resultStory = this.#resultStory;   }
 

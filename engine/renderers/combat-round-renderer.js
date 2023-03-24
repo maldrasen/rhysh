@@ -75,7 +75,6 @@ global.CombatRoundRenderer = (function() {
   }
 
   function renderCombatEvent(event, combatRound) {
-    const condition = combatRound.getTarget().getCondition();
     const rendered = {};
 
     if (event.getAttackResult()) { rendered.attackResult = event.getAttackResult(); }
@@ -84,8 +83,10 @@ global.CombatRoundRenderer = (function() {
     if (event.getAttackDamage()) { rendered.attackDamage = event.getAttackDamage(); }
     if (event.getActionStory())  { rendered.actionStory =  event.getActionStory();  }
     if (event.getResultStory())  { rendered.resultStory =  event.getResultStory();  }
+    if (event.getGroupEffects()) { rendered.groupEffects = event.getGroupEffects(); }
 
     if (rendered.attackDamage) {
+      const condition = combatRound.getTarget().getCondition();
       rendered.targetHitPoints = condition.getCurrentHitPoints();
       rendered.targetMaxHitPoints = condition.getMaxHitPoints();
       rendered.targetHealth = condition.getHealth();

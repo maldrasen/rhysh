@@ -83,6 +83,7 @@ global.CombatAction = class CombatAction {
           CharacterLibrary.getCachedCharacter(this.#targetIdentifier);
     }
 
+    console.trace();
     throw `TODO: Implement this target type: ${this.#targetType}`
   }
 
