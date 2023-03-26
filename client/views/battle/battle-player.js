@@ -70,6 +70,8 @@ window.BattlePlayer = (function() {
     }
   }
 
+  // === Add Battle Text =======================================================
+
   function showActionText() {
     $segment = 'action';
 
@@ -84,52 +86,81 @@ window.BattlePlayer = (function() {
     addBattleText({ ...event, text:event.resultStory });
   }
 
-  function showExtraText() {
-    $segment = 'extra';
-  }
-
   function addBattleText(event) {
-    const item = X.createElement(`<div></div>`);
+    const row = X.createElement(`<div class='text-row'></div>`);
 
     if (event.attackRoll && event.attackBonus) {
-      item.appendChild(X.createElement(`<span class='roll'>
+      row.appendChild(X.createElement(`<span class='roll'>
         Roll(${event.attackRoll}) +
         Bonus(${event.attackBonus}) =
         Total(${event.attackRoll + event.attackBonus})
       </span>`));
     }
     if (event.text) {
-      item.appendChild(X.createElement(`<span class='text'>${event.text}</span>`));
+      row.appendChild(X.createElement(`<span class='text'>${event.text}</span>`));
     }
     if (event.attackDamage > 0) {
-      item.appendChild(X.createElement(`<span class='damage'>${event.attackDamage} Damage</span>`));
+      row.appendChild(X.createElement(`<span class='damage'>${event.attackDamage} Damage</span>`));
       applyDamage(event);
     }
 
-    X.first('#battleText').appendChild(item);
-  }
-
-  function eventHasExtraText() {
-    const event = currentEvent();
-
-
-    console.log("Has Extra?",event);
-
-    if (event.statusChanges) {
-      console.log("=== YES:",event.statusChanges)
-    }
-    return false;
+    X.first('#battleText').appendChild(row);
   }
 
   function applyDamage(event) {
-    const round = currentRound()
-    if (round.target.characterCode) { PartyPanel.applyCharacterDamage(round,event) }
-    if (round.target.monsterID) { applyMonsterDamage(event) }
+    const round = currentRound();
+    if (round.target.characterCode) { PartyPanel.applyCharacterDamage(round,event); }
+    if (round.target.monsterID) { Battlefield.applyMonsterDamage(round,event); }
   }
 
-  function applyMonsterDamage(event) {
-    console.log("Apply Monster Damage from:",event)
+  // === Extra Text Row ========================================================
+
+  function eventHasExtraText() {
+    const event = currentEvent();
+    if (event.targetCondition)  { return true; }
+    if (event.conditionChanges) { return true; }
+    if (event.statusChanges)    { return true; }
+    return false;
   }
+
+  function showExtraText() {
+    $segment = 'extra';
+
+    const event = currentEvent();
+
+    if (event.targetCondition) {
+      console.log("=== Target Condition:",event.targetCondition);
+    }
+    if (event.conditionChanges) {
+      event.conditionChanges.forEach(change => {
+        console.log("=== Condition Changes:",change);
+        addExtraText(change.story);
+      });
+    }
+    if (event.statusChanges) {
+      event.statusChanges.forEach(change => {
+        console.log("=== Status Change:",change);
+        addExtraText(change.story);
+      });
+    }
+  }
+
+  function getExtraRowElement() {
+    let extraRow = X.first('#battleText .extra-row');
+    if (extraRow == null) {
+      extraRow = X.createElement(`<div class='text-row'></div>`);
+      X.first('#battleText').appendChild(extraRow);
+    }
+    return extraRow;
+  }
+
+  function addExtraText(text) {
+    const row = getExtraRowElement();
+    row.appendChild(X.createElement(`<span class='extra'>${text}</span>`));
+  }
+
+  // ===========================================================================
+
 
   return { init, reset, start };
 

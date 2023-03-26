@@ -65,15 +65,10 @@ window.PartyPanel = (function () {
   }
 
   function applyCharacterDamage(combatRound, combatEvent) {
-    const target = combatRound.target;
-
-    let element = X.first(`#partyPanel #${target.characterPosition}`);
+    let element = X.first(`#partyPanel #${combatRound.target.characterPosition}`);
 
     updateHealthBar(element, combatEvent.targetHealth);
     updateStatusTooltip(element.id, combatEvent.targetHitPoints, combatEvent.targetMaxHitPoints);
-
-console.log("Condition?:",combatRound,combatEvent)
-
 
     if (combatRound.targetCondition == _fainted) { playFaintEffect(element); }
     if (combatRound.targetCondition == _dead) { playDeathEffect(element); }

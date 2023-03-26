@@ -52,12 +52,18 @@
   }
 
   .monster-card {
+    position: relative;
+    top: 0;
+    left: 0;
+
     border: $border-light;
     background-size: contain;
     box-shadow:
       2px 2px 15px 5px rgb(0 0 0) inset,
       0px 0px 5px rgb(0 0 0) inset,
-      5px 5px 10px rgba(0,0,0,0.8),
+      5px 5px 10px rgba(0,0,0,0.8);
+
+    transition: filter 100ms ease-out, top 1000ms ease-out;
   }
 }
 

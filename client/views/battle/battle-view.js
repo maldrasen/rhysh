@@ -30,7 +30,7 @@ window.BattleView = (function() {
     PartyPanel.show(state.status);
     MainContent.show({ path:"client/views/battle/battle-view.html", classname:'battle' }).then(() => {
       BackgroundImage.setBackground(state.background);
-      Battlefield.updateMonsterList();
+      Battlefield.buildMonsterList();
       BattleControls.startControlPhase();
       BattleEffects.playBattleStartEffect();
     });
