@@ -64,14 +64,19 @@ window.PartyPanel = (function () {
     updateStatusTooltip(element.id, hpCurrent, hpMax);
   }
 
-  function applyCharacterDamage(segment) {
-    let element = X.first(`#partyPanel #${segment.characterPosition}`);
+  function applyCharacterDamage(combatRound, combatEvent) {
+    const target = combatRound.target;
 
-    updateHealthBar(element, segment.targetHealth);
-    updateStatusTooltip(element.id, segment.targetHitPoints, segment.targetMaxHitPoints);
+    let element = X.first(`#partyPanel #${target.characterPosition}`);
 
-    if (segment.targetCondition == _fainted) { playFaintEffect(element); }
-    if (segment.targetCondition == _dead) { playDeathEffect(element); }
+    updateHealthBar(element, combatEvent.targetHealth);
+    updateStatusTooltip(element.id, combatEvent.targetHitPoints, combatEvent.targetMaxHitPoints);
+
+console.log("Condition?:",combatRound,combatEvent)
+
+
+    if (combatRound.targetCondition == _fainted) { playFaintEffect(element); }
+    if (combatRound.targetCondition == _dead) { playDeathEffect(element); }
   }
 
   function updateHealthBar(element, percent) {

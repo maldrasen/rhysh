@@ -86,46 +86,50 @@ window.BattlePlayer = (function() {
 
   function showExtraText() {
     $segment = 'extra';
-
   }
 
-  function addBattleText(segment) {
-    let item = X.createElement(`<div></div>`);
+  function addBattleText(event) {
+    const item = X.createElement(`<div></div>`);
 
-    if (segment.attackRoll && segment.attackBonus) {
+    if (event.attackRoll && event.attackBonus) {
       item.appendChild(X.createElement(`<span class='roll'>
-        Roll(${segment.attackRoll}) +
-        Bonus(${segment.attackBonus}) =
-        Total(${segment.attackRoll + segment.attackBonus})
+        Roll(${event.attackRoll}) +
+        Bonus(${event.attackBonus}) =
+        Total(${event.attackRoll + event.attackBonus})
       </span>`));
     }
-    if (segment.text) {
-      item.appendChild(X.createElement(`<span class='text'>${segment.text}</span>`));
+    if (event.text) {
+      item.appendChild(X.createElement(`<span class='text'>${event.text}</span>`));
     }
-    if (segment.damage) {
-      console.log("DAMAGE:",segment.damage);
-    //   item.appendChild(X.createElement(`<span class='damage'>${segment.damage} Damage</span>`));
+    if (event.attackDamage > 0) {
+      item.appendChild(X.createElement(`<span class='damage'>${event.attackDamage} Damage</span>`));
+      applyDamage(event);
     }
 
     X.first('#battleText').appendChild(item);
   }
 
-
   function eventHasExtraText() {
+    const event = currentEvent();
+
+
+    console.log("Has Extra?",event);
+
+    if (event.statusChanges) {
+      console.log("=== YES:",event.statusChanges)
+    }
     return false;
   }
 
-  // function applyDamage(segment) {
-  //   if (segment.damage > 0) {
-  //     if (segment.targetClassname.match(/character/)) { PartyPanel.applyCharacterDamage(segment) }
-  //     if (segment.targetClassname.match(/monster/)) { applyMonsterDamage(segment) }
-  //     console.log("Apply Damage from:",segment)
-  //   }
-  // }
+  function applyDamage(event) {
+    const round = currentRound()
+    if (round.target.characterCode) { PartyPanel.applyCharacterDamage(round,event) }
+    if (round.target.monsterID) { applyMonsterDamage(event) }
+  }
 
-  // function applyMonsterDamage(segment) {
-  //   console.log("Apply Monster Damage from:",segment)
-  // }
+  function applyMonsterDamage(event) {
+    console.log("Apply Monster Damage from:",event)
+  }
 
   return { init, reset, start };
 
