@@ -30,6 +30,7 @@ window.Battlefield = (function() {
   function buildMonsterCard(monster) {
     let monsterCard = X.createElement(`
       <div class='monster-card monster-id-${monster.id}'>
+        <div class='effect-cover'></div>
         <div class='name'>${monster.name}</div>
       </div>`);
 
@@ -44,15 +45,36 @@ window.Battlefield = (function() {
 
   function applyMonsterDamage(round, event) {
     const element = X.first(`#battlefield .monster-id-${round.target.monsterID}`);
+    const cover = element.querySelector('.effect-cover');
+    const position = X.getPosition(element);
 
     setHealthEffect(element, event.targetHealth);
 
-    if (round.targetCondition == _fainted) { playFaintEffect(element); }
-    if (round.targetCondition == _dead) { playDeathEffect(element); }
+    console.log("POSITION:",position)
+
+    cover.setAttribute('style',`
+      background-color: rgb(255,0,0);
+      top: -1px;
+      left: -1px;
+      height: ${position.height}px;
+      width: ${position.width}px;
+    `);
+
+      // top: ${position.top}px;
+      // left: ${position.left}px;
+
+    setTimeout(() => {
+      cover.style['opacity'] = '0';
+    },0);
+
+    setTimeout(() => {
+      if (round.targetCondition == _fainted) { playDeathEffect(element); }
+      if (round.targetCondition == _dead) { playDeathEffect(element); }
+    },200)
   }
 
   function setHealthEffect(element, health) {
-    const sepiaStrength = Math.floor((100 - health)/100);
+    const sepiaStrength = (100 - health) / 100;
     const contrastStrength = sepiaStrength + 1;
 
     console.log("Setting Health Effect",element.getAttribute('class'),health)
@@ -62,12 +84,13 @@ window.Battlefield = (function() {
     element.style['filter'] = `sepia(${sepiaStrength}) hue-rotate(320deg) contrast(${contrastStrength})`;
   }
 
-  function playFaintEffect(element) {
-    console.log("Play Faint Effect");
-  }
-
   function playDeathEffect(element) {
     console.log("Play Death Effect");
+
+    element.style['transition-duration'] = `1000ms`
+    element.style['opacity'] = `0`
+    element.style['top'] = `20px`
+    element.style['margin'] = `0 -60px`
   }
 
   return {

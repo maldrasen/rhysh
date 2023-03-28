@@ -51,15 +51,23 @@ window.BattlePlayer = (function() {
       throw 'TODO: Handle a combat round with no combat events.';
     }
 
-    if (currentEvent()) {
-      if ($segment == 'action') { return showResultText(); }
-      if ($segment == 'result' && eventHasExtraText()) { return showExtraText(); }
+    try {
+      if (currentEvent()) {
+        if ($segment == 'action') { return showResultText(); }
+        if ($segment == 'result' && eventHasExtraText()) { return showExtraText(); }
 
-      X.empty('#battleText');
-      advanceEvent();
+        X.empty('#battleText');
+        advanceEvent();
 
-      return (currentEvent() == null) ? stop() : showActionText();
+        return (currentEvent() == null) ? stop() : showActionText();
+      }
     }
+    catch(error) {
+      console.error("=== Battle Text Error ===");
+      console.error(error);
+      console.trace();
+    }
+
   }
 
   function advanceEvent() {
@@ -74,7 +82,6 @@ window.BattlePlayer = (function() {
 
   function showActionText() {
     $segment = 'action';
-
     let event = currentEvent();
     addBattleText({ text:event.actionStory });
   }

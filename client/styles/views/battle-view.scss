@@ -55,6 +55,7 @@
     position: relative;
     top: 0;
     left: 0;
+    opacity: 1;
 
     border: $border-light;
     background-size: contain;
@@ -63,7 +64,16 @@
       0px 0px 5px rgb(0 0 0) inset,
       5px 5px 10px rgba(0,0,0,0.8);
 
-    transition: filter 100ms ease-out, top 1000ms ease-out;
+    transition-timing-function: ease-out;
+    transition-property: all;
+    transition-duration: 500ms;
+
+    .effect-cover {
+      position: absolute;
+      transition-timing-function: ease-out;
+      transition-property: all;
+      transition-duration: 200ms;
+    }
   }
 }
 
