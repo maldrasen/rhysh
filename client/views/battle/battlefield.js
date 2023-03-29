@@ -1,16 +1,16 @@
 window.Battlefield = (function() {
 
-  function buildMonsterList() {
+  function init() {
+    X.onResize(BattleView.isOpen, positionMonsterCards);
+  }
+
+  function buildMonsterCards() {
+    const fieldElement = X.first(`#battlefield`);
+
     forUpTo(5, i => {
       let rank = i+1;
       let listElement = X.first(`#targetFrame .rank-${rank}`);
-      let fieldElement = X.first(`#battlefield .rank-${rank}`);
-
       let squad = BattleView.getBattleState().monsters[rank];
-
-      X.empty(listElement);
-      X.empty(fieldElement);
-      X.addClass(listElement,'empty');
 
       if (squad) {
         X.removeClass(listElement,'empty');
@@ -23,23 +23,39 @@ window.Battlefield = (function() {
     });
   }
 
-  function updateMonsterList() {
-    console.log("Update Monster List")
-  }
-
   function buildMonsterCard(monster) {
-    let monsterCard = X.createElement(`
+    let element = X.createElement(`
       <div class='monster-card monster-id-${monster.id}'>
-        <div class='effect-cover'></div>
-        <div class='name'>${monster.name}</div>
+        <div class='layer cover-layer'></div>
+        <div class='layer text-layer'>
+          <div class='name'>${monster.name}</div>
+        </div>
+        <div class='layer background-layer'></div>
       </div>`);
 
-    monsterCard.style['background-image'] = `url('../assets/${monster.portrait}.jpg')`
+    setBackground(element, monster.portrait);
+    setHealthEffect(element, monster.health);
 
-    setHealthEffect(monsterCard, monster.health);
+    console.log(element)
 
-    return monsterCard;
+    return element;
   }
+
+  function setBackground(element, portrait) {
+    element.querySelector('.background-layer').style['background-image'] = `url('../assets/${portrait}.jpg')`;
+  }
+
+  function positionMonsterCards() {
+console.log("Position Monster Cards");
+  }
+
+  function updateMonsterCards() {
+
+console.log("Update Monster Cards");
+
+    // console.log("Update Monster List")
+  }
+
 
   // === Battle Damage =========================================================
 
@@ -94,8 +110,9 @@ window.Battlefield = (function() {
   }
 
   return {
-    buildMonsterList,
-    updateMonsterList,
+    init,
+    buildMonsterCards,
+    updateMonsterCards,
     applyMonsterDamage,
   }
 

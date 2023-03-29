@@ -3,62 +3,23 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
-  height: calc(100% - 260px);
+  top: 40px;
+  height: calc(100% - 450px);
+  overflow: hidden;
   z-index: $z-battlefield;
 
-  .rank {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    display: flex;
-    justify-content: center;
-  }
-
-  .rank-1 { top: 200px; z-index:50; }
-  .rank-2 { top: 162px; z-index:40; }
-  .rank-3 { top: 124px; z-index:30; }
-  .rank-4 { top: 86px; z-index:20; }
-  .rank-5 { top: 50px; z-index:10; }
-
-  .rank-1 .monster-card {
-    height: 160px;
-    width: 120px;
-    margin: 10px;
-  }
-
-  .rank-2 .monster-card {
-    height: 147px;
-    width: 110px;
-    margin: 8px;
-  }
-
-  .rank-3 .monster-card {
-    height: 133px;
-    width: 100px;
-    margin: 6px;
-  }
-
-  .rank-4 .monster-card {
-    height: 120px;
-    width: 90px;
-    margin: 4px;
-  }
-
-  .rank-5 .monster-card {
-    height: 107px;
-    width: 80px;
-    margin: 2px;
-  }
+background-color: rgba(0,0,250,0.2);
 
   .monster-card {
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
+    width: 120px;
+    height: 160px;
     opacity: 1;
 
-    border: $border-light;
-    background-size: contain;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
     box-shadow:
       2px 2px 15px 5px rgb(0 0 0) inset,
       0px 0px 5px rgb(0 0 0) inset,
@@ -68,13 +29,26 @@
     transition-property: all;
     transition-duration: 500ms;
 
-    .effect-cover {
+    .layer {
       position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 160px;
+    }
+
+    .background-layer {
+      background-size: contain;
+    }
+
+    .effect-layer {
       transition-timing-function: ease-out;
       transition-property: all;
       transition-duration: 200ms;
     }
+
   }
+
 }
 
 #controlPanel {

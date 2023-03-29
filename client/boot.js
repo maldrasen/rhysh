@@ -111,6 +111,7 @@
 
   function initAll() {
     BattleControls.init();
+    Battlefield.init();
     BattlePlayer.init();
     BattleView.init();
     Confirmation.init();
